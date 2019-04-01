@@ -53,7 +53,8 @@ class Order extends Base {
            $bind['search_key1'] = "%$search_key%";
            $bind['search_key2'] = "%$search_key%";
        }
-        $where.=' and order_prom_type < 5 ';//虚拟拼团订单不列出来
+        $where .=' and order_prom_type < 5 ';//虚拟拼团订单不列出来
+        $where .= ' and deleted = 0';
         $count = M('order')->where($where)->bind($bind)->count();
         $Page = new Page($count,10);
 

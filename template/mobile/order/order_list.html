@@ -75,6 +75,9 @@
                         <if condition="$list.pay_btn eq 1">
                           <button onclick="window.location='{:U('home/Payment/getCode',array('order_id'=>$list['order_id'], 'pay_code'=>'unionpay'))}'">去支付</button>
                         </if>
+                        <if condition="$list.delete_btn eq 1">
+                         <button class="dele" onclick="verConfirm({$list['order_id']})" type="button">删除</button> 
+                        </if>
                     </div>
                 </div>
             </div>

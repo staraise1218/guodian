@@ -74,7 +74,9 @@
                             <a class="consoorder" href="javascript:void(0);" onClick="cancel_order({$list.order_id})" >取消</a>
                             </if>
                         </if>
-                         <!-- <div class="dele" onclick="verConfirm({$list['order_id']})">删除</div>  -->
+                        <if condition="$list.delete_btn eq 1">
+                         <a class="dele" onclick="verConfirm({$list['order_id']})">删除</a> 
+                        </if>
                     </div>
                     </div>
                     </volist>
