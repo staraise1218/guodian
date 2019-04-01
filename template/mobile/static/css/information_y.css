@@ -1,0 +1,71 @@
+body{
+	background: #f1f1f1;
+}
+.information{
+	margin-bottom: 10px;
+}
+
+.info_item{
+	line-height: 4em;
+	font-size: 1em;
+	color: #858585;
+	border-top: 1px solid #f8f8f8;
+	padding: 0 5%;
+	background-color: #fff;
+}
+
+.info_item img{
+	width: 20px;
+	height: auto;
+}
+
+.info_item span{
+	display: inline-block;
+}
+.info_right{
+	float: right;
+	display: inline-block;
+}
+.info_right img{
+	width: auto;
+	height: 20px;
+}
+.user-head{
+	color: #1987ec !important;
+	font-size: 1em;
+	line-height: 3.5em;
+	text-align: center;
+	position: fixed;
+	bottom: 60px;
+	left: 0px;
+	right: 0px;
+	display: none;
+}
+.choose-head{
+	background: #fff;
+	margin: 0 10px 10px;
+	border-radius: 15px;
+
+}
+.choose-head hr{
+	height: 0px;
+	line-height: 0;
+	margin:0 auto	;
+	border-bottom: 1px solid #f4f4f4;
+	width: 90%;
+}
+.cancel{
+	margin:0 10px;
+	background: #fff;
+	border-radius: 15px;
+}
+.user-sexuality{
+	color: #1987ec !important;
+	font-size: 1em;
+	line-height: 3.5em;
+	text-align: center;
+	position: fixed;
+	bottom: 60px;
+	left: 0px;
+	right: 0px;
+}

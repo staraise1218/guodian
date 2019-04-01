@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>找回密码-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__OSTATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+  <link href="__OSTATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="main_artical">
+    <div class="container">
+      <div class="setpasd">
+        <p class="title">忘记密码-验证手机</p>
+        <form action="">
+          <input type="hidden" id="username" value="{$userinfo.username}">
+          <div class="content">
+            <select name="sender" id="sender" style="display:none ">
+              <if condition="$userinfo[mobile] neq ''"><option value="phone" rel="{$userinfo.mobile}">手机验证</option></if>
+              <if condition="$userinfo[email] neq ''"><option value="email" rel="{$userinfo.email}">邮箱验证</option></if>
+            </select>
+            <div class="phone">
+            <label for="">绑定手机号</label>
+              <p><input type="text" placeholder="必填" value="{$userinfo.mobile}" disabled="disabled"></p>
+            </div>
+            <diass="phone">
+              <label for="">短信验证码</label>
+              <p>
+                <input type="text" name="tpcode" id="tpcode" placeholder="请输入"  style="width:45%;">
+                <input class="button_yzm" type="button" onclick="sendcode(this)"  value="获取验证码" style="width:100px;height:35px;float:right"/>
+            </p>
+            </div>
+            <div class="button">
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="checkcode()">下一步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <!--footer-s-->
+  <include file="public/footer"/>
+  <!--footer-e-->
+</body>
+<script src="__OSTATIC__/js/bootstrap.js"></script>
+<script src="__OSTATIC__/js/responsiveslides.min.js"></script>
+<script src="__OSTATIC__/js/simpleCart.min.js"> </script>
+<script type="application/x-javascript">
+  addEventListener("load", function() {
+    setTimeout(hideURLbar, 0);
+  }, false);
+  function hideURLbar(){
+    window.scrollTo(0,1);
+  }
+</script>
+<script type="text/javascript">
+    function sendcode(o){
+        $.ajax({
+            url:'/index.php?m=Home&c=Api&a=send_validate_code&scene=2&t='+Math.random(),
+            type:'get',
+            dataType:'json',
+            data:{type:$('#sender').val(),send:$('#sender').find("option:selected").attr('rel')},
+            success:function(res){
+                if(res.status==1){
+                    layer.alert(res.msg, {icon: 1});
+                    timer(o);
+                }else{
+                    layer.alert(res.msg, {icon: 2});
+                }
+            }
+        })
+    }
+
+    var wait=180;
+    function timer(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="获取验证码";
+            wait = {$tpshop_config['sms_sms_time_out']};
+        } else {
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                timer(o)
+            }, 1000)
+        }
+    }
+
+    function checkcode(){
+        var tpcode = $('#tpcode').val();
+        if(tpcode == ''){
+            layer.alert('验证码不能为空', {icon: 2});
+            return false;
+        }
+        if(tpcode.length != 4){
+            layer.alert('验证码不正确', {icon: 2});
+            return false;
+        }
+
+        $.ajax({
+            url:'/index.php?m=Home&c=Api&a=check_validate_code&t='+Math.random(),
+            type:'post',
+            dataType:'json',
+            data:{type:$('#sender').val(),code:tpcode,send:$('#sender').find("option:selected").attr('rel'),scene:2},
+            success:function(res){
+                if(res.status==1){
+                    window.location.href='/index.php?m=Home&c=User&a=set_pwd&t='+Math.random();
+                }else{
+                    layer.alert(res.msg, {icon: 2});
+                    return false;
+                }
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>消息通知</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/p-common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <link href="__STATIC__css/news_y.css" rel="stylesheet" type="text/css" media="all" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body> 
+  <!--header--> 
+  <div class="mobel-header">
+    <div class="back" onclick="history.go(-1)"></div>
+    <div class="title">消息通知</div>
+  </div>  
+  <!-- main -->
+  <if condition="empty($messages)">
+  <div class="newsNone_y">
+    <img src="__STATIC__image/add/message.png">
+    <p>您还没有相关消息</p>
+  </div>
+  <else/>
+  <ul class="news_y">
+    <foreach name="messages" item="item">
+    <li>
+      <span class="y_dian"></span>
+      <span class="y_word">{$item.message}</span>
+      <span class="y_time">{:date('Y-m-d')}</span>
+    </li>
+    </foreach>
+  </ul>
+  </if>
+  <!--footer-->
+ <include file="public/footer_menu" />
+</body>
+<script src="__STATIC__js/jquery.min.js"></script>
+<script src="__STATIC__js/simpleCart.min.js"> </script>
+<script src="__STATIC__js/type.js"></script>
+</html>

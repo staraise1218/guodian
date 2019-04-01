@@ -1,0 +1,75 @@
+body{
+	background: #f1f1f1;
+}
+
+.dispatch{
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.y_dispatch{
+	padding: 10px 15px;
+	border-top: 1px solid rgb(241, 241, 241);
+}
+
+.y_dispatch_img{
+	width: 100px;
+	height: auto;
+}
+
+.y_dispatch_item{
+	border: 1px solid #ddd;
+	padding: 6px 15px;
+	margin-top: 10px;
+	margin-right: 20px;
+	display: inline-block;
+	border-radius: 20px;
+}
+
+.y_dispatch_item_act{
+	border: 1px solid #666;
+}
+
+.y_dispatch_item img{
+	width: 8px;
+	height: 4px;
+	margin-left: 5px;
+}
+
+/*快递送货*/
+.y_dispatch_bottom{
+	height: 200px;
+	display: none;
+}
+
+.y_dispatch_juse{
+	color: #ebc270;
+}
+
+/*门店自取*/
+.y_bottom_p{
+	margin-bottom: 10px;
+}
+
+.y_bottom_div{
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+}
+
+/*下方按钮*/
+.y_dispatch_btn{
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+.y_dispatch_btn button{
+	width: 100%;
+	background-color: #ebc270;
+	color: #fff;
+	padding: 15px 0;
+	border: none;
+	font-size: 16px;
+}

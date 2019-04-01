@@ -1,0 +1,8 @@
+<div class="mobel-footer">
+	<ul>
+	  	<li class="_home <if condition="CONTROLLER_NAME eq 'Index'">active</if>" onclick="window.location='{:U('Mobile/Index/index')}'"><a href="{:U('Mobile/Index/index')}">首页</a></li>
+	    <li class="_brand <if condition="CONTROLLER_NAME eq 'Goods'">active</if>" onclick="window.location='{:U('Mobile/Goods/brandList')}'"><a href="{:U('Mobile/Goods/brandList')}">品牌</a></li>
+	    <li class="_dai <if condition="CONTROLLER_NAME eq 'Cart'">active</if>" onclick="window.location='{:U('Mobile/Cart/index')}'"><a href="{:U('Mobile/Cart/index')}">购物袋</a></li>
+	    <li class="_mine <if condition="CONTROLLER_NAME eq 'User'">active</if>" onclick="window.location='{:U('Mobile/User/index')}'"><a href="{:U('Mobile/User/index')}">我的</a></li>
+	</ul>
+</div>

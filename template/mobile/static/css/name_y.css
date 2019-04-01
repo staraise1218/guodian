@@ -1,0 +1,31 @@
+body{
+	background: #f1f1f1;
+}
+.title span{
+	color: #ebce99;
+	font-size: 0.9em;
+	float: right;
+	font-weight: normal;
+}
+form{
+	background: #fff;
+	margin-top: 10px;
+}
+input{
+	outline: none;
+	border: none;
+	text-indent: 30px;
+	width: 85%;
+	font-size: 16px;
+	line-height: 3.5em;
+}
+form span{
+	font-size: 18px;
+    color: #999;
+	float: right;
+	display: block;
+	width: 20px;
+	height: 10px;
+	margin-right: 25px;
+	padding-top: 12px;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>我的</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/p-common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <link rel="stylesheet" type="text/css" href="__STATIC__css/address_y.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body> 
+  <!--header--> 
+  <div class="mobel-header">
+    <div class="title">我的</div>
+  </div>  
+   <!--main-->
+   <div class="user_box">
+   	   <div class="user_head">
+   	   		<img src="<if condition="$user.head_pic == ''">__STATIC__image/icon/user.png<else/>{$user.head_pic}</if>">
+   	   </div>
+   	   <div class="user_name">{$user.nickname}</div>
+   	   <a class="user_updata" href="{:U('Mobile/User/info')}">完善个人资料</a>
+   </div>
+   <div class="user_information">
+   		<div class="user_info_con" onclick="window.location='{:U('Mobile/Order/order_list')}'">
+          <img class="user_left_img" src="__STATIC__image/add/my_order.png">
+          <span>我的订单</span>
+          <div class="user_right">
+            <!-- <span>0</span> -->
+            <img class="user_right_img" src="__STATIC__image/add/you.png">
+          </div>
+   		</div>
+   		<div class="user_info_con" onclick="window.location='{:U('Mobile/User/goods_collect')}'">
+          <img class="user_left_img" src="__STATIC__image/add/my_collect.png">
+          <span>我的收藏</span>
+          <div class="user_right">
+            <!-- <span>0</span> -->
+            <img class="user_right_img" src="__STATIC__image/add/you.png">
+          </div>
+   		</div>
+   		<div class="user_info_con" onclick="window.location='{:U('Mobile/User/address_list')}'">
+          <img class="user_left_img" src="__STATIC__image/add/my_location.png">
+          <span>地址管理</span>
+          <div class="user_right">
+            <!-- <span>0</span> -->
+            <img class="user_right_img" src="__STATIC__image/add/you.png">
+          </div>
+   		</div>
+   		<div class="user_info_con" onclick="window.location='{:U('Mobile/User/message_notice')}'">
+          <img class="user_left_img" src="__STATIC__image/add/my_news.png">
+          <span>消息通知</span>
+          <div class="user_right">
+            <!-- <span>0</span> -->
+            <img class="user_right_img" src="__STATIC__image/add/you.png">
+          </div>
+   		</div>
+   		<div class="user_info_con">
+          <img class="user_left_img" src="__STATIC__image/add/my_contact.png">
+          <span>联系客服</span>
+          <div class="user_right">
+            <!-- <span>0</span> -->
+            <img class="user_right_img" src="__STATIC__image/add/you.png">
+          </div>
+   		</div>
+   </div>
+  <!--footer-->
+  <include file="public/footer_menu" />
+ 
+</body>
+<script src="__STATIC__js/jquery.min.js"></script>
+<script src="__STATIC__js/simpleCart.min.js"> </script>
+<script src="__STATIC__js/type.js"></script>
+</html>

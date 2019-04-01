@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link href="__OSTATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__OSTATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__OSTATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__OSTATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__OSTATIC__/css/style2.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-->
+<include file="public/header"/>
+<div class="main_content setPage">
+	<div class="contentBox">
+		<div class="pageTitle">设置</div>
+		<div class="setForm">
+			<div class="personal-msg _public">
+				<span>个人信息</span>
+				<input type="text" readonly="readonly" placeholder="完善信息" >
+			</div>
+			
+
+			
+			<div class="collection _public">
+				<a href="javascript:;">我的收藏</a>
+			</div>
+
+
+			<div class="log-out">
+				<input type="text" class="out" value="退出登录" onclick="location.href='{:U('Home/user/logout')}'">
+			</div>
+			<form action="" method="post" id="setting">
+				<div class="headImage">
+					<a href="javascript:void(0);">
+						<img id="preview" src="{$user.head_pic|default='__OSTATIC__/images/headPic.jpg'}" onClick="GetUploadify2(1,'head_pic','head_pic','add_img')"/>
+					</a>
+					<input type="hidden" name="head_pic" id="head_pic" value="{$user.head_pic}">
+
+				</div>
+				<div class="formRow">
+					<div class="label">昵　称：</div>
+					<div class="inputtext"><input class="text" type="text" name="nickname" value="{$user.nickname}"></div>
+				</div>
+				<div class="formRow">
+					<div class="label">真实姓名：</div>
+					<div class="inputtext"><input class="text" type="text" name="realname" value="{$user.realname}"></div>
+				</div>
+				<div class="formRow">
+					<div class="label">姓　别：</div>
+					<div class="inputtext">
+						<input id="sex" type="hidden" name="sex" value="{$user['sex']}">
+						<span class="radio <if condition="$user['sex'] eq '0'">current</if>" name="sex" value="0" ></span><span class="radioValue">保密</span>
+						<span class="radio <if condition="$user['sex'] eq '1'">current</if>" name="sex" value="1" ></span><span class="radioValue">男</span>
+						<span class="radio <if condition="$user['sex'] eq '2'">current</if>" name="sex" value="2" ></span><span class="radioValue">女</span>
+					</div>
+				</div>
+				<div class="formRow">
+					<div class="label">生　日：</div>
+					<div class="inputtext">
+						<input id="birthday" type="hidden" name="birthday">
+						<div class="timebox"><input class='birthday' type="text" name="" value="{$user.birthday|date='Y',###}"><span class="plus"></span><span class="decrease"></span></div> <span class="timeLabel">年</span>
+						<div class="timebox"><input class='birthday' type="text" name="" value="{$user.birthday|date='m',###}"><span class="plus"></span><span class="decrease"></span></div> <span class="timeLabel">月</span>
+						<div class="timebox"><input class='birthday' type="text" name="" value="{$user.birthday|date='d',###}"><span class="plus"></span><span class="decrease"></span></div> <span class="timeLabel">日</span>
+					</div>
+				</div>
+				<div class="formRow">
+					<div class="label">手机号码：</div>
+					<div class="inputtext"><input id="telephone" style="display: none" class="text" type="text" name=""><span class="tel">{$user['mobile']}</span><!--<span class="editPhoneButton">修改</span>--></div>
+				</div>
+				<div class="formRow">
+					<div class="label">邮箱地址：</div>
+					<div class="inputtext"><input class="text" type="text" name="email" value="{$user['email']}"></div>
+				</div>
+
+
+
+				<input type="button" class="cancel" value="取消">				
+
+
+				<input id="submit" type="button" value="提交">
+			</form>
+		</div>
+	</div>
+</div>
+<!---->
+<!--footer-s-->
+<include file="public/footer"/>
+<!---->
+</body>
+<script src="__OSTATIC__/js/bootstrap.js"> </script>
+<script src="__OSTATIC__/js/responsiveslides.min.js"></script>
+<script src="__OSTATIC__/js/simpleCart.min.js"> </script>
+<script src="__PUBLIC__/js/global.js"></script>
+<script>
+    $(function () {
+        $("#slider1").responsiveSlides({
+            auto: true,
+            nav: true,
+            speed: 500,
+            namespace: "callbacks",
+            pager: false,
+        });
+        $("#slider2").responsiveSlides({
+            auto: false,
+            nav: true,
+            speed: 500,
+            namespace: "callbacks",
+            pager: false,
+        });
+    });
+    $(function(){
+        // 选择性别
+        $('.radio').click(function(){
+            $(this).addClass('current').siblings('.radio').removeClass('current');
+            $('#sex').val($(this).attr('value'));
+        })
+        // 修改手机号
+        $('.editPhoneButton').click(function(){
+            $('#telephone').val({$user['mobile']});
+            $('.editPhoneButton').hide();
+            $('.tel').hide();
+            $('#telephone').show();
+        })
+        $('#telephone').blur(function(){
+            $(this).hide();
+            $('.editPhoneButton').show();
+            $('.tel').show();
+        })
+
+        // 提交
+        $('#submit').click(function(){
+            var obj = $('.birthday');
+            var time = '';
+            for(var i=0; i<obj.length; i++) {
+                time += obj[i].value;
+            }
+            $('#birthday').val(time);
+
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:$("#setting").serialize(),
+                url:"{:U('Home/User/info')}",
+                success:function(res){
+                    if(res.status == 1){
+                        layer.msg('修改信息成功', {icon: 1});
+//                      window.location.href="{:U('Home/User/goods_collect')}";
+                    }else{
+                        layer.msg(res.msg, {icon: 3});
+                    }
+                }
+            });
+
+        })
+
+    })
+    $(function(){
+        $('.choice_hobby').click(function(){
+            $(this).toggleClass('red');
+        })
+    })
+    function delimg(file,t){
+        $.get(
+            "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:file},function(){}
+        );
+        $('#head_pic').val('');
+        $('#preview').attr('src','');
+        $(t).remove();
+    }
+    function add_img(str){
+        var head_pic = $('#head_pic').val();
+        $('#head_pic').val(str);
+        $('#preview').attr('src',str);
+        $('img[class="headpic"]').attr('src',str);
+
+    }
+</script>
+</html>

@@ -1,0 +1,93 @@
+.ydetails_h{
+	font-size: 20px !important;
+}
+
+.ydetails_boder{
+	border-bottom: 1px dashed #cbcbcb;
+}
+
+/*售价*/
+.ydetails_money li{
+	display: flex;
+	align-items: center;
+	font-size: 16px;
+}
+
+.ydetails_del{
+	text-decoration:line-through
+}
+
+.ydetails_red{
+	color: #e93b38!important;
+}
+
+.ydetails_redbig{
+	font-size: 24px;
+	color: #e93b38!important;
+}
+
+/*温馨提示*/
+.ydetails_tishi{
+	padding-top: 20px;
+}
+
+.ydetails_tishi li{
+	display: flex;
+	font-size: 16px;
+}
+
+.ydetails_tishi1{
+	margin-right: 20px;
+}
+
+.ydetails_name{
+	color: #727272;
+	width: 70px;
+}
+
+/*分享的ul*/
+.ydetails_share{
+	display: flex;
+}
+
+.ydetails_share li{
+	margin-right: 20px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.ydetails_share li img{
+	width: 22px;
+	height: 22px;
+}
+
+/*下方按钮*/
+.ydetails_btn{
+	/*text-align: right;*/
+}
+
+.ydetails_btn button{
+	width: 200px;
+	height: 60px;
+	margin-top: 40px;
+	outline: none;
+	font-size: 18px;
+	border: 1px solid #bd5351;
+}
+
+.ydetails_btn1{
+	background-color: #bd5351;
+	color: #fff;
+	margin-right: 20px;
+}
+
+.ydetails_btn2{
+	background-color: #fff;
+	color: #bd5351;
+}
+
+.ydetails_btn2 img{
+	width: 22px;
+	height: 22px;
+	margin-right: 6px;
+}

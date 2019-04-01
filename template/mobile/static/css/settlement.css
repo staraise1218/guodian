@@ -1,0 +1,140 @@
+body{
+	background: #f1f1f1;
+}
+
+.y_cg{
+	width: 100%;
+	border-top: 1px solid rgb(241, 241, 241);
+	background-color: #fff;
+	padding: 15px;
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
+.y_cg1 span{
+	font-size: 14px;
+	color: #777;
+}
+
+.y_cg_name{
+	display: inline-block;
+	width: 80px;
+	color: #000 !important;
+}
+
+.y_cg_input{
+	border: none;
+	font-size: 15px;
+	width: 75%;
+	outline: none;
+}
+
+.y_cg_r_img{
+    width: 14px;
+    height: auto;
+	float: right;
+/*	background: url(../image/add/you.png) 50px center no-repeat;
+	padding-right: 20px;*/
+}
+
+.y_sett_name{
+	font-size: 16px;
+	width: auto;
+}
+
+.y_sett_line{
+	margin: -18px 0 -8px 0;
+}
+
+.y_cg_choose{
+	width: 15px;
+	height: auto;
+}
+
+/*中间*/
+.y_main{
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.y_main_l img{
+	width: 100px;
+	height: auto;
+}
+
+.y_main_r{
+	margin-left: 10px;
+}
+
+.y_main_r p{
+	font-size: 14px;
+	color: #777;
+	margin-bottom: 6px;
+}
+
+.y_main_money{
+	text-align: right;
+}
+
+.y_main_name{
+	width: 230px;
+	/*溢出隐藏省略号*/
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.y_sett_money{
+	margin-top: -10px;
+}
+.y_sett_money div{
+	font-size: 14px;
+	color: #777;
+}
+.y_sett_money_r{
+	float: right;
+	color: #777;
+}
+/*备注信息*/
+.y_sett_bottom{
+	padding: 10px;
+}
+
+.y_sett_item{
+	margin-bottom: 15px;
+	font-size: 15px;
+}
+
+.y_sett_item a{
+	color: #4394ff
+}
+
+/*下方按钮*/
+.y_sett_btn{
+	width: 100%;
+	padding-left: 10px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #fff;
+	color: red;
+}
+.y_sett_btn button{
+	float: right;
+	width: 30%;
+	background-color: #ebc270;
+	color: #fff;
+	padding: 15px 0;
+	border: none;
+	font-size: 16px;
+}
+
+.y_sett_pay{
+	line-height: 50px;
+	color: red;
+}
+
+.y_sett_num{
+	line-height: 50px;
+	color: red;
+	font-size: 20px;
+}

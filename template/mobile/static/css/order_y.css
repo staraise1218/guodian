@@ -1,0 +1,83 @@
+.mobel-footer ul li._buy::before{
+	background: url(../image/add/buy.png) no-repeat center 5%;
+ 	background-size: 100%;
+}
+.mobel-footer ul ._buy.active::before{
+	background: url(../image/add/buy1.png) no-repeat center 5%;
+ 	background-size: 100%;
+}
+
+body{
+	background: #f1f1f1;
+}
+
+.fl{
+	float: right;
+}
+
+/*tab*/
+.order_ul{
+	display: flex;
+	justify-content: space-around;
+	background-color: #fff;
+	border-top: 1px solid rgb(241, 241, 241);
+	font-size: 16px
+}
+
+.order_ul li{
+	padding: 10px;
+}
+
+.order_act{
+	border-bottom: 3px solid #ebc270;
+	color: #ebc270;
+}
+
+/*中间内容*/
+/*有内容 代付款*/
+
+
+.order_main{
+	margin-bottom: 0;
+	padding: 10px;
+	background-color: #f8f8f8;
+}
+
+.order_title{
+	padding: 10px;
+}
+
+.order_btn{
+	text-align: right;
+}
+
+.order_btn button{
+	background-color: #fff;
+	border: 1px solid #ebc270;
+	border-radius: 4px;
+	outline: none;
+	color: #ebc270;
+	padding: 4px 10px;
+	font-size: 16px;
+	margin-left: 5px;
+}
+
+.y_dispatch_bottom{
+	height: auto;
+}
+
+/*没有消息*/
+.newsNone_y{
+	text-align: center;
+}
+
+.newsNone_y img{
+	margin-top: 30%;
+	width: 120px;
+	height: auto;
+}
+
+.newsNone_y p{
+	margin-top: 20px;
+	color: #999;
+}

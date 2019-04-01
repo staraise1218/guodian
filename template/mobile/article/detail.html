@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>品牌动态-{$tpshop_config['shop_info_store_title']}</title>
+	<link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body style="background-color: #f7f7f9;">
+<!--header-s-->
+<div class="mobel-header">
+	<div class="back" onClick="javascript:history.back(-1);"> </div>
+	<div class="title">品牌动态</div>
+</div>
+<!--header-e-->
+<div class="main_content contactPage">
+	<div class="contact">
+		<div class="product_content" style="font-size: 1.1em">
+			<div class="title" style="text-align: center">
+				<p>{$article.title}</p>
+				<p>{$article.description}</p>
+			</div>
+			<div>
+				{$article.content|htmlspecialchars_decode}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--footer-s-->
+<include file="public/footer_menu" />
+<!--footer-e-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/type.js"></script>
+</html>

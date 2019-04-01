@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>找回密码-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="Wedding Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="main_artical">
+    <div class="container">
+      <div class="setpasd">
+        <p class="title">忘记密码-验证用户</p>
+        <form action="" method="post" id="forget_pwd">
+          <div class="content">
+            <div class="phone">
+            <label for="">绑定手机号</label>
+              <p><input type="text" placeholder="必填" name="username" id="username" value="" onblur="chkuser()"></p>
+            </div>
+            <div class="phone">
+              <label for="">图形验证码</label>
+              <p>
+                <input name="verify_code" id="captcha" style="width: 50%" type="text" placeholder="请输入" data-toggle="popover" data-container="body" data-placement="left" data-content="验证码已过期，请重新获取">
+                <img class="yck" style="width:40%" id="captchaImg" alt="captcha" src="{:U('User/verify')}"  onclick="verify()" />
+              </p>
+            </div>
+            <div class="button">
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="chkcaptcha()">下一步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--该手机号尚未注册-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+          <!--<button type="button" class="btn btn-default" data-dismiss="modal">再试一次</button>-->
+          <!--<button type="button" class="btn btn-primary">现在注册</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--footer-s-->
+  <include file="public/footer"/>
+  <!--footer-e-->
+</body>
+<script src="__STATIC__/js/bootstrap.js"></script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script type="application/x-javascript"> 
+  addEventListener("load", function() { 
+    setTimeout(hideURLbar, 0); 
+  }, false); 
+  function hideURLbar(){ 
+    window.scrollTo(0,1); 
+  } 
+</script>
+<script>
+  function verify(){
+      $('#captchaImg').attr('src','/index.php?m=Home&c=User&a=verify&r='+Math.random());
+  }
+  var uflag = false;
+  var cflag = false;
+
+  function chkuser(){
+      var username = $('#username').val();
+      if(username == ''){
+          show_error('username','用户名不能为空');
+          return false;
+      }else{
+          $.ajax({
+              url:'/index.php?m=Home&c=User&a=check_username&t='+Math.random(),
+              type:'post',
+              dataType:'json',
+              data:{username:username},
+              success:function(t){
+                  if(t>=1){
+                      uflag = true;
+                  }else{
+                      show_error('username','用户名错误');
+                  }
+              }
+          })
+      }
+  }
+
+  function chkcaptcha(){
+      var captcha = $('#captcha').val();
+      if(captcha == ''){
+          show_error('captcha','验证码不能为空');
+          return false;
+      }else if(captcha.length!=4){
+          show_error('captcha','验证码错误');
+          return false;
+      }else{
+          $.ajax({
+              url:'/index.php?m=Home&c=User&a=check_captcha&t='+Math.random(),
+              type:'post',
+              dataType:'json',
+              data:{verify_code:captcha},
+              success:function(t){
+                  if(t==1){
+                      cflag = true;
+                      gonext();
+                  }else{
+                      show_error('captcha','验证码不正确');
+                      return false;
+                  }
+              }
+          })
+      }
+  }
+
+  function gonext(){
+      if($('#username').val() == ''){
+          show_error('username','用户名不能为空');
+          return;
+      }
+      if($('#captcha').val() == ''){
+          show_error('captcha','验证码不能为空');
+          return;
+      }if(!uflag){
+          show_error('username','用户名验证有误');
+          return;
+      }else
+          if(!cflag){
+          show_error('captcha','图形验证码有误');
+          return;
+      }
+      if(uflag && cflag){
+          $('#forget_pwd').submit();
+      }
+  }
+if('{$user_message_error}' != ''){
+    show_error('username','{$user_message_error}');
+}
+
+  function show_error(type,msg){
+      verify()
+      layer.alert(msg, {icon: 2});
+      return false;
+  }
+ </script>
+</html>

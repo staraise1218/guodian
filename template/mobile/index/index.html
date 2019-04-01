@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>首页-{$tpshop_config['shop_info_store_title']}</title>
+	<link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/swiper-4.2.2.min.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body style="background-color: #fff;">
+<!--header-->
+<div class="mobel-header">
+	<div class="logo">
+		<img src="__STATIC__/image/icon/logo.png" alt="">
+	</div>
+</div>
+<!--main-->
+<div class="main_content" style="padding-bottom: 4.5rem;">
+	<!-- 搜索框 -->
+	<div class="search-box"><input type="text" placeholder="搜索商品 品牌" class="search" data-href="{:U('Goods/search')}"></div>
+	<!-- banner -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<adv pid="8" item="v1" limit="10">
+			<div class="swiper-slide">
+				<a href="{$v1[ad_link]}" <if condition="$v1['target'] eq 1">target="_blank"</if>>
+					<img src="{$v1[ad_code]}" alt="{$v1[title]}">
+				</a>
+			</div>
+			</adv>
+		</div>
+		<!-- 如果需要分页器 -->
+		<div class="swiper-pagination"></div>
+	</div>
+	<!---->
+	<div class="goods-lists">
+		<ul>
+			<li>
+				<a href="{:U('Goods/goodsList',array('id'=>3))}">
+					<img src="__STATIC__/image/list/home_jewelry.png" alt="">
+					<i>珠宝/首饰</i>
+				</a>
+			</li>
+			<li>
+				<a href="{:U('Goods/goodsList',array('id'=>2))}">
+					<img src="__STATIC__/image/list/home_package.png" alt="">
+					<i>箱包/皮具</i>
+				</a>
+			</li>
+			<li>
+				<a href="{:U('Goods/goodsList',array('id'=>1))}">
+					<img src="__STATIC__/image/list/home_watch.png" alt="">
+					<i>腕表</i>
+				</a>
+			</li>
+			<li>
+				<a href="{:U('Goods/goodsList',array('id'=>5))}">
+					<img src="__STATIC__/image/list/home_shoes.png" alt="">
+					<i>鞋履</i>
+				</a>
+			</li>
+			<li>
+				<a href="{:U('Goods/goodsList',array('id'=>6))}">
+					<img src="__STATIC__/image/list/home_accessories.png" alt="">
+					<i>配饰</i>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!---->
+	<div class="products">
+		<div class="title news">
+			<span>新品上市</span><span>New products lsted</span>
+		</div>
+		<div class="pro-lists">
+			<ul>
+				<adv pid="3" item="v1" limit="4">
+					<li>
+						<a href="{$v1[ad_link]}" <if condition="$v1['target'] eq 1">target="_blank"</if>>
+							<img src="{$v1[ad_code]}" alt="{$v1[ad_name]}">
+							<p class="express">{$v1[ad_name]}</p>
+						</a>
+					</li>
+				</adv>
+				<!--<foreach name="recommend_goods" item="v" key="k">-->
+				<!--<li>-->
+					<!--<a href="{:U('Goods/goodsInfo',array('id'=>$v[goods_id]))}">-->
+						<!--<img src="{$v[goods_id]|goods_thum_images=320,320}" alt="">-->
+						<!--<p class="tit">{$v['goods_name']}</p>-->
+						<!--<p class="express">￥<?php echo $v['shop_price'] == '0.00'?'暂无': number_format($v['shop_price']); ?></p>-->
+					<!--</a>-->
+				<!--</li>-->
+				<!--</foreach>-->
+			</ul>
+		</div>
+		<div class="title brand">
+			<span>品牌动态</span><span>Brand dynamic</span>
+		</div>
+		<div class="brand-news">
+			<ul>
+				<foreach name="recommend_article" item="v" key="k">
+					<li><a href="{:U('Article/detail',array('article_id'=>$v[article_id]))}"><img src="{$v['thumb']}" alt=""></a></li>
+				</foreach>
+			</ul>
+		</div>
+	</div>
+</div>
+<!--footer-->
+
+  <include file="public/footer_menu" />
+<!--footer-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/type.js"></script>
+<script src="__STATIC__/js/mine.js"></script>
+<script src="__STATIC__/js/swiper-4.2.2.min.js"></script>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        autoplay: true,//可选选项，自动滑动
+        loop: false,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    })
+</script>
+</html>

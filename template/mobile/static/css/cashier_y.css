@@ -1,0 +1,38 @@
+body{
+	background: #f1f1f1;
+}
+
+.fl{
+	float: right;
+}
+
+.cashier_title{
+	background-color: #fff;
+	border-top:1px solid rgb(241, 241, 241);
+	padding: 10px 15px;
+}
+
+.cashier_ul{
+	padding: 0 15px;
+}
+
+.cashier_ul li{
+	border-bottom: 1px solid rgb(241, 241, 241);
+	padding: 15px 0;
+}
+
+.cashier_ul_img{
+	width: 24px;
+	height: auto;
+	margin-right: 6px;
+}
+
+/*下方*/
+.cashier_bottom{
+	padding:10px 15px;
+	font-size: 12px;
+}
+
+.cashier_bottom i{
+	color: #4394ff;
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>结算中心</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/p-common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <link href="__STATIC__css/settlement.css" rel="stylesheet" type="text/css" media="all" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+      /*.layui-layer-content {color: #FFF;}*/
+  </style>
+</head>
+<body> 
+  <!--header--> 
+  <div class="mobel-header">
+    <div class="back" onclick="history.back(-1)"></div>
+    <div class="title">结算中心</div>
+  </div>  
+  <!-- main -->
+  <a href="{:U('Mobile/Cart/buy_method',array('source'=>'cart2','goods_id'=>$Request.param.goods_id,'goods_num'=>$Request.param.goods_num,'item_id'=>$Request.param.item_id,'action'=>$Request.param.action, 'buy_method'=>$buy_method))}">
+  <if condition="$buy_method eq 2">
+  <div class="y_cg y_cg1">
+    <span class="y_cg_name">配送方式</span>
+    <span class="y_sett_name">可选到门店自提</span>
+    <span class="y_cg_r">快递送货</span>
+    <img class="y_cg_r_img" src="__STATIC__image/add/you.png">
+  </div>
+  <else/>
+  <div class="y_cg y_cg1">
+    <span class="y_cg_name">配送方式</span>
+    <span class="y_cg_r">可到国典寄卖行线下门店自提</span>
+    <img class="y_cg_r_img" src="__STATIC__image/add/you.png">
+  </div>
+  </a>
+    </if>
+    </a>
+    <!-- 收货地址 -->
+    <if condition="!empty($address) && ($buy_method eq 2)">
+    <div class="edit_gtfix">
+         <a href="{:U('Mobile/User/address_list',array('source'=>'cart2','goods_id'=>$Request.param.goods_id,'goods_num'=>$Request.param.goods_num,'item_id'=>$Request.param.item_id,'action'=>$Request.param.action))}">
+        <div class="namephone fl">
+            <div class="top">
+                <div class="le fl">{$address.consignee}</div>
+                <div class="lr fl">{$address.mobile}</div>
+            </div>
+            <div class="bot">
+                <i class="dwgp"></i>
+                <span>{$address.address}</span>
+            </div>
+            <input type="hidden" value="{$address.address_id}" name="address_id"/> <!--收货地址id-->
+        </div>
+        <div class="fr youjter">
+            <i class="Mright"></i>
+        </div>
+        </a>
+    </div>
+    </if>
+    <if condition="empty($address) && $buy_method eq 2">
+      <div class="y_cg">
+        <a href="{:U('Mobile/User/address_list',array('source'=>'cart2','goods_id'=>$Request.param.goods_id,'goods_num'=>$Request.param.goods_num,'item_id'=>$Request.param.item_id,'action'=>$Request.param.action))}">
+            <img class="y_cg_choose" src="__STATIC__image/add/location.png">
+            <span class="y_sett_name y_cg_name">添加收货地址</span>
+            <span class="y_cg_r"></span>
+            <img class="y_cg_r_img" src="__STATIC__image/add/you.png">
+        </a>
+      </div>
+    </if>
+  <!-- <div class="y_cg">
+    <span class="y_sett_name y_cg_name">添加自提人信息</span>
+    <img class="y_cg_r_img" src="__STATIC__image/add/you.png">
+  </div> -->
+  <div class="y_sett_line">
+    <img src="__STATIC__image/add/line.png">
+  </div>
+  <volist name="cartList" id="cart">
+  <div class="y_cg y_main">
+    <div class="y_main_l">
+      <img class="y_cg_img" src="{$cart[goods_id]|goods_thum_images=100,100}">
+    </div>
+    <div class="y_main_r">
+      <p class="y_main_name">{$cart[goods_name]}</p>
+      <p class="y_main_num"><span>数量X</span><span>1</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>{$cart[spec_key_name]}</span></p>
+      <p class="y_main_money">￥{$cart[member_goods_price]}</p>
+    </div>
+  </div>
+  <div class="y_cg y_sett_money">
+    <div style="margin-bottom: 8px;">
+      <span>商品金额</span>
+      <span class="y_sett_money_r">￥{$cart[member_goods_price]}</span>
+    </div>
+    <!-- <div>
+      <span>运费</span>
+      <span class="y_sett_money_r">￥50</span>
+    </div> -->
+  </div>
+    </volist>
+
+  <div class="y_cg">
+    <span class="y_sett_name y_cg_name">应付金额</span>
+    <span style="float: right;">￥{$cartPriceInfo['total_fee']}</span>
+  </div>
+
+  <div class="y_sett_bottom">
+    <!-- <div class="y_sett_item">1.备注信息</div>
+    <div class="y_sett_item">2.备注信息</div> -->
+    <div class="y_sett_item">
+      <input type="radio" name="agree" value="1"> 我已同意 <a href="{:U('mobile/article/xuzhi')}">购买须知</a>
+    </div>
+  </div>
+    <form name="cart2_form" id="cart2_form" method="post">
+        <input type="hidden" name="coupon_id" value=""/>
+        <input type="hidden" id="wap_invoice_title" name="invoice_title" value="个人">
+        <input type="hidden" id="wap_taxpayer" name="taxpayer" value="">
+        <!--立即购买才会用到-s-->
+        <input type="hidden" name="action" value="{$Request.param.action}">
+        <input type="hidden" name="goods_id" value="{$Request.param.goods_id}">
+        <input type="hidden" name="item_id" value="{$Request.param.item_id}">
+        <input type="hidden" name="goods_num" value="{$Request.param.goods_num}">
+        <input type="hidden" name="auth_code" value="{$Think.config.AUTH_CODE}"/>
+        <input type="hidden" value="{$address.address_id}" name="address_id" /> <!--收货地址id-->
+        <input type="hidden" name="buy_method" value="{$buy_method}"/>
+
+  <div style="height: 50px"></div>
+  <div class="y_sett_btn">
+    <span class="y_sett_pay">应付金额：</span>
+    <span class="y_sett_num">￥{$cartPriceInfo['total_fee']}</span>
+    <button type="button" onclick="submit_order()">提交订单</button>
+  </div>
+  </form>
+
+</body>
+<script src="__STATIC__js/jquery.min.js"></script>
+<script src="__STATIC__js/simpleCart.min.js"> </script>
+<script src="__STATIC__js/type.js"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script type="text/javascript">
+     // 提交订单
+    ajax_return_status = 1; // 标识ajax 请求是否已经回来 可以进行下一次请求
+    function submit_order() {
+        if($('.submit_price a').hasClass("disable")){
+            return;
+        }
+        if (ajax_return_status == 0)
+            return false;
+
+          // 同意须知
+          if($('input[name=agree]').is(':checked') == false) {
+              layer.msg('请同意购买须知', {icon:2});
+              return false;
+          }
+
+        ajax_return_status = 0;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Mobile/Cart/cart3')}",//+tab,
+            data: $('#cart2_form').serialize() + "&act=submit_order",// 你的formid
+            dataType: "json",
+            success: function (data) {
+                if (data.status != '1') {
+                    layer.msg(data.msg);  //执行有误
+                    // 登录超时
+                    if (data.status == -100)
+                        location.href = "{:U('Mobile/User/login')}";
+
+                    ajax_return_status = 1; // 上一次ajax 已经返回, 可以进行下一次 ajax请求
+
+                    return false;
+                }
+
+                layer.msg('订单提交成功!', {
+                    icon: 1, // 成功图标
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function() { // 关闭后执行的函数
+                    location.href = "/index.php?m=home&c=Payment&a=getCode&pay_code=unionpay&order_id=" + data.result;
+                });
+            }
+        });
+    }
+</script>
+</html>

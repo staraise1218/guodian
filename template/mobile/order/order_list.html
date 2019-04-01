@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>我的订单</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/p-common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <link href="__STATIC__css/settlement.css" rel="stylesheet" type="text/css" media="all" />
+  <link rel="stylesheet" type="text/css" href="__STATIC__css/dispatch_y.css">
+  <link rel="stylesheet" type="text/css" href="__STATIC__css/order_y.css?v=1.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body> 
+  <!--header--> 
+  <div class="mobel-header">
+    <a href="javascript:;" onclick="window.history.back()" class="back"></a>
+    <div class="title">我的订单</div>
+  </div>
+  <!--main-->
+  <ul class="order_ul">
+    <li onclick="window.location='{:U('/Mobile/Order/order_list')}'" <if condition="$Request.param.type eq ''">class="order_act"</if>>全部</li>
+    <li onclick="window.location='{:U('/Mobile/Order/order_list',array('type'=>'WAITPAY'))}'" <if condition="$Request.param.type eq 'WAITPAY'">class="order_act"</if>>待付款</li>
+    <li onclick="window.location='{:U('/Mobile/Order/order_list',array('type'=>'WAITSEND'))}'" <if condition="$Request.param.type eq 'WAITSEND'">class="order_act"</if>>待收货</li>
+    <li onclick="window.location='{:U('/Mobile/Order/order_list',array('type'=>'FINISH'))}'" <if condition="$Request.param.type eq 'FINISH'">class="order_act"</if>>已完成</li>
+  </ul>
+  <!-- 下面内容 -->
+  <div class="order_div" style="padding-bottom: 50px;">
+    <!-- 没订单 -->
+    <if condition="count($lists) eq 0">
+    <div class="order_div_content" style="display: block;">
+      <div class="newsNone_y">
+        <img src="__STATIC__image/add/order_n.png">
+        <p>您还没有相关订单</p>
+      </div>
+    </div>
+    </if>
+    <!-- 待付款 -->
+    <div class="order_div_content">
+        <volist name="lists" id="list">
+        <div class="dispatch">
+            <div class="order_title">{$list['order_status_desc']}</div>
+            <foreach  name="list.goods_list" item="good">
+            <div class="order_main y_cg y_main">
+                <div class="y_main_l">
+                    <img class="y_cg_img" src="{$good[goods_id]|goods_thum_images=200,200}">
+                </div>
+                <div class="y_main_r">
+                    <p class="y_main_name">{$good[goods_name]|getSubstr=0,20}</p>
+                    <p class="y_main_num"><span>数量X</span><span>{$good[goods_num]}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>{$good.spec_key_name}</span></p>
+                    <p class="y_main_money">￥{$good[member_goods_price]}</p>
+                </div>
+            </div>
+            </foreach>
+            <div class="y_dispatch_div">
+                <div class="order_title" style="text-align: right;">应付金额：<span>{$list['total_amount']}</span></div>
+                <div class="y_dispatch y_dispatch_bottom" style="display: block;">
+                    <p class="y_bottom_p">订单编号：<span>{$list.order_sn}</span></p>
+                    <p class="y_bottom_p">创建时间：<span>{:date('Y-m-d H:i:s', $list['add_time'])}</p>
+                    <p class="y_bottom_p">运送方式：<span><if condition="$list.buy_method eq 1">到店自提<else/>快递送货</if></span></p>
+                    <if condition="$list.buy_method eq 2">
+                    <p class="y_bottom_p">发货时间：<span>{$list.shipping_time ? date('Y-m-d H:i:s', $list.shipping_time) : '未发货'}</span></p>
+                    <p class="y_bottom_p">收货信息：<span>{$list.address_detail}{$list.address}</span></p>
+                    </if>
+                    <div class="order_btn">
+                        <if condition="$list.receive_btn eq 1">
+                            <button type="button" onclick="orderConfirm({$list.order_id})">确认收货</button>
+                        </if>
+                        <if condition="$list.cancel_btn eq 1">
+                            <if condition="$list.pay_status eq 0">
+                              <button type="button"  onClick="cancel_order({$list.order_id})" >取消订单</a>
+                            </if>
+
+                        </if>
+                        <if condition="$list.pay_btn eq 1">
+                          <button onclick="window.location='{:U('home/Payment/getCode',array('order_id'=>$list['order_id'], 'pay_code'=>'unionpay'))}'">去支付</button>
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </volist>
+    </div>
+  </div>
+
+  <!--footer-->
+  <include file="public/footer_menu" />
+ 
+</body>
+<script src="__STATIC__js/jquery.min.js"></script>
+<script src="__STATIC__js/simpleCart.min.js"> </script>
+<script src="__STATIC__js/type.js"></script>
+<script src="__STATIC__js/layer/layer.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('.order_ul li').click(function () {
+      $(this).addClass('order_act').siblings().removeClass('order_act');
+      var index=$(this).index();
+      $(".order_div .order_div_content").eq(index).show().siblings().hide();
+    })
+  })
+
+
+    /**
+     * 确定收货
+     */
+    function orderConfirm(id){
+
+        layer.confirm('确认收货吗？', function(){
+          $.ajax({
+                url: "/index.php?m=Mobile&c=Order&a=order_confirm&order_id="+id,
+                type: 'post',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('操作成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon:2});
+                    }
+                }
+            })
+        })
+        
+    }
+
+    function verConfirm(order_id){
+        layer.confirm('确定删除吗', function(){
+            $.ajax({
+                url: '/home/order/del_order/order_id/'+order_id,
+                type: 'get',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('删除成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon:2});
+                    }
+                }
+            })
+        })
+    }
+
+
+    function cancel_order(order_id){
+        layer.confirm('确定取消吗', function(){
+            $.ajax({
+                url: '/mobile/order/cancel_order/id/'+order_id,
+                type: 'get',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('取消成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon:2});
+                    }
+                }
+            })
+        })
+    }
+</script>
+</html>

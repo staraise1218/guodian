@@ -1,0 +1,54 @@
+.mobel-footer ul li._buy::before{
+	background: url(../image/add/buy.png) no-repeat center 5%;
+ 	background-size: 100%;
+}
+.mobel-footer ul ._buy.active::before{
+	background: url(../image/add/buy1.png) no-repeat center 5%;
+ 	background-size: 100%;
+}
+
+body{
+	background-color: rgb(241, 241, 241);
+}
+
+/*有消息*/
+.news_y li{
+	border-top: 1px solid #ccc;
+	background-color: #fff;
+	padding: 20px 10px;
+	font-size: 12px;
+}
+
+.y_dian{
+	display: inline-block;
+	margin-right: 6px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: #ebc270;
+}
+
+.y_word{
+	color: #999;
+}
+
+.y_time{
+	float: right;
+	color: #999;
+}
+
+/*没有消息*/
+.newsNone_y{
+	text-align: center;
+}
+
+.newsNone_y img{
+	margin-top: 30%;
+	width: 120px;
+	height: auto;
+}
+
+.newsNone_y p{
+	margin-top: 20px;
+	color: #999;
+}

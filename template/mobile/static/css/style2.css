@@ -1,0 +1,368 @@
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div, input, dl, dt {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f5f5f7;
+  color: #000;
+  font-size: 14px;
+  font-family: "PingFangSC-Regular4";
+}
+
+ul,ol {
+  list-style-type: none;
+}
+
+input {
+  border: none;
+  outline: none;
+  padding-left: 10px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:link {
+  color: #000000;
+} 
+/*a:visited{color:#800080;} */
+a:hover,a:active,a:focus {
+  color: #ad0400;
+  text-decoration: none;
+}
+
+@face-font {
+  font-family: 'PingFangSC-Regular4';
+   src: url(../fonts/PingFangSC-Regular4.ttf);
+}
+
+.setPage{
+  background-color: #f5f5f7;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  background: #FFF;
+}
+
+.contentBox {
+  padding: 30px 50px;
+  background-color: #fff;
+  margin: 212px 0 10px;
+  font-family: '苹方';
+}
+
+.pageTitle {
+  font-size: 18px;
+  line-height: 80px;
+  border-bottom: 1px solid #e4e4e4;
+  font-weight: 600;
+}
+
+.setForm {
+  position: relative;
+  padding-top: 30px;
+  background-color: #;
+}
+
+.headImage {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 10rem;
+}
+
+.formRow {
+  margin-top: 20px;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.formRow .label {
+  float: left;
+  width: 220px;
+  text-align: right;
+  font-size: 15px;
+  color: #000;
+  line-height: 30px;
+}
+
+.formRow .inputtext {
+  float: left;
+  line-height: 38px;
+}
+
+.formRow .inputtext input.text {
+  height: 30px;
+  line-height: 30px;
+  font-size:15px;
+  border-radius: 5%;
+  border: 1px solid #dcdcdc;
+  width: 250px;
+}
+
+.formRow .redTip {
+  float: left;
+  color: #b5150b;
+  font-size: 14px;
+  padding-left: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.huiTip {
+  padding-left: 220px;
+  color: #686868;
+  font-size: 14px;
+  width: 754px;
+  margin-top: 15px;
+}
+
+.formRow .inputtext .radio {
+  margin-top: 5px;
+  float: left;
+  width: 23px;
+  height: 23px;
+  background: url(../image/icon/setting_07.jpg) center center no-repeat;
+}
+
+.formRow .inputtext .radio.current {
+  background: url(../image/icon/setting_09.jpg) center center no-repeat;
+}
+
+.formRow .inputtext .radioValue {
+  margin: -2px 15px 0;
+  float: left;
+  font-weight: 600;
+}
+
+.formRow .inputtext .timebox {
+  position: relative;
+  float: left;
+  width: 100px;
+  border: 1px solid #dcdcdc;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 5%;
+}
+
+.formRow .inputtext .timeLabel {
+  float: left;
+  height: 38px;
+  line-height: 38px;
+  margin: 0 15px;
+}
+
+.formRow .inputtext .timebox input {
+  width: 70px;
+  padding-left: 10px;
+  height: 25px;
+  font-size: 15px;
+}
+
+.formRow .inputtext .timebox .plus {
+  display: block;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: url(../image/icon/setting_14.jpg) center center no-repeat;
+}
+
+.formRow .inputtext .timebox .decrease {
+  display: block;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: url(../image/icon/setting_16.jpg) center center no-repeat;
+}
+
+.formRow .inputtext .editPhoneButton {
+  cursor: pointer;
+  color: #636365;
+}
+.setForm .log-out{
+  display: none;
+}
+.setForm #submit {
+  width: 150px;
+  height: 55px;
+  background: #cc5252;
+  text-align: center;
+  color: #FFF;
+  font-size: 28px;
+  margin: 50px 65px 20px 220px;
+  border-radius: 5%;
+  font-size: 20px;
+}
+.setForm .cancel{
+  width: 150px;
+  height: 55px;
+  background: #cc5252;
+  text-align: center;
+  color: #FFF;
+  font-size: 28px;
+  margin: 50px 65px 20px 220px;
+  border-radius: 5%;
+  font-size: 20px;
+} 
+@media (max-width: 640px){
+  .contentBox{
+    margin: 60px 0;
+  }
+  /*设置*/
+  .setPage .setForm{
+    background-color: #f7f7f9;
+  }
+  .setPage.main_content{
+    margin-top: 0;
+    z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #f7f7f9;
+  }
+  .setPage .contentBox{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f7f7f9;
+  }
+  .setPage .pageTitle{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+  }
+  .setForm{
+    background-color: #fff;
+    padding-top: 0;
+    height: 100%;
+  }
+  .setForm form{
+    display: none;
+  }
+  .formRow .label{
+    text-align: left;
+  }
+  .headImage{
+    display: none;
+  }
+  ._public{
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    padding-left: 20px;
+    line-height: 44px;
+    border-bottom: 1px solid #e4e4e4;
+    background: url(../image/icon/right.jpg) no-repeat 98% center;
+    background-size: 30px;
+    background-color: #fff;
+    margin-bottom: 10px;
+  }
+  .personal-msg.active{
+    background: none;
+    background-color: #fff;
+  }
+  .personal-msg.active input{
+    display: none;
+  }
+  .personal-msg input{
+    text-align: right;
+    float: right;
+    margin-right: 40px;
+  }
+  .formRow {
+    margin-top: 15px;
+  }
+  .formRow .label{
+    width: 90px;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .formRow .inputtext{
+    line-height: 35px;
+    display: flex;
+  }
+  .formRow .inputtext .timebox{
+    width: 50px;
+  }
+  .formRow .inputtext .timebox input{
+    width: 100%;
+  }
+  .formRow .inputtext input.text{
+    height: 25px;
+    width: 140px;
+    line-height: 25px;
+    font-size: 14px;
+  }
+  .formRow .redTip{
+    font-size: 12px;
+    line-height: 35px;
+    font-weight: 600;
+  }
+  .huiTip{
+    font-size: 12px;
+    padding: 0 10px 0 90px;
+    word-break: break-all;
+    width: 100%;
+    font-weight: 600;
+  }
+  .setForm .log-out{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .setForm .log-out .out{
+    display: block;
+    /*transform: translateX(-50%);*/
+    height: 35px;
+    font-size: 14px;
+    width: 55%;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #cc5252;
+    margin: 50% auto 0;
+  }
+  .setForm .cancel,
+  .setForm #submit{
+    margin: 35px 0 0 12%;
+    height: 35px;
+    font-size: 14px;
+    width: 30%;
+    background-color: #cc5252;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    border-radius: 5px;
+    float: left;
+  }
+  .setForm #submit{
+    float: right;
+    margin-right: 12%;
+  }
+  .formRow .inputtext .timebox span{
+    display: none !important;
+  }
+  .formRow .inputtext{
+    line-height: 26px;
+  }
+  .formRow .inputtext .radioValue{
+    line-height: 35px;
+  }
+  .formRow .inputtext input.text:nth-child(3){
+    width: 200px;
+  }
+}
+

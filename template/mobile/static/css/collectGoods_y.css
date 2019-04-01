@@ -1,0 +1,61 @@
+body{
+	background: #f1f1f1;
+}
+
+/*收货地址*/
+.y_cg{
+	width: 100%;
+}
+
+.y_cg li{
+	border-top: 1px solid rgb(241, 241, 241);
+	background-color: #fff;
+	padding: 15px;
+	font-size: 16px;
+}
+
+.y_cg_name{
+	display: inline-block;
+	width: 80px;
+	color: #000;
+}
+
+.y_cg_input{
+	border: none;
+	font-size: 15px;
+}
+
+.y_cg_textarea{
+	width: 100%;
+}
+
+.y_cg_r{
+	float: right;
+	background: url(../image/add/you.png) 50px center no-repeat;
+	padding-right: 20px;
+}
+
+.y_cg_btn{
+	padding: 15px;
+}
+
+.y_cg_btn button{
+	width: 100%;
+	background-color: #ebc270;
+	color: #fff;
+	padding: 15px 0;
+	border: none;
+	font-size: 16px;
+}
+
+/*编辑*/
+.y_cg_btn2 button{
+	width: 48%
+}
+.y_cg_btn2 .y_cg_btn2_l{
+	background-color: #fff;
+	color: red;
+}
+.y_cg_btn2_r{
+	float: right;
+}

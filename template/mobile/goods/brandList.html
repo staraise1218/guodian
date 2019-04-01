@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>品牌列表页-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/dropload.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body style="padding-bottom: 4.5rem;">
+<!--header-s-->
+<div class="mobel-header">
+  <div class="back" onClick="javascript:history.back(-1);"> </div>
+  <div class="title">品牌</div>
+</div>
+<!--header-e-->
+<div class="main_content brand-lists">
+  <ul class="items clearfix">
+    <foreach name="list" item="v" key="k">
+      <li onclick="window.location = '/Mobile/Goods/brandInfo/name/{$v[name]}.html'">
+        <if condition="$v.logo">
+          <img src="{$v.logo}" alt="">
+          <elseif condition="$goods[$v.id]"/>
+          <img src="{$goods[$v.id]|goods_thum_images=236,236}" alt="">
+          <else/>
+          <img src="/public/images/icon_goods_thumb_empty_300.png" alt="">
+        </if>
+        <p class="title">{$v.name}</p>
+        <a href="/Mobile/Goods/brandInfo/name/{$v[name]}.html" class="more">查看更多</a>
+      </li>
+    </foreach>
+    <div style="clear: both" class = 'clearList'></div>
+  </ul>
+</div>
+<!--<nav aria-label="Page navigation" style="text-align: center;">-->
+  <!--{$page->show()}-->
+<!--</nav>-->
+<!--footer-s-->
+<include file="public/footer_menu" />
+<!--footer-e-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/type.js"></script>
+<script src="__STATIC__/js/dropload.js"></script>
+<script>
+    $(function(){
+        // 页数
+        var page = 1;
+        var arr = {};
+        if('{$Think.get.p}' != ''){
+            page = '{$Think.get.p}';
+        }
+        // dropload
+        $('.items').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                page++;
+                arr['p'] = page;
+                //console.log(arr);
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: "{:U('Goods/ajaxBrandList')}",
+                    data: arr,
+                    dataType: 'json',
+                    success: function(data){
+                        var arrLen = data['brand'].length;
+                        if(arrLen > 0){
+                            for(var k=0; k<arrLen; k++){
+                                result +=  '<li onclick="window.location = \'/Mobile/Goods/brandInfo/name/'+data['brand'][k]['name']+'.html\'">';
+                                if(data['brand'][k]['logo']){
+                                    result +=  '<img src="'+data['brand'][k]['logo']+'" alt="">';
+                                }else if(data['goods'][data['brand'][k]['id']]){
+                                    result +=  '<img src="/index.php?m=Mobile&c=Goods&a=ajax_goods_thum_images&goods_id='+data['goods'][data['brand'][k]['id']]+'&width=236&height=236" alt="">';
+                                }else{
+                                    result +=  '<img src="/public/images/icon_goods_thumb_empty_300.png" alt="">';
+                                }
+
+                                result +=  '<p class="title">'+data['brand'][k]['name']+'</p>'
+                                        +'<a href="window.location = /Mobile/Goods/brandInfo/name/'+data['brand'][k]['name']+'.html" class="more">查看更多</a></li>';
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function(){
+                            // 插入数据到页面，放到最后面
+                            $('.clearList').before(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        },500);
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            },
+            'autoLoad':false,
+        });
+    });
+    function toThousands(n) {
+        var num=parseInt(n).toString();
+        var result = [ ], counter = 0;
+        num = (num || 0).toString().split('');
+        for (var i = num.length - 1; i >= 0; i--) {
+            counter++;
+            result.unshift(num[i]);
+            if (!(counter % 3) && i != 0) { result.unshift(','); }
+        }
+        return result.join('');
+    }
+</script>
+</html>

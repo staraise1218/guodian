@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>个人信息-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/weui.min.css" rel="stylesheet" />
+  <link href="__STATIC__/css/jquery-weui.min.css" rel="stylesheet" />
+  <link href="__STATIC__/css/Mdate.css" rel="stylesheet">
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body style="background-color: rgb(241, 241, 241);">
+  <div class="mobel-header">
+    <a href="/mobile/User/index" class="back"></a>
+    <div class="title">个人信息</div>
+  </div>
+  <div class="setPage">
+    <div class="contentBox">
+      <div class="imgbox _public">
+        <a href="javascript:;">头像</a>
+        <div class="filePic">
+            <img id="preview" class="am-circle am-img-thumbnail" src="{$user.head_pic|default='__OSTATIC__/images/headPic.jpg'}" />
+            <form id="uploadForm" action="{:U('user/uploadFile')}" method="post" style="display: none;" enctype ="multipart/form-data">
+                <input type="file" name="file">
+            </form>
+	     </div>
+      </div>
+      <div class="name _public">
+        <a href="javascript:;">姓名</a>
+	       <input type="text" maxlength="10" name="realname" value="{$user['realname']}">
+	
+        <!--  <span id="name">{$user.nickname}</span>  -->
+      </div>
+      <div class="brand _public" style="position: relative;">
+        <a href="javascript:;">性别</a>
+	       <select name="sex" id="">
+          <option value="0">保密</option>
+          <option value="1" <if $user['sex'] eq 1>selected=selected</if>>男</option>
+          <option value="2" <if $user['sex'] eq 2>selected=selected</if>>女</option>
+        </select>
+
+	<!--  <if condition="$user['sex'] eq '0'"><span class="gender">保密</span></if>
+	<if condition="$user['sex'] eq '1'"><span class="gender">男</span></if>
+	<if condition="$user['sex'] eq '2'"><span class="gender">女</span></if>  -->
+
+      </div>
+      <div class="birth _public">
+        <a href="javascript:;">生日</a>
+        <input id="dateSelectorOne" name="birthday" type="text" readonly="readonly" value="{$user.birthday == '0000-00-00' ? '' : $user.birthday}">
+      </div>
+      <div class="phone _public" style="background: #fff;">
+        <a href="javascript:;">手机号码</a>
+	     <input type="text" name="mobile" value="{$user.mobile}" readonly="readonly">
+        <!--  <span>{$user['mobile']}</span>  -->
+      </div>
+      <!-- <div class="email _public">
+        <a href="javascript:;">邮箱地址</a>
+	<input type="text" maxlength="20" value="number">
+
+      </div> -->
+    </div>
+  </div>
+  <!---->
+  <include file="public/footer_menu" />
+<script src="__STATIC__/js/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="__STATIC__/js/jquery-weui.min.js"></script>
+<script src="__STATIC__/js/iScroll.js"></script>
+<script src="__STATIC__/js/Mdate.js"></script>
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/mine.js"> </script>
+<script src="__STATIC__/js/type.js"></script>
+<script src="__PUBLIC__/js/global.js"></script>
+<script src="__OSTATIC__/js/layer/layer-min.js"></script>
+<script src="__STATIC__/js/jquery.form.js"></script>
+</body>
+<script>
+  new Mdate("dateSelectorOne");
+  new Mdate("dateSelectorOne", {
+      acceptId: "dateSelectorTwo",
+      beginYear: "1988",
+      format: "-"
+  })
+  function delimg(file,t){
+        $.get(
+            "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:file},function(){}
+        );
+        $('#head_pic').val('');
+        $('#preview').attr('src','');
+        $(t).remove();
+    }
+    function add_img(str){
+        var head_pic = $('#head_pic').val();
+        $('#head_pic').val(str);
+        $('#preview').attr('src',str);
+        $('img[class="headpic"]').attr('src',str);
+
+    }
+</script>
+<script type="text/javascript">
+    $(function(){
+        var name = $('input[name=realname]').val();
+        var mobile = $('input[name=mobile]').val();
+        var email = $('input[name=email]').val();
+
+        // 修改姓名
+        $('input[name=realname]').blur(function(){
+
+            var thisObj = $(this);
+            var value = $(this).val();
+
+            if(name == value) return false;
+            layer.load(1);
+            $.ajax({
+                url: "{:U('mobile/user/changeInfo')}",
+                type: 'post',
+                dataType: 'json',
+                data: {field: 'realname', value: value},
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.status == 1){
+                        thisObj.val(value);
+                    } else {
+                        layer.msg('修改失败');
+                    }
+                }
+            })
+        });
+
+        // 修改性别
+        $('select[name=sex]').change(function(){
+            var thisObj = $(this);
+            var value = $(this).val();
+            layer.load(1);
+            $.ajax({
+                url: "{:U('mobile/user/changeInfo')}",
+                type: 'post',
+                dataType: 'json',
+                data: {field: 'sex', value: value},
+                success: function(data){
+                    layer.closeAll('loading');
+                    
+                }
+            })
+        });
+
+        // 修改生日
+      $('input[name=birthday]').blur(function() {  
+        var thisObj = $(this);
+        // layer.load(1);
+        setTimeout(function(){
+          
+            var value = thisObj.val();
+            // layer.msg(value);return;
+            
+            $.ajax({
+                url: "{:U('mobile/user/changeInfo')}",
+                type: 'post',
+                dataType: 'json',
+                data: {field: 'birthday', value: value},
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.status == 1){
+                        thisObj.val(value);
+                    } else {
+                        layer.msg('修改失败');
+                    }
+                }
+            })
+        })
+          
+      });
+
+      // 头像上传
+      $('#preview').click(function(){
+          $('input[name=file]').click();
+      })
+
+      $('input[name=file]').change(function(){
+
+          layer.load(1);
+          $('#uploadForm').ajaxSubmit({
+              dataType: 'json',
+              success:function(data){
+                  layer.closeAll();
+                  if(data.status==1){
+                      $('#preview').attr('src', data.fullPath);
+                  } else {
+                      layer.msg(data.msg);
+                  }
+
+              },
+              error:function(){
+                  layer.closeAll();
+                  layer.msg('服务器错误');
+              }
+          })
+      })
+
+      // 修改手机号
+        /*$('input[name=mobile]').blur(function(){
+            var thisObj = $(this);
+            var value = $(this).val();
+
+            if(mobile == value) return false;
+            // 检测手机号格式
+            if(!isPhone(value)){
+              layer.msg('手机号格式错误'+value);
+              return false;
+            }
+
+            layer.load(1);
+            $.ajax({
+                url: "{:U('mobile/user/changeInfo')}",
+                type: 'post',
+                dataType: 'json',
+                data: {field: 'mobile', value: value},
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.status == 1){
+                        thisObj.val(value);
+                    } else {
+                        layer.msg('修改失败');
+                    }
+                }
+            })
+        });*/
+
+        // 修改邮箱
+        $('input[name=mobile]').blur(function(){
+            var thisObj = $(this);
+            var value = $(this).val();
+
+            if(mobile == value) return false;
+            // 检测手机号格式
+            if(!isPhone(value)){
+              layer.msg('手机号格式错误'+value);
+              return false;
+            }
+
+            layer.load(1);
+            $.ajax({
+                url: "{:U('mobile/user/changeInfo')}",
+                type: 'post',
+                dataType: 'json',
+                data: {field: 'mobile', value: value},
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.status == 1){
+                        thisObj.val(value);
+                    } else {
+                        layer.msg('修改失败');
+                    }
+                }
+            })
+        });
+
+    })
+
+
+    function isPhone(phone){
+      var reg_mobile = /^1\d{10}$/;
+      return reg_mobile.test(phone);
+    }
+
+</script>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$goods.goods_name}-{$tpshop_config['shop_info_store_title']}</title>
+    <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="__STATIC__/css/form.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="__STATIC__/css/flexslider.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="__STATIC__/css/common.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="__STATIC__/css/detail.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="__STATIC__/css/details_y.css" type="text/css" media="screen" />
+
+	<link href="http://cdn.bootcss.com/photoswipe/4.1.0/photoswipe.css" rel="stylesheet">
+	<link href="http://cdn.bootcss.com/photoswipe/4.1.0/default-skin/default-skin.css" rel="stylesheet">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script src="__STATIC__/js/simpleCart.min.js"> </script>
+
+    <script src="__PUBLIC__/js/pc_common.js"></script>
+    <!--<script type="text/javascript" src="__STATIC__/js/memenu.js"></script>-->
+    <!--<script>$(document).ready(function(){$(".memenu").memenu();});</script>	-->
+
+</head>
+<body style="background-color: rgb(246, 246, 248);">
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+<div class="product detailsPage">
+<form id="buy_goods_form" name="buy_goods_form" method="post" action="{:U('Home/Cart/cart2',['action'=>'buy_now'])}">
+    <input type="hidden" name="goods_id" value="{$goods.goods_id}"><!-- 商品id -->
+    <input type="hidden" name="goods_prom_type" value="{$goods.prom_type}"/><!-- 活动类型 -->
+    <input type="hidden" name="shop_price" value="{$goods.shop_price}"/><!-- 活动价格 -->
+    <input type="hidden" name="store_count" value="{$goods.store_count}"/><!-- 活动库存 -->
+    <input type="hidden" name="market_price" value="{$goods.market_price}"/><!-- 商品原价 -->
+    <input type="hidden" name="start_time" value="{$goods.start_time}"/><!-- 活动开始时间 -->
+    <input type="hidden" name="end_time" value="{$goods.end_time}"/><!-- 活动结束时间 -->
+    <input type="hidden" name="activity_title" value="{$goods.activity_title}"/><!-- 活动标题 -->
+    <input type="hidden" name="prom_detail" value="{$goods.prom_detail}"/><!-- 促销活动的促销类型 -->
+    <input type="hidden" name="activity_is_on" value=""/><!-- 活动是否正在进行中 -->
+    <input type="hidden" name="item_id" value="{$Request.param.item_id}"/><!-- 商品规格id -->
+    <input type="hidden" name="exchange_integral" value="{$goods.exchange_integral}"/><!-- 积分 -->
+    <input type="hidden" name="point_rate" value="{$point_rate}"/><!-- 积分兑换比 -->
+    <input type="hidden" name="is_virtual" value="{$goods.is_virtual}"/><!-- 是否是虚拟商品 -->
+
+    <input class="buyNum" id="number" type="hidden" name="goods_num" value="1" onblur="altergoodsnum(0)" max=""/>
+</form>
+    <ol class="breadcrumb">
+        <foreach name="navigate_goods" key="k" item="v">
+            <li><a href="{:U('/Home/Goods/goodsList',array('id'=>$k))}">{$v}</a></li>
+        </foreach>
+        <li>{$goods.goods_name}</li>
+    </ol>
+    <div class="product-price1 product-img">
+        <div class="prdt-info-grid phone-info">
+            <p class="shoucang"></p >
+            <p class="share"></p >
+        </div>
+        <div class="top-sing">
+            <div class="col-md-7 single-top">
+			<div class="flexslider">
+              <div class="my-gallery containerWhw">
+            <if condition="$goods['reserved']==1"><div class='is_reserved'></div>
+                <elseif condition="$goods['store_count']<=0"/>
+                    <div class='img_shadow'></div>
+                <elseif condition="$goods['temai'] eq 1"/>
+                    <div class="temai_icon"></div>
+            </if>
+				<foreach name="goods_images_list" item="v" key="k" >
+                <figure>
+                  <a href="{$v|get_sub_images=$v[goods_id],800,800}" data-size="800x1142">
+                      <img src="{$v|get_sub_images=$v[goods_id],800,800}" alt="" xq_big="true" setting='{"pwidth":400,"pheight":400,"margin_top":0,"margin_left":50}' class="big-img">
+                  </a>
+                </figure>
+				</foreach>
+              </div>
+              <ul class="small-img">
+                <foreach name="goods_images_list" item="v" key="k" >
+                    <li class="items" data-img='{$v|get_sub_images=$v[goods_id],800,800}'><img src="{$v|get_sub_images=$v[goods_id],70,70}" alt="{$k+1}"></li>
+                </foreach>
+              </ul>
+            </div>  
+
+
+
+    <!--以下内容不要管-->
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="pswp__bg"></div>
+            <div class="pswp__scroll-wrap">
+                <div class="pswp__container">
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                </div>
+                <div class="pswp__ui pswp__ui--hidden">
+                    <div class="pswp__top-bar">
+                        <div class="pswp__counter"></div>
+                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                        <div class="pswp__preloader">
+                            <div class="pswp__preloader__icn">
+                                <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div>
+                    </div>
+                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                    <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            <div class="col-md-5 single-top-in simpleCart_shelfItem">
+                <div class="single-para ">
+                    <h4>{$goods.goods_name}</h4>
+                    <ul class="details">
+                        <foreach name="goods_attr_list" item="v" key="k">
+			<if condition="$k<6">
+			<li><span style="display:inline-block;width:80px;color: #333">{$v[attr_name]}：</span><span>{$v[attr_value]}</span></li>
+			</if>
+		      </foreach>
+                    </ul>
+		<h5>官方公价:<span class="color">￥<?php echo $goods['market_price'] == '0.00'?'暂无': number_format($goods['market_price']); ?></span></h5>
+                  <h5>销售价:<span class="color"><span class="price"><?php echo $goods['shop_price'] == '0.00'?'请联系客服': '￥'.number_format($goods['shop_price']); ?></span></span></h5>
+                    <!-- 规格 start-->
+                    <style>
+                        .filter_spec li a{
+                            border: 1px solid;
+                            padding: 6px 10px;
+                            margin:0px 5px 5px 0px ;
+                            display: inline-block;
+                            cursor:pointer;
+                        }
+                        .filter_spec li a[class=red]{
+                            border-color: red;
+                            color: red;
+                        }
+                    </style>
+                    <foreach name="filter_spec" item="v" key="k">
+                        <ul class="filter_spec">
+                            <li><span style="display:inline-block;width:80px;">{$k}</span>
+                                <foreach name="v" item="v2" key="k2" >
+                                    <input type="radio" hidden id="goods_spec_{$v2[item_id]}" name="goods_spec[{$k}]" value="{$v2[item_id]}" <if condition="$k2 eq 0">checked="checked"</if>/>
+                                    <a id="goods_spec_a_{$v2[item_id]}" onclick="select_filter(this);" <if condition="$k2 eq 0">class="red"</if>>{$v2[item]}</a>
+                                </foreach>
+                            </li>
+                        </ul>
+                    </foreach>
+                    <!-- 规格 end -->
+                    <!--<ul class="details">-->
+                    <!--<li>-->
+                    <!--<p class="title">100%正品保证 假一赔</p>-->
+                    <!--<p class="disceiption">国典经营的商品均为正品，从不销售假货、仿制品，欢迎您到任何鉴 定机构检测，如确定我们假货、仿制品，欢迎您到任何鉴 定机构检测，如确定我们假货、仿制品，欢迎您到任何鉴 定机构检测，如确定我们销售的商品非正。</p>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<p class="title">国典承若 正品无忧</p>-->
+                    <!--<p class="disceiption">全国权威奢侈品鉴定机构，对发送至您手中的每一件商品进行专业的 鉴定。极致鉴定，仔细甄选。</p>-->
+                    <!--</li>-->
+                    <!--</ul>			-->
+                    <!--<div class="check">-->
+                    <!--<p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Enter pin code for delivery &amp; availability</p>-->
+                    <!--<form class="navbar-form">-->
+                    <!--<div class="form-group">-->
+                    <!--<input type="text" class="form-control" placeholder="Enter Pin code">-->
+                    <!--</div>-->
+                    <!--<button type="submit" class="btn btn-default">Verify</button>-->
+                    <!--</form>-->
+                    <!--</div>-->
+                </div>
+                <div class="prdt-info-grid">
+                    <!--<span>正品保障</span><span>七天退换</span><span>权威质检</span>-->
+                    <div class="share">
+                        <span>分享</span>
+                        <div class="bdsharebuttonbox" style="display: none;">
+                            <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                            <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                            <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                        </div>
+                    </div>
+                    <div id="collectLink" style="cursor:pointer;">收藏商品</div>
+                    <div class="clear"></div>
+                    <input type="hidden" name="store_count" value="{$goods.store_count}"/><!-- 活动库存 -->
+                </div>
+                <script type="text/javascript">
+                    $(function(){
+                        $('.share').hover(function(){
+                            $('.bdsharebuttonbox').show();
+                        }, function(){
+                            $('.bdsharebuttonbox').hide();
+                        })
+                    })
+                </script>
+                <div class="ydetails_btn">
+                    <?php if($goods['shop_price'] > 0){ ?>
+                    <button class="ydetails_btn1" onclick="buy_now();">立即抢购</button>
+                    <button class="ydetails_btn2" onclick="AjaxAddCart({$goods.goods_id},1);"><img src="__STATIC__images/che.png">加入购物车</button>
+                    <?php } ?>
+               </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="product-price1 product-detail">
+        <div class="top-sing">
+            <div class="description ">
+                <p class="title"><span class="left">商品参数</span> <span class="right">D E S C R I P T I O N</span></p>
+                <ul>
+                    <foreach name="goods_attr_list" item="v" key="k">
+                        <li style="overflow:hidden">{$v[attr_name]}：{$v[attr_value]}</li>
+                    </foreach>
+                </ul>
+            </div>
+            <div class="details">
+                <p class="title"><span class="left">商品详情</span> <span class="right">D E T A I L S</span></p>
+                <div class="img-box">
+                    {$goods.goods_content|htmlspecialchars_decode}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer-s-->
+<include file="public/footer"/>
+<!--footer-e-->
+
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/js/memenu.js"></script>
+<script defer src="__STATIC__/js/jquery.flexslider.js"></script>
+<script src="__STATIC__/js/imagezoom.js"> </script>
+<script src="__STATIC__/js/common.js"> </script>
+<script src="http://cdn.bootcss.com/photoswipe/4.1.0/photoswipe.js"></script>
+<script src="http://cdn.bootcss.com/photoswipe/4.1.0/photoswipe-ui-default.js"></script>
+<script src="__STATIC__/js/photoswiper11.js"> </script>
+
+<script type="text/javascript">
+
+    var spec_goods_price = {$spec_goods_price|default='null'}; //规格库存价格
+console.log(spec_goods_price);
+    $(document).ready(function () {
+        $('.flexslider').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails"
+        });
+
+        initSpec();
+        initGoodsPrice();
+    });
+
+    //有规格id的时候，解析规格id选中规格
+    function initSpec(){
+        var item_id = $("input[name='item_id']").val();
+        $.each(spec_goods_price,function(i, o){
+            if(o.item_id == item_id){
+                var spec_key_arr = o.key.split("_");
+                $.each(spec_key_arr,function(index,item){
+                    var spec_radio = $("#goods_spec_"+item);
+                    var goods_spec_a = $("#goods_spec_a_"+item);
+                    spec_radio.attr("checked","checked");
+                    goods_spec_a.addClass('red');
+                })
+            }
+        })
+        if(item_id > 0 && !$.isEmptyObject(spec_goods_price)){
+            var item_arr = [];
+            $.each(spec_goods_price,function(i, o){
+                item_arr.push(o.item_id);
+            })
+            //规格id不存在商品里
+            if($.inArray(parseInt(item_id), item_arr) < 0){
+                initFirstSpec();
+            }else{
+                $.each(spec_goods_price,function(i, o){
+                    if(o.item_id == item_id){
+                        var spec_key_arr = o.key.split("_");
+                        $.each(spec_key_arr,function(index,item){
+                            var spec_radio = $("#goods_spec_"+item);
+                            var goods_spec_a = $("#goods_spec_a_"+item);
+                            spec_radio.attr("checked","checked");
+                            goods_spec_a.addClass('red');
+                        })
+                    }
+                })
+            }
+        }else{
+            initFirstSpec();
+        }
+    }
+
+    //默认让每种规格第一个选中
+    function initFirstSpec(){
+        // $('.spec_goods_price_div').each(function (i, o) {
+        //     var firstSpecRadio = $(this).find("input[type='radio']").eq(0);
+        //     firstSpecRadio.attr('checked','checked').prop('checked','checked');
+        //     firstSpecRadio.parent().find('a').eq(0).addClass('red');
+        // })
+    }
+
+    /**
+     * 切换规格
+     */
+    function select_filter(obj)
+    {
+        $(obj).addClass('red').siblings('a').removeClass('red');
+        $(obj).siblings('input').removeAttr('checked');
+        $(obj).prev('input').attr('checked','checked').prop('checked','checked');
+        // 更新商品价格
+        initGoodsPrice();
+    }
+
+    /**
+     * 立即购买
+     */
+    function buy_now(){
+
+        if(getCookie('user_id') == null){
+            layer.msg('请先登录！');
+            return false;
+        }
+
+        var store_count = $("input[name='store_count']").attr('value');// 商品原始库存
+        var buyNum = 1; //parseInt($("input[name='goods_num']").val());
+        if (buyNum <= store_count) {
+            $('#buy_goods_form').submit();
+        } else {
+            layer.msg('购买数量超过此商品购买上限', {icon: 3});
+        }
+    }
+
+    /***收藏商品**/
+    $('#collectLink').click(function(){
+        if(getCookie('user_id') == null){
+            layer.msg('请先登录！');
+        }else{
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{goods_id:$('input[name="goods_id"]').val()},
+                url:"{:U('Home/Goods/collect_goods')}",
+                success:function(res){
+                    if(res.status == 1){
+                        layer.msg('成功添加至收藏夹', {icon: 1});
+                    }else{
+                        layer.msg(res.msg, {icon: 3});
+                    }
+                }
+            });
+        }
+    });
+
+        /***用作 sort 排序用*/
+    function sortNumber(a,b)
+    {
+        return a - b;
+    }
+    //初始化商品价格库存
+    function initGoodsPrice() {
+        var goods_id = $('input[name="goods_id"]').val();
+        //var goods_num = parseInt($('#number').val());
+        if (!$.isEmptyObject(spec_goods_price)) {
+            var goods_spec_arr = [];
+            $("input[name^='goods_spec']").each(function () {
+                if($(this).attr('checked') == 'checked'){
+                    goods_spec_arr.push($(this).val());
+                }
+            });
+            var spec_key = goods_spec_arr.sort(sortNumber).join('_');  //排序后组合成 key
+            var item_id = spec_goods_price[spec_key]['item_id'];
+            $('input[name=item_id]').val(item_id);
+            $price = spec_goods_price[spec_key]['price'] == '0.00'?'暂无':spec_goods_price[spec_key]['price'];
+            $('.price').text('￥'+$price);
+        }
+    }
+</script>
+
+<!-- <script>
+    $(function () {
+        $(".rslides").responsiveSlides({
+            // auto: true,
+            nav: true,
+            speed: 500,
+            namespace: "callbacks",
+            pager: false,
+        });
+    });
+</script> -->
+<!-- 百度分享 -->
+<script type="text/javascript" src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)></script>
+
+<style type="text/css">
+    .layui-layer-title {background: #4a4a4a; color: #fff;}
+    .layui-layer-rim {border: none}
+    .layui-layer-close {background: url(/public/static/images/icon/close.png) no-repeat}
+    .layui-layer-setwin a { width: 24px; height: 24px; }
+    .layui-layer-setwin .layui-layer-close1 {background-position: 0;}
+    .layui-layer-setwin {top: 8px; right: 8px;}
+    
+    .colect-icon { left: 95px;}
+    /*.conect-title .con {padding-left: }*/
+    a.gopay {float: left;  width: 140px; height: 35px; line-height: 35px;  font-size: 14px;}
+
+</style>
+</body>
+</html>

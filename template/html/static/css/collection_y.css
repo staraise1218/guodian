@@ -1,0 +1,113 @@
+.contact_left{
+	height: 100%!important;
+}
+
+/*收货地址*/
+.y_address{
+	background-color: #fff;
+	padding: 20px 30px 50px 30px
+}
+
+.y_address_title{
+	font-size: 16px;
+	padding: 10px 20px;
+	border-bottom: 1px dashed rgb(196, 196, 196)
+}
+
+.y_address_table{
+	width: 100%;
+}
+
+.y_address_table td,.y_address_table th{
+	text-align: center;
+	padding: 15px 20px;
+	border-bottom: 1px dashed rgb(196, 196, 196);
+	font-weight: normal;
+}
+
+.y_address_btn{
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+
+.y_address_notes{
+	padding: 20px 30px;
+	border-bottom: 1px solid rgb(196, 196, 196);
+	color:rgb(174,83,75);
+}
+
+.y_red{
+	color: rgb(174,83,75);
+}
+
+.y_grey{
+	color: #ccc;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.y_address_b{
+	padding: 0 50px!important;
+	margin-bottom: 0px!important;
+}
+
+.y_tab{
+	background-color: #fff;
+	margin-bottom: 10px;
+	justify-content: space-between;
+	padding: 0 25px
+}
+
+.y_tab li{
+	padding: 10px 0;
+}
+
+.y_tab_act{
+	border-bottom: 3px solid rgb(232,190,104)
+}
+
+.y_item{
+	align-items: center;
+}
+
+.y_item_none{
+	background-color: #fff;
+	text-align: center;
+	padding: 30px;
+}
+
+.y_item_top{
+	width: 100%;
+    display: inherit;
+    margin: 0 10px;
+}
+
+.y_item_top1{
+    border-bottom: 1px dashed rgb(196, 196, 196);
+    padding-bottom: 10px;
+}
+
+.y_num{
+	width: 8%!important;
+}
+
+.y_btn{
+	width: 10%!important;
+}
+
+.y_item_bottom{
+	padding: 15px 20px 5px 20px;
+}
+
+.y_bot_title{
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
+.y_bot_item{
+	margin-bottom: 10px;
+	display: inline-block;
+	min-width: 32%;
+	color: #999;
+}

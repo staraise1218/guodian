@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>个人中心-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+
+<style>
+
+</style>
+
+
+<body style="background-color: rgb(241, 241, 241);">
+  <div class="mobel-header">
+    <a href="/mobile/Index/index.html" class="back"></a>
+    <div class="title">我的</div>
+  </div>
+  <div class="setPage">
+    <div class="contentBox">
+
+	<div class="massage _public">
+            <div class="file-box">
+		          <img src="{$user.head_pic}" alt="">
+            </div>
+            <p class="name">{$user.nickname}</p>
+      	</div>
+      <div class="personal _public" onclick="window.location.href='{:U('Mobile/Order/order_list')}'">
+        <a href="{:U('Mobile/Order/order_list')}">我的订单</a>
+      </div>
+      <div class="personal _public" onclick="window.location.href='{:U('User/info')}'">
+        <a href="{:U('User/info')}">个人信息</a>
+      </div>
+      <div class="collection _public" onclick="window.location.href='{:U('User/goods_collect')}'">
+        <a href="{:U('User/goods_collect')}">我的收藏</a>
+	<span>{$collectNum}</span>
+      </div>
+<!--      <div class="news _public">
+        <a href="javascript:;">消息通知</a>
+      </div>-->
+      <div class="kf _public" onclick="window.location.href='tel:010-80456828'">
+        <a href="tel:010-80456828">联系客服</a>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <div class="mobel-footer">
+    <ul>
+      <li class="_home"><a href="{:U('Index/index')}">首页</a></li>
+      <li class="_brand"><a href="{:U('Goods/brandList')}">品牌</a></li>
+      <li class="_mine active"><a href="{:U('User/index')}">我的</a></li>
+    </ul>
+  </div>
+<script src="__STATIC__/js/layer/layer-min.js"></script>
+<!--<script src="https://qiyukf.com/script/3902f018d3946a42a6b5e0a92c3e54ab.js"></script>-->
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__OSTATIC__js/cookie.js"> </script>
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/global.js"></script>
+<script src="__STATIC__/js/mine.js"> </script>
+<script>
+    /*******用户登录变化class****/
+    window.onload = function(){
+        function user_login_or_no()
+        {
+            var uname = getCookie('uname');
+            var head_pic = getCookie('head_pic');
+                $('#head_pic').attr('src',head_pic);
+                $('.name').html(decodeURIComponent(uname).substring(0,15));
+        }
+        user_login_or_no();
+    }
+</script>
+</body>
+</html>

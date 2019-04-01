@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>找回密码-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__OSTATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+  <link href="__OSTATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="main_artical">
+    <div class="container">
+      <div class="setpasd">
+        <p class="title">忘记密码-修改密码</p>
+        <form action="" method="post" id="pwdform">
+          <div class="content">
+            <div class="phone">
+            <label for="">新密码</label>
+              <p><input type="password" name="password" id="new_password" placeholder="密码" name="username" id="username" value=""></p>
+            </div>
+            <div class="phone">
+              <label for="">确认密码</label>
+              <p>
+                <input type="password" name="password2" id="confirm_password" placeholder="再次输入">
+              </p>
+            </div>
+            <div class="button">
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="checkSubmit()">修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--footer-s-->
+  <include file="public/footer"/>
+  <!--footer-e-->
+</body>
+<script src="__OSTATIC__/js/bootstrap.js"></script>
+<script src="__OSTATIC__/js/responsiveslides.min.js"></script>
+<script src="__OSTATIC__/js/simpleCart.min.js"> </script>
+<script type="text/javascript">
+    function checkSubmit(){
+        var new_password = $('#new_password').val();
+        var confirm_password = $('#confirm_password').val();
+        if(new_password == ''){
+            layer.alert('新密码不能为空', {icon: 2});
+            return false;
+        }
+        if(new_password.length<6 || new_password.length>18){
+            layer.alert('密码长度不符合规范', {icon: 2});
+            return false;
+        }
+        if(new_password != confirm_password){
+            layer.alert('两次密码不一致', {icon: 2});
+            return false;
+        }
+        $.ajax({
+            url:'/index.php?m=Home&c=User&a=set_pwd&t='+Math.random(),
+            type:'post',
+            dataType:'json',
+            data:{password:new_password,password2:confirm_password},
+            success:function(res){
+                if(res.status==1){
+                    layer.alert('修改成功', {icon: 1});
+                    location.href="{:U('Home/user/login')}";
+                }else{
+                    layer.alert(res.msg, {icon: 2});
+                    if(res.url){
+                        location.href=res.url;
+                    }
+                }
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购买须知</title>
+	<link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<div class="mobel-header" style="border-bottom:1px solid rgb(241, 241, 241) ">
+	<div class="back" onClick="javascript:history.back(-1);"> </div>
+	<div class="title">购买须知</div>
+</div>
+<!--header-e-->
+<div class="main_content contactPage">
+	<div class="contact">
+		<div class="product_content" style="font-size: 1.1em">
+				{$article.content|htmlspecialchars_decode}
+		</div>
+	</div>
+</div>
+
+<!--footer-s-->
+<include file="public/footer_menu" />
+<!--footer-e-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/type.js"></script>
+</html>

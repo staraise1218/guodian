@@ -1,0 +1,37 @@
+body{
+	background: #f1f1f1;
+}
+
+.y_am li{
+	background-color: #fff;
+	border-top:1px solid rgb(241, 241, 241);
+	margin-bottom: 10px;
+}
+
+.y_am_t{
+	padding: 10px 20px;
+	font-size: 16px;
+	color: #000;
+}
+
+.y_am_r{
+	float: right;
+}
+
+.y_am_r button{
+	border: none;
+	background-color: #fff;
+	outline: none;
+}
+
+.y_am_btn button{
+	width: 100%;
+	background-color: #ebc270;
+	color: #fff;
+	padding: 15px 0;
+	border: none;
+	font-size: 16px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}

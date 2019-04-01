@@ -1,0 +1,65 @@
+.mobel-header .yright{
+	background: url(../image/add/share.png) no-repeat center;
+	left: 90%;
+	background-size: 90%;
+}
+
+.yshop{
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #fdfdfd;
+	border-top: 1px solid #f1f1f1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.yshop_ul{
+	display: flex;
+	align-items: flex-end;
+	width: 37%;
+}
+
+.yshop_ul li{
+	text-align: center;
+	width: 50px;
+}
+
+.yshop_ul li img{
+	width: 26px;
+	height: auto;
+}
+
+.yshop_ul li p{
+	margin-top: 2px;
+	font-size: 12px;
+}
+
+.yshop_btn{
+	width: 30%;
+	height: 40px;
+	border: none;
+	outline: none;
+	color: #fdfdfd;
+}
+
+.yshop_dai{
+	background-color: #4a4a4a;
+}
+.yshop_buy{
+	background-color: #dfb15b;
+}
+
+.yshow{
+	display: inline-block;
+}
+.yhide{
+	display: none;
+}
+
+.cartNum {position: absolute; right: -4px; font-family: "宋体"; top: -4px; display: block; width: 16px; height: 16px; font-size: 10px; line-height: 16px; text-align: center; border-radius: 50%; background: #dfb15b; color: #FFF;}

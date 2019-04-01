@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>搜索页-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/dropload.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<div class="mobel-header" style="border-bottom: 1px solid #dbdbdb;">
+  <a href="{:U('Index/index')}" class="back"></a>
+  <div class="title">搜索</div>
+</div>
+<style>
+  .tab-content .title{
+    font-size: 14px;
+    padding: 20px 0 0;
+    color: #000;
+  }
+  .tab-content .total{
+    font-size: 12px;
+  }
+</style>
+<!--header-e-->
+<div class="main_content brand-lists listsPage clearfix">
+  <div class="tab-content classify">
+    <div style="text-align: center">
+      <p class="title">搜索结果</p>
+      <p class="total">共有<span>{$page->totalRows}</span>款产品</p>
+    </div>
+    <ul class="items selected">
+      <foreach name="goods_list" item="v" key="k">
+        <li><a href="{:U('Goods/goodsInfo',array('id'=>$v[goods_id]))}">
+<if condition="$v['reserved']==1"><div class='is_reserved'></div>
+<elseif condition="$v['store_count']<=0"/><div class='img_shadow'></div></if>
+            <img src="{$v.goods_id|goods_thum_images=236,236}" alt="">
+            <p class="details" style="height:40px;overflow: hidden;">{$v[goods_name]}</p>
+	    <p class="price">销售价：¥<?php echo $v['shop_price'] == '0.00'?'暂无': number_format($v['shop_price']); ?></p>
+            <p class="details">官方公价：¥<?php echo $v['market_price'] == '0.00'?'暂无': number_format($v['market_price']); ?></p>
+          </a>
+        </li>
+      </foreach>
+      <div style="clear: both" class = 'clearList'></div>
+    </ul>
+  </div>
+</div>
+<!--<nav aria-label="Page navigation" style="text-align: center;">-->
+  <!--{$page->show()}-->
+<!--</nav>-->
+<!--footer-s-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/type.js"></script>
+<script src="__STATIC__/js/dropload.js"></script>
+<script>
+    $(function(){
+        // 页数
+        var page = 1;
+        var arr = {};
+        if('{$Think.get.q}' != '') arr['q'] = '{$Think.get.q}';
+        if('{$Think.get.p}' != ''){
+            page = '{$Think.get.p}';
+        }
+        // dropload
+        $('.items').dropload({
+            scrollArea : window,
+            loadDownFn : function(me){
+                page++;
+                arr['p'] = page;
+                //console.log(arr);
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: "{:U('Goods/ajaxSearch')}",
+                    data: arr,
+                    dataType: 'json',
+                    success: function(data){
+                        var arrLen = data.length;
+                        if(arrLen > 0){
+                            for(var k=0; k<arrLen; k++){
+                                result +=   '<li><a href="/mobile/Goods/goodsInfo/id/'+data[k]['goods_id']+'.html">'
+                                    if(data[k]['store_count']<=0){
+                                    result +=  '<div class="img_shadow"></div>';
+                                } 
+                                    result +='<img src="/index.php?m=Mobile&c=Goods&a=ajax_goods_thum_images&goods_id='+data[k]['goods_id']+'&width=236&height=236" alt="">'
+                                    +'<p class="details" style="height:40px;overflow: hidden;">'+data[k]['goods_name']+'</p>';
+result += '<p class="price">销售价：¥';
+                                if(data[k]['shop_price'] == '0.00'){
+                                    result +=  '暂无';
+                                }else{
+                                    result +=  toThousands(data[k]['shop_price']);
+                                }                                
+result +='<p class="details">官方公价：¥ ';
+                                if(data[k]['market_price'] == '0.00'){
+                                    result +=  '暂无';
+                                }else{
+                                    result +=  toThousands(data[k]['market_price']);
+                                }
+                                result +='</p></a></li>';
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟1秒加载
+                        setTimeout(function(){
+                            // 插入数据到页面，放到最后面
+                            $('.clearList').before(result);
+                            // 每次数据插入，必须重置
+                            me.resetload();
+                        },10);
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload();
+                    }
+                });
+            },
+            'autoLoad':false,
+        });
+    });
+    function toThousands(n) {
+        var num=parseInt(n).toString();
+        var result = [ ], counter = 0;
+        num = (num || 0).toString().split('');
+        for (var i = num.length - 1; i >= 0; i--) {
+            counter++;
+            result.unshift(num[i]);
+            if (!(counter % 3) && i != 0) { result.unshift(','); }
+        }
+        return result.join('');
+    }
+</script>
+</html>

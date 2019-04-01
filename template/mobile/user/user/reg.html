@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>注册-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<div class="mobel-header">
+  <div class="title">注册</div>
+</div>
+<style>
+  .log form .txt{
+    margin:0px;
+  }
+  .log form #verify_code_img{
+    margin-top:10px;
+    width:35%;
+  }
+</style>
+<!--header-e-->
+<div class="main_content signinPage" style="padding-bottom: 3rem;">
+  <div class="log">
+    <img src="__STATIC__/image/icon/logo.png" alt="">
+    <form action="" id="reg_form">
+      <div class="tell txt">
+        <label for=""></label>
+        <input type="text" placeholder="请输入手机号" name="username" id="username" required="">
+      </div> 
+
+     <div class="psd txt">
+        <label for=""></label>
+        <input type="password" placeholder="请设置密码" autocomplete="off" maxlength="16"  id="password" name="password" value="" required="">
+      </div>
+      <div class="psd txt">
+        <label for=""></label>
+        <input type="password" placeholder="请再次输入密码" autocomplete="off" maxlength="16" id="password2" name="password2" required="">
+      </div>
+
+      <div class="tell code1 txt">
+        <label for=""></label>
+        <input type="text" placeholder="验证码" name="verify_code" id="verify_code" required="" value="">
+        <img src="/index.php/Mobile/User/verify/type/user_reg.html" id="verify_code_img" onclick="verify('verify_code_img')"/>
+      </div>
+      <if condition="$tpshop_config['sms_regis_sms_enable'] eq 1" >
+        <div class="tell code1 txt">
+          <label for=""></label>
+          <input type="text" placeholder="手机验证码" id="code" name="code" required="" style="width:50%;float:left;"/>
+          <button class="fn-fl" onclick="send_sms_reg_code()" type="button" id="count_down" style="display:inline-block;
+	width: 35%;height: 40px;
+	font-size: 1em;
+	font-weight: 400;
+	line-height:40px;
+margin-top:20px">发送</button>
+          <div class="clearfix"> </div>
+        </div>
+      </if>
+ 
+      <input type="button" value="立即注册" onClick="check_submit();">
+      <p class="protocol">
+        <input type="checkbox" checked="checked" id="myCheck">
+	<label for="myCheck"></label>
+        <a href="javascript:;">我已阅读并同意《国典用户注册协议》</a>
+      </p>
+    </form>
+    <div class="log-bottom">
+      <a href="javascript:;">已有账号？</a>
+      <a href="login.html" class="color">立即登录</a>
+    </div>
+  </div>
+</div>
+<!--footer-s-->
+<!--footer-e-->
+</body>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/type.js"></script>
+<script src="__STATIC__/js/layer/layer-min.js"></script>
+<script type="application/x-javascript"> 
+  addEventListener("load", function() { 
+    setTimeout(hideURLbar, 0); 
+  }, false); 
+  function hideURLbar(){ 
+    window.scrollTo(0,1); 
+  } 
+</script>
+<script>
+    // 普通 图形验证码
+    function verify(id){
+        $('#'+id).attr('src','/index.php?m=Mobile&c=User&a=verify&type=user_reg&r='+Math.random());
+    }
+
+    function check_submit(){
+        $.ajax({
+            type : "POST",
+            url:"{:U('User/reg')}",
+            dataType: "json",
+            data: $('#reg_form').serialize(),
+            success: function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1},function(){
+                        window.location.href = "{:U('Index/index')}";
+                    });
+                }else{
+                    layer.alert(data.msg, {icon: 2},function(index){
+                        $('.verifyImg').trigger('click');
+                        layer.close(index);
+                    });
+                }
+            }
+        });
+
+    }
+
+    // 发送手机短信
+    function send_sms_reg_code(){
+        var mobile = $('input[name="username"]').val();
+        var verify_code = $('input[name="verify_code"]').val();
+        if(!checkMobile(mobile)){
+            layer.alert('请输入正确的手机号码', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        if(verify_code == ''){
+            layer.alert('请输入图像验证码', {icon: 2});//alert('请输入图像验证码');
+            return;
+        }
+        var url = "/index.php?m=Mobile&c=Api&a=send_validate_code&scene=1&type=mobile&mobile="+mobile+"&verify_code="+verify_code;
+        $.ajax({
+            url:url,
+            dataType: "json",
+            success: function(res){
+                if(res.status == 1)
+                {
+                    $('#count_down').attr("disabled","disabled");
+                    intAs = {$tpshop_config['sms_sms_time_out']}; // 手机短信超时时间
+                    jsInnerTimeout('count_down',intAs);
+                    layer.alert(res.msg, {icon: 1});
+                }else{
+                    layer.alert(res.msg, {icon: 2});
+                    verify('verify_code_img')
+                }
+            }
+        });
+    }
+
+    // 发送邮箱
+    function send_smtp_reg_code(){
+        var email = $('input[name="username"]').val();
+        var verify_code = $('input[name="verify_code"]').val();
+        if(!checkEmail(email)){
+            layer.alert('请输入正确的邮箱', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        if(verify_code == ''){
+            layer.alert('请输入图像验证码', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        $.ajax({
+            type : "POST",
+            url:"{:U('Api/send_validate_code')}",
+            data : {type:'email',send:email,scene:1,verify_code:verify_code},// 你的formid
+            dataType: "json",
+            success: function(data){
+                if(data.status == 1){
+                    $('#count_down').attr("disabled","disabled");
+                    intAs = 60; // 发送邮箱超时时间
+                    jsInnerTimeout('count_down',intAs);
+                    layer.alert(data.msg, {icon: 1});
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                    verify('reflsh_code2')
+                }
+            }
+        });
+    }
+
+    $('#count_down').removeAttr("disabled");
+    //倒计时函数
+    function jsInnerTimeout(id,intAs)
+    {
+        var codeObj=$("#"+id);
+        //var intAs = parseInt(codeObj.attr("IntervalTime"));
+
+        intAs--;
+        if(intAs<=-1)
+        {
+            codeObj.removeAttr("disabled");
+//            codeObj.attr("IntervalTime",60);
+            codeObj.text("发送");
+            return true;
+        }
+
+        codeObj.text(intAs+'秒');
+//        codeObj.attr("IntervalTime",intAs);
+
+        setTimeout("jsInnerTimeout('"+id+"',"+intAs+")",1000);
+    };
+
+
+    function checkMobile(tel) {
+//        var reg = /(^1[3|4|5|7|8][0-9]{9}$)/;
+        var reg = /^1[0-9]{10}$/;
+        if (reg.test(tel)) {
+            return true;
+        }else{
+            return false;
+        };
+    }
+
+    function checkEmail(str){
+        var reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+</script>
+
+</html>

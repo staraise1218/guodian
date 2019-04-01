@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>文章页-{$tpshop_config['shop_info_store_title']}</title>
+	<link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/form.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+	<div class="newsPage">	 
+
+		<div class="product_content lists">
+			<div class="title">
+				<p>{$article.title}</p>
+				<p>{$article.description}</p>
+			</div>
+			<div class="product-model-sec img_box" style="font-size: 1.2em">
+				{$article.content|htmlspecialchars_decode}
+			</div>	
+		</div>
+	</div>
+<!--footer-s-->
+<include file="public/footer"/>
+<!--footer-e-->
+<div id="go-top"></div>
+</body>
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jquery.jscrollpane.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script type="application/x-javascript"> 
+	addEventListener("load", function() { 
+		setTimeout(hideURLbar, 0); 
+	}, false); 
+	function hideURLbar(){ 
+		window.scrollTo(0,1); 
+	} 
+</script>
+<script type="text/javascript" id="sourcecode">
+	$(function(){
+		$('.scroll-pane').jScrollPane();
+	});
+</script>
+<script>
+	$(function () {
+    $(".rslides").responsiveSlides({
+    	auto: true,
+    	nav: true,
+    	speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+  });
+</script>
+</html>

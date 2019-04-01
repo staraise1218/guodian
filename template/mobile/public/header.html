@@ -1,0 +1,130 @@
+<!--header-->
+<div class="header-top">
+	<div class="container">
+		<div class="top-header-main">
+			<div class="top-header-left">
+				<a href="{:U('User/login')}" class="login nologin" style="display:none;">登录</a>
+				<a href="{:U('User/reg')}" class="reg nologin" style="display:none;">｜注册</a>
+
+				<a class="red userinfo login islogin" href="javascript:;"></a>
+				<div class="popover fade bottom in">
+					<div class="arrow"></div>
+					<div class="popover-content">
+						<div class="avatar">
+							<div class="img-box"><img src="__OSTATIC__image/pics/avatar.png" alt="" id="head_pic"></div>
+							<p></p>
+						</div>
+						<ul>
+							<li class="number"><a href="{:U('User/goods_collect')}">收藏(<span class="">0</span>)</a></li>
+							<li class="settings"><a href="{:U('User/info')}">设置</a></li>
+							<li class="name"><a href="{:U('User/logout')}">注销</a> </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="top-header-left">
+				<a href="javascript:;" class="logo"><img src="__OSTATIC__image/icon/logo.jpg" alt=""></a>
+			</div>
+			<div class="top-header-left">
+				<a href="javascript:;" class="erweima"><img src="__OSTATIC__image/icon/erweima1.jpg" alt=""></a>
+				<a href="javascript:;" onclick="addFavorite(this);" class="collection"></a>
+				<a href="javascript:;" class="advisory" onclick="openSDK()">
+					<span class="number">400 886 6618</span>
+				</a>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="header-bottom container">
+		<div class="top-nav">
+			<ul class="memenu skyblue showhide">
+				<li><a href="{:U('Index/index')}">首页</a></li>
+				<foreach name="index_nav[cate]" item="v" key="k">
+					<li><a href="{:U('Goods/goodsList',array('id'=>$v[id]))}">{$v['name']}</a>
+						<if condition="!empty($index_nav['list'][$v['id']])">
+							<div class="mepanel">
+								<div class="row">
+									<div class="col1 me-one me-two">
+										<h4>品牌</h4>
+										<ul>
+											<foreach name="index_nav['list'][$v['id']]" item="v" key="k">
+												<li><a href="{:U('Goods/goodsList',array('id'=>$v['id'],'brand_id'=>$v['brand_id']))}">{$v['brand_name']}</a></li>
+											</foreach>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</if>
+					</li>
+				</foreach>
+				<li><a href="{:U('Topic/detail',array('topic_id'=>1))}">关于我们</a></li>
+			</ul>
+			<a href="javascript:;" class="logo"><img src="__OSTATIC__image/icon/logo.jpg" alt=""></a>
+			<div class="search"><input type="text" placeholder="搜索"><span class="sec" data-href="{:U('Goods/search')}"></span></div>
+		</div>
+		<div class="top-header-left phone">
+			<a href="javascript:;" onclick="addFavorite(this);" class="collection"></a>
+			<a href="javascript:;" onclick="openSDK()" class="advisory"></a>
+			<div class="clearfix"> </div>
+		</div>
+		<!---->
+		<div class="clearfix"> </div>
+		<!---->
+	</div>
+	<div class="clearfix"></div>
+</div>
+<div class="mobel-header">
+	<div class="left-lists classify">
+		<span class="more"></span>
+		<ul>
+			<li class="active home">
+				<a href="{:U('Index/index')}" class="title">首页</a>
+			</li>
+			<li class="watch">
+				<a href="{:U('Goods/goodsList',array('id'=>1))}" class="title">腕表</a>
+			</li>
+			<li class="bao">
+				<a href="{:U('Goods/goodsList',array('id'=>2))}" class="title">品牌包</a>
+			</li>
+			<li class="aboutUs">
+				<a href="{:U('Topic/detail',array('topic_id'=>1))}" class="title">关于我们</a>
+			</li>
+		</ul>
+	</div>
+	<div class="logo">
+		<img src="__OSTATIC__image/icon/logo.png" alt="">
+	</div>
+	<div class="search">
+		<a href="javascript:;" class="search" id="search"></a>
+	</div>
+	<div class="search-box active" style="display: none">
+		<input type="text" placeholder="搜索">
+		<span class="sec" data-href="{:U('Goods/search')}"></span>
+		<div class="main_shade"></div>
+	</div>
+</div>
+<script src="__OSTATIC__js/jquery.min.js"></script>
+<script src="__OSTATIC__js/cookie.js"> </script>
+<script src="__OSTATIC__js/mine.js"> </script>
+<script>
+    /*******用户登录变化class****/
+    window.onload = function(){
+        function user_login_or_no()
+        {
+            var uname = getCookie('uname');
+            var head_pic = getCookie('head_pic');
+            if (uname == null) {
+                $('.islogin').remove();
+                $('.nologin').show();
+            } else {
+                $('.nologin').remove();
+                $('.islogin').show();
+                $('#head_pic').attr('src',head_pic);
+                $('.userinfo,.popover .avatar p').html(decodeURIComponent(uname).substring(0,5));
+                $('.popover .number span').html(getCookie('collect'));
+            }
+        }
+        user_login_or_no();
+    }
+</script>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>我的收藏-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__OSTATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__OSTATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="main_content collecPage">
+    <div class="choose">
+      <div class="col-md-1 filter">操作</div>
+      <div class="col-md-9"></div>
+      <div class="col-md-2">
+        <!--<span class="edit" style="display: none;">编辑</span><span class="cancle">删除</span>-->
+        <span class="del" onclick="del_all()">取消收藏</span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="lists">
+      <ul>
+        <volist name="lists" id="list">
+        <li>
+          <input type="checkbox" checked="checked" class="check" value="{$list['collect_id']}">
+          <p class="lock-title"><a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">{$list[goods_name]}</a></p>
+          <div class="lock">
+            <p>价格 <span class="color">￥<span class="price">{$list.shop_price}</span></span></p>
+            <a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}"><img src="{$list.original_img}" alt=""></a>
+          </div>
+        </li>
+        </volist>
+      </ul>
+    </div>
+    <nav aria-label="Page navigation">
+      {$page}
+    </nav>
+  </div>
+  <!--footer-s-->
+  <include file="public/footer"/>
+  <!--footer-e-->
+</body>
+<script src="__OSTATIC__/js/bootstrap.js"></script>
+<script src="__OSTATIC__/js/responsiveslides.min.js"></script>
+<script src="__OSTATIC__/js/simpleCart.min.js"> </script>
+<script type="text/javascript" src="__OSTATIC__/js/memenu.js"></script>
+<script>
+  $(function () {
+    $(".rslides").responsiveSlides({
+      auto: true,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+  });
+  $(document).ready(function(){$(".memenu").memenu();});
+</script>
+<script type="text/javascript">
+    function del_all()
+    {
+        var del_ids ='';
+        $('.check:checked').each(function () {
+            if (del_ids == ''){
+                del_ids += this.value;
+            }else {
+                del_ids += '_'+this.value;
+            }
+
+        })
+        //询问框
+        layer.confirm('您确定要取消收藏', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{id:del_ids},
+                url:"{:U('Home/User/del_goods_collect')}",
+                success:function(res){
+                    if(res.status == 1){
+                        layer.msg('成功删除收藏', {icon: 1});
+                        window.location.href="{:U('Home/User/goods_collect')}";
+                    }else{
+                        layer.msg(res.msg, {icon: 3});
+                    }
+                }
+            });
+        });
+    }
+</script>
+</html>

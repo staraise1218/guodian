@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>地址管理</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/p-common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <link href="__STATIC__css/addManage_y.css" rel="stylesheet" type="text/css" media="all" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body> 
+  <!--header--> 
+  <div class="mobel-header">
+    <div class="yright back" onclick="history.go(-1)"></div>
+    <div class="title">地址管理</div>
+  </div>  
+  <!-- main -->
+  <ul class="y_am">
+    <volist name="lists" id="list">
+      <if condition="$Request.param.source eq 'cart2'">
+        <!-- 从购买页面过来 -->
+      <li>
+        <a href="{:U('/Mobile/Cart/cart2',array('address_id'=>$list['address_id'],'source'=>'cart2','goods_id'=>$Request.param.goods_id,'goods_num'=>$Request.param.goods_num,'item_id'=>$Request.param.item_id,'action'=>$Request.param.action))}">
+          <div class="y_am_t">
+              <span class="y_am_l">{$list[consignee]}</span>
+              <span class="y_am_r">{$list[mobile]}</span>
+          </div>
+          <div class="y_am_t" style="border-bottom: 1px solid rgb(241, 241, 241);">
+              {$region_list[$list['province']]},{$region_list[$list['city']]},{$region_list[$list['district']]},{$region_list[$list['twon']]}{$list['address']}
+          </div>
+          </a>
+          <div class="y_am_t">
+            <!-- <input type="radio" name=""> -->
+            <if condition="$list[is_default] eq 1">
+            <span> 默认地址</span>
+            <else/>
+            <span>&nbsp;</span>
+            </if>
+            <div class="y_am_r">
+                <button style="color: #4394ff"><a href="{:U('/Mobile/User/edit_address',array('id'=>$list[address_id],'source'=>$Request.param.source,'act_id'=>$Request.param.act_id,'goods_num'=>$Request.param.goods_num,'order_id'=>$Request.param.order_id,'goods_id'=>$Request.param.goods_id,'item_id'=>$Request.param.item_id, 'action'=>$Request.param.action))}">编辑</a></button>
+                <button style="color: red" type="button" class="delBtn" address_id="{$list[address_id]}">删除</button>
+            </div>
+          </div>
+      </li>
+
+      <else />
+      <li>
+          <div class="y_am_t">
+              <span class="y_am_l">{$list[consignee]}</span>
+              <span class="y_am_r">{$list[mobile]}</span>
+          </div>
+          <div class="y_am_t" style="border-bottom: 1px solid rgb(241, 241, 241);">
+              {$region_list[$list['province']]},{$region_list[$list['city']]},{$region_list[$list['district']]},{$region_list[$list['twon']]}{$list['address']}
+          </div>
+          <div class="y_am_t">
+            <!-- <input type="radio" name=""> -->
+            <if condition="$list[is_default] eq 1">
+            <span> 默认地址</span>
+            <else/>
+            <span>&nbsp;</span>
+            </if>
+            <div class="y_am_r">
+                <button style="color: #4394ff"><a href="{:U('/Mobile/User/edit_address',array('id'=>$list[address_id],'source'=>$Request.param.source,'act_id'=>$Request.param.act_id,'goods_num'=>$Request.param.goods_num,'order_id'=>$Request.param.order_id,'goods_id'=>$Request.param.goods_id,'item_id'=>$Request.param.item_id, 'action'=>$Request.param.action))}">编辑</a></button>
+                <button style="color: red" type="button" class="delBtn" address_id="{$list[address_id]}">删除</button>
+            </div>
+          </div>
+      </li>
+      </if>
+    </volist>
+  </ul>
+
+  <div class="y_am_btn">
+    <if condition="$Request.param.action eq 'buy_now'">
+    <button onclick="window.location='{:U('/Mobile/User/add_address',array('source'=>$Request.param.source,'action'=>$Request.param.action,'order_id'=>$Request.param.order_id,'goods_id'=>$Request.param.goods_id,'goods_num'=>$Request.param.goods_num,'item_id'=>$Request.param.item_id))}'">添加新地址</button>
+    <else/>
+    <button onclick="window.location='{:U('/Mobile/User/add_address',array('source'=>$Request.param.source,'act_id'=>$Request.param.act_id,'goods_num'=>$Request.param.goods_num,'order_id'=>$Request.param.order_id))}'">添加新地址</button>
+    </if>
+  </div>
+  
+
+</body>
+<script src="__STATIC__js/jquery.min.js"></script>
+<script src="__STATIC__js/simpleCart.min.js"> </script>
+<script src="__STATIC__js/type.js"></script>
+<script src="__STATIC__js/layer/layer.js"></script>
+<script type="text/javascript">
+  $(function(){
+      $('.delBtn').click(function(){
+          var thisObj = $(this);
+          var address_id = thisObj.attr('address_id');
+
+          $.ajax({
+              url: '/index.php/mobile/user/del_address/id/'+address_id,
+              type: 'get',
+              dataType: 'json',
+              success: function(data){
+                  if(data.status == 1){
+                     thisObj.parents('li').remove();
+                  }
+              }
+         })
+      })
+  })
+  function del_address(address_id){
+     
+  }
+</script>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="__STATIC__/css/style2.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+	
+
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/myaccount.css" rel="stylesheet" type="text/css" media="all" />
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+
+<style>
+
+	body{
+		background-color: rgb(246, 246, 248);
+	}
+
+</style>
+
+<body>
+<!--header-->
+<include file="public/header"/>
+<!--header-e-->
+<div class="collePage setPage main_artical">
+  <div class="contact my-box contentBox">
+    <div class="tabs">
+      <include file="public/user_left" />
+   			<div class="ri-menu fr" style="width: 960px;margin-left: 10px;">
+				<div class="menumain p">
+					<div class="goodpiece">
+						<h1>地址管理</h1>
+						<a onclick="address_edit()" href="javascript:;"><span class="co_blue">增加新地址</span></a>
+					</div>
+					<div class="grou_num_list address_list_jl ma-to-20">
+						<ul class="grou_tite">
+							<li class="sx2"><span>收货人</span></li>
+							<li class="sx1"><span>收货地址</span></li>
+							<li class="sx3"><span>联系电话</span></li>
+							<li class="sx5"><span>操作</span></li>
+						</ul>
+						<volist name="lists" id="list">
+							<ul class="add_conta">
+								<li class="sx2">
+                                    <span>{$list.consignee}</span>
+                                </li>
+								<li class="sx1"><span>{$region_list[$list['province']]}</span><span>{$region_list[$list['city']]}</span><span>{$region_list[$list['district']]}</span><span>{$region_list[$list['twon']]}{$list.address}</span></li>
+								<li class="sx3"><span>{$list.mobile}</span></li>
+								<li class="sx5">
+								    
+								<a href="javascript:address_edit({$list['address_id']})" style="color:rgb(232, 190, 104)">修改</a>&nbsp;&nbsp;
+								<a href="{:U('Home/User/del_address',array('id'=>$list['address_id']))}">删除</a>&nbsp;&nbsp;
+								<if condition="$list['is_default'] neq 1">
+                                    <span><a href="javascript:;" onclick="set_default({$list['address_id']})">设为默认</a></span>
+                                <else/>
+                                    <span style="font-size:12px;background:#e8be68;padding:2px 4px;font-weight:400; color: #FFF">默认地址</span>
+                                </if>
+                                </li>
+							</ul>
+						</volist>
+					</div>
+					<p class="gp_num2">已保存<em class="red">{$lists|count}</em>条地址，还可以保存<em class="red"><php>echo 20-count($lists);</php></em>条地址</php>
+				</div>
+	    	</div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<!--footer-s-->
+<include file="public/footer"/>
+<!---->
+
+<script type="text/javascript">
+	/**
+	 * 新增修改收货地址
+	 * id 为零 则为新增, 否则是修改
+	 *  使用 公共的 layer 弹窗插件  参考官方手册 http://layer.layui.com/
+	 */
+	function address_edit(id)
+	{
+		if(id > 0)
+			var url = "/index.php?m=Home&c=User&a=edit_address&scene=1&call_back=call_back_fun&id="+id; // 修改地址  '/index.php/Home/User/add_address/scene/1/call_back/call_back_fun/id/id' //iframe的url /index.php/Home/User/add_address
+		else
+			var url = "/index.php?m=Home&c=User&a=add_address&scene=1&call_back=call_back_fun";	// 新增地址
+		layer.open({
+			type: 2,
+			title: '添加收货地址',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['880px', '580px'],
+			content: url,
+		});
+	}
+	// 添加修改收货地址回调函数
+	function call_back_fun(v){
+		layer.closeAll(); // 关闭窗口
+		location.href = location.href;
+	}
+
+	// 设为默认
+	function set_default(id){
+		$.ajax({
+		    url: '/home/User/set_default/id/'+id,
+		    type: 'get',
+		    dataType: 'json',
+		    success:function(data){
+		        if(data.status == 1){
+		            layer.msg('设置默认成功', {icon:1, time:1500}, function(){
+		            	window.location.reload();
+		            });
+		        } else {
+		            layer.msg(data.msg);
+		        }
+		    }
+		})
+	}
+</script>
+</body>
+</html>
