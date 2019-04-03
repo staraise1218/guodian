@@ -34,15 +34,7 @@ class Auth extends Base {
         } elseif ($user['is_lock'] == 1) {
             response_error('', '账号异常已被锁定！');
         }
-        
-        // 更新活跃时间、在线状态
-        $updateData = array(
-            'active_time' => time(),
-            'is_line' => '1',
-        );
-        M('users')->where('user_id', $user['user_id'])->update($updateData);
 
-        
         $userInfo = M('users')->where('user_id', $user['user_id'])->find();
         unset($userInfo['password']);
        	response_success($userInfo);
@@ -59,6 +51,7 @@ class Auth extends Base {
     	}
     	response_success('', '未注册');
     }
+    
     // 检测手机验证码
     public function checkMobileCode(){
         $mobile = I('mobile');
