@@ -18,7 +18,7 @@ class Article extends Base {
      */
     public function articleList(){
         $count = M('article')->where("cat_id  = 8","is_open = 1")->count();
-        $page = new Page($count, 4);
+        $page = new Page($count, 1);
         $article_lists = M('article')->where("cat_id  = 8","is_open = 1")->limit($page->firstRow.','.$page->listRows)->select();
         $this->assign('page',$page);// 赋值分页输出
         $this->assign('article_lists',$article_lists);// 赋值分页输出
