@@ -103,8 +103,8 @@
 <script src="__STATIC__js/jquery.min.js"></script>
 <script src="__STATIC__js/simpleCart.min.js"> </script>
 <script src="__STATIC__js/type.js"></script>
-<!-- <script src="__STATIC__js/layer/layer.js"></script> -->
-<script type="text/javascript" src="/public/static/js/layer/mobile/layer.js"></script>
+<script src="__STATIC__js/layer/layer.js"></script>
+<!-- <script type="text/javascript" src="/public/static/js/layer/mobile/layer.js"></script> -->
 <script type="text/javascript">
   $(function () {
     $('.order_ul li').click(function () {
@@ -179,25 +179,7 @@
     }
 
     $(function(){
-      data = {"message":"ok","no":"804843736133983481","com":"yuantong","cname":"圆通速递","status":"200","state":"3","list":[{"time":"2019-03-16 10:45:11","content":"客户 签收人: 他人代签,唐城小区11号楼一单元101 已签收 感谢使用圆通速递，期待再次为您服务"},{"time":"2019-03-16 10:34:10","content":"唐城小区11号楼1单元103取妈妈驿站已发出自提短信,请上门自提,联系电话18853185354"},{"time":"2019-03-16 10:33:10","content":"快件已到达唐城小区11号楼1单元103取妈妈驿站,联系电话18853185354"},{"time":"2019-03-16 06:37:45","content":"【山东省济南市孙村公司】 派件人: 郑孔涛 派件中 派件员电话18853185354"},{"time":"2019-03-15 20:19:59","content":"【山东省济南市孙村公司】 已收入"},{"time":"2019-03-15 14:23:16","content":"【济南转运中心】 已发出 下一站 【山东省济南市孙村公司】"},{"time":"2019-03-15 14:23:04","content":"【济南转运中心】 已收入"},{"time":"2019-03-15 10:27:07","content":"【济南转运中心】 已收入"},{"time":"2019-03-14 01:12:04","content":"【深圳转运中心】 已发出 下一站 【济南转运中心】"},{"time":"2019-03-14 01:08:58","content":"【深圳转运中心】 已收入"},{"time":"2019-03-14 00:16:32","content":"【广东省深圳市坂田】 已发出 下一站 【深圳转运中心】"},{"time":"2019-03-13 22:59:27","content":"【广东省深圳市坂田公司】 已打包"},{"time":"2019-03-13 22:53:18","content":"【广东省深圳市坂田公司】 已收件"}]};
-     var html = '<div>\
-                                        <ul class="layui-timeline">';
-                        $.each(data.list, function(key, item){
-                            html += '<li class="layui-timeline-item">\
-                                        <i class="layui-icon layui-timeline-axis"></i>\
-                                        <div class="layui-timeline-content layui-text">\
-                                            '+item.time+ ' '+ item.content+'\
-                                        </div>\
-                                    </li>';
-                        })
-                        html += '</ul></div>';
-
-                        layer.open({
-                            title: data.cname
-                            ,btn: '关闭'
-                            ,content: html
-                        });
-                        return;
+      
         $('.expressinfo').click(function(){
             var invoice_no = $invoice_no = $(this).html();
             
@@ -211,8 +193,7 @@
                     layer.closeAll('loading');
 
                     if(data.status == 200){
-                        var html = '<div style="padding: 20px;font-weight: 300;">\
-                                        <ul class="layui-timeline">';
+                        var html = '<ul class="layui-timeline" style="padding:10px">';
                         $.each(data.list, function(key, item){
                             html += '<li class="layui-timeline-item">\
                                         <i class="layui-icon layui-timeline-axis"></i>\
@@ -221,11 +202,12 @@
                                         </div>\
                                     </li>';
                         })
-                        html += '</ul></div>';
+                        html += '</ul>';
 
                         layer.open({
-                            title: data.cname
-                            ,btn: '关闭'
+                            type:1
+                            ,title: data.cname
+                            ,area: ['80%', '400px']
                             ,content: html
                         });
                     } else { 
@@ -237,7 +219,7 @@
     })
 </script>
 <style type="text/css">
-    .layui-m-layercont {text-align: left; padding: 10px 10px;}
-    .layui-m-layer0 .layui-m-layerchild {width: 80%; height: 400px; overflow-y: scroll;}
+    /*.layui-m-layercont {text-align: left; padding: 10px 10px;}*/
+    /*.layui-m-layer0 .layui-m-layerchild {width: 80%; height: 400px; overflow-y: scroll;}*/
 </style>
 </html>
