@@ -23,9 +23,9 @@
         <!-- yxx -->
         <div class="tab-content third" id="tab-detail3">
           <ul class="title y_tab">
-            <li <if condition="I('type') == 'WAITPAY'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITPAY'))}">待付款</a>(<span>0</span>)</li>
-            <li <if condition="I('type') == 'WAITSEND'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITSEND'))}">待发货</a>(<span>0</span>)</li>
-            <li <if condition="I('type') == 'WAITRECEIVE'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITRECEIVE'))}">待收货</a>(<span>0</span>)</li>
+            <li <if condition="I('type') == 'WAITPAY'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITPAY'))}">待付款(<span>{$userindex.waitPay}</span>)</a></li>
+            <li <if condition="I('type') == 'WAITSEND'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITSEND'))}">待发货(<span>{$userindex.waitSend}</span>)</a></li>
+            <li <if condition="I('type') == 'WAITRECEIVE'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITRECEIVE'))}">待收货(<span>{$userindex.waitReceive}</span>)</a></li>
           </ul>
           <h3 style="margin-bottom: 10px !important">
             <ul class="title">
@@ -89,6 +89,9 @@
                         <div class="y_bot_item">运送方式：<span>{$list.buy_method == '1' ? '到店自提' : '快递送货'}</span></div>
                         <div class="y_bot_item">发货时间：<span>{$list.shipping_time ? date('Y-m-d H:i:s', $list.shipping_time) : '无'}</span></div>
                         <div class="y_bot_item">收货信息：<span>{$list.buy_method == '1' ? '无' : $list.address_detail.$list.address}</span></div>
+                        <if condition="$list.buy_method eq 2 && $list.shipping_status eq 1">
+                        <div class="y_bot_item">订单号：<span class="expressinfo" title="点击查看快递信息" style="cursor: pointer;">{$list.invoice_no}</span></div>
+                        </if>
                       </div>
                     </div>
                   </li>
@@ -105,7 +108,7 @@
   <!--footer-s-->
   <include file="public/footer" />
   <!--footer-e-->
-
+<link rel="stylesheet" type="text/css" href="/plugins/layui/css/layui.css">
 <script type="text/javascript">
     function verConfirm(order_id){
         layer.confirm('确定删除吗', function(){
@@ -168,6 +171,49 @@
             })
         })
     }
+
+    $(function(){
+     
+        $('.expressinfo').click(function(){
+            var invoice_no = $invoice_no = $(this).html();
+            
+            layer.load(2)
+            $.ajax({
+                url: "{:U('home/order/ajaxGetExpressInfo')}",
+                type: 'get',
+                dataType: 'json',
+                data: {'invoice_no':invoice_no},
+                success: function(data){
+                    layer.closeAll('loading');
+
+                    if(data.status == 200){
+                        var html = '<div style="padding: 20px;font-weight: 300;">\
+                                        <ul class="layui-timeline">';
+                        $.each(data.list, function(key, item){
+                            html += '<li class="layui-timeline-item">\
+                                        <i class="layui-icon layui-timeline-axis"></i>\
+                                        <div class="layui-timeline-content layui-text">\
+                                            '+item.time+ ' '+ item.content+'\
+                                        </div>\
+                                    </li>';
+                        })
+                        html += '</ul></div>';
+
+                        layer.open({
+                            type: 1
+                            ,title: data.cname
+                            ,closeBtn: false
+                            ,area: ['500px', '400px']
+                            ,btn: ['关闭']
+                            ,content: html
+                        });
+                    } else { 
+                       layer.msg('获取失败', {icon:2});
+                    }
+                }
+            })
+        })
+    })
 </script>
 </body>
 </html>

@@ -87,6 +87,12 @@ class Order extends Base {
             } else {
                 $order_list[$k]['address_detail'] = '';
             }
+
+            // 获取订单号
+            if($v['shipping_status'] == 1){
+                $delivery_doc = M('delivery_doc')->where('order_id='.$v['order_id'])->find();
+                $order_list[$k]['invoice_no'] = $delivery_doc['invoice_no'];
+            }
         }
         $this->assign('order_status',C('ORDER_STATUS'));
         $this->assign('shipping_status',C('SHIPPING_STATUS'));

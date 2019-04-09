@@ -5,6 +5,7 @@ use app\common\logic\MessageLogic;
 use app\common\logic\OrderLogic;
 use app\common\logic\CommentLogic;
 use app\common\logic\UsersLogic;
+use app\common\logic\ShippingLogic;
 use think\Db;
 use think\Page;
 
@@ -17,7 +18,7 @@ class Order extends Base {
         parent::_initialize();
         if(session('?user'))
         {
-        	$user = session('user');             
+        	$user = session('user');       
         	$this->user = $user;
         	$this->user_id = $user['user_id'];
         	$this->assign('user',$user); //存储用户信息
@@ -87,7 +88,16 @@ class Order extends Base {
             } else {
                 $order_list[$k]['address_detail'] = '';
             }
+
+            // 获取订单号
+            if($v['shipping_status'] == 1){
+                $delivery_doc = M('delivery_doc')->where('order_id='.$v['order_id'])->find();
+                $order_list[$k]['invoice_no'] = $delivery_doc['invoice_no'];
+            }
         }
+
+        $logic = new UsersLogic();
+        $userindex = $logic->get_info($this->user_id);
 
         $this->assign('order_status',C('ORDER_STATUS'));
         $this->assign('shipping_status',C('SHIPPING_STATUS'));
@@ -95,6 +105,7 @@ class Order extends Base {
         $this->assign('page',$show);
         $this->assign('lists',$order_list);
         $this->assign('active','order_list');
+        $this->assign('userindex', $userindex['result']);
         $this->assign('active_status',I('get.type'));
         return $this->fetch();
     }
@@ -584,5 +595,17 @@ class Order extends Base {
         //添加评论
         $row = $logic->add_comment($add);
         exit(json_encode($row));
+    }
+
+    // 获取快递运输信息
+    public function ajaxGetExpressInfo(){
+        $invoice_no = I('invoice_no');
+
+        if($invoice_no == '') ajaxReturn(['code' => 400, 'msg' => '订单号不能为空']);
+
+        $ShippingLogic = new ShippingLogic();
+        $result = $ShippingLogic->getExpressInfo($invoice_no);
+
+        echo $result;
     }
 }
