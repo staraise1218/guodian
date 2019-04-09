@@ -192,9 +192,8 @@ exit("不支持此功能");
     	$condition = array();
     	I('consignee') ? $condition['consignee'] = trim(I('consignee')) : false;
     	I('order_sn') != '' ? $condition['order_sn'] = trim(I('order_sn')) : false;
-    	$shipping_status = I('shipping_status');
-    	$condition['shipping_status'] = empty($shipping_status) ? array('neq',1) : $shipping_status;
-        $condition['order_status'] = array('in','1,2,4');
+    	$condition['shipping_status'] = 1;
+        // $condition['order_status'] = array('in','1,2,4');
     	$count = M('order')->where($condition)->count();
     	$Page  = new AjaxPage($count,10);
     	//搜索条件下 分页赋值
@@ -203,6 +202,7 @@ exit("不支持此功能");
                 $Page->parameter[$key]   =   urlencode($val);
             }
     	}
+
     	$show = $Page->show();
     	$orderList = M('order')->where($condition)->limit($Page->firstRow.','.$Page->listRows)->order('add_time DESC')->select();
     	$this->assign('orderList',$orderList);
