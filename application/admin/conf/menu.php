@@ -28,6 +28,7 @@ return	array(
 				)),
 				array('name' => '文章','child'=>array(
 						array('name' => '文章列表', 'act'=>'articleList', 'op'=>'Article'),
+						array('name' => '发现管理', 'act'=>'index', 'op'=>'Find'),
 						array('name' => '文章分类', 'act'=>'categoryList', 'op'=>'Article'),
 						//array('name' => '帮助管理', 'act'=>'help_list', 'op'=>'Article'),
 						//array('name'=>'友情链接','act'=>'linkList','op'=>'Article'),

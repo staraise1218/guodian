@@ -129,54 +129,100 @@ class Auth extends Base {
         response_success('', '密码修改成功');
     }
 
+    /**
+     * [thirdIsRegister 检测第三方登录是否已经授权]
+     * @return [type] [description]
+     */
+    /*public function thirdIsRegister(){
+        $account_id = I('account_id');
+        $type = I('type');
+        if(!in_array($type, array('weixin', 'qq', 'weibo'))) response_error('', '类型不正确');
+
+        $is_register = Db::name('oauth_users')->where(array('openid'=>$account_id, 'oauth'=>$type))->count();
+
+        response_success(array('is_register'=>$is_register));
+    }*/
+
     /*
      * 第三方登录接口
-     * account_id 微信 openid 微博 id
+     * openid 微信 openid ,微博 id ,qq: openid
      */
     public function thirdLogin(){
         $type = I('type');
-        $account_id = I('account_id');
-        $nickname = I('nickname');
-        $head_pic = I('head_pic');
+        $openid = I('openid');
 
         // 检测用户是否已注册
-        $user_third = Db::name('user_third')->where("account_id='$account_id'")->field('user_id')->find();
-        if($user_third){
-            $user_id = $user_third['user_id'];
+        $oauth_users = Db::name('oauth_users')->where("openid='$openid'")->field('user_id')->find();
+        if($oauth_users){
+            $user_id = $oauth_users['user_id'];
         } else {
+            // 
             $third_data = array(
-                'account_id' => $account_id,
-                'nickname' => $nickname,
-                'head_pic' => $head_pic,
-                'type' => $type,
+                'openid' => $openid,
+                'oauth' => $type,
             );
             // 将信息写入第三方登录表
-            $id = Db::name('user_third')->insertGetId($third_data);
+            $id = Db::name('oauth_users')->insertGetId($third_data);
 
-            // 将信息写入用户表
-            $userData = array(
-                'uuid' => $uuid,
-                'nickname' => $nickname,
-                'reg_time' => time(),
-                'last_login' => time(),
-                'token' => md5(time().mt_rand(1,999999999)),
-                'head_pic' => $head_pic,
-            );
-
-            $user_id = Db::name('users')->insertGetId($userData);
-            // 更新三方登录表记录的user_id
-            Db::name('user_third')->where('id', $id)->update(array('user_id'=>$user_id));
+            $user_id = '';
         }
 
-        $userInfo = M('users')->where('user_id', $user_id)->find();
-        unset($userInfo['password']);
+        if($user_id){
+            $userInfo = M('users')->where('user_id', $user_id)->find();
+            unset($userInfo['password']);
+        } else {
+            $userInfo['user_id'] = '';
+        }
 
         response_success($userInfo);
     }
 
     /**
+     * [bindMobile 绑定手机号]
+     * @return [type] [description]
+     */
+    public function bindMobile(){
+        $openid = input('openid');
+        $nickname = I('nickname');
+        $head_pic = I('head_pic');
+        $mobile = input('mobile');
+        $code = input('code');
+
+        // 检测手机号格式
+        if(check_mobile($mobile) == false) response_error('', '手机号码有误');
+        // 检测验证码
+        $SmsLogic = new SmsLogic();
+        if($SmsLogic->checkCode($mobile, $code, '3', $error) == false) response_error('', $error);
+
+        // 查看手机号是否注册
+        $users = Db::name('users')->where('mobile', $mobile)->field('user_id')->find();
+        if($users){
+            $user_id = $users['user_id'];
+        } else {
+            // 将信息写入用户表
+            $userData = array(
+                'mobile' => $mobile,
+                'nickname' => $nickname,
+                'head_pic' => $head_pic,
+                'reg_time' => time(),
+                'last_login' => time(),
+                'token' => md5(time().mt_rand(1,999999999)),
+            );
+
+            $user_id = Db::name('users')->insertGetId($userData);
+            
+        }
+        // 更新三方登录表记录的user_id
+        Db::name('oauth_users')->where('openid', $openid)->update(array('user_id'=>$user_id));
+
+        $userInfo = M('users')->where('user_id', $user_id)->find();
+        unset($userInfo['password']);
+        response_success($userInfo, '绑定成功');
+    }
+
+    /**
      * [sendMobleCode 发送手机验证码]
-     * @param [scene 1 注册 2 找回密码 3 支付密码验证手机号]
+     * @param [scene 1 注册 2 找回密码 3 免密登录]
      * @return [type] [description]
      */
     public function sendMobileCode(){

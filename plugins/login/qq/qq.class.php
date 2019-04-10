@@ -88,7 +88,7 @@ class qq extends Model{
 				'openid'=>$openid,// QQ openid
 				'oauth'=>'qq',
 				'nickname'=>$res['nickname'],
-                                'head_pic'=>$res['figureurl_qq_2'],
+                'head_pic'=>$res['figureurl_qq_2'],
 			);
 		}else{
 			return false;
