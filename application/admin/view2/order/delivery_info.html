@@ -92,18 +92,22 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
 		            <dt>下单时间：</dt>
 		            <dd>{$order.add_time|date='Y-m-d H:i',###}</dd>
 		            <dt>配送方式：</dt>
-		            <dd><select id="shipping_code" name="shipping_code" onchange="set_shipping_name()">
-		             	<volist name="shipping_list" id="shipping">
-		                 <option <if condition="$order[shipping_code] eq $shipping[code]">selected</if> value="{$shipping.code}" >{$shipping.name}</option>
-		             	</volist>
-		         		</select>
+		            <dd>
+                  <select id="shipping_code" name="shipping_code" onchange="set_shipping_name()">
+                      <option value="">选择快递</option>
+  		             	<foreach name="shipping_list" item="shipping">
+  		                 <option <if condition="$order[shipping_code] eq $shipping[shipping_code]">selected</if> value="{$shipping.shipping_code}" >{$shipping.shipping_name}</option>
+  		             	</foreach>
+  		         		</select>
+
          			</dd>
 		          </dl>
 	              <dl>
 	              	<dt>配送费用：</dt>
 		            <dd>{$order.shipping_price}</dd>
 		            <dt>配送单号：</dt>
-		            <dd><input class="input-txt" name="invoice_no" id="invoice_no" value="{$order.invoice_no}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"></dd>
+		            <dd><input class="input-txt" name="invoice_no" id="invoice_no" value="{$order.invoice_no}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                  <button type="button" class="expressinfo">查看物流</button></dd>
 		            <dt></dt>
 		            <dd></dd>
 			       </dl>
@@ -228,33 +232,80 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
   </div>
   
 </div>
+<link rel="stylesheet" type="text/css" href="/plugins/layui/css/layui.css">
 <script type="text/javascript">
-function dosubmit(){
-    var shipping = $('input[name="shipping"]').val();
-    if ($('#invoice_no').val() == '') {
-        layer.alert('请输入配送单号', {icon: 2});  // alert('请输入配送单号');
-        return;
+    function dosubmit(){
+        var shipping = $('input[name="shipping"]').val();
+        if ($('#invoice_no').val() == '') {
+            layer.alert('请输入配送单号', {icon: 2});  // alert('请输入配送单号');
+            return;
+        }
+        if(shipping != 1) {
+            var a = [];
+            $('input[name*=goods]').each(function (i, o) {
+                if ($(o).is(':checked')) {
+                    a.push($(o).val());
+                }
+            });
+
+    	if(a.length == 0){
+    		layer.alert('请选择发货商品', {icon: 2});  //alert('请选择发货商品');
+    		return;
+    	}
+        }
+    	$('#delivery-form').submit();
     }
-    if(shipping != 1) {
-        var a = [];
-        $('input[name*=goods]').each(function (i, o) {
-            if ($(o).is(':checked')) {
-                a.push($(o).val());
+
+    function set_shipping_name(){
+    	var shipping_name = $("#shipping_code").find("option:selected").text();
+    	$('#shipping_name').val(shipping_name);
+    }
+
+    $(function(){
+        $('.expressinfo').click(function(){
+            var invoice_no = $('input[name=invoice_no]').val();
+            if(invoice_no == ''){
+                layer.msg('运单号不能为空');
+                return false;
             }
-        });
 
-	if(a.length == 0){
-		layer.alert('请选择发货商品', {icon: 2});  //alert('请选择发货商品');
-		return;
-	}
-    }
-	$('#delivery-form').submit();
-}
+            layer.load(2)
+            $.ajax({
+                url: "{:U('api/common/ajaxGetExpressInfo')}",
+                type: 'get',
+                dataType: 'json',
+                data: {'invoice_no':invoice_no},
+                success: function(data){
+                    layer.closeAll('loading');
 
-function set_shipping_name(){
-	var shipping_name = $("#shipping_code").find("option:selected").text();
-	$('#shipping_name').val(shipping_name);
-}
+                    if(data.status == 200){
+                        var html = '<div style="padding: 20px;font-weight: 300;">\
+                                        <ul class="layui-timeline">';
+                        $.each(data.list, function(key, item){
+                            html += '<li class="layui-timeline-item">\
+                                        <i class="layui-icon layui-timeline-axis"></i>\
+                                        <div class="layui-timeline-content layui-text">\
+                                            '+item.time+ ' '+ item.content+'\
+                                        </div>\
+                                    </li>';
+                        })
+                        html += '</ul></div>';
+
+                        layer.open({
+                            type: 1
+                            ,title: data.cname
+                            ,closeBtn: false
+                            ,area: ['500px', '400px']
+                            ,btn: ['关闭']
+                            ,content: html
+                        });
+                    } else { 
+                       layer.msg('获取失败', {icon:2});
+                    }
+                }
+            })
+        })
+    })
 </script>
 </body>
 </html>

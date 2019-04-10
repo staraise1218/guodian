@@ -601,7 +601,7 @@ class Order extends Base {
     public function ajaxGetExpressInfo(){
         $invoice_no = I('invoice_no');
 
-        if($invoice_no == '') ajaxReturn(['code' => 400, 'msg' => '订单号不能为空']);
+        if($invoice_no == '') ajaxReturn(['code' => 400, 'msg' => '运单号不能为空']);
 
         $ShippingLogic = new ShippingLogic();
         $result = $ShippingLogic->getExpressInfo($invoice_no);

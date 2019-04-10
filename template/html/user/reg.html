@@ -136,7 +136,7 @@ margin-top:35px">发送</button>
                 if(res.status == 1)
                 {
                     $('#count_down').attr("disabled","disabled");
-                    intAs = {$tpshop_config['sms_sms_time_out']}; // 手机短信超时时间
+                    intAs = 30; // 手机短信超时时间
                     jsInnerTimeout('count_down',intAs);
                     layer.alert(res.msg, {icon: 1});
                 }else{

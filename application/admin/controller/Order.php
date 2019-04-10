@@ -669,10 +669,12 @@ exit("不支持此功能");
 		if($delivery_record){
 			$order['invoice_no'] = $delivery_record[count($delivery_record)-1]['invoice_no'];
 		}
+        // 物流列表
+		$shipping_list = M('shipping')->where('is_open', 1)->select();
+
 		$this->assign('order',$order);
 		$this->assign('orderGoods',$orderGoods);
 		$this->assign('delivery_record',$delivery_record);//发货记录
-		$shipping_list = M('plugin')->where(array('status'=>1,'type'=>'shipping'))->select();
 		$this->assign('shipping_list',$shipping_list);
     	return $this->fetch();
     }

@@ -34,10 +34,10 @@
              <td align="center" abbr="article_time" axis="col6" class="">
                <div style="text-align: center; width: 120px;" class="">
                	<if condition="$list[pay_time] gt 0">
-				  	{$list.pay_time|date='Y-m-d H:i',###}
-				<else/>
-					货到付款 
-				</if>
+        				  	{$list.pay_time|date='Y-m-d H:i',###}
+        				<else/>
+        					货到付款 
+        				</if>
                </div>
              </td>
              <td align="center" abbr="article_time" axis="col6" class="">
@@ -46,8 +46,8 @@
              <td align="center" axis="col1" class="handle">
                <div style="text-align: center; width: 150px;">
                	<if condition="$list['shipping_status'] neq 1">
-					<a class="btn green" href="{:U('Admin/order/delivery_info',array('order_id'=>$list['order_id']))}" data-toggle="tooltip" title="处理发货"><i class="fa fa-send-o"></i>去发货</a>
-				<else/>
+        					<a class="btn green" href="{:U('Admin/order/delivery_info',array('order_id'=>$list['order_id']))}" data-toggle="tooltip" title="处理发货"><i class="fa fa-send-o"></i>去发货</a>
+        				<else/>
               		<a class="btn green" href="{:U('Admin/order/delivery_info',array('order_id'=>$list['order_id']))}" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="查看详情"><i class="fa fa-list-alt"></i>详情</a>
               		<!-- <a class="btn green" href="{:U('Order/shipping_print',array('order_id'=>$list['order_id']))}" data-toggle="tooltip" class="btn btn-default" title="打印快递单"><i class="fa fa-print"></i>快递单</a> -->
                 </if> 

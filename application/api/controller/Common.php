@@ -5,6 +5,7 @@ namespace app\api\controller;
 use think\Db;
 use app\api\logic\FileLogic;
 use app\api\logic\SmsLogic;
+use app\common\logic\ShippingLogic;
 
 class Common extends Base {
 
@@ -98,6 +99,18 @@ class Common extends Base {
             response_error('', '文件上传失败');
         }
 
+    }
+
+    // 获取快递运输信息
+    public function ajaxGetExpressInfo(){
+        $invoice_no = I('invoice_no');
+
+        if($invoice_no == '') response_error('', '运单号不能为空');
+
+        $ShippingLogic = new ShippingLogic();
+        $result = $ShippingLogic->getExpressInfo($invoice_no);
+
+        echo $result;
     }
 
 }
