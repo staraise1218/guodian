@@ -12,7 +12,6 @@ class Base extends Controller {
      */
     function __construct() 
     {
-        die(1);
         Session::start();
         header("Cache-control: private");  // history.back返回后输入框值丢失问题 参考文章 http://www.tp-shop.cn/article_id_1465.html  http://blog.csdn.net/qinchaoguang123456/article/details/29852881
         parent::__construct();

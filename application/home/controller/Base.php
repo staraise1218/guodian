@@ -13,7 +13,7 @@ class Base extends Controller {
      * 初始化操作
      */
     public function _initialize() {
-
+die(1);
         // $this->redirect('home/close/index');
 
         if (input("unique_id")) {           // 兼容手机app
