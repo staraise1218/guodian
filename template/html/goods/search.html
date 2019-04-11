@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>商品搜索</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/docs.min.css" rel="stylesheet">
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body> 
+  <!--header-->
+  <include file="public/header"/>
+  <div class="main_content listsPage">
+    <div class="search-result">
+      <div class="main_shade"></div>
+      <p class="result-none title">搜索“<span>腕表</span>”没有结果</p>
+      <div class="list-items">
+        <p class="title">搜索结果</p>
+        <p class="total">共有<span>{$page->totalRows}</span>款产品</p>
+	
+	<div class="list-content">
+		<ul class="lists">
+          <foreach name="goods_list" item="v" key="k">
+          <li style="display: block;position:relative">
+<a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">
+<if condition="$v['reserved']==1"><div class='is_reserved'></div>
+<elseif condition="$v['store_count']<=0"/><div class='img_shadow'></div></if>
+            <img src="{$v.goods_id|goods_thum_images=236,236}" alt="">
+            <p class="name">{$v[goods_name]}</p>
+
+	    <p class="price price1">销售价：<i> ¥<?php echo $v['shop_price'] == '0.00'?'暂无': number_format($v['shop_price']); ?> </i> </p>
+	    <p class="price price2">官方公价：<i> ¥<?php echo $v['market_price'] == '0.00'?'暂无': number_format($v['market_price']); ?> </i> </p>
+      
+            </a></li>
+          </foreach>
+        </ul>
+	</div>
+        
+      </div>
+      {$page->show()}
+    </div>
+  </div>
+  <!---->
+  <include file="public/footer"/>
+  <!---->
+</body>
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script>
+  $(function () {
+    $("#slider1").responsiveSlides({
+      auto: true,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+    $("#slider2").responsiveSlides({
+      auto: false,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+  });
+</script> 
+</html>

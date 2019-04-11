@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>注册-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" /> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body>
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="login_sec">
+    <div class="container log_box">
+      <div class="col-md-7"></div>
+      <div class="col-md-4 log">       
+        <form id="reg_form"  method="post">
+          <h3>注册国典会员</h3>
+          <input type="text" placeholder="请输入手机号" name="username" id="username" required="">
+          <!-- <div>
+            <input type="text" placeholder="验证码" name="verify_code" id="verify_code" required="" value="">
+            <img src="/index.php/Home/User/verify/type/user_reg.html" id="verify_code_img" onclick="verify('verify_code_img')"/>
+            <div class="clearfix"> </div>
+          </div> -->
+          <if condition="$tpshop_config['sms_regis_sms_enable'] eq 1" >
+            <div>
+                <input type="text" placeholder="手机验证码" id="code" name="code" required="" style="width:50%;float:left;"/>
+                <button class="fn-fl icode" onclick="send_sms_reg_code()" type="button" id="count_down" style="display:inline-block;
+	width: 30%;height: 30px;
+	font-size: 1em;
+	font-weight: 400;
+margin-top:35px">发送</button>
+              <div class="clearfix"> </div>
+            </div>
+          </if>
+          <input type="password" placeholder="请设置密码" autocomplete="off" maxlength="16"  id="password" name="password" value="" required="">
+          <!-- <input type="password" placeholder="请再次输入密码" autocomplete="off" maxlength="16" id="password2" name="password2" required=""> -->
+          <input type="button" value="立即注册" onClick="check_submit();">
+          <p class="protocol">
+            <input name="agree" type="checkbox" checked="checked">
+            <a href="{:U('Home/Article/detail', array('article_id'=>48))}" target="_blank">我已阅读并同意《国典用户注册协议》</a>
+          </p>
+          <div class="clearfix"></div>
+        </form>
+        <div class="log-bottom">
+          <a href="javascript:;">已有账号？</a>
+          <a href="{:U('Home/user/login')}" class="color">立即登录</a>
+        </div>
+      </div>  
+      <div class="col-md-1"></div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+<!--footer-s-->
+<include file="public/footer"/>
+<!--footer-e-->
+</body>
+<!-- <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script> -->
+<!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="__STATIC__/js/bootstrap.js"> </script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/js/memenu.js"></script>
+<script type="application/x-javascript"> 
+  addEventListener("load", function() { 
+    setTimeout(hideURLbar, 0); 
+  }, false); 
+  function hideURLbar(){ 
+    window.scrollTo(0,1); 
+  } 
+</script>
+<script>  
+  $(function () {
+    $("#slider").responsiveSlides({
+      auto: false,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+  });
+ </script>
+<script>
+    // 普通 图形验证码
+    function verify(id){
+        $('#'+id).attr('src','/index.php?m=Home&c=User&a=verify&type=user_reg&r='+Math.random());
+    }
+
+    function check_submit(){
+      if(!$('input[name=agree]').is(':checked')){
+          layer.msg('请同意注册须知');
+          return false;
+      }
+        $.ajax({
+            type : "POST",
+            url:"{:U('Home/User/reg')}",
+            dataType: "json",
+            data: $('#reg_form').serialize(),
+            success: function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1},function(){
+                        window.location.href = "{:U('Home/Index/index')}";
+                    });
+                }else{
+                    layer.alert(data.msg, {icon: 2},function(index){
+                        $('.verifyImg').trigger('click');
+                        layer.close(index);
+                    });
+                }
+            }
+        });
+
+    }
+
+    // 发送手机短信
+    function send_sms_reg_code(){
+        var mobile = $('input[name="username"]').val();
+        var verify_code = $('input[name="verify_code"]').val();
+        if(!checkMobile(mobile)){
+            layer.alert('请输入正确的手机号码', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        // if(verify_code == ''){
+        //     layer.alert('请输入图像验证码', {icon: 2});//alert('请输入图像验证码');
+        //     return;
+        // }
+        var url = "/index.php?m=Home&c=Api&a=send_validate_code&scene=1&type=mobile&mobile="+mobile+"&verify_code="+verify_code;
+        $.ajax({
+            url:url,
+            dataType: "json",
+            success: function(res){
+                if(res.status == 1)
+                {
+                    $('#count_down').attr("disabled","disabled");
+                    intAs = 30; // 手机短信超时时间
+                    jsInnerTimeout('count_down',intAs);
+                    layer.alert(res.msg, {icon: 1});
+                }else{
+                    layer.alert(res.msg, {icon: 2});
+                    verify('verify_code_img')
+                }
+            }
+        });
+    }
+
+    // 发送邮箱
+    function send_smtp_reg_code(){
+        var email = $('input[name="username"]').val();
+        var verify_code = $('input[name="verify_code"]').val();
+        if(!checkEmail(email)){
+            layer.alert('请输入正确的邮箱', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        if(verify_code == ''){
+            layer.alert('请输入图像验证码', {icon: 2});//alert('请输入正确的手机号码');
+            return;
+        }
+        $.ajax({
+            type : "POST",
+            url:"{:U('Home/Api/send_validate_code')}",
+            data : {type:'email',send:email,scene:1,verify_code:verify_code},// 你的formid
+            dataType: "json",
+            success: function(data){
+                if(data.status == 1){
+                    $('#count_down').attr("disabled","disabled");
+                    intAs = 60; // 发送邮箱超时时间
+                    jsInnerTimeout('count_down',intAs);
+                    layer.alert(data.msg, {icon: 1});
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                    verify('reflsh_code2')
+                }
+            }
+        });
+    }
+
+    $('#count_down').removeAttr("disabled");
+    //倒计时函数
+    function jsInnerTimeout(id,intAs)
+    {
+        var codeObj=$("#"+id);
+        //var intAs = parseInt(codeObj.attr("IntervalTime"));
+
+        intAs--;
+        if(intAs<=-1)
+        {
+            codeObj.removeAttr("disabled");
+//            codeObj.attr("IntervalTime",60);
+            codeObj.text("发送");
+            return true;
+        }
+
+        codeObj.text(intAs+'秒');
+//        codeObj.attr("IntervalTime",intAs);
+
+        setTimeout("jsInnerTimeout('"+id+"',"+intAs+")",1000);
+    };
+
+
+    function checkMobile(tel) {
+//        var reg = /(^1[3|4|5|7|8][0-9]{9}$)/;
+        var reg = /^1[0-9]{10}$/;
+        if (reg.test(tel)) {
+            return true;
+        }else{
+            return false;
+        };
+    }
+
+    function checkEmail(str){
+        var reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+</script>
+
+</html>

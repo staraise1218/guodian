@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>我的订单-国典寄卖行</title>
+  <link href="__STATIC__css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+  <link href="__STATIC__css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/style2.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/form.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__css/collection_y.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+</head>
+<body style="background-color: rgb(246, 246, 248);">
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+  <div class="collePage setPage main_artical">
+    <div class="contact my-box contentBox">
+      <div class="tabs">
+        <include file="public/user_left" />
+        <!-- yxx -->
+        <div class="tab-content third" id="tab-detail3">
+          <ul class="title y_tab">
+            <li <if condition="I('type') == 'WAITPAY'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITPAY'))}">待付款(<span>{$userindex.waitPay}</span>)</a></li>
+            <li <if condition="I('type') == 'WAITSEND'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITSEND'))}">待发货(<span>{$userindex.waitSend}</span>)</a></li>
+            <li <if condition="I('type') == 'WAITRECEIVE'"> class="y_tab_act"</if>><a href="{:U('Order/order_list',array('type'=>'WAITRECEIVE'))}">待收货(<span>{$userindex.waitReceive}</span>)</a></li>
+          </ul>
+          <h3 style="margin-bottom: 10px !important">
+            <ul class="title">
+              <div class="y_item_top">
+                <li class="img-box">商品图片</li>
+                <li class="details">商品名称</li>
+                <li class="price">单价</li>
+                <li class="price y_num">数量</li>
+                <!-- <li class="price">定金金额</li> -->
+                <li class="price">实付款</li>
+                <li class="price">订单状态</li>
+                <li class="opration y_btn">操作</li>
+              </div>
+            </ul>
+          </h3>
+          
+          <!-- 没有订单 -->
+            <empty name="lists">
+                <div class="y_item_none">
+                暂无订单，这就去挑商品： <a href="/">商城首页</a>
+                </div>
+                <else/>
+                <!-- 有订单 -->
+                <ul class="items" id="list">
+                <volist name="lists" id="list">
+                  <li class="y_item item">
+                    <volist name="list.goods_list" id="goods" key="k">
+                    <div class="y_item_top y_item_top1">
+                      <div class="img-box"><img src="{$goods.goods_id|goods_thum_images=60,60}" alt=""></div>
+                      <div class="details"><p class="detail" style="border: none;font-size: 14px;">{$goods.goods_name} {$goods.spec_key_name}</p></div>
+                      <div class="price"><span>{$goods.member_goods_price}</span>元</div>
+                      <div class="price y_num"><span>{$goods.goods_num}</span></div>
+                      <!-- <div class="price"><span>133,250</span>元</div> -->
+                      <div class="price"><span>{$list.total_amount}</span>元</div>
+                      <div class="price">{$list['order_status_desc']}</div>
+                      <div class="price y_btn">
+                        <!-- <a href="javascript:;" class="buy">删除</a> -->
+                        <if condition="$list.pay_btn eq 1">
+                            <a class="ps_lj" href="{:U('home/Payment/getCode',array('order_id'=>$list['order_id'], 'pay_code'=>'unionpay'))}">去支付</a>
+                        </if>
+                        <if condition="$list.receive_btn eq 1">
+                            <a class="ps_lj" href="javascript:;" onclick="order_confirm({$list.order_id});">确认收货</a>
+                        </if>
+                        <if condition="$list.cancel_btn eq 1">
+                            <if condition="$list[pay_status] eq 0">
+                            <a class="consoorder" href="javascript:void(0);" onClick="cancel_order({$list.order_id})" >取消</a>
+                            </if>
+                        </if>
+                        <if condition="$list.delete_btn eq 1">
+                         <a class="dele" onclick="verConfirm({$list['order_id']})">删除</a> 
+                        </if>
+                    </div>
+                    </div>
+                    </volist>
+                    <div class="y_item_bottom">
+                      <div class="y_bot_title">订单信息</div>
+                      <div class="y_bot">
+                        <div class="y_bot_item">订单编号：<span>{$list.order_sn}</span></div>
+                        <div class="y_bot_item">创建时间：<span>{$list.add_time|date='Y-m-d H:i:s',###}</span></div>
+                        <div class="y_bot_item">付款时间：<span>{$list.pay_time ? date('Y-m-d H:i:s', $list.pay_time) : '无'}</span></div>
+                        <div class="y_bot_item">运送方式：<span>{$list.buy_method == '1' ? '到店自提' : '快递送货'}</span></div>
+                        <div class="y_bot_item">发货时间：<span>{$list.shipping_time ? date('Y-m-d H:i:s', $list.shipping_time) : '无'}</span></div>
+                        <div class="y_bot_item">收货信息：<span>{$list.buy_method == '1' ? '无' : $list.address_detail.$list.address}</span></div>
+                        <if condition="$list.buy_method eq 2 && $list.shipping_status eq 1">
+                        <div class="y_bot_item">订单号：<span class="expressinfo" title="点击查看快递信息" style="cursor: pointer;">{$list.invoice_no}</span></div>
+                        </if>
+                      </div>
+                    </div>
+                  </li>
+                 </volist>
+                </ul>
+            </empty>
+        </div>
+        <!-- yxx end -->
+
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <!--footer-s-->
+  <include file="public/footer" />
+  <!--footer-e-->
+<link rel="stylesheet" type="text/css" href="/plugins/layui/css/layui.css">
+<script type="text/javascript">
+    function verConfirm(order_id){
+        layer.confirm('确定删除吗', function(){
+            $.ajax({
+                url: '/home/order/del_order/order_id/'+order_id,
+                type: 'get',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('删除成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        })
+    } 
+
+    /**
+     * 确定收货
+     */
+    function order_confirm(id){
+
+        layer.confirm('确认收货吗？', function(){
+          $.ajax({
+                url: "/index.php?m=home&c=Order&a=order_confirm&order_id="+id,
+                type: 'post',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('操作成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon:2});
+                    }
+                }
+            })
+        })
+        
+    }
+
+    function cancel_order(order_id){
+        layer.confirm('确定取消吗', function(){
+            $.ajax({
+                url: '/home/order/cancel_order/id/'+order_id,
+                type: 'get',
+                dataType: 'json',
+                success:function(data){
+                    if(data.status == 1){
+                        layer.msg('取消成功', {icon:1}, function(){
+                            window.location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        })
+    }
+
+    $(function(){
+     
+        $('.expressinfo').click(function(){
+            var invoice_no = $invoice_no = $(this).html();
+            
+            layer.load(2)
+            $.ajax({
+                url: "{:U('home/order/ajaxGetExpressInfo')}",
+                type: 'get',
+                dataType: 'json',
+                data: {'invoice_no':invoice_no},
+                success: function(data){
+                    layer.closeAll('loading');
+
+                    if(data.status == 200){
+                        var html = '<div style="padding: 20px;font-weight: 300;">\
+                                        <ul class="layui-timeline">';
+                        $.each(data.list, function(key, item){
+                            html += '<li class="layui-timeline-item">\
+                                        <i class="layui-icon layui-timeline-axis"></i>\
+                                        <div class="layui-timeline-content layui-text">\
+                                            '+item.time+ ' '+ item.content+'\
+                                        </div>\
+                                    </li>';
+                        })
+                        html += '</ul></div>';
+
+                        layer.open({
+                            type: 1
+                            ,title: data.cname
+                            ,closeBtn: false
+                            ,area: ['500px', '400px']
+                            ,btn: ['关闭']
+                            ,content: html
+                        });
+                    } else { 
+                       layer.msg('获取失败', {icon:2});
+                    }
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>
+

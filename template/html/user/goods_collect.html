@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>我的收藏-{$tpshop_config['shop_info_store_title']}</title>
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="Wedding Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+  Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+</head>
+<body style="background-color: rgb(246, 246, 248);">
+<!--header-s-->
+<include file="public/header"/>
+<!--header-e-->
+
+
+<div class="collePage setPage main_artical">
+  <div class="contact my-box contentBox">
+    <div class="tabs">
+      <include file="public/user_left" />
+      <div class="tab-content first" id="tab-detail1">
+        <h3>
+          <ul class="title">
+            <li class="check">
+              <label><input type="checkbox" class="check-input AllcheckBox">全选</label>
+            </li>
+            <li class="img-box">商品图片</li>
+            <li class="details">商品名称</li>
+            <li class="colle">类型</li>
+            <li class="price">价格</li>
+            <li class="depoist">定金</li>
+            <li class="opration">操作</li>
+          </ul>
+        </h3>
+        <ul class="items" id="list">
+         
+          <volist name="lists" id="list">
+          <li class="item">
+            <div class="check">
+              <label><input type="checkbox" class="check-input checkBox" value="{$list['collect_id']}"></label>
+            </div>
+            <div class="img-box">
+              <img src="{$list.original_img}" alt="">
+            </div>
+            <div class="details">
+              <p class="detail">{$list[goods_name]}</p>
+              <p class="time">加入收藏时间：<span>{$list.add_time|date='Y:m:d H:i:s',###}</span></p>
+            </div>
+            <div class="colle">已收藏</div>
+            <div class="price"><span><?php echo $list['shop_price'] == '0.00'?'暂无': number_format($list['shop_price']); ?></span>元</div>
+            <div class="depoist"><span><?php echo $list['shop_price'] == '0.00'?'暂无': number_format($list['shop_price'] * 0.5); ?></span>元</div>
+            <div class="button">
+              <a href="{:U('/Home/Goods/goodsInfo',array('id'=>$list[goods_id]))}" class="buy">查看详情</a>
+              <a href="javascript:;" class="cancel" onclick="del_all({$list[collect_id]})">取消收藏</a>
+            </div>
+          </li>
+          </volist>
+        </ul>
+         <empty name="lists">
+          <div style="background: #fff; text-align: center; line-height: 50px;">暂无商品，这就去挑选商品：<a href="/">首页</a></div>
+          </empty>
+          <notempty name="lists">
+        <div class="_select page">
+          <div class="check">
+            <input type="checkbox" class="check-input AllcheckBox">全选
+          </div>
+          <div class="button">
+            <!--<a href="javascript:;" class="buy">立即购买</a>-->
+            <a href="javascript:;" class="cancel" onclick="del_all()">取消收藏</a>
+<style type="text/css">
+.collePage .my-box .page .button a{
+line-height:20px;
+}
+.pagination{
+margin:40px 20px 20px 20px;
+}
+</style>
+  <nav aria-label="Page navigation" style="float:right">
+    {$page}
+  </nav>
+          </div>
+        </div>
+      </notempty>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+
+  <!--<div class="main_content collecPage">-->
+    <!--<div class="choose">-->
+      <!--<div class="col-md-1 filter">操作</div>-->
+      <!--<div class="col-md-9"></div>-->
+      <!--<div class="col-md-2">-->
+        <!--&lt;!&ndash;<span class="edit" style="display: none;">编辑</span><span class="cancle">删除</span>&ndash;&gt;-->
+        <!--<span class="del" onclick="del_all()">取消收藏</span>-->
+      <!--</div>-->
+      <!--<div class="clearfix"></div>-->
+    <!--</div>-->
+    <!--<div class="lists">-->
+      <!--<ul>-->
+        <!--<volist name="lists" id="list">-->
+        <!--<li>-->
+          <!--<input type="checkbox" checked="checked" class="check" value="{$list['collect_id']}">-->
+          <!--<p class="lock-title"><a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">{$list[goods_name]}</a></p>-->
+          <!--<div class="lock">-->
+            <!--<p>价格 <span class="color">￥<span class="price">{$list.shop_price}</span></span></p>-->
+            <!--<a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}"><img src="{$list.original_img}" alt=""></a>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--</volist>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <!--<nav aria-label="Page navigation">-->
+      <!--{$page}-->
+    <!--</nav>-->
+  <!--</div>-->
+  <!--footer-s-->
+  <include file="public/footer"/>
+  <!--footer-e-->
+</body>
+<script src="__STATIC__/js/bootstrap.js"></script>
+<script src="__STATIC__/js/responsiveslides.min.js"></script>
+<script src="__STATIC__/js/simpleCart.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/js/memenu.js"></script>
+
+<script type="text/javascript" src="__STATIC__/js/simpleCart.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jquery.tabslet.min.js"></script>
+<script src="__STATIC__/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/mine.js"> </script>
+<script>
+  $(function () {
+    $(".rslides").responsiveSlides({
+      auto: true,
+      nav: true,
+      speed: 500,
+      namespace: "callbacks",
+      pager: false,
+    });
+  });
+  $(document).ready(function(){$(".memenu").memenu();});
+</script>
+<script type="text/javascript">
+    function del_all(id = 0)
+    {
+        var del_ids ='';
+if(id){
+del_ids =id;
+}else{
+        $('.checkBox:checked').each(function () {
+            if (del_ids == ''){
+                del_ids += this.value;
+            }else {
+                del_ids += '_'+this.value;
+            }
+        })
+}
+        
+        //询问框
+        layer.confirm('您确定要取消收藏', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                data:{id:del_ids},
+                url:"{:U('Home/User/del_goods_collect')}",
+                success:function(res){
+                    if(res.status == 1){
+                        layer.msg('成功删除收藏', {icon: 1});
+                        window.location.href="{:U('Home/User/goods_collect')}";
+                    }else{
+                        layer.msg(res.msg, {icon: 3});
+                    }
+                }
+            });
+        });
+    }
+</script>
+</html>
