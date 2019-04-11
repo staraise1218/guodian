@@ -40,7 +40,7 @@
                 <th align="center" axis="col1" class="handle"><div style="text-align: center; width: 150px;">操作</div></th>
                 <th align="center" axis="col2"><div style="text-align: center; width: 60px;">分类id</div></th>
                 <th align="center" axis="col3"><div style="text-align: center; width: 200px;">分类名称</div></th>
-                <!--<th align="center" axis="col4"><div style="text-align: center; width: 200px;">手机显示名称</div></th>-->
+                <th align="center" axis="col4"><div style="text-align: center; width: 200px;">APP显示名称</div></th>
                 <th align="center" axis="col5"><div style="text-align: center; width: 80px;">是否推荐</div></th>
                 <th align="center" axis="col6"><div style="text-align: center; width: 80px;">是否显示</div></th>
                 <th align="center" axis="col8"><div style="text-align: center; width: 60px;">分组</div></th>
@@ -102,11 +102,11 @@
                   <input type="text" value="{$vo.name}" onblur="changeTableVal('goods_category','id','{$vo.id}','name',this)" style="text-align: left; width:180px;"/>
                 </div>
               </td>
-              <!--<td class="name">
+              <td class="name">
                 <div style="text-align: left; width: 200px;">                 
                   <input type="text" value="{$vo.mobile_name}" onblur="changeTableVal('goods_category','id','{$vo.id}','mobile_name',this)" style="text-align: left; width:180px;"/>
                 </div>
-              </td>-->
+              </td>
                 <td align="center" class="">
                   <div style="text-align: center; width: 80px;">
                     <if condition='$vo[is_hot] eq 1'>

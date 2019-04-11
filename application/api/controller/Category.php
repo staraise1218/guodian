@@ -13,11 +13,18 @@ class Category extends Base {
 		parent::__construct();
 	}
 
+	// 获取所有的品牌列表
+	public function brandList(){
+		$list = Db::name('brand')->alia('b')
+			->join('goods_category gc', 'gc.id=b.parent_cat_id')
+			->select();
+	}
+
 	/**
-	 * [getAllCategory 获取所有分类 有层级关系]
+	 * [getTopCategory 获取顶级分类]
 	 * @return [type] [description]
 	 */
-	public function getAllCategory(){
+	public function getTopCategory(){
 		$list = Db::name('goods_category')
 			->where('is_show', 1)
 			->order('sort_order')
