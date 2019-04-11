@@ -1,7 +1,0 @@
-<ul class='contact_left horizontal main-tab'>
-	<p class="title">我的国典</p>
-	<li <if condition="CONTROLLER_NAME eq 'Order' && ACTION_NAME eq 'order_list'">class="active"</if>><a href="{:U('Home/Order/order_list', array('type'=>'WAITPAY'))}">我的订单</a></li>
-	<li <if condition="CONTROLLER_NAME eq 'User' && ACTION_NAME eq 'goods_collect'">class="active"</if>><a href="{:U('Home/User/goods_collect')}">我的收藏</a></li>
-	<li <if condition="CONTROLLER_NAME eq 'User' && ACTION_NAME eq 'info'">class="active"</if>><a href="{:U('Home/User/info')}">账户信息</a></li>
-	<li <if condition="CONTROLLER_NAME eq 'User' && ACTION_NAME eq 'address_list'">class="active"</if>><a href="{:U('Home/User/address_list')}">收货地址</a></li>
-</ul>
