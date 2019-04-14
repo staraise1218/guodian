@@ -151,8 +151,8 @@ class Goods extends Base {
         $brand_id = I('get.brand_id',0);
         $attr = I('get.attr',''); // 属性
         $price = I('get.price',''); // 价钱
-        $sort = I('get.sort','goods_id'); // 排序
-        $sort_asc = I('get.sort_asc','asc'); // 排序
+        $sort = I('get.sort'); // 排序
+        $sort_asc = I('get.sort_asc','desc'); // 排序
         $filter_param['id'] = $id; //加入帅选条件中
 
         if($special) {

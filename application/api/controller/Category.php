@@ -3,6 +3,8 @@
 namespace app\api\controller;
 
 use think\Db;
+use app\common\logic\CharacterLogic;
+use app\common\logic\GoodsLogic;
 
 class Category extends Base {
 
@@ -14,66 +16,41 @@ class Category extends Base {
 	}
 
 	// 获取所有的品牌列表
-	public function brandList(){
-		$list = Db::name('brand')->alia('b')
+	public function allBrandList(){
+		$list = Db::name('brand')->alias('b')
 			->join('goods_category gc', 'gc.id=b.parent_cat_id')
+			->field('b.id, b.name, gc.mobile_name cat_name')
 			->select();
+
+		$CharacterLogic = new CharacterLogic();
+		$list = $CharacterLogic->groupByInitials($list, 'name');
+
+		response_success($list);
+	}
+
+	// 分类下的品牌列表
+	public function cateBrandList(){
+		$cat_id = I('cat_id');
+
+		$list = Db::name('brand')->alias('b')
+			->join('goods_category gc', 'gc.id=b.parent_cat_id')
+			->where('b.parent_cat_id', $cat_id)
+			->field('b.id, b.name, b.logo, gc.mobile_name cat_name')
+			->select();
+
+		response_success($list);
 	}
 
 	/**
 	 * [getTopCategory 获取顶级分类]
 	 * @return [type] [description]
 	 */
-	public function getTopCategory(){
+	public function topCategoryList(){
 		$list = Db::name('goods_category')
 			->where('is_show', 1)
 			->order('sort_order')
-			->field('id, name, parent_id')
+			->field('id, mobile_name cat_name, image')
 			->select();
-
-		$data = array();
-  		foreach ($list as $item) {
-  			$data[$item['id']] = $item;
-  		}
-
-  		$data = $this->_tree($data);
-  		response_success($data);
-
-		response_success($data);
-	}
-
-	/**
-	 * [getCateGoods 获取分类下的商品]
-	 * @return [type] [description]
-	 */
-	public function getCatesGoods(){
-		$cat_id = input('cat_id');
-		$city_code = input('city_code');
-
-		$subcatelist = Db::name('goods_category')
-			->where('is_show', 1)
-			->where('parent_id', $cat_id)
-			->order('sort_order')
-			->field('id, name')
-			->select();
-
-		if($subcatelist){
-			$list = array();
-			foreach ($subcatelist as $k => $item) {
-				$goodslist = Db::name('goods')
-					->where('cat_id', $item['id'])
-					->where('city_code', $city_code)
-					->where('is_on_sale', 1) 
-					->where('prom_type', 0)  // 普通商品
-					->order('sort asc, goods_id desc')
-					->field('goods_id, goods_name, subtitle, store_count, original_img, shop_price')
-					->select();
-				if($goodslist) {
-					$item['goodslist'] = $goodslist;
-					$list[] = $item;
-				}
-			}
-		}
 
 		response_success($list);
 	}
@@ -81,25 +58,43 @@ class Category extends Base {
 
 	/**
 	 * [goodslist 获取二级分类下的商品]
+	 * @param [type] $[brand_id] [品牌id]
+	 * @param [type] $[type] [0 综合 1 新品]
+	 * @param [type] $[sales_num] [销量 desc/asc]
+	 * @param [type] $[shop_price] [价格 desc/asc]
 	 * @return [type] [description]
 	 */
-	public function goodslist(){
-		$cat_id = I('cat_id');
-		$city_code = I('city_code');
+	public function goodsList(){
+		$brand_id = I('brand_id');
 		$page = I('page', 1);
 
-		$goodslist = Db::name('goods')
-			->where('cat_id', $cat_id)
-			->where('city_code', $city_code)
-			->where('is_on_sale', 1) 
-			->where('prom_type', 0)  // 普通商品
-			->order('sort asc, goods_id desc')
-			->field('goods_id, goods_name, subtitle, store_count, original_img, shop_price')
+		/*filter*/
+		$type = I('type', 0);
+		$sales_num = I('sales_num');
+		$shop_price = I('shop_price');
+
+		$where = array(
+			'brand_id' => $brand_id, // 分类筛选
+			'is_on_sale' => 1,  // 上架中
+			'prom_type' => 0, // 普通商品
+		);
+		$type == 1 && $where['is_new'] = 1;
+
+		// 排序
+		$order = 'sort asc, goods_id desc';
+		$sales_num && $order = "sales_num $sales_num";
+		$shop_price && $order = "shop_price $shop_price";
+
+		$goodsList = Db::name('goods')
+			->where($where)
+			->order($order)
+			->field('goods_id, goods_name, store_count, original_img, shop_price')
 			->page($page)
-			->limit(15)
+			->limit(12)
 			->select();
 
-		response_success($goodslist);
+
+		response_success($goodsList);
 	}
 
 	  /**
