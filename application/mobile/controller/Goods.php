@@ -195,7 +195,8 @@ class Goods extends Base {
 
         $brand_id  && ($filter_param['brand_id'] = $brand_id); //加入帅选条件中
         $attr  && ($filter_param['attr'] = $attr); //加入帅选条件中
-        // $sort  && $sort_asc && ($order[$sort] = $sort_asc); //加入帅选条件中
+        $order = $sort ? "$sort $sort_asc" : 'sort desc';
+        $order .= ', goods_id desc';
 
 
         $count = count($filter_goods_id);
