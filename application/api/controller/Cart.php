@@ -186,7 +186,7 @@ class Cart extends Base {
                 $buyGoods = $cartLogic->buyNow();
             }catch (TpshopException $t){
                 $error = $t->getErrorArr();
-                $this->error($error['msg']);
+                response_error('', $error['msg']);
             }
             $cartList['cartList'][0] = $buyGoods;
             $cartGoodsTotalNum = $goods_num;
@@ -234,7 +234,7 @@ class Cart extends Base {
         	   
             $area_id = array_filter($area_id);
         	$area_id = implode(',', $area_id);
-        	$regionList = Db::name('region2')->where("id", "in", $area_id)->getField('id,name');
+        	$regionList = Db::name('region')->where("id", "in", $area_id)->getField('id,name');
             
             $address['fulladdress'] = $regionList[$address['province']].$regionList[$address['city']].$regionList[$address['district']].$regionList[$address['twon']].$address['address'];
         }
@@ -246,21 +246,9 @@ class Cart extends Base {
      * @time 2016.08.22
      * 获取自提点信息
      */
-    public function ajaxPickup()
+    public function storeInfo()
     {
-        $province_id = I('province_id/d');
-        $city_id = I('city_id/d');
-        $district_id = I('district_id/d');
-        if (empty($province_id) || empty($city_id) || empty($district_id)) {
-            exit("<script>alert('参数错误');</script>");
-        }
-        $user_address = new UserAddressLogic();
-        $address_list = $user_address->getUserPickup($this->user_id);
-        $pickup = new PickupLogic();
-        $pickup_list = $pickup->getPickupItemByPCD($province_id, $city_id, $district_id);
-        $this->assign('pickup_list', $pickup_list);
-        $this->assign('address_list', $address_list);
-        return $this->fetch('ajax_pickup');
+        
     }
 
     /**

@@ -73,6 +73,9 @@ class Goods extends Base {
         // $collect = M('goods_collect')->where(array("goods_id"=>$goods_id ,"user_id"=>$user_id))->count();
         // $goods_collect_count = M('goods_collect')->where(array("goods_id"=>$goods_id))->count(); //商品收藏数
         $goods['goods_content'] = $goods['goods_content'] ? htmlspecialchars_decode($goods['goods_content']) : '';
+         // 购物车商品数量
+        $cartLogic = new CartLogic();
+ 		$goods['cart_num'] = $cartLogic->getUserCartGoodsTypeNum();//获取用户购物车商品总数
         response_success($goods);
 	}
 
@@ -102,5 +105,22 @@ class Goods extends Base {
 
 		response_success($goodslist);
 	}
+
+    /**
+     * 用户收藏某一件商品
+     * @param type $goods_id
+     */
+    public function collect_goods()
+    {
+    	$user_id = I('user_id/d');
+        $goods_id = I('goods_id/d');
+        
+        $goodsLogic = new GoodsLogic();
+        $result = $goodsLogic->collect_goods($user_id, $goods_id);
+
+        if($result['status'] == '-1') response_error('', '未登录');
+        if($result['status'] == '-3') response_success('', '您已收藏');
+        if($result['status'] == '1') response_success('', '收藏成功');
+    }
 
 }

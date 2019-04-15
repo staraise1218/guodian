@@ -519,8 +519,8 @@ class CartLogic extends Model
         $cartList = $cart->with('promGoods,goods')->where($cartWhere)->select();  // 获取购物车商品
         $cartCheckAfterList = $this->checkCartList($cartList);
 //        $cartCheckAfterList = $cartList;
-        $cartGoodsTotalNum = array_sum(array_map(function($val){return $val['goods_num'];}, $cartCheckAfterList));//购物车购买的商品总数
-        setcookie('cn', $cartGoodsTotalNum, null, '/');
+        // $cartGoodsTotalNum = array_sum(array_map(function($val){return $val['goods_num'];}, $cartCheckAfterList));//购物车购买的商品总数
+        // setcookie('cn', $cartGoodsTotalNum, null, '/');
         return $cartCheckAfterList;
     }
 
