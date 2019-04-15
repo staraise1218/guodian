@@ -34,7 +34,7 @@ class Address extends Base {
             }    
             $area_id = array_filter($area_id);
             $area_id = implode(',', $area_id);
-            $regionList = Db::name('region2')->where("id", "in", $area_id)->getField('id,name');
+            $regionList = Db::name('region')->where("id", "in", $area_id)->getField('id,name');
             
             foreach ($addresslist as $k => $item) {
                 $addresslist[$k]['fulladdress'] = $regionList[$item['province']].$regionList[$item['city']].$regionList[$item['district']].$regionList[$item['twon']].$item['address'];

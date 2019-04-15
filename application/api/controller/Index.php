@@ -84,4 +84,17 @@ class Index extends Base {
 		response_success($goodslist);
 	}
 
+	// 启动图
+	public function startBanner(){
+		// 获取所有的广告图片
+        $list = Db::name('ad')
+            ->where('enabled', 1)
+            ->where('pid', 13)
+            ->field('ad_name, ad_link, ad_code, pid')
+            ->order('orderby asc, ad_id asc')
+            ->select();
+
+        response_success($list);
+	}
+
 }
