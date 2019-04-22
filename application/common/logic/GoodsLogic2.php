@@ -108,4 +108,65 @@ class GoodsLogic2 extends Model
         }
         return $list_brand;
     }
+
+    /**
+     * 根据配送地址获取多个商品的运费
+     * @param $goodsArr
+     * @param $region_id
+     * @return int
+     */
+    public function getFreight($goodsArr, $region_id)
+    {
+        $Goods = new Goods();
+        $freightLogic = new FreightLogic();
+        $freightLogic->setRegionId($region_id);
+        $goods_ids = get_arr_column($goodsArr, 'goods_id');
+        $goodsList = $Goods->field('goods_id,volume,weight,template_id,is_free_shipping')->where('goods_id', 'IN', $goods_ids)->select();
+        $goodsList = collection($goodsList)->toArray();
+        foreach ($goodsArr as $cartKey => $cartVal) {
+            foreach ($goodsList as $goodsKey => $goodsVal) {
+                if ($cartVal['goods_id'] == $goodsVal['goods_id']) {
+                    $goodsArr[$cartKey]['volume'] = $goodsVal['volume'];
+                    $goodsArr[$cartKey]['weight'] = $goodsVal['weight'];
+                    $goodsArr[$cartKey]['template_id'] = $goodsVal['template_id'];
+                    $goodsArr[$cartKey]['is_free_shipping'] = $goodsVal['is_free_shipping'];
+                }
+            }
+        }
+        $template_list = [];
+        foreach ($goodsArr as $goodsKey => $goodsVal) {
+            $template_list[$goodsVal['template_id']][] = $goodsVal;
+        }
+        $freight = 0;
+        foreach ($template_list as $templateVal => $goodsArr) {
+            $temp['template_id'] = $templateVal;
+            foreach ($goodsArr as $goodsKey => $goodsVal) {
+                $temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num'];
+                $temp['total_weight'] += $goodsVal['weight'] * $goodsVal['goods_num'];
+                $temp['goods_num'] += $goodsVal['goods_num'];
+                $temp['is_free_shipping'] = $goodsVal['is_free_shipping'];
+            }
+            $freightLogic->setGoodsModel($temp);
+            $freightLogic->setGoodsNum($temp['goods_num']);
+            $freightLogic->doCalculation();
+            $freight += $freightLogic->getFreight();
+            unset($temp);
+        }
+        return $freight;
+    }
+
+    /**
+     * 用户浏览记录
+     * @author lxl
+     * @time  17-4-20
+     */
+    public function add_visit_log($user_id,$goods){
+        $record = M('goods_visit')->where(array('user_id'=>$user_id,'goods_id'=>$goods['goods_id']))->find();
+        if($record){
+            M('goods_visit')->where(array('user_id'=>$user_id,'goods_id'=>$goods['goods_id']))->save(array('visittime'=>time()));
+        }else{
+            $visit = array('user_id'=>$user_id,'goods_id'=>$goods['goods_id'],'visittime'=>time(),'cat_id'=>$goods['cat_id'],'extend_cat_id'=>$goods['extend_cat_id']);
+            M('goods_visit')->add($visit);
+        }
+    }
 }

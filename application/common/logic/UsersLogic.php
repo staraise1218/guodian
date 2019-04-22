@@ -408,9 +408,7 @@ class UsersLogic extends Model
         }
 
         $user = M('users')->where('user_id', $user_id)->find();
-        if (!$user) {
-            return false;
-        }
+        if (!$user) return array('status'=>-1, 'msg'=>'用户不存在');
 
         $activityLogic = new \app\common\logic\ActivityLogic;             //获取能使用优惠券个数
         $user['coupon_count'] = $activityLogic->getUserCouponNum($user_id, 0);

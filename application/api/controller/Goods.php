@@ -2,7 +2,9 @@
 
 namespace app\api\controller;
 
+use app\common\logic\CartLogic;
 use app\common\logic\GoodsLogic;
+use app\common\logic\GoodsLogic2;
 use app\common\logic\GoodsPromFactory;
 use app\common\model\SpecGoodsPrice;
 use think\Db;
@@ -53,6 +55,7 @@ class Goods extends Base {
 		$user_id = I('user_id');
 
 		$goodsLogic = new GoodsLogic();
+		$goodsLogic2 = new GoodsLogic2();
         $goods_id = I('goods_id/d');
         $goodsModel = new \app\common\model\Goods();
         $goods = $goodsModel::get($goods_id);
@@ -76,6 +79,9 @@ class Goods extends Base {
          // 购物车商品数量
         $cartLogic = new CartLogic();
  		$goods['cart_num'] = $cartLogic->getUserCartGoodsTypeNum();//获取用户购物车商品总数
+ 		// 记录浏览日志
+ 		$goodsLogic2->add_visit_log($user_id, $goods);
+
         response_success($goods);
 	}
 

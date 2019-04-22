@@ -759,7 +759,7 @@ function orderBtn($order_id = 0, $order = array())
         'comment_btn' => 0, // 评价按钮
         'shipping_btn' => 0, // 查看物流
         'return_btn' => 0, // 退货按钮 (联系客服)
-        'delete_btn' => 0, // 删除订单按钮
+        'del_btn' => 0, // 删除订单，取消后的订单可删除
     );
 
 
@@ -773,12 +773,8 @@ function orderBtn($order_id = 0, $order = array())
         if($order['shipping_status'] == 1 && $order['order_status'] == 1) //待收货
         {
             $btn_arr['receive_btn'] = 1;  // 确认收货
-            $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
         }
-    }
-    // 非货到付款
-    else
-    {
+    } else{// 非货到付款
         if($order['pay_status'] == 0 && $order['order_status'] == 0) // 待支付
         {
             $btn_arr['pay_btn'] = 1; // 去支付按钮
@@ -786,13 +782,13 @@ function orderBtn($order_id = 0, $order = array())
         }
         if($order['pay_status'] == 1 && in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0) // 待发货
         {
-            // $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
-            // $btn_arr['cancel_btn'] = 1; // 取消按钮
+            //  $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
+            $btn_arr['cancel_btn'] = 1; // 取消按钮
         }
         if($order['pay_status'] == 1 && $order['order_status'] == 1  && $order['shipping_status'] == 1) //待收货
         {
             $btn_arr['receive_btn'] = 1;  // 确认收货
-            // $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
+            //$btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
         }
     }
     if($order['order_status'] == 2)
@@ -815,11 +811,11 @@ function orderBtn($order_id = 0, $order = array())
     }
     
     if($order['order_status'] == 3 && ($order['pay_status'] == 1 || $order['pay_status'] == 4)){
-    	$btn_arr['cancel_info'] = 1; // 取消订单详情
+        $btn_arr['cancel_info'] = 1; // 取消订单详情
     }
 
-    if(in_array($order['order_status'], array(3, 5)) && ($order['pay_status'] == 0)) {
-        $btn_arr['delete_btn'] = 1;
+    if($order['order_status'] == 3 || $order_status == 5){
+        $btn_arr['del_btn'] = 1; // 可删除订单
     }
 
     return $btn_arr;

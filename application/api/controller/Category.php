@@ -57,7 +57,7 @@ class Category extends Base {
 
 
 	/**
-	 * [goodslist 获取二级分类下的商品]
+	 * [goodslist 商品列表]
 	 * @param [type] $[brand_id] [品牌id]
 	 * @param [type] $[type] [0 综合 1 新品]
 	 * @param [type] $[sales_num] [销量 desc/asc]
@@ -66,6 +66,7 @@ class Category extends Base {
 	 */
 	public function goodsList(){
 		$brand_id = I('brand_id');
+		$cat_id = I('cat_id');
 		$page = I('page', 1);
 
 		/*filter*/
@@ -74,7 +75,7 @@ class Category extends Base {
 		$shop_price = I('shop_price');
 
 		$where = array(
-			'brand_id' => $brand_id, // 分类筛选
+			'brand_id' => $brand_id, // 品牌筛选
 			'is_on_sale' => 1,  // 上架中
 			'prom_type' => 0, // 普通商品
 		);

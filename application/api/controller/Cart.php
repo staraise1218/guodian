@@ -4,7 +4,6 @@ namespace app\api\controller;
 
 
 use app\common\logic\CartLogic;
-
 use app\common\logic\Integral;
 use app\common\logic\Pay;
 use app\common\logic\PlaceOrder;
@@ -12,6 +11,8 @@ use app\common\logic\UserAddressLogic;
 use app\common\logic\GoodsActivityLogic;
 use app\common\logic\CouponLogic;
 use app\common\logic\OrderLogic;
+use app\common\logic\PlaceOrderLogic;
+use app\common\logic\PayLogic;
 // use app\common\logic\PickupLogic;
 use app\common\model\SpecGoodsPrice;
 use app\common\model\Goods;
@@ -248,7 +249,10 @@ class Cart extends Base {
      */
     public function storeInfo()
     {
-        
+        $basicinfo = tpCache('basic');
+
+        $data['storeInfo'] = $basicinfo['storeInfo'];
+        response_success($data);
     }
 
     /**
@@ -311,13 +315,17 @@ class Cart extends Base {
         $goods_num          = I("goods_num/d");// 商品数量
         $item_id            = I("item_id/d"); // 商品规格id
         $action             = I("action"); // 立即购买
-        $dosubmit           = I('dosubmit', 0);
+        $dosubmit           = I('dosubmit', 0);  // 是否提交订单
+        $ID_number          = I('ID_number');  // 身份证号
+        $buy_method         = I('buy_method', 1);  // 配送方式
+        $consignee         = I('consignee'); // 当选择配送方式是到店自提时提供 姓名
+        $mobile             = I('mobile'); // 当选择配送方式是到店自提时提供 电话
 
         mb_strlen($user_note) > 60 && response_error('', '备注超出限制可输入字符长度！');
         if(!$address_id) response_error('', '请填写收货地址'); 
         $address = Db::name('UserAddress')->where("address_id", $address_id)->find();
         $cartLogic = new CartLogic();
-        $pay = new Pay();
+        $pay = new PayLogic();
         try {
             $cartLogic->setUserId($user_id);
             $pay->setUserId($user_id);
@@ -325,12 +333,12 @@ class Cart extends Base {
                 $cartLogic->setGoodsModel($goods_id);
                 $cartLogic->setSpecGoodsPriceModel($item_id);
                 $cartLogic->setGoodsBuyNum($goods_num);
-                $buyGoods = $cartLogic->buyNow();
+                $buyGoods = $cartLogic->buyNow2();
                 $cartList[0] = $buyGoods;
                 $pay->payGoodsList($cartList);
             } else {
                 $userCartList = $cartLogic->getCartList(1);
-                $cartLogic->checkStockCartList($userCartList);
+                // $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
             // $pay->delivery($address['district']);
@@ -340,15 +348,26 @@ class Cart extends Base {
             $pay->usePayPoints($pay_points);
             // 提交订单
             if ($dosubmit == 1) {
-                $placeOrder = new PlaceOrder($pay);
-                $placeOrder->setUserAddress($address);
-                $placeOrder->setInvoiceTitle($invoice_title);
-                $placeOrder->setUserNote($user_note);
-                $placeOrder->setTaxpayer($taxpayer);
-                $placeOrder->setPayPsw($payPwd);
-                $placeOrder->addNormalOrder();
+                $PlaceOrderLogic = new PlaceOrderLogic();
+                $PlaceOrderLogic->setPayLogic($pay);
+                $PlaceOrderLogic->setUserAddress($address);
+                $PlaceOrderLogic->setInvoiceTitle($invoice_title);
+                $PlaceOrderLogic->setUserNote($user_note);
+                $PlaceOrderLogic->setTaxpayer($taxpayer);
+                $PlaceOrderLogic->setPayPsw($payPwd);
+                // 额外参数
+                $extraParams = array(
+                    'ID_number' => $ID_number,
+                    'buy_method' => $buy_method,
+                );
+                if($buy_method == 1){
+                    $extraParams['consignee'] = $consignee;
+                    $extraParams['mobile'] = $mobile;
+                }
+                $PlaceOrderLogic->setExtraParams($extraParams);
+                $PlaceOrderLogic->addNormalOrder();
                 $cartLogic->clear();
-                $order = $placeOrder->getOrder();
+                $order = $PlaceOrderLogic->getOrder();
                 response_success(array('order_sn'=>$order['order_sn']), '提交订单成功');
             }
             response_success($pay->toArray(), '计算成功');
@@ -595,14 +614,14 @@ class Cart extends Base {
             $pay = $integral->pay();
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
-                $placeOrder = new PlaceOrder($pay);
-                $placeOrder->setUserAddress($integral->getUserAddress());
-                $placeOrder->setInvoiceTitle($invoice_title);
-                $placeOrder->setUserNote($user_note);
-                $placeOrder->setTaxpayer($taxpayer);
-                $placeOrder->setPayPsw($payPwd);
-                $placeOrder->addNormalOrder();
-                $order = $placeOrder->getOrder();
+                $PlaceOrderLogic = new PlaceOrder($pay);
+                $PlaceOrderLogic->setUserAddress($integral->getUserAddress());
+                $PlaceOrderLogic->setInvoiceTitle($invoice_title);
+                $PlaceOrderLogic->setUserNote($user_note);
+                $PlaceOrderLogic->setTaxpayer($taxpayer);
+                $PlaceOrderLogic->setPayPsw($payPwd);
+                $PlaceOrderLogic->addNormalOrder();
+                $order = $PlaceOrderLogic->getOrder();
                 $this->ajaxReturn(['status'=>1,'msg'=>'提交订单成功','result'=>$order['order_id']]);
             }
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pay->toArray()]);

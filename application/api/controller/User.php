@@ -17,6 +17,20 @@ class User extends Base {
 		parent::__construct();
 	}
 
+    public function index(){
+        $user_id = I('user_id');
+
+        $UsersLogic = new UsersLogic();
+        $data = $UsersLogic->get_info($user_id);
+
+        if($data['status'] == 1){
+            response_success($data['result']);
+        } else {
+            response_error('', $data['msg']);
+        }
+        
+    }
+
     public function getUserInfo(){
         $user_id = I('user_id');
         $userInfo = M('users')
@@ -152,9 +166,10 @@ class User extends Base {
     public function coupon()
     {
         $user_id = I('user_id');
+        $type = I('type/d');
 
         $logic = new UsersLogic();
-        $data = $logic->get_coupon($user_id, input('type'));
+        $data = $logic->get_coupon($user_id, $type);
         foreach($data['result'] as $k =>$v){
             $user_type = $v['use_type'];
             $data['result'][$k]['use_scope'] = C('COUPON_USER_TYPE')["$user_type"];
@@ -189,5 +204,83 @@ class User extends Base {
         
     }
 
+    /**
+     * 浏览记录
+     */
+    public function visit_log()
+    {
+        $user_id = I('user_id/d');
+        $page = I('page/d', 1);
 
+        $visit = M('goods_visit')->alias('v')
+            ->field('v.visit_id, v.goods_id, v.visittime, g.goods_name, g.original_img, g.shop_price, g.cat_id')
+            ->join('__GOODS__ g', 'v.goods_id=g.goods_id')
+            ->where('v.user_id', $user_id)
+            ->order('v.visittime desc')
+            ->page($page)
+            ->limit(20)
+            ->select();
+
+        /* 浏览记录按日期分组 */
+        $curyear = date('Y');
+        $visit_list = [];
+        foreach ($visit as $v) {
+            if ($curyear == date('Y', $v['visittime'])) {
+                $date = date('m月d日', $v['visittime']);
+            } else {
+                $date = date('Y年m月d日', $v['visittime']);
+            }
+            $visit_list[$date][] = $v;
+        }
+
+        response_success($visit_list);
+    }
+
+    /**
+     * 删除浏览记录
+     */
+    public function del_visit_log()
+    {
+        $visit_ids = I('get.visit_ids', 0);
+        $row = M('goods_visit')->where('visit_id','IN', $visit_ids)->delete();
+
+        if($row) {
+            response_success('', '操作成功');
+        } else {
+            response_error('', '操作失败');
+        }
+    }
+
+    // 收藏的商品
+    public function collectGoodslist()
+    {
+        $user_id = I('user_id');
+        $page = I('page');
+
+        $list = M('goods_collect')->alias('c')
+            ->field('c.collect_id,c.add_time,g.goods_id,g.goods_name,g.shop_price,g.original_img,g.store_count')
+            ->join('goods g','g.goods_id = c.goods_id','INNER')
+            ->where("c.user_id = $user_id")
+            ->where('g.is_on_sale', 1)
+            ->page($page)
+            ->limit(20)
+            ->select();
+
+        response_success($list);
+    }
+
+    /*
+     *取消收藏
+     */
+    public function cancel_collect()
+    {
+        $user_id = I('user_id');
+        $collect_id = I('collect_id/d');
+
+        if (M('goods_collect')->where(['collect_id' => $collect_id, 'user_id' => $user_id])->delete()) {
+            response_success('', '操作成功');
+        } else {
+            response_error('', '操作失败');
+        }
+    }
 }
