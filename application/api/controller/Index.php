@@ -19,10 +19,10 @@ class Index extends Base {
 		$user_id = I('user_id');
 
 		// 获取所有的广告图片
-		$bannerList = $hotlist = $jingcaiAdv = array();
+		$bannerList = $hotlist = $reg_about = $custom_goods = array();
         $adList = Db::name('ad')
             ->where('enabled', 1)
-            ->where('pid', array('in', array(14, 15, 16)))
+            ->where('pid', array('in', array(14, 15, 16, 17)))
             ->field('ad_name, ad_link, ad_code, pid')
             ->order('orderby asc, ad_id asc')
             ->select();
@@ -32,8 +32,10 @@ class Index extends Base {
         		($item['pid'] == 14 ) && $bannerList[] = $item;
         		// 热门商品
         		($item['pid'] == 15 ) && $hotlist[] = $item;
-        		// 注册送好礼
-        		($item['pid'] == 16 ) && $jingcaiAdv[] = $item;
+        		// 注册送好礼和探索国典
+        		($item['pid'] == 16 ) && $reg_about[] = $item;
+        		// 下方自定义商品入口
+        		($item['pid'] == 17 ) && $custom_goods[] = $item;
         	}
         }
 
@@ -45,11 +47,26 @@ class Index extends Base {
 			->field('id, name, image')
 			->select();
 
+		// 猜您喜欢
+		$where = array(
+			'is_on_sale' => 1, // 上架中
+			'prom_type' => 0, // 普通商品
+			'is_recommend' => 1
+		);
+
+		$guessGoodsList = Db::name('goods')
+			->where($where)
+			->order('sort asc, goods_id desc')
+			->field('goods_id, goods_name, store_count, original_img, shop_price, market_price')
+			->limit(6)
+			->select();
+
         $result['bannerList'] = $bannerList;
         $result['categoryList'] = $categoryList;
-        $result['adv'] = $adv;
-        $result['jingcaiAdv'] = $jingcaiAdv;
-       	$result['time_space'] = $time_space;
+        $result['hotlist'] = $hotlist;
+        $result['reg_about'] = $reg_about;
+        $result['custom_goods'] = $custom_goods;
+        $result['guessGoodsList'] = $guessGoodsList;
 		response_success($result);
 	}
 

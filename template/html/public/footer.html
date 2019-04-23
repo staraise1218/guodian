@@ -47,13 +47,22 @@
 </script>
 <script>
 	(function (w, d, n, a, j) {
-	    w[n] = w[n] || function () {
-	        return (w[n].a = w[n].a || []).push(arguments)
-	    };
-	    j = d.createElement('script');
-	    j.async = true;
-	    j.src = 'http://qiyukf.com/script/044865c94981c048609d5c94c1ae9c6d.js?templateId=123';
-	    d.body.appendChild(j);
+		w[n] = w[n] || function () {
+			(w[n].a = w[n].a || []).push(arguments);
+		};
+		j = d.createElement('script');
+		j.async = true;
+		j.src ='https://qiyukf.com/script/4d0fd9184a2aa58bdf0864d0818c484b.js';
+		d.body.appendChild(j);
 	})(window, document, 'ysf');
+
+	 ysf('product', {
+        show : 1, // 1为打开， 其他参数为隐藏（包括非零元素）
+        title : '标题',
+        desc : '商品描述',
+        picture : '商品图片地址',
+        note : '备注',
+        url : '跳转链接'
+    })
 </script>
 <!--
