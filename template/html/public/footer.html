@@ -29,7 +29,6 @@
 <script src="__STATIC__/js/layer/layer-min.js"></script>
 <script type="text/javascript">
 
-
     $(document).ready(function(){
 
 		$.ajax({
@@ -52,17 +51,22 @@
 		};
 		j = d.createElement('script');
 		j.async = true;
-		j.src ='https://qiyukf.com/script/4d0fd9184a2aa58bdf0864d0818c484b.js';
+		j.src ='https://qiyukf.com/script/f7d7bda2488a94a7103e779cf1aa436c.js';
 		d.body.appendChild(j);
 	})(window, document, 'ysf');
+		
+		
+		ysf('onready', function() {
+		 	
+	    });
 
-	 ysf('product', {
-        show : 1, // 1为打开， 其他参数为隐藏（包括非零元素）
-        title : '标题',
-        desc : '商品描述',
-        picture : '商品图片地址',
-        note : '备注',
-        url : '跳转链接'
-    })
+
+	    ysf('config', {
+	        uid: '{$Think.cookie.PHPSESSID}',
+	        name:'{$Think.cookie.uname|urldecode}',
+	        email:'{$Think.cookie.email}',
+	        mobile:'{$Think.cookie.mobile}',
+	    });
+
 </script>
 <!--

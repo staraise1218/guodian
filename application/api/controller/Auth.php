@@ -87,8 +87,10 @@ class Auth extends Base {
 
     	if(empty($password)) response_error('', '密码不能为空');
 
+        $username = generateUsername();
     	$map = array(
     		'mobile' => $mobile,
+            'username' => $username,
     		'nickname' => $nickname,
     		'password' => encrypt($password),
     		'reg_time' => time(),
@@ -199,9 +201,11 @@ class Auth extends Base {
         if($users){
             $user_id = $users['user_id'];
         } else {
+            $username = generateUsername();
             // 将信息写入用户表
             $userData = array(
                 'mobile' => $mobile,
+                'username' => $username,
                 'nickname' => $nickname,
                 'head_pic' => $head_pic,
                 'reg_time' => time(),
@@ -210,7 +214,6 @@ class Auth extends Base {
             );
 
             $user_id = Db::name('users')->insertGetId($userData);
-            
         }
         // 更新三方登录表记录的user_id
         Db::name('oauth_users')->where('openid', $openid)->update(array('user_id'=>$user_id));

@@ -79,12 +79,16 @@ class User extends Base {
         $field = input('post.field');
         $fieldValue = input('post.fieldValue');
 
-        if(!in_array($field, array('nickname', 'sex'))) response_error('', '不被允许的字段');
+        if(!in_array($field, array('username', 'nickname', 'personal_statement', 'realname', 'sex', 'birthday'))) response_error('', '不被允许的字段');
 
-        if($field == 'nickname'){
-            if(mb_strlen($fieldValue) > 6 || mb_strlen($fieldValue) < 2){
-                response_error('', '姓名长度在2-6个字之间');
+        if($field == 'username' || $field == 'nickname'){
+            if(!preg_match('/^[A-Za-z0-9_\x{4e00}-\x{9fa5}]+$/u', $fieldValue) || mb_strlen($fieldValue) > 20 || mb_strlen($fieldValue) < 4){
+                response_error('', '该值不符合规定');
             }
+
+            // 检测是否存在
+            $count = Db::name('users')->where("$field", "$fieldValue")->count();
+            if($count) response_error('', '已存在');
         }
 
         Db::name('users')->where('user_id', $user_id)->update(array($field=>$fieldValue));

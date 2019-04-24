@@ -245,7 +245,7 @@
 <script type="text/javascript">
 
     var spec_goods_price = {$spec_goods_price|default='null'}; //规格库存价格
-console.log(spec_goods_price);
+
     $(document).ready(function () {
         $('.flexslider').flexslider({
             animation: "slide",
@@ -382,20 +382,27 @@ console.log(spec_goods_price);
     }
 </script>
 
-<!-- <script>
-    $(function () {
-        $(".rslides").responsiveSlides({
-            // auto: true,
-            nav: true,
-            speed: 500,
-            namespace: "callbacks",
-            pager: false,
-        });
-    });
-</script> -->
+
 <!-- 百度分享 -->
 <script type="text/javascript" src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)></script>
 
+<script type="text/javascript">
+    // 客服聊天，自动获取商品信息
+    var title = '{$goods.goods_name}'
+        , desc = '{$goods.goods_remark}'
+        , picture = location.origin+'{$goods.original_img}'
+        , url = location.href
+    ysf('product', {
+        sendByUser: 1, // 是否由访客手动发送，1为是，其他参数为否
+        actionText: '发送链接', // 发送按钮文案
+        actionTextColor: '#000000', // 发送按钮文案颜色（16进制格式）
+        title : title,
+        desc : desc,
+        picture : picture,
+        note : '',
+        url : url
+    })
+</script>
 <style type="text/css">
     .layui-layer-title {background: #4a4a4a; color: #fff;}
     .layui-layer-rim {border: none}
