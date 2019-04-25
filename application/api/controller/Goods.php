@@ -86,7 +86,7 @@ class Goods extends Base {
  		$result['goods_attr_list'] = $goods_attr_list; // 商品属性
  		$result['filter_spec'] = $filter_spec;  // 商品规格
  		$result['spec_goods_price'] = json_encode($spec_goods_price,true); // 商品规格对应的价格
-        response_success($goods);
+        response_success($result);
 	}
 
 	/**
