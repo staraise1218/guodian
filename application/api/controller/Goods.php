@@ -65,11 +65,10 @@ class Goods extends Base {
 
 
         $goods['goods_images_list'] = M('GoodsImages')->where("goods_id", $goods_id)->select(); // 商品 图册
-        // $goods_attribute = M('GoodsAttribute')->getField('attr_id,attr_name'); // 查询属性
-        // $goods_attr_list = M('GoodsAttr')->where("goods_id", $goods_id)->select(); // 查询商品属性表
-		// $filter_spec = $goodsLogic->get_spec($goods_id);
-        // $spec_goods_price  = M('spec_goods_price')->where("goods_id", $goods_id)->getField("key,price,store_count,item_id"); // 规格 对应 价格 库存表
-        // $this->assign('spec_goods_price', json_encode($spec_goods_price,true)); // 规格 对应 价格 库存表
+        $goods_attribute = M('GoodsAttribute')->getField('attr_id,attr_name'); // 查询属性
+        $goods_attr_list = M('GoodsAttr')->where("goods_id", $goods_id)->select(); // 查询商品属性表
+		$filter_spec = $goodsLogic->get_spec($goods_id);
+        $spec_goods_price  = M('spec_goods_price')->where("goods_id", $goods_id)->getField("key,price,store_count,item_id"); // 规格 对应 价格 库存表
         // $goods['commentStatistics'] = $goodsLogic->commentStatistics($goods_id);// 获取某个商品的评论统计
       	$goods['sale_num'] = M('order_goods')->where(['goods_id'=>$goods_id,'is_send'=>1])->sum('goods_num');
         //当前用户收藏
@@ -82,6 +81,11 @@ class Goods extends Base {
  		// 记录浏览日志
  		$goodsLogic2->add_visit_log($user_id, $goods);
 
+ 		$result['goodsInfo'] = $goods;
+ 		$result['goods_attribute'] = $goods_attribute;
+ 		$result['goods_attr_list'] = $goods_attr_list; // 商品属性
+ 		$result['filter_spec'] = $filter_spec;  // 商品规格
+ 		$result['spec_goods_price'] = json_encode($spec_goods_price,true); // 商品规格对应的价格
         response_success($goods);
 	}
 
