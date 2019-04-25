@@ -95,10 +95,9 @@ class Goods extends Base {
 	 */
 	public function recommendgoodslist(){
 		// $cat_id = I('cat_id');
-		$city_code = I('city_code');
+		$num = I('num', 6);
 
 		$where = array(
-			'city_code' => $city_code, // 城市
 			'is_on_sale' => 1, // 上架中
 			'prom_type' => 0, // 普通商品
 			'is_recommend' => 1
@@ -109,8 +108,7 @@ class Goods extends Base {
 			->where($where)
 			->order('sort asc, goods_id desc')
 			->field('goods_id, goods_name, subtitle, store_count, original_img, shop_price')
-			->page($page)
-			->limit(15)
+			->limit($num)
 			->select();
 
 		response_success($goodslist);
