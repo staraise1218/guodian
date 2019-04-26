@@ -1,3 +1,4 @@
+
 /**
  * =================================================
  *          公共变量
@@ -12,7 +13,24 @@ let store_count = 0; // 库存
 let count = 1; // 选择数量
 let count_base = 1; // 库存
 let $id = ''; // 规格id
+let goods_id = '';  // 商品 id
 
+/**
+ * =================================================
+ *          goodsid     //   theRequest
+ * =================================================
+ */
+var url = location.search;
+var theRequest = new Object();
+if(url.indexOf('?') != -1) {
+    var str = url.substr(1);
+    var strs = str.split('&');
+    for(var i = 0; i < strs.length; i++) {
+        theRequest[strs[i].split('=')[0]] = (strs[i].split('=')[i]);
+    }
+    console.log(theRequest)
+    goods_id = theRequest.goods_id
+}
 /**
  * =================================================
  *          轮播图执行
@@ -104,7 +122,7 @@ $.ajax({
     url: Global + '/Api/goods/goodsInfo',
     data: {
         user_id: 1,
-        goods_id: 489
+        goods_id: goods_id
     },
     dataType: 'json',
     success: function (res) {
@@ -197,6 +215,7 @@ $.ajax({
         console.log('error', error);
     }
 });
+
 $.ajax({
     type: 'POST',
     url: Global + '/Api/goods/recommendgoodslist',
@@ -212,7 +231,7 @@ $.ajax({
             shoppintCon += `<li><img src="" alt=""></li>`
         }
         $.each(res.data, function (index, item) {
-            $('.shoppint-con').append(`<li><img data-goods_id="${item.goods_id}" src="${Global + item.original_img}" alt=""></li>`)
+            $('.shoppint-con').append(`<li class='go' data-goods_id="${item.goods_id}"><img src="${Global + item.original_img}" alt=""></li>`)
         });
     },
     error: function (error) {
@@ -222,7 +241,10 @@ $.ajax({
 
 
 
-
+$('body').delegate('.go', 'click', function () {
+    console.log($(this).attr('data-goods_id'))
+    window.location.href = 'commodity.html?goods_id=' + $(this).attr('data-goods_id')
+})
 
 /**
  * =============================================
@@ -265,7 +287,7 @@ $('.collection').on('click', function () {
         url: Global + '/Api/goods/collect_goods',
         data: {
             user_id: 1,
-            goods_id: 489
+            goods_id: goods_id
         },
         success: function (res) {
             console.log(res)
@@ -339,7 +361,7 @@ $('.addBtn').on('click', function () {
         url: Global + '/Api/cart/addCart',
         data: {
             user_id: 1,
-            goods_id: 489,
+            goods_id: goods_id,
             item_id: $id,
             goods_num: count
         },
@@ -395,7 +417,7 @@ $('.byNowBtn').on('click', function () {
         url: Global + '/Api/cart/cart2',
         data: {
             user_id: 1,
-            goods_id: 489,
+            goods_id: goods_id,
             action: 'buy_now',
             item_id: $id,
             goods_num: count

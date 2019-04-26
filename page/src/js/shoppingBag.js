@@ -116,7 +116,7 @@ $.ajax({
         let goodsList = '';
         for(let i = 0; i < res.data.length; i++) {
             goodsList += `
-            <li class="srco-item" data-id="${res.data[i].id}" data-scroll="right">
+            <li class="srco-item good-item" data-id="${res.data[i].id}" data-scroll="right">
                 <div class="left">
                     <div class="choose-wrap" data-choose="0">
                         <img class="icon-lg choose" src="./src/img/icon/圆.png" data-choose="0" alt="">
@@ -158,14 +158,13 @@ $.ajax({
         let recommendStr = '';
         console.log(res.data)
         $.each( res.data, function(index, item){
-            recommendStr += `<li data-id="${item.goods_id}>
+            recommendStr += `<li class="good-item" data-goodid="${item.goods_id}">
                                 <img src="${ Global + item.original_img }" class="com" />
                                 <p>${item.goods_name}</p>
                                 <p class="price">价格：￥${item.shop_price}</p>
                                 <p class="del">官方公价：￥1,238,300</p>
                             </li>`
         });
-        console.log(recommendStr)
         $('.recommend').html(recommendStr)
     }
 })
@@ -178,5 +177,8 @@ $.ajax({
 
 
 
-
+$('.recommend').delegate('.good-item', 'click', function () {
+    console.log($(this).attr('data-goodid'))
+    window.location.href = 'commodity.html?goods_id=' + $(this).attr('data-goodid')
+})
 
