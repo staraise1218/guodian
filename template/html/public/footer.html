@@ -55,18 +55,25 @@
 		d.body.appendChild(j);
 	})(window, document, 'ysf');
 		
-		
-		ysf('onready', function() {
-		 	
-	    });
+	// var isSdkReady = true;
+ //    ysf('onLayerload', function () {
+ //        isSdkReady = true;
+ //    })
+
+ //    window.openSdk = function () {
+ //        if (isSdkReady) {
+ //            ysf('open');
+ //        } else {
+ //            alert('sdk尚未加载成功，请稍后再试');
+ //        }
+ //    }
 
 
-	    ysf('config', {
-	        uid: '{$Think.cookie.PHPSESSID}',
-	        name:'{$Think.cookie.uname|urldecode}',
-	        email:'{$Think.cookie.email}',
-	        mobile:'{$Think.cookie.mobile}',
-	    });
+    ysf('config', {
+        uid: '{$Think.cookie.PHPSESSID}',
+        name:'{$Think.cookie.uname|urldecode}',
+        email:'{$Think.cookie.email}',
+        mobile:'{$Think.cookie.mobile}',
+    });
 
 </script>
-<!--

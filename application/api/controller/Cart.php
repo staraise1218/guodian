@@ -30,11 +30,9 @@ class Cart extends Base {
 
     public function index(){
         $user_id = I('user_id');
-        $city_code = I('city_code');
 
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($user_id);
-        $cartLogic->setCityCode($city_code);
 
         $cartList = $cartLogic->getCartList();//用户购物车
         $userCartGoodsTypeNum = $cartLogic->getUserCartGoodsTypeNum();//获取用户购物车商品总数
