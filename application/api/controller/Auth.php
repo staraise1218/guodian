@@ -120,7 +120,7 @@ class Auth extends Base {
         }
         // 检测验证码
         $SmsLogic = new SmsLogic();
-        if($SmsLogic->checkCode($mobile, $code, '1', $error) == false) response_error('', $error);
+        if($SmsLogic->checkCode($mobile, $code, '2', $error) == false) response_error('', $error);
 
         $user = Db::name('users')->where("mobile = $mobile")->find();
         if(empty($user)) response_error('', '手机号未注册');
