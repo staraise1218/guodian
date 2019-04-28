@@ -20,17 +20,14 @@ let goods_id = '';  // 商品 id
  *          goodsid     //   theRequest
  * =================================================
  */
-var url = location.search;
-var theRequest = new Object();
-if(url.indexOf('?') != -1) {
-    var str = url.substr(1);
-    var strs = str.split('&');
-    for(var i = 0; i < strs.length; i++) {
-        theRequest[strs[i].split('=')[0]] = (strs[i].split('=')[i]);
-    }
-    console.log(theRequest)
-    goods_id = theRequest.goods_id
-}
+urlinfo=window.location.href; //获取当前页面的url
+len=urlinfo.length;//获取url的长度
+offset=urlinfo.indexOf("?");//设置参数字符串开始的位置
+newsidinfo=urlinfo.substr(offset,len)//取出参数字符串 这里会获得类似“id=1”这样的字符串
+newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
+newsid=newsids[1];//得到参数值
+goods_id = newsid;
+
 /**
  * =================================================
  *          轮播图执行
@@ -51,7 +48,6 @@ $(window).on('load', function () {
         sliderHeight: '30%'
     });
 })
-
 
 
 /**
@@ -432,4 +428,15 @@ $('.byNowBtn').on('click', function () {
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
+})
+
+
+
+
+
+
+
+
+$('#goShoppingBag').on('click', function () {
+    window.location.href ='./shoppingBag.html'
 })

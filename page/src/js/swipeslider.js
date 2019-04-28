@@ -40,7 +40,7 @@
       * Overall height of the slider. Set it to percent to make it responsive.
       * Otherwise the slider will keep the height.
       */
-      sliderHeight: '60%'
+      sliderHeight: '100%'
     };
 
     var settings = $.extend(defaultSettings, options);
@@ -72,7 +72,7 @@
     * Set initial values.
     */
     (function init() {
-      $(slideContainer).css('padding-top', '100%');
+      $(slideContainer).css('padding-top', settings.sliderHeight);
       
       slidesWidth = slider.width();
         
