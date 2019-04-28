@@ -100,7 +100,9 @@ class Goods extends Base {
                     
                     //查找同级分类是否有重复分类
                     $par_id = ($GoodsCategory->parent_id > 0) ? $GoodsCategory->parent_id : 0;
-                    $same_cate = M('GoodsCategory')->where(['parent_id'=>$par_id , 'name'=>$GoodsCategory['name']])->find();
+                    $sameCateWhere = ['parent_id'=>$par_id , 'name'=>$GoodsCategory['name']];
+                    $GoodsCategory->id && $sameCateWhere['id'] = array('<>' , $GoodsCategory->id);
+                    $same_cate = M('GoodsCategory')->where($sameCateWhere)->find();
                     if($same_cate){
                         $return_arr = array(
                             'status' => 0,

@@ -1348,10 +1348,10 @@ function getPayBody($order_id){
 
 // 创建昵称
 function generateUsername(){
-    $uuid = 'gd'.mt_rand(10000000, 99999999);
+    $username = 'gd'.mt_rand(10000000, 99999999);
 
-    if(M('users')->where('uuid', $uuid)->count()){
+    if(M('users')->where('username', $username)->count()){
         $this->generateUuid();
     }
-    return $uuid;
+    return $username;
 }

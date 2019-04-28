@@ -132,6 +132,28 @@
           <p class="notic">请上传图片格式文件</p>
         </dd>
       </dl>
+
+      <dl class="row">
+        <dt class="tit">
+          <label>分类图片2</label>
+        </dt>
+        <dd class="opt">
+          <div class="input-file-show">
+            <span class="show">
+                <a id="img_a2" target="_blank" class="nyroModal" rel="gal" href="{$goods_category_info.image2}">
+                  <i id="img_i2" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$goods_category_info.image2}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                </a>
+            </span>
+            <span class="type-file-box">
+                <input type="text" id="image2" name="image2" value="{$goods_category_info.image2}" class="type-file-text">
+                <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+                <input class="type-file-file" onClick="GetUploadify(1,'','category','img_call_back2')" size="30" hidefocus="true" nc_type="change_site_logo" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+            </span>
+          </div>
+          <span class="err"></span>
+          <p class="notic">请上传图片格式文件</p>
+        </dd>
+      </dl>
       <dl class="row">
         <dt class="tit">
           <label for="t_sort"><em>*</em>排序</label>
@@ -193,6 +215,13 @@ function img_call_back(fileurl_tmp)
   $("#image").val(fileurl_tmp);
   $("#img_a").attr('href', fileurl_tmp);
   $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+}
+
+function img_call_back2(fileurl_tmp)
+{
+  $("#image2").val(fileurl_tmp);
+  $("#img_a2").attr('href', fileurl_tmp);
+  $("#img_i2").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
 }
 </script>
 </body>

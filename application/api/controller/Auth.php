@@ -91,7 +91,7 @@ class Auth extends Base {
     	$map = array(
     		'mobile' => $mobile,
             'username' => $username,
-    		'nickname' => $nickname,
+    		'nickname' => $mobile,
     		'password' => encrypt($password),
     		'reg_time' => time(),
     		'last_login' => time(),
@@ -120,7 +120,7 @@ class Auth extends Base {
         }
         // 检测验证码
         $SmsLogic = new SmsLogic();
-        if($SmsLogic->checkCode($mobile, $code, '1', $error) == false) response_error('', $error);
+        if($SmsLogic->checkCode($mobile, $code, '2', $error) == false) response_error('', $error);
 
         $user = Db::name('users')->where("mobile = $mobile")->find();
         if(empty($user)) response_error('', '手机号未注册');
@@ -259,6 +259,43 @@ class Auth extends Base {
             response_success($result);
         } else {
             response_error($result);
+        }
+    }
+
+    // 免密登录
+    public function freeLogin(){
+        $mobile = I('mobile');
+        $code = I('code');
+
+        if(check_mobile($mobile) == false) response_error('', '手机号格式错误');
+
+        // 验证码检测
+        $SmsLogic = new SmsLogic();
+        if($SmsLogic->checkCode($mobile, $code, '3', $error) == false) response_error('', $error);
+
+
+        $userInfo = Db::name('users')->where("mobile={$mobile}")->find();
+        if($userInfo) {
+            unset($userInfo['password']);
+            response_success($userInfo);
+        } else {
+                $username = generateUsername();
+                $map = array(
+                    'mobile' => $mobile,
+                    'username' => $username,
+                    'nickname' => $mobile,
+                    'password' => '',
+                    'reg_time' => time(),
+                    'last_login' => time(),
+                    'token' => md5(time().mt_rand(1,999999999)),
+                );
+
+                $user_id = M('users')->insertGetId($map);
+                if($user_id === false) response_error('', '注册失败');
+                
+                $userInfo = M('users')->where('user_id', $user_id)->find();
+                unset($userInfo['password']);
+                response_success($userInfo);
         }
     }
 }
