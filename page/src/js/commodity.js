@@ -28,27 +28,6 @@ newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行�
 newsid=newsids[1];//得到参数值
 goods_id = newsid;
 
-/**
- * =================================================
- *          轮播图执行
- * =================================================
- */
-$(window).on('load', function () {
-    $('#full_feature').swipeslider();
-    $('#content_slider').swipeslider({
-        transitionDuration: 600,
-        autoPlayTimeout: 10000,
-        sliderHeight: '300px'
-    });
-    $('#responsiveness').swipeslider();
-    $('#customizability').swipeslider({
-        transitionDuration: 1500,
-        autoPlayTimeout: 4000,
-        timingFunction: 'cubic-bezier(0.38, 0.96, 0.7, 0.07)',
-        sliderHeight: '30%'
-    });
-})
-
 
 /**
  * =================================================
@@ -129,11 +108,10 @@ $.ajax({
         let slider = '';
         for (let i = 0; i < res.data.goodsInfo.goods_images_list.length; i++) {
             var imgstr = Global + res.data.goodsInfo.goods_images_list[i].image_url;
-            slider += `<li class="sw-slide">
-                            <img  src="${imgstr}" alt="img">
-                        </li>`
+            slider += `<div class="swiper-slide"><img  src="${imgstr}" alt="img"></div>`
         }
-        $('.slider-content').html(slider)
+        console.log( res.data.goodsInfo.goods_images_list.length)
+        $('.swiper-wrapper').html(slider)
         // 价格及商品信息
         price_base = res.data.goodsInfo.shop_price;
         $('.infoWrap').html(`
@@ -160,10 +138,10 @@ $.ajax({
         let reg = /src="/g
         let shopCon = '';
         // reg.test(res.data.goods_content)
-        console.log(res.data.goodsInfo.goods_content)
+        // console.log(res.data.goodsInfo.goods_content)
         res.data.goodsInfo.goods_content = res.data.goodsInfo.goods_content.replace(reg, '/src="' + Global)
         $('.shopCon').html(res.data.goodsInfo.goods_content)
-        console.log(res.data.goodsInfo.goods_content)
+        // console.log(res.data.goodsInfo.goods_content)
         // 绑定id
         $('.add').attr('data-goods_id', res.data.goodsInfo.goods_id);
         $('.payNow').attr('data-goods_id', res.data.goodsInfo.goods_id);
@@ -240,6 +218,26 @@ $.ajax({
 $('body').delegate('.go', 'click', function () {
     console.log($(this).attr('data-goods_id'))
     window.location.href = 'commodity.html?goods_id=' + $(this).attr('data-goods_id')
+})
+
+/**
+ * =================================================
+ *          轮播图执行
+ * =================================================
+ */
+$(window).on('load', function () {
+    setTimeout(function () {
+        var swiper = new Swiper('.swiper-container', {
+            // spaceBetween: 30,
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true,
+            },
+            autoplay:true,
+            loop : true,
+            disableOnInteraction: false,
+          });
+    }, 1000)
 })
 
 /**
