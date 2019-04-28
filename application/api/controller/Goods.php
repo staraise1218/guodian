@@ -24,12 +24,11 @@ class Goods extends Base {
 	 */
 	public function goodslist(){
 		$cat_id = I('cat_id');
-		$city_code = I('city_code');
 		$keyword = I('keyword');
 		$page = I('page', 1);
 
 		$where = array(
-			'city_code' => $city_code, // 城市
+			'city_cod' => $city_code, // 城市
 			'is_on_sale' => 1, // 上架中
 			'prom_type' => 0, // 普通商品
 		);
@@ -39,7 +38,7 @@ class Goods extends Base {
 		$goodslist = Db::name('goods')
 			->where($where)
 			->order('sort asc, goods_id desc')
-			->field('goods_id, goods_name, subtitle, store_count, original_img, shop_price')
+			->field('goods_id, goods_name, store_count, original_img, shop_price')
 			->page($page)
 			->limit(15)
 			->select();
