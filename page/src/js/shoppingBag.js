@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-$("body").delegate('.srco-item',"touchstart", function (e) {
+$(".commodityList").delegate('.srco-item',"touchstart", function (e) {
     // console.log($(this).attr('data-scroll'))
     // 判断默认行为是否可以被禁用
     if (e.cancelable) {
@@ -16,7 +16,7 @@ $("body").delegate('.srco-item',"touchstart", function (e) {
     startX = e.originalEvent.changedTouches[0].pageX,
     startY = e.originalEvent.changedTouches[0].pageY;
 });
-$("body").delegate('.srco-item',"touchend", function (e) {
+$(".commodityList").delegate('.srco-item',"touchend", function (e) {
     // 判断默认行为是否可以被禁用
     if (e.cancelable) {
         // 判断默认行为是否已经被禁用
@@ -43,7 +43,7 @@ $("body").delegate('.srco-item',"touchend", function (e) {
     else if (X < 0) {
         // console.log('右滑');
         if ($(this).attr('data-scroll') == 'right') {
-            console.log($(this).attr('data-scroll'))
+            // console.log($(this).attr('data-scroll'))
             $(this).attr('data-scroll', 'left')
                 .animate({
                     left: -$('.del').eq(0).width()
@@ -77,6 +77,23 @@ $("body").delegate('.srco-item',"touchend", function (e) {
             $(this).find('.choose').css('display','block')
             $(this).find('.choose-active').css('display','none')
         }
+        // console.log($(this).attr('data-id'))
+        // console.log($(e.target).attr('class'))
+        if($(e.target).attr('class') == 'del') {
+            let cart_id = JSON.stringify($(this).attr('data-id'))
+            $.ajax({
+                type: 'POST',
+                url: Global + '/Api/cart/delete',
+                data: {
+                    user_id: 1,
+                    cart_ids: cart_id
+                },
+                success: function (res) {
+                    console.log(res)
+                    loadingList();
+                }
+            })
+        }
     }
 });
 
@@ -104,39 +121,42 @@ $('.chooseAll .left-choose').on('click', function (e) {
  *          加载列表
  * =====================================================
  */
-$.ajax({
-    type: 'POST',
-    url: Global + '/Api/cart/index',
-    data: {
-        user_id: 1,
-        city_code: 110100
-    },
-    success: function (res) {
-        console.log(res)
-        let goodsList = '';
-        for(let i = 0; i < res.data.length; i++) {
-            goodsList += `
-            <li class="srco-item good-item" data-id="${res.data[i].id}" data-scroll="right">
-                <div class="left">
-                    <div class="choose-wrap" data-choose="0">
-                        <img class="icon-lg choose" src="./src/img/icon/圆.png" data-choose="0" alt="">
-                        <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" data-choose="1" alt="">
+loadingList();
+function loadingList () {
+    $.ajax({
+        type: 'POST',
+        url: Global + '/Api/cart/index',
+        data: {
+            user_id: 1,
+            city_code: 110100
+        },
+        success: function (res) {
+            console.log(res)
+            let goodsList = '';
+            for(let i = 0; i < res.data.length; i++) {
+                goodsList += `
+                <li class="srco-item good-item" data-id="${res.data[i].id}" data-scroll="right">
+                    <div class="left">
+                        <div class="choose-wrap" data-choose="0">
+                            <img class="icon-lg choose" src="./src/img/icon/圆.png" data-choose="0" alt="">
+                            <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" data-choose="1" alt="">
+                        </div>
+                        <div class="commity">
+                            <img class="poster" src="${Global + res.data[i].goods.original_img}" alt="">
+                        </div>
                     </div>
-                    <div class="commity">
-                        <img class="poster" src="${Global + res.data[i].goods.original_img}" alt="">
+                    <div class="right">
+                        <p>AUDEMARS PIGUET</p>
+                        <p>${res.data[i].goods_name}</p>
+                        <p class="price">￥ 336,384</p>
                     </div>
-                </div>
-                <div class="right">
-                    <p>AUDEMARS PIGUET</p>
-                    <p>${res.data[i].goods_name}</p>
-                    <p class="price">￥ 336,384</p>
-                </div>
-                <div class="del">移除</div>
-            </li>`
+                    <div class="del" data-id="${res.data[i].id}">移除</div>
+                </li>`
+            }
+            $('.commodityList').html(goodsList);
         }
-        $('.commodityList').html(goodsList);
-    }
-})
+    })
+}
 
 
 
