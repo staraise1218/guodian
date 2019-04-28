@@ -439,8 +439,4 @@ $('.byNowBtn').on('click', function () {
 
 $('#goShoppingBag').on('click', function () {
     window.location.href ='./shoppingBag.html'
-<<<<<<< HEAD
 })
-=======
-})
->>>>>>> e6311719914182579d8b74728c4c55568fe5bf12
