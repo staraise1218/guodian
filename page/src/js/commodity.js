@@ -361,6 +361,9 @@ $('.addBtn').on('click', function () {
         },
         success: function (res) {
             console.log(res)
+            $('.alert').css('display', 'none');
+            $('.addChopCart').slideUp(200);
+            $('.byNow').slideUp(200);
         }
     })
 })
