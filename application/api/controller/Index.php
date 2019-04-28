@@ -109,4 +109,58 @@ class Index extends Base {
         response_success($list);
 	}
 
+	/**
+	 * [goodslist 首页：今日新品，重奢经典，今日折扣，猪年礼物列表]
+	 * 【type】 类型：1 今日新品 2 重奢经典，3 今日折扣，4 猪年礼物
+	 * 今日新品： 获取所有商品 按后台设定的排序、时间倒序排列
+	 * 重奢经典： 获取所有的商品 按价格倒序
+	 * 今日折扣: 只取特卖商品 并按排序和时间倒序
+	 * 猪年礼物： 取所有商品 没有分类筛选（和今日新品差不多，就是少了分类）
+	 * @return [type] [description]
+	 */
+	public function goodslist(){
+		$type = I('type', 1);
+		$cat_id = I('cat_id');
+		$page = I('page', 1);
+
+		// 获取分类
+		$categoryList = Db::name('goods_category')
+			->where('is_show', 1)
+			->order('sort_order')
+			->field('id, mobile_name cat_name')
+			->cache(true)
+			->select();
+
+		$where = array(
+			'is_on_sale' => 1, // 上架中
+			'prom_type' => 0, // 普通商品
+		);
+
+		if($cat_id == '') $cat_id = $categoryList[0]['id'];
+		$cat_id && $where['cat_id'] = $cat_id;
+
+		if($type == 1) $order = 'sort asc, goods_id desc';
+		if($type == 2) $order = 'shop_price desc';
+		if($type == 3) {
+			$where['temai'] = 1;
+			$order = 'sort asc, goods_id desc';
+		}
+		if($type == 4) {
+			unset($where['cat_id']);
+			$order = 'sort asc, goods_id desc';
+		}
+		
+		$order = 'sort asc, goods_id desc';
+		$goodsList = Db::name('goods')
+			->where($where)
+			->order($order)
+			->field('goods_id, goods_name, store_count, original_img, shop_price')
+			->page($page)
+			->limit(20)
+			->select();
+
+		$result['categoryList'] = $categoryList;
+		$result['goodsList'] = $goodsList;
+		response_success($result);
+	}
 }

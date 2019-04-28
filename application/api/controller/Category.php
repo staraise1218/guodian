@@ -32,13 +32,18 @@ class Category extends Base {
 	public function cateBrandList(){
 		$cat_id = I('cat_id');
 
+		// 获取分类信息
+		$category = Db::name('goods_category')->where('id', $cat_id)->field('name, image2')->find();
+
 		$list = Db::name('brand')->alias('b')
 			->join('goods_category gc', 'gc.id=b.parent_cat_id')
 			->where('b.parent_cat_id', $cat_id)
 			->field('b.id, b.name, b.logo, gc.mobile_name cat_name')
 			->select();
 
-		response_success($list);
+		$result['category'] = $category;
+		$result['list'] = $list;
+		response_success($result);
 	}
 
 	/**
