@@ -70,6 +70,11 @@ class Goods extends Base {
             $goods['series_name'] = M('series')->where("id", $goods['series_id'])->getField("name");
         }
 
+        //当前用户收藏
+        $is_collect = M('goods_collect')->where(array("goods_id"=>$goods_id ,"user_id"=>cookie('user_id')))->count();
+
+        $this->assign('is_collect', $is_collect);
+
         $this->assign('freight_free', $freight_free);// 全场满多少免运费
         $this->assign('spec_goods_price', json_encode($spec_goods_price,true)); // 规格 对应 价格 库存表
         $this->assign('navigate_goods',navigate_goods($goods_id,1));// 面包屑导航

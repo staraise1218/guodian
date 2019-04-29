@@ -1715,7 +1715,7 @@ ul.memenu.skyblue{
 .prdt-info-grid span:nth-child(3){
   background: url(../image/icon/zhijian.png) no-repeat 5px center;
 }
-.prdt-info-grid span:nth-child(4){
+.prdt-info-grid #collectLink{
   background: url(../image/icon/like.png) no-repeat 10px center;
   background-size: 1.4rem;
 }
