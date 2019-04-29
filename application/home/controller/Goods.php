@@ -251,7 +251,6 @@ class Goods extends Base {
         }else{
             $page = new Page($count, 20, '', 9);
         }
-        
 
         if($count > 0)
         {
