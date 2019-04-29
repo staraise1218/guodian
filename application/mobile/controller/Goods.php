@@ -201,7 +201,7 @@ class Goods extends Base {
 
         $count = count($filter_goods_id);
         if(isMobile()) {
-            $page = new Page($count, 4, '', 3);
+            $page = new Page($count, 20, '', 3);
         }else{
             $page = new Page($count, 20, '', 9);
         }
@@ -659,7 +659,7 @@ class Goods extends Base {
 
 
         $count = count($filter_goods_id);
-        $page = new Page($count, 4, '', 3);
+        $page = new Page($count, 20, '', 3);
 
         if($count > 0)
         {
