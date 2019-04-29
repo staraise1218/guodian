@@ -420,7 +420,7 @@ $this->redirect(U('Home/User/info'));
         $city =  M('region')->where(array('parent_id'=>$user_info['province'],'level'=>2))->select();
         //获取订单地区
         $area =  M('region')->where(array('parent_id'=>$user_info['city'],'level'=>3))->select();
-$this->assign('index_nav',NavViewLogic::getNav());//获取导航
+        $this->assign('index_nav',NavViewLogic::getNav());//获取导航
         $this->assign('province',$province);
         $this->assign('city',$city);
         $this->assign('area',$area);

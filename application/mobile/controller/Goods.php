@@ -608,8 +608,8 @@ class Goods extends Base {
         $brand_id = I('get.brand_id',0);
         $attr = I('get.attr',''); // 属性
         $price = I('get.price',''); // 价钱
-        $sort = I('get.sort','goods_id'); // 排序
-        $sort_asc = I('get.sort_asc','asc'); // 排序
+        $sort = I('get.sort'); // 排序
+        $sort_asc = I('get.sort_asc','desc'); // 排序
         $filter_param['id'] = $id; //加入帅选条件中
 
         $goodsLogic = new GoodsLogic(); // 前台商品操作逻辑类
@@ -654,7 +654,8 @@ class Goods extends Base {
 
         $brand_id  && ($filter_param['brand_id'] = $brand_id); //加入帅选条件中
         $attr  && ($filter_param['attr'] = $attr); //加入帅选条件中
-        $sort  && $sort_asc && ($order[$sort] = $sort_asc); //加入帅选条件中
+        $order = $sort ? "$sort $sort_asc" : 'sort desc';
+        $order .= ', goods_id desc';
 
 
         $count = count($filter_goods_id);
@@ -662,7 +663,7 @@ class Goods extends Base {
 
         if($count > 0)
         {
-            $goods_list = M('goods')->where("goods_id","in", implode(',', $filter_goods_id))->order("$sort $sort_asc")->limit($page->firstRow.','.$page->listRows)->select();
+            $goods_list = M('goods')->where("goods_id","in", implode(',', $filter_goods_id))->order("$order")->limit($page->firstRow.','.$page->listRows)->select();
         }
 
         $html = $goods_list;
