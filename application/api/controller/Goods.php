@@ -131,4 +131,31 @@ class Goods extends Base {
         if($result['status'] == '1') response_success('', '收藏成功');
     }
 
+    // 搜索页面信息
+    public function searchPage(){
+    	$hotKeyword = $favourite_goods = array();
+
+    	// 热门搜素词
+    	$basicinfo = tpcache('basic');
+    	$hot_keywords = $basicinfo['hot_keywords'];
+    	$hotKeyword = explode('|', trim($hot_keywords, '|'));
+    	// 猜您喜欢
+    	$where = array(
+			'is_on_sale' => 1, // 上架中
+			'prom_type' => 0, // 普通商品
+			'is_recommend' => 1
+		);
+    	$favourite_goods = Db::name('goods')
+			->where($where)
+			->order('sort asc, goods_id desc')
+			->field('goods_id, goods_name, store_count, original_img, shop_price')
+			->limit(4)
+			->select();
+
+    	
+    	$result['hotKeyword'] = $hotKeyword;
+    	$result['favourite_goods'] = $favourite_goods;
+    	response_success($result);
+    }
+
 }
