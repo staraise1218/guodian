@@ -257,7 +257,8 @@ class Goods extends Base {
         {
             $filter_goods_id = array_unique($filter_goods_id);
             $order = $sort ? "$sort $sort_asc" : 'sort desc';
-            $order .= ', goods_id desc';
+            $order .= ', store_count desc, goods_id desc';
+
             $goods_list = M('goods')->where("goods_id","in", implode(',', $filter_goods_id))->order($order)->limit($page->firstRow.','.$page->listRows)->select();
             // echo M('goods')->getLastSql();die();
             $filter_goods_id2 = get_arr_column($goods_list, 'goods_id');
