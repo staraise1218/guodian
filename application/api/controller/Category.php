@@ -62,16 +62,15 @@ class Category extends Base {
 
 
 	/**
-	 * [goodslist 商品列表]
+	 * [goodslist 通过品牌获取商品列表]
 	 * @param [type] $[brand_id] [品牌id]
-	 * @param [type] $[type] [0 综合 1 新品]
+	 * @param [is_new] $[type] [1 按新品排序]
 	 * @param [type] $[sales_num] [销量 desc/asc]
 	 * @param [type] $[shop_price] [价格 desc/asc]
 	 * @return [type] [description]
 	 */
 	public function goodsList(){
 		$brand_id = I('brand_id');
-		$cat_id = I('cat_id');
 		$page = I('page', 1);
 
 		/*filter*/
@@ -79,18 +78,18 @@ class Category extends Base {
 		$sales_num = I('sales_num');
 		$shop_price = I('shop_price');
 
-		$where = array(
-			'brand_id' => $brand_id, // 品牌筛选
-			'is_on_sale' => 1,  // 上架中
-			'prom_type' => 0, // 普通商品
-		);
-		$type == 1 && $where['is_new'] = 1;
 
 		// 排序
 		$order = 'sort asc, goods_id desc';
 		$sales_num && $order = "sales_num $sales_num";
 		$shop_price && $order = "shop_price $shop_price";
+		$is_new == 1 && $order = "is_new desc";
 
+		$where = array(
+			'brand_id' => $brand_id, // 品牌筛选
+			'is_on_sale' => 1,  // 上架中
+			'prom_type' => 0, // 普通商品
+		);
 		$goodsList = Db::name('goods')
 			->where($where)
 			->order($order)
@@ -99,6 +98,21 @@ class Category extends Base {
 			->limit(12)
 			->select();
 
+		// 通过品牌获取所属分类
+		$brand = Db::name('brand')->where('id', $brand_id)->field('parent_cat_id')->find();
+		// 根据后台添加的模型，手动将分类和模型对应 cat_id=>type
+		$categoryModule = array(
+			'1' => 1, // 腕表
+			'2' => 4, // 箱包皮具
+			'3' => 8, // 珠宝
+			'5' => 3, // 鞋履
+			'6' => 5, // 配饰
+		);
+
+		$specList = array();
+		// if($brand['parent_cat_id'] == 1){
+		// 	Db::name()
+		// }
 
 		response_success($goodsList);
 	}

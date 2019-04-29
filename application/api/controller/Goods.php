@@ -19,21 +19,18 @@ class Goods extends Base {
 	}
 
 	/**
-	 * [goodslist 获取二级分类下的商品,分类页和搜索页]
+	 * [goodslist 搜索页]
 	 * @return [type] [description]
 	 */
 	public function goodslist(){
-		$cat_id = I('cat_id');
 		$keyword = I('keyword');
 		$page = I('page', 1);
 
 		$where = array(
-			'city_cod' => $city_code, // 城市
 			'is_on_sale' => 1, // 上架中
 			'prom_type' => 0, // 普通商品
 		);
-		$cat_id && $where['cat_id'] = $cat_id;
-		$goods_name && $where['goods_name'] = ['like', $keyword];
+		$goods_name && $where['goods_name'] = ['like', "%$keyword%"];
 
 		$goodslist = Db::name('goods')
 			->where($where)
@@ -43,7 +40,10 @@ class Goods extends Base {
 			->limit(15)
 			->select();
 
-		response_success($goodslist);
+		$total_num = Db::name('goods')->where($where)->count();
+		$result['total_num'] = $total_num;
+		$result['list'] = $goodslist;
+		response_success($result);
 	}
 
 	/**
@@ -88,44 +88,6 @@ class Goods extends Base {
  		$result['spec_goods_price'] = json_encode($spec_goods_price,true); // 商品规格对应的价格
         response_success($result);
 	}
-
-    public function activity(){
-        $goods_id = input('goods_id/d');//商品id
-        $item_id = input('item_id/d');//规格id
-        $goods_num = input('goods_num/d');//欲购买的商品数量
-
-        $Goods = new \app\common\model\Goods();
-        $goods = $Goods::get($goods_id);
-        $goodsPromFactory = new GoodsPromFactory();
-        if ($goodsPromFactory->checkPromType($goods['prom_type'])) {
-            //这里会自动更新商品活动状态，所以商品需要重新查询
-            if($item_id){
-                $specGoodsPrice = SpecGoodsPrice::get($item_id);
-                $goodsPromLogic = $goodsPromFactory->makeModule($goods,$specGoodsPrice);
-            }else{
-                $goodsPromLogic = $goodsPromFactory->makeModule($goods,null);
-            }
-            if($goodsPromLogic->checkActivityIsAble()){
-                $goods = $goodsPromLogic->getActivityGoodsInfo();
-                $goods['activity_is_on'] = 1;
-                response_success(array('activityInfo'=>$goods), '该商品参与活动');
-            }else{
-                if(!empty($goods['price_ladder'])){
-                    $goodsLogic = new GoodsLogic();
-                    $price_ladder = unserialize($goods['price_ladder']);
-                    $goods->shop_price = $goodsLogic->getGoodsPriceByLadder($goods_num, $goods['shop_price'], $price_ladder);
-                }
-                $goods['activity_is_on'] = 0;
-                response_success(array('activityInfo'=>$goods), '该商品未参与活动');
-            }
-        }
-        if(!empty($goods['price_ladder'])){
-            $goodsLogic = new GoodsLogic();
-            $price_ladder = unserialize($goods['price_ladder']);
-            $goods->shop_price = $goodsLogic->getGoodsPriceByLadder($goods_num, $goods['shop_price'], $price_ladder);
-        }
-        response_success(array('activityInfo'=>$goods), '该商品未参与活动');
-    }
 
 	/**
 	 * [recommendgoodslist 推荐的商品]
