@@ -19,14 +19,14 @@ class Article extends Base {
 
 		$article_id = 0;
 		if($type == 1) $article_id = 37; // 探索国典
-		if($type == 2) $article_id = 38; // 鉴定机制
+		if($type == 2) $article_id = 36; // 鉴定机制
 
 		$info = Db::name('article')
 			->where('article_id', $article_id)
 			->where('is_open', 1)
 			->field('title, content')
 			->find();
-p($type, $article_id, $info);
+
 		if($info) $info['content'] = html_entity_decode($info['content']);
 
 		response_success($info);
