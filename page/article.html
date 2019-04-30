@@ -23,15 +23,17 @@
     </div>
 
     <script src="./src/js/jquery.min.js"></script>
+    <script src="./src/js/global.js"></script>
     <script>
         let myUsetInfo = localStorage.getItem('USERINFO');
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
+        const type = getParam('type');
         $.ajax({
             type: 'POST',
             utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
             data: {
-                type: 1
+                type: type
             },
             success: function (res) {
                 console.log(res)
