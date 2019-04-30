@@ -8,7 +8,7 @@ let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-/**
+/** 
  * ===============================================
  *          左右滑动判断
  * ===============================================
