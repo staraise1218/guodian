@@ -1,7 +1,7 @@
 /**
  * API 公共
  */
-var Global = 'http://guodian.staraise.com.cn'
+var GlobalHost = 'http://guodian.staraise.com.cn'
 
 /** 
  * 获取指定的URL参数值 
