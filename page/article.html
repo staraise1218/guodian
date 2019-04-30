@@ -24,7 +24,8 @@
 
     <script src="./src/js/jquery.min.js"></script>
     <script>
-        let myUsetInfo = localStorage.getItem('USERINFO')
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
         $.ajax({
             type: 'POST',
