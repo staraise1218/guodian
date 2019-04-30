@@ -29,17 +29,18 @@
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
         const type = getParam('type');
-        $.ajax({
+        setTimeout(function () {
+            $.ajax({
             type: 'POST',
-            utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
-            data: {
-                type: type
-            },
-            success: function (res) {
-                console.log(res)
-                // $('html').html(res)
-            }
-        })
+                url: GlobalHost + '/Api/article/getContent',
+                data: {
+                    type: type
+                },
+                success: function (res) {
+                    console.log(res)
+                }
+            })
+        }, 200)
     </script>
 </body>
 </html>
