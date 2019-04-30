@@ -81,7 +81,7 @@ class Category extends Base {
 
 		// 排序
 		$order = 'sort asc, goods_id desc';
-		$sales_num && $order = "sales_num $sales_num";
+		$sales_num && $order = "sales_sum $sales_num";
 		$shop_price && $order = "shop_price $shop_price";
 		$is_new == 1 && $order = "is_new desc";
 
