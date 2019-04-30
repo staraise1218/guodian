@@ -26,12 +26,11 @@
     </div>
 
     <script src="./src/js/jquery.min.js"></script>
-    <script src="./src/js/global.js"></script>
     <script>
         window.onload = function () {
             $.ajax({
                 type: 'POST',
-                utl: Global + '/Api/article/getContent',
+                utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
                 data: {
                     type: 2
                 },
