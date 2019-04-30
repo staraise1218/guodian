@@ -26,7 +26,7 @@ class Article extends Base {
 			->where('is_open', 1)
 			->field('title, content')
 			->find();
-
+p($type, $article_id, $info);
 		if($info) $info['content'] = html_entity_decode($info['content']);
 
 		response_success($info);
