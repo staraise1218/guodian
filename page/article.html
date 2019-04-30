@@ -24,8 +24,8 @@
 
     <script src="./src/js/jquery.min.js"></script>
     <script>
-        let usetInfo = JSON.parse(localStorage.getItem('USERINFO'));
-        console.log(usetInfo)
+        let myUsetInfo = JSON.parse(localStorage.getItem('USERINFO'));
+        console.log(myUsetInfo)
         $.ajax({
             type: 'POST',
             utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
