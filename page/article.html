@@ -22,9 +22,7 @@
 </head>
 <body>
     <div class="content">
-        <img src="https://hbimg.huabanimg.com/716546e5be4fa50d95e8ccef42c8156d4f0074192e27e-zi3trp_fw658" alt="">
-        123123132
-        <img src="https://hbimg.huabanimg.com/d8d9eb7c112f453c1198a21d440bea983a56e33e17d23-a4sjA7_fw658" alt="">
+        
     </div>
 
     <script src="./src/js/jquery.min.js"></script>
@@ -38,6 +36,7 @@
             },
             success: function (res) {
                 console.log(res)
+                $('.content').html(res)
             }
         })
     </script>
