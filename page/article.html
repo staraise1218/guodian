@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>探索国典</title>
+    <title></title>
     <link rel="stylesheet" href="">
     <script src="./src/js/rem.js"></script>
     <style>
@@ -18,10 +18,7 @@
     </style>
 </head>
 <body>
-    <div class="content">
-        
-    </div>
-
+    <div class="content"></div>
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
     <script>
@@ -29,17 +26,20 @@
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
         const type = getParam('type');
-        $.ajax({
+        setTimeout(function () {
+            $.ajax({
             type: 'POST',
-            utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
-            data: {
-                type: type
-            },
-            success: function (res) {
-                console.log(res)
-                $('.content').html(res)
-            }
-        })
+                url: GlobalHost + '/Api/article/getContent',
+                data: {
+                    type: type
+                },
+                success: function (res) {
+                    console.log(res)
+                    $('.content').html(res.data.content)
+                    $('title').text(res.data.title)
+                }
+            })
+        }, 200)
     </script>
 </body>
 </html>

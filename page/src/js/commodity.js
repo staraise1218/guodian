@@ -97,7 +97,7 @@ $('.nav-4').on('click', function () {
  */
 $.ajax({
     type: "POST",
-    url: Global + '/Api/goods/goodsInfo',
+    url: GlobalHost + '/Api/goods/goodsInfo',
     data: {
         user_id: user_id,
         goods_id: goods_id
@@ -110,7 +110,7 @@ $.ajax({
         // 渲染轮播图
         let slider = '';
         for (let i = 0; i < res.data.goodsInfo.goods_images_list.length; i++) {
-            var imgstr = Global + res.data.goodsInfo.goods_images_list[i].image_url;
+            var imgstr = GlobalHost + res.data.goodsInfo.goods_images_list[i].image_url;
             slider += `<div class="swiper-slide"><img  src="${imgstr}" alt="img"></div>`
         }
         console.log( res.data.goodsInfo.goods_images_list.length)
@@ -142,7 +142,7 @@ $.ajax({
         let shopCon = '';
         // reg.test(res.data.goods_content)
         // console.log(res.data.goodsInfo.goods_content)
-        res.data.goodsInfo.goods_content = res.data.goodsInfo.goods_content.replace(reg, '/src="' + Global)
+        res.data.goodsInfo.goods_content = res.data.goodsInfo.goods_content.replace(reg, '/src="' + GlobalHost)
         $('.shopCon').html(res.data.goodsInfo.goods_content)
         // console.log(res.data.goodsInfo.goods_content)
         // 绑定id
@@ -159,7 +159,7 @@ $.ajax({
         // 购物车
         $('.alert-title').html(`
             <div class="poster-wrap">
-                <img src="${Global + res.data.goodsInfo.original_img}" alt="">
+                <img src="${GlobalHost + res.data.goodsInfo.original_img}" alt="">
             </div>
             <div class="title-right">
                 <p class="price">￥${res.data.goodsInfo.shop_price}</p>
@@ -195,7 +195,7 @@ $.ajax({
 
 $.ajax({
     type: 'POST',
-    url: Global + '/Api/goods/recommendgoodslist',
+    url: GlobalHost + '/Api/goods/recommendgoodslist',
     data: {
         user_id: user_id,
         num: 21
@@ -208,7 +208,7 @@ $.ajax({
             shoppintCon += `<li><img src="" alt=""></li>`
         }
         $.each(res.data, function (index, item) {
-            $('.shoppint-con').append(`<li class='go' data-goods_id="${item.goods_id}"><img src="${Global + item.original_img}" alt=""></li>`)
+            $('.shoppint-con').append(`<li class='go' data-goods_id="${item.goods_id}"><img src="${GlobalHost + item.original_img}" alt=""></li>`)
         });
     },
     error: function (error) {
@@ -281,7 +281,7 @@ $('.close').on('click', function () {
 $('.collection').on('click', function () {
     $.ajax({
         type: 'POST',
-        url: Global + '/Api/goods/collect_goods',
+        url: GlobalHost + '/Api/goods/collect_goods',
         data: {
             user_id: user_id,
             goods_id: goods_id
@@ -355,7 +355,7 @@ $('.addcart_add').on('click', function () {
 $('.addBtn').on('click', function () {
     $.ajax({
         type: 'POST',
-        url: Global + '/Api/cart/addCart',
+        url: GlobalHost + '/Api/cart/addCart',
         data: {
             user_id: user_id,
             goods_id: goods_id,
@@ -414,7 +414,7 @@ $('body').delegate('.tag', 'click', function () {
 $('.byNowBtn').on('click', function () {
     $.ajax({
         type: 'POST',
-        url: Global + '/Api/cart/cart2',
+        url: GlobalHost + '/Api/cart/cart2',
         data: {
             user_id: user_id,
             goods_id: goods_id,

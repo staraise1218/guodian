@@ -93,7 +93,7 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
             let cart_id = JSON.stringify($(this).attr('data-id'))
             $.ajax({
                 type: 'POST',
-                url: Global + '/Api/cart/delete',
+                url: GlobalHost + '/Api/cart/delete',
                 data: {
                     user_id: user_id,
                     cart_ids: cart_id
@@ -135,7 +135,7 @@ loadingList();
 function loadingList () {
     $.ajax({
         type: 'POST',
-        url: Global + '/Api/cart/index',
+        url: GlobalHost + '/Api/cart/index',
         data: {
             user_id: user_id,
             city_code: 110100
@@ -152,7 +152,7 @@ function loadingList () {
                             <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" data-choose="1" alt="">
                         </div>
                         <div class="commity">
-                            <img class="poster" src="${Global + res.data[i].goods.original_img}" alt="">
+                            <img class="poster" src="${GlobalHost + res.data[i].goods.original_img}" alt="">
                         </div>
                     </div>
                     <div class="right">
@@ -179,7 +179,7 @@ function loadingList () {
 
 $.ajax({
     type: 'POST',
-    url: Global + '/Api/goods/recommendgoodslist',
+    url: GlobalHost + '/Api/goods/recommendgoodslist',
     data: {
         user_id: user_id,
         num: 20
@@ -189,7 +189,7 @@ $.ajax({
         console.log(res.data)
         $.each( res.data, function(index, item){
             recommendStr += `<li class="good-item" data-goodid="${item.goods_id}">
-                                <img src="${ Global + item.original_img }" class="com" />
+                                <img src="${ GlobalHost + item.original_img }" class="com" />
                                 <p>${item.goods_name}</p>
                                 <p class="price">价格：￥${item.shop_price}</p>
                                 <p class="del">官方公价：￥1,238,300</p>
