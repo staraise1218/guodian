@@ -8,7 +8,6 @@
     <title>探索国典</title>
     <link rel="stylesheet" href="">
     <script src="./src/js/rem.js"></script>
-    <link rel="stylesheet" href="./src/css/global.css">
     <style>
         .content {
             padding: .2rem;
@@ -16,8 +15,6 @@
         img {
             max-width: 100%;
         }
-    
-    
     </style>
 </head>
 <body>
@@ -27,17 +24,17 @@
 
     <script src="./src/js/jquery.min.js"></script>
     <script>
-            $.ajax({
-                type: 'POST',
-                utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
-                data: {
-                    type: 2
-                },
-                success: function (res) {
-                    console.log(res)
-                    $('.content').html(res)
-                }
-            })
+        $.ajax({
+            type: 'POST',
+            utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
+            data: {
+                type: 2
+            },
+            success: function (res) {
+                console.log(res)
+                $('.content').html(res)
+            }
+        })
     </script>
 </body>
 </html>
