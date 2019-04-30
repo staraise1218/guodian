@@ -14,7 +14,10 @@ let count = 1; // 选择数量
 let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = '';  // 商品 id
-
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -96,7 +99,7 @@ $.ajax({
     type: "POST",
     url: Global + '/Api/goods/goodsInfo',
     data: {
-        user_id: 1,
+        user_id: user_id,
         goods_id: goods_id
     },
     dataType: 'json',
@@ -194,7 +197,7 @@ $.ajax({
     type: 'POST',
     url: Global + '/Api/goods/recommendgoodslist',
     data: {
-        user_id: 1,
+        user_id: user_id,
         num: 21
     },
     success: function (res) {
@@ -280,7 +283,7 @@ $('.collection').on('click', function () {
         type: 'POST',
         url: Global + '/Api/goods/collect_goods',
         data: {
-            user_id: 1,
+            user_id: user_id,
             goods_id: goods_id
         },
         success: function (res) {
@@ -354,7 +357,7 @@ $('.addBtn').on('click', function () {
         type: 'POST',
         url: Global + '/Api/cart/addCart',
         data: {
-            user_id: 1,
+            user_id: user_id,
             goods_id: goods_id,
             item_id: $id,
             goods_num: count
@@ -413,7 +416,7 @@ $('.byNowBtn').on('click', function () {
         type: 'POST',
         url: Global + '/Api/cart/cart2',
         data: {
-            user_id: 1,
+            user_id: user_id,
             goods_id: goods_id,
             action: 'buy_now',
             item_id: $id,
