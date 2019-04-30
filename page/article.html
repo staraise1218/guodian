@@ -28,17 +28,19 @@
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
     <script>
-        $.ajax({
-            type: 'POST',
-            utl: Global + '/Api/article/getContent',
-            data: {
-                type: 2
-            },
-            success: function (res) {
-                console.log(res)
-                $('.content').html(res)
-            }
-        })
+        window.onload = function () {
+            $.ajax({
+                type: 'POST',
+                utl: Global + '/Api/article/getContent',
+                data: {
+                    type: 2
+                },
+                success: function (res) {
+                    console.log(res)
+                    $('.content').html(res)
+                }
+            })
+        }
     </script>
 </body>
 </html>
