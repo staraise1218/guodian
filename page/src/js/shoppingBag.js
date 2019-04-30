@@ -1,4 +1,14 @@
+
 /**
+ * =================================================
+ *          公共变量
+ * =================================================
+ */
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
+/** 
  * ===============================================
  *          左右滑动判断
  * ===============================================
@@ -85,7 +95,7 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
                 type: 'POST',
                 url: Global + '/Api/cart/delete',
                 data: {
-                    user_id: 1,
+                    user_id: user_id,
                     cart_ids: cart_id
                 },
                 success: function (res) {
@@ -127,7 +137,7 @@ function loadingList () {
         type: 'POST',
         url: Global + '/Api/cart/index',
         data: {
-            user_id: 1,
+            user_id: user_id,
             city_code: 110100
         },
         success: function (res) {
@@ -171,7 +181,7 @@ $.ajax({
     type: 'POST',
     url: Global + '/Api/goods/recommendgoodslist',
     data: {
-        user_id: 1,
+        user_id: user_id,
         num: 20
     },
     success: function (res) {

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>探索国典</title>
+    <link rel="stylesheet" href="">
+    <script src="./src/js/rem.js"></script>
+    <style>
+        .content {
+            padding: .2rem;
+        }
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        
+    </div>
+
+    <script src="./src/js/jquery.min.js"></script>
+    <script src="./src/js/global.js"></script>
+    <script>
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
+        console.log(myUsetInfo)
+        const type = getParam('type');
+        $.ajax({
+            type: 'POST',
+            utl: 'http://guodian.staraise.com.cn/Api/article/getContent',
+            data: {
+                type: type
+            },
+            success: function (res) {
+                console.log(res)
+                $('.content').html(res)
+            }
+        })
+    </script>
+</body>
+</html>
