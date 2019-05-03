@@ -119,7 +119,7 @@ class Index extends Base {
 	 * @return [type] [description]
 	 */
 	public function goodslist(){
-		$type = I('type', 1);
+		$type = I('type/d', 1);
 		$cat_id = I('cat_id');
 		$page = I('page', 1);
 		if($page<=0) $page = 1;
@@ -140,6 +140,7 @@ class Index extends Base {
 		if($cat_id == '') $cat_id = $categoryList[0]['id'];
 		$cat_id && $where['cat_id'] = $cat_id;
 
+		$order = 'sort asc, goods_id desc';
 		if($type == 1) $order = 'sort asc, goods_id desc';
 		if($type == 2) $order = 'shop_price desc';
 		if($type == 3) {
@@ -150,8 +151,8 @@ class Index extends Base {
 			unset($where['cat_id']);
 			$order = 'sort asc, goods_id desc';
 		}
+
 		
-		$order = 'sort asc, goods_id desc';
 		$goodsList = Db::name('goods')
 			->where($where)
 			->order($order)
