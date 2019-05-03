@@ -122,6 +122,7 @@ class Index extends Base {
 		$type = I('type', 1);
 		$cat_id = I('cat_id');
 		$page = I('page', 1);
+		if($page<=0) $page = 1;
 
 		// 获取分类
 		$categoryList = Db::name('goods_category')
