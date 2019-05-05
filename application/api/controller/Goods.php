@@ -30,7 +30,7 @@ class Goods extends Base {
 			'is_on_sale' => 1, // 上架中
 			'prom_type' => 0, // 普通商品
 		);
-		$goods_name && $where['goods_name'] = ['like', "%$keyword%"];
+		$keyword && $where['goods_name'] = ['like', "%$keyword%"];
 
 		$goodslist = Db::name('goods')
 			->where($where)
