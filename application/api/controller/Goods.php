@@ -37,7 +37,7 @@ class Goods extends Base {
 			->order('sort asc, goods_id desc')
 			->field('goods_id, goods_name, store_count, original_img, shop_price')
 			->page($page)
-			->limit(15)
+			->limit(20)
 			->select();
 
 		$total_num = Db::name('goods')->where($where)->count();
