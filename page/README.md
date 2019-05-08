@@ -1,11 +1,11 @@
 # 静态页面说明
 
-|页面|链接|说明|
+|页面|链接|说明|传参方式|
 |---|---|----|
-|传参页面|empty|传id等信息|
-|购物袋|shoppingBag|
-|详情页|commodity|
-|文章页|article|
+|传参页面|empty|传id等信息|user_id=xx|
+|购物袋|shoppingBag|接完数据了|待整理|
+|详情页|commodity|接完数据了|待整理|
+|文章页|article||type=xx|
 |待付款|orderWait|升级中|
 |待收货|orderReceive|升级中|
 |退货单|orderReturn|升级中|
