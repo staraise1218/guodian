@@ -35,7 +35,7 @@ class Goods extends Base {
 		$goodslist = Db::name('goods')
 			->where($where)
 			->order('sort asc, goods_id desc')
-			->field('goods_id, goods_name, store_count, original_img, shop_price')
+			->field('goods_id, goods_name, store_count, original_img, shop_price, market_price')
 			->page($page)
 			->limit(20)
 			->select();
