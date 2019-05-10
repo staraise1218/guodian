@@ -28,7 +28,7 @@ class Find extends Base {
         $firstCat = current($cats);
         
         $list = M('Article')
-        	->where('cat_id', 11)
+        	->where('cat_id', 10)
         	->order('article_id desc')
         	->limit(16)
         	->field('article_id, title, thumb, like_num')
