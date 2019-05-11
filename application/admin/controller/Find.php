@@ -22,6 +22,7 @@ class Find extends Base {
             $where['cat_id'] = $cat_id;
         } else {
             $cats_ids = array_column($cats, 'cat_id');
+            $cats_ids[] = 10;
             $where['cat_id'] = array('in', $cats_ids);
         }
         
