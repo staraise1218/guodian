@@ -16,7 +16,7 @@ class Find extends Base {
         $keywords = trim(I('keywords'));
 
         // 获取发现分类
-        $cats = M('article_cat')->where('parent_id', 11)->order('sort_order asc, cat_id asc')->select();
+        $cats = M('article_cat')->where('parent_id', 10)->order('sort_order asc, cat_id asc')->select();
         
         if($cat_id){
             $where['cat_id'] = $cat_id;
