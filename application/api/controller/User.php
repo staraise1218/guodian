@@ -22,12 +22,15 @@ class User extends Base {
 
         $UsersLogic = new UsersLogic();
         $data = $UsersLogic->get_info($user_id);
+        // 为您挑选
+        $sql = "SELECT goods_id, goods_name,shop_price, market_price, original_img FROM tp_goods
+                WHERE goods_id >= (SELECT floor( RAND() * ((SELECT MAX(goods_id) FROM tp_goods)-(SELECT MIN(goods_id) FROM tp_goods)) + (SELECT MIN(goods_id) FROM tp_goods))) and store_count > 0
+                ORDER BY goods_id LIMIT 2";
+        $recommendList = Db::query($sql);
 
-        if($data['status'] == 1){
-            response_success($data['result']);
-        } else {
-            response_error('', $data['msg']);
-        }
+        $result['userInfo'] = $data['result'];
+        $result['recommendList'] = $recommendList;
+        response_success($result);
         
     }
 
