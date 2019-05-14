@@ -105,10 +105,10 @@ html, body {overflow: visible;}
         </dt>
         <dd class="opt">
           <div class="onoff">
-            <label for="article_show1" class="cb-enable <if condition="$info[is_open] eq 1">selected</if>">是</label>
-            <label for="article_show0" class="cb-disable <if condition="$info[is_open] eq 0">selected</if>">否</label>
-            <input id="article_show1" name="is_open" value="1" type="radio" <if condition="$info[is_open] eq 1"> checked="checked"</if>>
-            <input id="article_show0" name="is_open" value="0" type="radio" <if condition="$info[is_open] eq 0"> checked="checked"</if>>
+            <label for="article_show1" class="cb-enable <if condition="$info['is_open'] eq 1">selected</if>">是</label>
+            <label for="article_show0" class="cb-disable <if condition="$info['is_open'] eq 0">selected</if>">否</label>
+            <input id="article_show1" name="is_open" value="1" type="radio" <if condition="$info['is_open'] eq 1"> checked="checked"</if>>
+            <input id="article_show0" name="is_open" value="0" type="radio" <if condition="$info['is_open'] eq 0"> checked="checked"</if>>
           </div>
           <p class="notic"></p>
         </dd>

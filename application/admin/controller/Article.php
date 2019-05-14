@@ -128,13 +128,13 @@ class Article extends Base {
         if ($result !== true) {
             $this->ajaxReturn(['status' => 0, 'msg' => '参数错误', 'result' => $result]);
         }
-        
+        // p($data);
         if ($data['act'] == 'add') {
             $data['click'] = mt_rand(1000,1300);
         	$data['add_time'] = time(); 
             $r = M('article')->add($data);
         } elseif ($data['act'] == 'edit') {
-            $r = M('article')->where('article_id='.$data['article_id'])->save($data);
+            $r = false !== M('article')->where('article_id='.$data['article_id'])->save($data);
         } elseif ($data['act'] == 'del') {
         	$r = M('article')->where('article_id='.$data['article_id'])->delete(); 	
         }

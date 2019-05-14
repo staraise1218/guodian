@@ -16,8 +16,8 @@ class Article extends Base {
 	// type ： 1 探索国典 2 鉴定机制
 	public function getContent(){
 		$type = input('type');
+		$article_id = input('article_id', 0);
 
-		$article_id = 0;
 		if($type == 1) $article_id = 37; // 探索国典
 		if($type == 2) $article_id = 38; // 鉴定机制
 
