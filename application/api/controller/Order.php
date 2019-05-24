@@ -9,7 +9,7 @@ use app\common\logic\CommentLogic;
 use app\common\logic\ShippingLogic;
 use think\Page;
 use think\Request;
-use think\db;
+use think\Db;
 
 class Order extends Base
 {
@@ -23,7 +23,7 @@ class Order extends Base
     /**
      * 订单列表
      * @return mixed
-     * @param  $[type] [< 待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT >]
+     * @param  $[type] [< 待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT, 已完成：FINISH ， 已取消：CANCEL>]
      */
     public function order_list()
     {
@@ -629,5 +629,30 @@ class Order extends Base
         } else {
             response_error('', '获取失败');
         }
+    }
+
+    // 执行退款单
+    public function returnOrder(){
+    	$user_id = I('user_id');
+    	$order_id = I('order_id');
+
+    	// 获取订单信息
+    	$order = Db::name('order')->where('order_id', $order_id)->find();
+    	if(empty($order)) response_error('', '订单不存在');
+    	if($order['user_id'] != $user_id) response_error('', '非法操作');
+
+    	if($order['pay_status'] != 1 || $order['shipping_status'] == 1) response_error('', '订单状态不允许退款');
+
+    	// 执行退款申请
+    	$order_return_data = array(
+    		'order_id' => $order_id,
+    		'user_id' => $user_id,
+    		'add_time' => time(),
+    	);
+    	Db::name('return_order')->insert($order_return_data);
+    	// 原订单标记退款状态
+    	Db::name('order')->where('order_id', $order_id)->setField('order_status', 6);
+
+    	response_success('', '操作成功');
     }
 }

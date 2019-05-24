@@ -225,7 +225,7 @@ class Auth extends Base {
 
     /**
      * [sendMobleCode 发送手机验证码]
-     * @param [scene 1 注册 2 找回密码 3 免密登录]
+     * @param [scene 1 注册 2 找回密码 3 免密登录 4 解绑时验证旧手机号 5 绑定新手机号]
      * @return [type] [description]
      */
     public function sendMobileCode(){

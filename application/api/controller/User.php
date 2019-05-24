@@ -324,4 +324,45 @@ class User extends Base {
 
         response_success($message);
     }
+
+    // 验证旧手机号
+    public function checkOldMobile(){
+        $user_id = I('user_id');
+        $code = I('code');
+
+        $user = Db::name('users')->where('user_id', $user_id)->find();
+        if($user['mobile'] == '') response_error('', '手机号未填写');
+         // 验证码检测
+        $SmsLogic = new SmsLogic();
+        if($SmsLogic->checkCode($user['mobile'], $code, 4, $error) == false) response_error('', $error);
+
+        response_success('', '验证成功');
+    }
+
+    /**
+     * [bindMobile 绑定新手机号]
+     * @return [type] [description]
+     */
+    public function bindNewMobile(){
+        $user_id = input('user_id');
+        $mobile = input('mobile');
+        $code = input('code');
+
+        // 检测手机号格式
+        if(check_mobile($mobile) == false) response_error('', '手机号码有误');
+        // 检测验证码
+        $SmsLogic = new SmsLogic();
+        if($SmsLogic->checkCode($mobile, $code, 5, $error) == false) response_error('', $error);
+
+        // 查看手机号是否注册
+        $count = Db::name('users')
+            ->where('mobile', $mobile)
+            ->where('user_id', ['neq', $user_id])
+            ->count();
+        if($count) response_error('', '该手机号已被别人绑定');
+        // 更新手机号
+        Db::name('users')->where('user_id', $user_id)->update(array('mobile'=>$mobile));
+
+        response_success('', '绑定成功');
+    }
 }

@@ -760,6 +760,7 @@ function orderBtn($order_id = 0, $order = array())
         'shipping_btn' => 0, // 查看物流
         'return_btn' => 0, // 退货按钮 (联系客服)
         'del_btn' => 0, // 删除订单，取消后的订单可删除
+        'return_info' => 0, // 查看退货详情
     );
 
 
@@ -805,7 +806,7 @@ function orderBtn($order_id = 0, $order = array())
         //$btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
     }
     
-    if($order['pay_status'] == 1  && shipping_status && $order['order_status'] == 4) // 已完成(已支付, 已发货 , 已完成)
+    if($order['pay_status'] == 1  && $order['shipping_status'] == 0 && in_array($order['order_status'], array(0,1))) // 已支付，未发货
     {
             $btn_arr['return_btn'] = 1; // 退货按钮
     }
@@ -816,6 +817,10 @@ function orderBtn($order_id = 0, $order = array())
 
     if($order['order_status'] == 3 || $order_status == 5){
         $btn_arr['del_btn'] = 1; // 可删除订单
+    }
+
+    if($order['order_status'] == 6){
+        $btn_arr['return_info'] = 1;
     }
 
     return $btn_arr;
