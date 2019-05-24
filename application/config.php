@@ -310,8 +310,6 @@ return [
     'FINISH'=> ' AND order_status = 2 ', // 已完成 本来是4 才是完成，这里没有评价，已收货就是完成
     'CANCEL'=> ' AND order_status = 3 ', // 已取消
     'CANCELLED'=> 'AND order_status = 5 ',//已作废
-    'PAIED'=> ' and pay_status = 1 and order_status IN (0, 1, 2, 4) ',// 已支付 （自定义）
-    'REFUND'=> ' and order_status = 3',// 退款 （自定义）
     
     'ORDER_STATUS_DESC' => [
         'WAITPAY' => '待支付',

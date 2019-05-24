@@ -24,7 +24,6 @@ class Order extends Base
      * 订单列表
      * @return mixed
      * @param  $[type] [< 待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT, 已完成：FINISH ， 已取消：CANCEL>]
-     * @param [type] $[name] [客户自定义：未支付：WAITPAY， 已支付：PAIED， 待评价：WAITCCOMMENT， 退款：REFUND]
      */
     public function order_list()
     {
