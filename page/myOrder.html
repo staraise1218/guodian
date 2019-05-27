@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的订单</title>
+    <script src="./src/js/rem.js"></script>
+    <link rel="stylesheet" href="./src/css/global.css">
+    <link rel="stylesheet" href="./src/css/order.css">
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <div class="topBar">
+        <img src="./src/img/icon/back.png" alt="" class="icon-df">
+        <p class="text-df">我的订单</p>
+        <div class="right">
+            <!-- <img class="icon-df" src="./src/img/icon/share.png" alt=""> -->
+            <img class="icon-df m-l" src="./src/img/icon/message.png" alt="">
+        </div>
+    </div>
+    <!-- 顶部 END -->
+
+
+    <ul class="tabBar text-df">
+        <li data-orderShowStatus="0" class="active">全部</li>
+        <li data-orderShowStatus="1">待付款</li>
+        <li data-orderShowStatus="2">待收货</li>
+        <li data-orderShowStatus="3">已完成</li>
+        <li data-orderShowStatus="4">已取消</li>
+    </ul>
+    
+    <div class="content">
+        <p class="warning text-xs color-3">防诈骗提醒：国典商城不会以任何理由发送链接要求您填写个人银行信息进行退款。谨防假冒客服电话诈骗！</p>
+        <div class="tips" style="display: none">
+            <img src="./src/img/icon/tips_empty.png" alt="">
+        </div>
+        <!-- 全部 -->
+        <ul class="item-wrap text-df" data-orderShowStatus="0">
+            <li>
+                <p class="btc">
+                    <span>订单号：666666</span>
+                    <span class="status">成功</span>
+                </p>
+                <div class="shop-wrap border-bottom">
+                    <div class="poster">
+                        <img src="./src/img/1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="text-df">标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <div class="text-xs color_3 tag-wrap">
+                            <p class="tag">标签</p>
+                            <p class="num">x1</p>
+                        </div>
+                        <p class="price">￥123</p>
+                    </div>
+                </div>
+                <div class="ctr">
+                    <p class="title">订单金额：￥1231231231</p>
+                    <div class="btn-wrap">
+                        <span class="btn">去付款</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 待付款 -->
+        <ul class="item-wrap text-df" data-orderShowStatus="1" style="display: none">
+            <li>
+                <p class="btc">
+                    <span>订单号：666666</span>
+                    <span class="status">待付款</span>
+                </p>
+                <div class="shop-wrap border-bottom">
+                    <div class="poster">
+                        <img src="./src/img/1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="text-df">标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <div class="text-xs color_3 tag-wrap">
+                            <p class="tag">标签</p>
+                            <p class="num">x1</p>
+                        </div>
+                        <p class="price">￥123</p>
+                    </div>
+                </div>
+                <div class="ctr">
+                    <p class="title">订单金额：￥1231231231</p>
+                    <div class="btn-wrap">
+                        <span class="btn">去付款</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 待收货 -->
+        <ul class="item-wrap text-df" data-orderShowStatus="2" style="display: none">
+            <li>
+                <p class="btc">
+                    <span>订单号：666666</span>
+                    <span class="status">待收货</span>
+                </p>
+                <div class="shop-wrap border-bottom">
+                    <div class="poster">
+                        <img src="./src/img/1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="text-df">标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <div class="text-xs color_3 tag-wrap">
+                            <p class="tag">标签</p>
+                            <p class="num">x1</p>
+                        </div>
+                        <p class="price">￥123</p>
+                    </div>
+                </div>
+                <div class="ctr">
+                    <p class="title">订单金额：￥1231231231</p>
+                    <div class="btn-wrap">
+                        <span class="btn btn-cancel">申请退款</span>
+                        <span class="btn">确认收货</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 已完成 -->
+        <ul class="item-wrap text-df" data-orderShowStatus="3" style="display: none">
+            <li>
+                <p class="btc">
+                    <span>订单号：666666</span>
+                    <span class="status">已完成</span>
+                </p>
+                <div class="shop-wrap border-bottom">
+                    <div class="poster">
+                        <img src="./src/img/1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="text-df">标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <div class="text-xs color_3 tag-wrap">
+                            <p class="tag">标签</p>
+                            <p class="num">x1</p>
+                        </div>
+                        <p class="price">￥123</p>
+                    </div>
+                </div>
+                <div class="ctr">
+                    <p class="title">订单金额：￥1231231231</p>
+                    <div class="btn-wrap">
+                        <span class="btn btn-cancel">删除订单</span>
+                        <span class="btn">查看物流</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 已取消 -->
+        <ul class="item-wrap text-df" data-orderShowStatus="4" style="display: none">
+            <li>
+                <p class="btc">
+                    <span>订单号：666666</span>
+                    <span class="status">已取消</span>
+                </p>
+                <div class="shop-wrap border-bottom">
+                    <div class="poster">
+                        <img src="./src/img/1.png" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="text-df">标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <p class="text-df color_3">副标题</p>
+                        <div class="text-xs color_3 tag-wrap">
+                            <p class="tag">标签</p>
+                            <p class="num">x1</p>
+                        </div>
+                        <p class="price">￥123</p>
+                    </div>
+                </div>
+                <div class="ctr">
+                    <p class="title">订单金额：￥1231231231</p>
+                    <div class="btn-wrap">
+                        <span class="btn btn-cancel">删除订单</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- 猜你喜欢 -->
+    <div class="title">猜你喜欢</div>
+    <ul class="recommend text-df">
+        <li>
+            <img src="./src/img/1.png" alt="" class="com">
+            <p>百达翡丽 5240G-218超级复杂功能计时</p>
+            <p class="price">价格：￥1,053,750</p>
+            <p class="del">官方公价：￥1,238,300</p>
+        </li>
+        <li>
+            <img src="./src/img/1.png" alt="" class="com">
+            <p>百达翡丽 5240G-218超级复杂功能计时</p>
+            <p class="price">价格：￥1,053,750</p>
+            <p class="del">官方公价：￥1,238,300</p>
+        </li>
+        <li>
+            <img src="./src/img/1.png" alt="" class="com">
+            <p>百达翡丽 5240G-218超级复杂功能计时</p>
+            <p class="price">价格：￥1,053,750</p>
+            <p class="del">官方公价：￥1,238,300</p>
+        </li>
+        <li>
+            <img src="./src/img/1.png" alt="" class="com">
+            <p>百达翡丽 5240G-218超级复杂功能计时</p>
+            <p class="price">价格：￥1,053,750</p>
+            <p class="del">官方公价：￥1,238,300</p>
+        </li>
+    </ul>
+    <!-- 猜你喜欢 END -->
+
+
+
+
+
+    <script src="./src/js/jquery.min.js"></script>
+    <script src="./src/js/global.js"></script>
+    <script src="./src/js/order.js"></script>
+</body>
+
+</html>

@@ -79,6 +79,24 @@ li {
 }
 
 
+.op-10 {
+    color: rgba(0,0,0,.1);
+}
+.op-8 {
+    color: rgba(0,0,0,.8);
+}
+.op-6 {
+    color: rgba(0,0,0,.6);
+}
+.op-4 {
+    color: rgba(0,0,0,.4);
+}
+.op-2 {
+    color: rgba(0,0,0,.2);
+}
+.op-1 {
+    color: rgba(0,0,0,.1);
+}
 
 
 
@@ -99,6 +117,72 @@ li {
 
 
 
+.md {
+    margin-bottom: .2rem;
+}
+
+
+/* ==========================
+    padding 部分
+==============================*/
+.pd-df {
+    padding: .2rem .3rem;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+
+
+
+/* ==========================
+    border 部分
+==============================*/
+.bd-b {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.bd-df {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+
+
+
+
+
+
+
+
+/* ==========================
+    font-weight 部分
+==============================*/
+.w-df {
+    font-weight: 400;
+}
+.w-xs {
+    font-weight: 200;
+}
+.w-lg {
+    font-weight: 600;
+}
+.w-max {
+    font-weight: 900;
+}
+
+
+/* ==========================
+    line-height 部分
+==============================*/
+.h-xs {
+    line-height: 1.5em;
+}
+.h-df {
+    line-height: 2em;
+}
 
 
 
@@ -116,5 +200,22 @@ li {
 
 
 
+
+
+.more-df {
+    position: relative;
+}
+.more-df::before {
+    display: block;
+    content: '';
+    width: .4rem;
+    height: .4rem;
+    position: absolute;
+    right: .1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url('../img/icon/right2.png');
+    background-size: contain
+}
 
 
