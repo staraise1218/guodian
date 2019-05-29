@@ -87,9 +87,12 @@ body {
 .content .item-wrap {
     background: #fff;
 }
-.content .item-wrap li {
+.content .item-wrap > li {
     border-bottom: .2rem solid rgba(0,0,0,.05);
     padding-bottom: .4rem;
+}
+.content .item-wrap > li:last-child {
+    border-bottom: none;
 }
 .content .item-wrap li .btc {
     display: flex;

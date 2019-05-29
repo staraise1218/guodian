@@ -1,6 +1,6 @@
 body {
     padding-bottom: 2rem;
-    padding-top: .8rem;
+    padding-top: 1rem;
 }
 .topBar {
     position: fixed;
@@ -46,7 +46,8 @@ body {
 
 
 
-.address {
+.address,
+.address2 {
     padding: .3rem 0;
     margin: 0 .3rem;
     border-bottom: 1px solid rgba(0,0,0,.1);
@@ -208,7 +209,7 @@ body {
 }
 
 
-
+/* 弹窗 输入 */
 .alert-wrapper {
     position: fixed;
     width: 100%;
@@ -254,6 +255,11 @@ body {
     outline: none;
 }
 
+.user-btn-active,
+.shenfenCard-active {
+    background: #222 !important;
+    color: #fff !important;
+}
 
 .shoTost {
     padding: .2rem 1rem;
@@ -266,3 +272,5 @@ body {
     transform: translateX(-50%);
     text-align: center;
 }
+
+

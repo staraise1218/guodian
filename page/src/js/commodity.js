@@ -412,26 +412,10 @@ $('body').delegate('.tag', 'click', function () {
  */
 
 $('.byNowBtn').on('click', function () {
-    $.ajax({
-        type: 'POST',
-        url: GlobalHost + '/Api/cart/cart2',
-        data: {
-            user_id: user_id,
-            goods_id: goods_id,
-            action: 'buy_now',
-            item_id: $id,
-            goods_num: count
-        },
-        success: function (res) {
-            console.log(res)
-            if (res.data.code == 200) {
-
-            }
-        }
-    })
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
+    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + 'item_id=' + $id + '&goods_num=' + count
 })
 
 
