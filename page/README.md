@@ -1,4 +1,4 @@
-# 静态页面说明
+# 页面说明
 
 |页面|链接|说明|传参方式|
 |---|---|----|---|
@@ -18,3 +18,16 @@
 |我的养护|myCuring|升级中|
 |经营信息|myManagement|升级中|
 |隐私权政策|myPrivacy|升级中|
+|结算中心|jieshuan|页面画完了|
+|我的订单|myOrder|页面画完了|
+|订单详情|orderDetail||
+
+
+
+
+
+
+
+- UI 蓝湖 地址
+
+> https://lanhuapp.com/web/#/item
