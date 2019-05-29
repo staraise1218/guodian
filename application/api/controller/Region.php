@@ -15,11 +15,11 @@ class Region extends Base {
 
 
     public function getJson(){
-    	$regions = M('region')->field('name, code, parentCode')->cache(true)->select();
+    	$regions = M('region')->field('id, name, parent_id')->cache(true)->select();
 
     	$data = array();
   		foreach ($regions as $region) {
-  			$data[$region['code']] = $region;
+  			$data[$region['id']] = $region;
   		}
 
   		$data = $this->_tree($data);
@@ -35,10 +35,10 @@ class Region extends Base {
 
    		$tree = array();
    		foreach ($data as $item) {
-               if(isset($data[$item['parentCode']])){
-                  $data[$item['parentCode']]['sub'][] = &$data[$item['code']];
+               if(isset($data[$item['parent_id']])){
+                  $data[$item['parent_id']]['sub'][] = &$data[$item['id']];
                } else {
-                  $tree[] = &$data[$item['code']];
+                  $tree[] = &$data[$item['id']];
                }
    		}
 
@@ -50,14 +50,14 @@ class Region extends Base {
     public function getRegion(){
         $parent_code = I('get.parent_code/d');
         $selected = I('get.selected',0);        
-        $data = M('region')->where("parentCode",$parent_code)->select();
+        $data = M('region')->where("parent_id",$parent_code)->select();
         $html = '';
         if($data){
             foreach($data as $h){
               if($h['id'] == $selected){
-                $html .= "<option value='{$h['code']}' selected>{$h['name']}</option>";
+                $html .= "<option value='{$h['id']}' selected>{$h['name']}</option>";
               }
-                $html .= "<option value='{$h['code']}'>{$h['name']}</option>";
+                $html .= "<option value='{$h['id']}'>{$h['name']}</option>";
             }
         }
         echo $html;
@@ -66,11 +66,11 @@ class Region extends Base {
 
     public function getTwon(){
       $parent_code = I('get.parent_code/d');
-      $data = M('region')->where("parentCode",$parent_code)->select();
+      $data = M('region')->where("parent_id",$parent_code)->select();
       $html = '';
       if($data){
         foreach($data as $h){
-          $html .= "<option value='{$h['code']}'>{$h['name']}</option>";
+          $html .= "<option value='{$h['id']}'>{$h['name']}</option>";
         }
       }
       if(empty($html)){
