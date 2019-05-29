@@ -34,7 +34,7 @@ class Order extends Base
         $where = ' user_id=' . $user_id . ' and deleted = 0 ';
         //条件搜索
         if($type) $where .= C(strtoupper(I('get.type')));
-        $where.=' and prom_type < 5 ';//虚拟订单和拼团订单不列出来
+        $where.=' and order_prom_type < 5 ';//虚拟订单和拼团订单不列出来
         // $count = M('order')->where($where)->count();
         // $Page = new Page($count, 10);
         // $show = $Page->show();
@@ -88,7 +88,7 @@ class Order extends Base
         $data = $model->get_order_goods($order_info['order_id']);
         $order_info['goods_list'] = $data['result'];
         
-        // if($order_info['prom_type'] == 4){
+        // if($order_info['order_prom_type'] == 4){
         //     $pre_sell_item =  M('goods_activity')->where(array('act_id'=>$order_info['prom_id']))->find();
         //     $pre_sell_item = array_merge($pre_sell_item,unserialize($pre_sell_item['ext_info']));
         //     $order_info['pre_sell_is_finished'] = $pre_sell_item['is_finished'];
@@ -125,7 +125,7 @@ class Order extends Base
     public function team_list(){
         $type = input('type');
         $Order = new \app\common\model\Order();
-        $order_where = ['prom_type' => 6, 'user_id' => $this->user_id, 'deleted' => 0,'pay_code'=>['<>','cod']];//拼团基础查询
+        $order_where = ['order_prom_type' => 6, 'user_id' => $this->user_id, 'deleted' => 0,'pay_code'=>['<>','cod']];//拼团基础查询
         $listRows = 10;
         switch (strval($type)) {
             case 'WAITPAY':
@@ -184,7 +184,7 @@ class Order extends Base
         $order_id = input('order_id');
         $Order = new \app\common\model\Order();
         $TeamFound = new TeamFound();
-        $order_where = ['prom_type' => 6, 'order_id' => $order_id, 'deleted' => 0];
+        $order_where = ['order_prom_type' => 6, 'order_id' => $order_id, 'deleted' => 0];
         $order = $Order->with('orderGoods')->where($order_where)->find();
         if (empty($order)) {
             $this->error('该订单记录不存在或已被删除');
