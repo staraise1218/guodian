@@ -63,7 +63,18 @@ function formatDate(date) {
     return y + '-' + m + '-' + d;
 }
 
-
+/**
+ * 删除数组中的某一位
+ */
+function remove(arr, value) {
+    var i = arr.length;
+    while (i--) {
+        if (arr[i] === value) {
+            return i;
+        }
+    }
+    return false;
+}
 
 
 /**
@@ -180,104 +191,7 @@ function createAlert(el, str, info) {
 
 
 
-/**
- * 自提人信息弹窗
- */
-
-// 显示自提联系人信息
-$('.address').on('click', function () {
-    $('.user-wrapper').css('display', 'block');
-})
-
-// 关闭自提联系人信息
-$('.user-close').on('click', function () {
-    $('.user-wrapper').css('display', 'none');
-})
-
-// 判断用户名
-$('#user-name').on('input', function () {
-    console.log(userNameRgx.test($(this).val()));
-    if (userNameRgx.test($(this).val())) {
-        userNameStatus = 1;
-        userNameVal = $(this).val();
-    } else {
-        userNameStatus = 0;
-    }
-    if (userNameStatus == 1 && userPhoneStatus == 1) {
-        $('.user-wrapper .submit').addClass('user-btn-active')
-    } else {
-
-        $('.user-btn-active').removeClass('user-btn-active')
-    }
-})
-
-// 判断用户电话
-$('#user-phone').on('input', function () {
-    console.log(phoneRgx.test($(this).val()));
-    if (phoneRgx.test($(this).val())) {
-        userPhoneStatus = 1;
-        userPhoneVal = $(this).val();
-    } else {
-        userPhoneStatus = 0;
-    }
-    if (userNameStatus == 1 && userPhoneStatus == 1) {
-        $('.user-wrapper .submit').addClass('user-btn-active')
-    } else {
-        $('.user-btn-active').removeClass('user-btn-active')
-    }
-})
-
-// 自提联系人信息 提交
-$('#user-submit').on('click', function () {
-    if (userNameStatus == 1 && userPhoneStatus == 1) {
-        $('#username-userphone').text(userNameVal + '-' + userPhoneVal);
-        $('.user-wrapper').css('display', 'none');
-    }
-})
-
-
-
-
-
-
-
-
-/**
- * 身份证弹窗
- */
-// 显示输入身份证号
-$('.shenfen-btn').on('click', function () {
-    $('.shenfen-wrap').css('display', 'block');
-})
-
-// 关闭输入身份证号
-$('.shenfen-close').on('click', function () {
-    $('.shenfen-wrap').css('display', 'none');
-})
-
-// 判断身份证
-$('#shenfenCard').on('input', function () {
-    if (shenfenCardRgx.test($(this).val())) {
-        shfenCardStatus = 1;
-        shfenCardVal = $(this).val();
-        $('.shenfen-wrap .submit').addClass('shenfenCard-active')
-    } else {
-        shfenCardStatus = 0;
-        $('.shenfenCard-active').removeClass('shenfenCard-active')
-    }
-})
-
-// 身份证提交
-$('#shenfenCard-submit').on('click', function () {
-    if (shfenCardStatus == 1) {
-        $('#shenfenCardVal').text(shfenCardVal);
-        $('.shenfen-wrap').css('display', 'none');
-    }
-})
-
-
 
 $('body').delegate('#user-name-only', 'input', function () {
     console.log($(this).val())
-
 })

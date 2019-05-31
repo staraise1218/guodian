@@ -61,7 +61,7 @@ function createOrder(order_id) {
                                                 <img src="./src/img/icon/daishouhuo.png" alt="">
                                             </div>
                                         </div>`);
-                    $('.order-track').html(`<div class="order-title more text-df md">
+                    $('.order-track').html(`<div id="showWuLiu" class="order-title more text-df md" data-order_id="${data.order_id}">
                                                 <div class="waitreceive">
                                                     <p class="w-1">运输中</p>
                                                     <p class="w-1 text-xs">顺丰快递单号：123</p>
@@ -181,4 +181,24 @@ function createOrder(order_id) {
 
 
 
+$('body').delegate('#showWuLiu', 'click', function () {
+    $('.alert-box').show();
+    $('.alert-yunshu').show();
+})
 
+$('.close').on('click', function () {
+    $('.alert-box').hide();
+    $('.alert-yunshu').hide();
+})
+
+
+
+function getWuLiu() {
+    // $.ajax({
+    //     type: 'post',
+    //     url: GlobalHost + '/Api/order/getExpressInfo',
+    //     data: {
+    //         invoice_no: 
+    //     }
+    // })
+}
