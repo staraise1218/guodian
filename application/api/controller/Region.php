@@ -25,8 +25,7 @@ class Region extends Base {
   		$data = $this->_tree($data);
   		response_success($data);
     }
-    
-
+  
 
    	/**
    	 * 生成目录树结构
