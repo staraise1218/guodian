@@ -175,29 +175,13 @@ function loadingList () {
 
 
 
-
-
-$.ajax({
-    type: 'POST',
-    url: GlobalHost + '/Api/goods/recommendgoodslist',
-    data: {
-        user_id: user_id,
-        num: 20
-    },
-    success: function (res) {
-        let recommendStr = '';
-        console.log(res.data)
-        $.each( res.data, function(index, item){
-            recommendStr += `<li class="good-item" data-goodid="${item.goods_id}">
-                                <img src="${ GlobalHost + item.original_img }" class="com" />
-                                <p>${item.goods_name}</p>
-                                <p class="price">价格：￥${item.shop_price}</p>
-                                <p class="del">官方公价：￥1,238,300</p>
-                            </li>`
-        });
-        $('.recommend').html(recommendStr)
-    }
-})
+/**
+ * 猜你喜欢
+ * @el      【挂在元素】
+ * @user_id 【用户id】
+ * @num     【加载数量】
+ */
+favorite ($('.recommend'), 20, 20);
 
 
 
@@ -206,9 +190,4 @@ $.ajax({
 
 
 
-
-$('.recommend').delegate('.good-item', 'click', function () {
-    console.log($(this).attr('data-goodid'))
-    window.location.href = 'commodity.html?goods_id=' + $(this).attr('data-goodid')
-})
 

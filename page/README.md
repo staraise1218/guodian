@@ -1,7 +1,7 @@
 # 页面说明
 
-|页面|链接|说明|传参方式|
-|---|---|----|---|
+|页面|链接|说明|传参方式|其他|
+|---|---|----|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
 |购物袋|shoppingBag|接完数据了|待整理|
 |详情页|commodity|接完数据了|待整理|
@@ -18,10 +18,13 @@
 |我的养护|myCuring|升级中|
 |经营信息|myManagement|升级中|
 |隐私权政策|myPrivacy|升级中|
-|结算中心|jieshuan|页面画完了|
 |我的订单|myOrder|页面画完了|
-|订单详情|orderDetail||
-
+|订单详情|orderDetail|页面画完了|
+|订单详情-配送方式|peisongMethod|页面画完了|
+|结算中心|jieshuan|页面画完了|
+|选择地址|addressChoose|页面画完了|
+|选择管理列表|addressList|页面画完了|
+|编辑地址-添加地址|addressEdit|页面画完了|
 
 
 
