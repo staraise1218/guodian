@@ -6,7 +6,63 @@
 
 let user_id = 20;
 let page = 1;
-let type = '';
+let type = getParam('type');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var len = ''
+switch (type) {
+    case 'WAITPAY':     // 代付款
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .WAITPAY_').addClass('active');
+        break;
+    case 'WAITSEND':    // 待发货
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .WAITSEND_').addClass('active');
+        break;
+    case 'WAITRECEIVE': // 待收货
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .WAITRECEIVE_').addClass('active');
+        break;
+    case 'FINISH':      // 已完成
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .FINISH_').addClass('active');
+        break;
+    case 'CANCEL':      // 已完成
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .CANCEL_').addClass('active');
+        break;
+    case 'ALL':         // 全部
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .ALL_').addClass('active');
+        break;
+    default:
+        len = $('.tabBar li').length;
+        $('.tabBar li').removeClass('active');
+        $('.tabBar .ALL_').addClass('active');
+        break;
+}
+
 
 /**
  * 初始化函数执行

@@ -18,7 +18,7 @@
 |我的养护|myCuring|升级中|
 |经营信息|myManagement|升级中|
 |隐私权政策|myPrivacy|升级中|
-|我的订单|myOrder|ok|
+|我的订单|myOrder|ok|订单状态类型：不传参默认全部，待付款：WAITPAY；待发货：WAITSEND； 待收货：WAITRECEIVE；已完成：FINISH；已取消：CANCEL
 |订单详情|orderDetail|ok|
 |订单详情-配送方式|peisongMethod|ok|
 |结算中心|jieshuan|ok|
