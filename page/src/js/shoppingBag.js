@@ -1,3 +1,11 @@
+/**
+ * @user_id         【用户id】
+ * @goodsList       【购物车商品数据】
+ * @cartArr         【购物车所有商品   {id, goods_num，selected}】 购物车id ，商品数量 ，商品选中状态： 1 选中状态 0 未被选中
+ * @cart = JSON.scriptfy(cartArr)
+ * 
+ */
+
 
 /**
  * =================================================
@@ -8,6 +16,175 @@ let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
+
+let goodsList = [];
+let cartArr = [];
+let cart = '';
+
+
+
+
+// 全选
+$('.chooseAll .left-choose').on('click', function (e) {
+    if($(this).attr('data-selected') == 0) {
+        $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
+        $(this).attr('data-selected', '1');
+        cartArr.forEach(item => {
+            item.selected = 1;
+        })
+        cart = JSON.stringify(cartArr);
+        getPrice(); // 计算价格
+        $('.srco-item').attr('data-selected', 1);
+        $('.srco-item .choose').hide();
+        $('.srco-item .choose-active').show();
+        console.log('全选')
+    } else if($(this).attr('data-selected') == 1) {
+        $(this).find('.choose-icon').prop('src', './src/img/icon/圆.png');
+        $(this).attr('data-selected', '0');
+        $('.srco-item .choose-active').hide();
+        $('.srco-item .choose').show();
+        console.log('取消全选')
+        cartArr.forEach(item => {
+            item.selected = 0;
+        })
+        cart = JSON.stringify(cartArr);
+        getPrice(); // 计算价格
+    }
+})
+
+// 弃用
+function changeChoose() {
+    console.log(cartArr)
+    let len = $('.srco-item').length;
+    for(var i = 0; i < len; i++) {
+        if(cartArr[i].selected == 0) {
+            $('.srco-item .choose').hide();
+            $('.srco-item .choose-active').show();
+        }
+        switch (cartArr[i].selected) {
+            case 0:
+                $('.srco-item .choose').hide();
+                $('.srco-item .choose-active').show();
+                break;
+            case 1:
+                $('.srco-item .choose-active').hide();
+                $('.srco-item .choose').show();
+                break;
+        }
+    }
+}
+
+
+/**===========================================================
+ *                  触发的执行
+ * =======================================================
+ */
+
+$('.footer .right').on('click', function () {
+    toPay()
+    window.location.href = './jieshuan.html?action=cart'
+})
+/**==========================================================
+ *                  函数执行
+ * ==========================================================
+ */
+getShopCartList(); // 加载购物车列表
+
+/**
+ * =====================================================
+ *                  函数定义
+ * =====================================================
+ */
+// 加载购物车列表
+function getShopCartList () {
+    $.ajax({
+        type: 'POST',
+        url: GlobalHost + '/Api/cart/index',
+        data: {
+            user_id: user_id,
+            city_code: 110100
+        },
+        success: function (res) {
+            console.log(res)
+            goodsList = res.data;
+            let goodsListStr = '';
+            res.data.forEach((item, index)  => {
+                cartArr[index] = {
+                    id: item.id,
+                    goods_num: item.goods_num,
+                    selected: 0
+                }
+                goodsListStr += `
+                <li class="srco-item good-item" data-selected="0" data-id="${item.id}" data-scroll="right">
+                    <div class="left">
+                        <div class="choose-wrap" >
+                            <img class="icon-lg choose" src="./src/img/icon/圆.png" alt="">
+                            <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" alt="">
+                        </div>
+                        <div class="commity">
+                            <img class="poster" src="${GlobalHost + item.goods.original_img}" alt="">
+                        </div>
+                    </div>
+                    <div class="right">
+                        <p>AUDEMARS PIGUET</p>
+                        <p>${item.goods_name}</p>
+                        <p class="price">￥ 336,384</p>
+                    </div>
+                    <div class="del" data-id="${item.id}">移除</div>
+                </li>`
+            });
+            cart = JSON.stringify(cartArr)
+            console.log(cart)
+            $('.commodityList').html(goodsListStr);
+        }
+    })
+}
+
+// 获取价格信息
+function getPrice () {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/cart/AsyncUpdateCart',
+        data: {
+            user_id: user_id,
+            cart: cart
+        },
+        success: function (res) {
+            console.log(res)
+            $('.footer .price').text('￥ 正在计算');
+            if(res.code == 200) {
+                $('.footer .price').text('￥ ' + res.data.result.total_fee);
+                $('.footer .right').text('去结算 （' + res.data.result.goods_num +'）');
+            }
+        }
+    })
+}
+
+// 结算
+function toPay () {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/cart/cart2',
+        data: {
+            user_id: user_id,
+            action: 'cart'
+        },
+        success: function (res) {
+            console.log(res)
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
 /** 
  * ===============================================
  *          左右滑动判断
@@ -26,6 +203,7 @@ $(".commodityList").delegate('.srco-item',"touchstart", function (e) {
     startX = e.originalEvent.changedTouches[0].pageX,
     startY = e.originalEvent.changedTouches[0].pageY;
 });
+// 商品上的操作
 $(".commodityList").delegate('.srco-item',"touchend", function (e) {
     // 判断默认行为是否可以被禁用
     if (e.cancelable) {
@@ -71,6 +249,8 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
     //单击
     else {
         // console.log('单击');
+        console.log($(this).attr('data-id'))
+        console.log($(this).attr('data-selected'))
         // 选择
         if ($(this).attr('data-scroll') == 'left') {
             console.log($(this).attr('data-scroll'))
@@ -79,16 +259,31 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
                     left: 0
                 }, 500);
         }
-        if($(e.target).attr('data-choose') == 0) {
-            $(this).find('.choose').css('display','none')
-            $(this).find('.choose-active').css('display','block')
+        switch ($(this).attr('data-selected')) {
+            case '0':
+                $(this).find('.choose').css('display','none')
+                $(this).find('.choose-active').css('display','block')
+                $(this).attr('data-selected', '1')
+                cartArr[$(this).index()].selected = 1;
+                cart = JSON.stringify(cartArr);
+                console.log('选中')
+                getPrice(); // 计算价格
+                break;
+            case '1':
+                $(this).find('.choose').css('display','block')
+                $(this).find('.choose-active').css('display','none')
+                $(this).attr('data-selected', '0')
+                console.log($(this).index())
+                cartArr[$(this).index()].selected = 0;
+                cart = JSON.stringify(cartArr);
+                console.log('取消')
+                getPrice(); // 计算价格
+                break;
+            default:
+                console.log('ERROE')
+                console.log($(this).attr('data-selected'))
+                break;
         }
-        if($(e.target).attr('data-choose') == 1) {
-            $(this).find('.choose').css('display','block')
-            $(this).find('.choose-active').css('display','none')
-        }
-        // console.log($(this).attr('data-id'))
-        // console.log($(e.target).attr('class'))
         if($(e.target).attr('class') == 'del') {
             let cart_id = JSON.stringify($(this).attr('data-id'))
             $.ajax({
@@ -100,79 +295,12 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
                 },
                 success: function (res) {
                     console.log(res)
-                    loadingList();
+                    getShopCartList();
                 }
             })
         }
     }
 });
-
-
-
-// 全选
-$('.chooseAll .left-choose').on('click', function (e) {
-    if($(this).attr('data-choose') == 0) {
-        $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
-        $(this).attr('data-choose', '1');
-        $('.choose').css('display','none');
-        $('.choose-active').css('display','block');
-    } else if($(this).attr('data-choose') == 1) {
-        $(this).find('.choose-icon').prop('src', './src/img/icon/圆.png');
-        $(this).attr('data-choose', '0');
-        $('.choose').css('display','block');
-        $('.choose-active').css('display','none');
-    }
-})
-
-
-
-/**
- * =====================================================
- *          加载列表
- * =====================================================
- */
-loadingList();
-function loadingList () {
-    $.ajax({
-        type: 'POST',
-        url: GlobalHost + '/Api/cart/index',
-        data: {
-            user_id: user_id,
-            city_code: 110100
-        },
-        success: function (res) {
-            console.log(res)
-            let goodsList = '';
-            for(let i = 0; i < res.data.length; i++) {
-                goodsList += `
-                <li class="srco-item good-item" data-id="${res.data[i].id}" data-scroll="right">
-                    <div class="left">
-                        <div class="choose-wrap" data-choose="0">
-                            <img class="icon-lg choose" src="./src/img/icon/圆.png" data-choose="0" alt="">
-                            <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" data-choose="1" alt="">
-                        </div>
-                        <div class="commity">
-                            <img class="poster" src="${GlobalHost + res.data[i].goods.original_img}" alt="">
-                        </div>
-                    </div>
-                    <div class="right">
-                        <p>AUDEMARS PIGUET</p>
-                        <p>${res.data[i].goods_name}</p>
-                        <p class="price">￥ 336,384</p>
-                    </div>
-                    <div class="del" data-id="${res.data[i].id}">移除</div>
-                </li>`
-            }
-            $('.commodityList').html(goodsList);
-        }
-    })
-}
-
-
-
-
-
-
 
 
 /**
@@ -182,12 +310,6 @@ function loadingList () {
  * @num     【加载数量】
  */
 favorite ($('.recommend'), 20, 20);
-
-
-
-
-
-
 
 
 

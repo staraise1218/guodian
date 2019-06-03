@@ -407,24 +407,18 @@ $('body').delegate('.tag', 'click', function () {
 
 /**
  * =================================================
- *      立即购买
+ *      页面跳转
  * =================================================
  */
-
+// 跳转 立即购买
 $('.byNowBtn').on('click', function () {
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
-    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + 'item_id=' + $id + '&goods_num=' + count
+    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count
 })
 
-
-
-
-
-
-
-
+// 跳转购物袋
 $('#goShoppingBag').on('click', function () {
     window.location.href ='./shoppingBag.html'
 })

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>传参页面</title>
+    <style lang="">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            display: block;
+            color: #222;
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <div id="el"></div>
+
+
+
+
+    <script src="./src/js/jquery.min.js"></script>
+    <script>
+        page = [
+            {
+                name: '待付款',
+                link: './myOrder.html?type=WAITPAY'
+            },{
+                name: '待收货',
+                link: './myOrder.html?type=WAITRECEIVE'
+            },{
+                name: '退货单',
+                link: './myOrder.html?type=暂无页面'
+            },{
+                name: '全部订单',
+                link: './myOrder.html?type=ALL'
+            },{
+                name: '我的收藏',
+                link: ''
+            },{
+                name: '我的浏览',
+                link: ''
+            },{
+                name: '会员中心',
+                link: ''
+            },{
+                name: '优惠券',
+                link: ''
+            },{
+                name: '我的积分',
+                link: ''
+            },{
+                name: '我的闲置',
+                link: ''
+            },{
+                name: '消费者告知书',
+                link: ''
+            },{
+                name: '我的养护',
+                link: ''
+            },{
+                name: '客服与帮助',
+                link: ''
+            },{
+                name: '经营信息',
+                link: ''
+            },{
+                name: '隐私与政策',
+                link: ''
+            }
+        ]
+        let str = '';
+        page.forEach(item => {
+            str += `<a href="${item.link}">${item.name}</a>`
+        });
+        $('#el').html(`<ul>` + str + `</ul>`)
+
+
+    </script>
+
+
+</body>
+</html>
