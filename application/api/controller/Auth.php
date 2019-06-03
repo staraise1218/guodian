@@ -194,7 +194,7 @@ class Auth extends Base {
         if(check_mobile($mobile) == false) response_error('', '手机号码有误');
         // 检测验证码
         $SmsLogic = new SmsLogic();
-        if($SmsLogic->checkCode($mobile, $code, '3', $error) == false) response_error('', $error);
+        if($SmsLogic->checkCode($mobile, $code, '5', $error) == false) response_error('', $error);
 
         // 查看手机号是否注册
         $users = Db::name('users')->where('mobile', $mobile)->field('user_id')->find();

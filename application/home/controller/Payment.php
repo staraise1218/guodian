@@ -13,7 +13,7 @@ class Payment extends Base {
      * 析构流函数
      */
     public function  __construct() {   
-        parent::__construct();           
+        parent::__construct();
         
         // 订单支付提交
         $pay_radio = $_REQUEST['pay_radio'];
