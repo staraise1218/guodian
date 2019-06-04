@@ -14,16 +14,7 @@ let type = getParam('type');
 
 
 
-
-
-
-
-
-
-
-
-
-
+console.log(type)
 var len = ''
 switch (type) {
     case 'WAITPAY':     // 代付款
@@ -140,22 +131,22 @@ function createList(user_id, page, type) {
                         </li>`
                 switch (type) {
                     case '':
-                        $('.ALL').append(list)
+                        $('.ALL').append(list).show();
                         break;
                     case 'WAITPAY':
-                        $('.WAITPAY').append(list)
+                        $('.WAITPAY').append(list).show();
                         break;
                     case 'WAITRECEIVE':
-                        $('.WAITRECEIVE').append(list)
+                        $('.WAITRECEIVE').append(list).show();
                         break;
                     case 'FINISH':
-                        $('.FINISH').append(list)
+                        $('.FINISH').append(list).show();
                         break;
                     case 'CANCEL':
-                        $('.CANCEL').append(list)
+                        $('.CANCEL').append(list).show();
                         break;
                     default:
-                        $('.ALL').append(list)
+                        $('.ALL').append(list).show();
                         break;
                 }
             });
