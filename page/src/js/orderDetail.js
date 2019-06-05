@@ -9,7 +9,10 @@ let user_id = 20;
 
 
 createOrder(order_id, user_id);
+getWuLiu();
 
+
+// 加载订单详情
 function createOrder(order_id) {
     $.ajax({
         type: 'post',
@@ -140,7 +143,6 @@ function createOrder(order_id) {
             });
             $('.shop-content .content-list').html(listStr);
 
-
             /**价格 订单
              * @shop_count      【商品数目】
              * @total_amount    【总金额】
@@ -170,9 +172,6 @@ function createOrder(order_id) {
             }
             $('.ctr span').addClass('cancelbtn')
             $('.ctr span:last').addClass('paybtn')
-
-
-
         }
     })
 }
@@ -180,25 +179,71 @@ function createOrder(order_id) {
 
 
 
-
+// 物流显示
 $('body').delegate('#showWuLiu', 'click', function () {
     $('.alert-box').show();
     $('.alert-yunshu').show();
 })
 
-$('.close').on('click', function () {
+// 关闭物流弹窗
+$('body').delegate('.close', 'click', function () {
     $('.alert-box').hide();
     $('.alert-yunshu').hide();
 })
 
 
-
+// 查看物流
 function getWuLiu() {
-    // $.ajax({
-    //     type: 'post',
-    //     url: GlobalHost + '/Api/order/getExpressInfo',
-    //     data: {
-    //         invoice_no: 
-    //     }
-    // })
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/getExpressInfo',
+        data: {
+            invoice_no: '3711389943985'
+        },
+        success: function (res) {
+            console.log(res)
+            var head = `<div class="top">
+                            <p>运输中</p>
+                            <div class="yunshu-title">
+                                <div class="left">
+                                    <img src="./src/img/1.png" alt="">
+                                </div>
+                                <div class="right">
+                                    <p>商品标题</p>
+                                    <p>快递信息</p>
+                                </div>
+                            </div>
+                        </div>            
+                        <ul class="list-wrap">`
+            var bottom = `</ul>
+                            <div class="bottom-tips text-xs">
+                                <img src="./src/img/icon/待收货/hei.png" alt=""> 
+                                <p>本数据由<em>快递公司</em>提供</p>
+                            </div>
+                            <div class="close">
+                                <img src="./src/img/icon/close.png" alt="">
+                            </div>`
+            var listbody = '';
+            res.data.list.forEach(item => {
+                var time=item.time.split(" ");
+                console.log(item.time.split(" "))
+                listbody += `<li class="list">
+                            <div class="date">
+                                <p class="time">${time[0]}</p>
+                                <p class="day">${time[1]}</p>
+                            </div>
+                            <div class="info">
+                                <img src="./src/img/icon/待收货/hei.png" alt="" class="info-icon">
+                                <div class="info-con">
+                                    <p class="left">${item.content}</p>
+                                </div>
+                            </div>
+                        </li>`
+            })
+
+
+
+            $('.alert-yunshu').html(head + listbody + bottom)
+        }
+    })
 }

@@ -41,7 +41,7 @@ let action = getParam('action');
 let goods_id = getParam('goods_id');
 let item_id = getParam('item_id');
 let goods_num = getParam('goods_num');
-let ID_number = '';         // 身份证
+let ID_number = localStorage.getItem('ID_number') || '';         // 身份证
 let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
@@ -124,8 +124,17 @@ if(localStorage.getItem('isChooseAddress')) {
 
 console.log(isChooseAddress)
 
-
-
+// 是否输入了身份证号
+if(ID_number) {
+    $('#shenfenCardVal').text(ID_number);
+    posData.ID_number = ID_number;
+}
+// 判断自提人信息
+if(localStorage.getItem('consignee') != null && localStorage.getItem('mobile') != null) {
+    $('#username-userphone').text(localStorage.getItem('consignee') + '-' + localStorage.getItem('mobile'));
+    posData.consignee = localStorage.getItem('consignee');
+    posData.mobile = localStorage.getItem('mobile');
+}
 
 
 /**
@@ -310,8 +319,8 @@ function toPay() {
     switch(buy_method) {
         case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');
-            posData.consignee = consignee;
-            posData.mobile = mobile;
+            posData.consignee = localStorage.getItem('consignee') || consignee;
+            posData.mobile = localStorage.getItem('mobile') || mobile;
             console.log(payData)
             if(!posData.consignee) {
                 createAlert($('.alert-tips'), 'alert_tips', '请输入姓名');
@@ -370,7 +379,7 @@ function pay(order_id) {
             // 跳转到支付页面
             if(res.code == 200) {
                 window.location.href = './payLoad.html?status=pay'
-                localStorage.setItem('payMsg', res.data)
+                localStorage.setItem('payMsg', res.data);
             } else {
                 console.log('********************************支付报错******************************')
             }
@@ -439,6 +448,8 @@ $('#user-submit').on('click', function () {
         posData.consignee = userNameVal;
         posData.mobile = userPhoneVal;
         console.log(posData)
+        localStorage.setItem('consignee', userNameVal);
+        localStorage.setItem('mobile', userPhoneVal);
     }
 })
 
@@ -470,7 +481,8 @@ $('#shenfenCard').on('input', function () {
         $('.shenfen-wrap .submit').addClass('shenfenCard-active');
     } else {
         shfenCardStatus = 0;
-        $('.shenfenCard-active').removeClass('shenfenCard-active')
+        $('.shenfenCard-active').removeClass('shenfenCard-active');
+        localStorage.setItem('ID_number', '');
     }
 })
 
@@ -480,5 +492,6 @@ $('#shenfenCard-submit').on('click', function () {
         $('#shenfenCardVal').text(ID_number);
         $('.shenfen-wrap').css('display', 'none');
         posData.ID_number = ID_number;
+        localStorage.setItem('ID_number', ID_number);
     }
 })
