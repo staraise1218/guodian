@@ -285,14 +285,14 @@ function getPrice () {
         url: GlobalHost + '/Api/cart/cart3',
         data: getPricePosData,
         success: function (res) {
-            alert('user_id:' + getPricePosData.user_id)
-            alert('address_id:' + getPricePosData.address_id)
-            alert('ID_number:' + getPricePosData.ID_number)
-            alert('buy_method:' + getPricePosData.buy_method)
-            alert('coupon_id:' + getPricePosData.coupon_id)
-            alert('pay_points:' + getPricePosData.pay_points)
-            alert('goods_id:' + getPricePosData.goods_id)
-            alert('goods_num:' + getPricePosData.goods_num)
+            // alert('user_id:' + getPricePosData.user_id)
+            // alert('address_id:' + getPricePosData.address_id)
+            // alert('ID_number:' + getPricePosData.ID_number)
+            // alert('buy_method:' + getPricePosData.buy_method)
+            // alert('coupon_id:' + getPricePosData.coupon_id)
+            // alert('pay_points:' + getPricePosData.pay_points)
+            // alert('goods_id:' + getPricePosData.goods_id)
+            // alert('goods_num:' + getPricePosData.goods_num)
             console.log(getPricePosData)
             console.log(res)
             let data = res.data;
