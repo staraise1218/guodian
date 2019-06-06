@@ -267,23 +267,33 @@ function createAddress(userName, phone, fulladdress) {
 
 // 获取价格信息
 function getPrice () {
+    var getPricePosData = {
+        user_id: user_id,                   // 	是 	用户id
+        address_id: address.address_id,     // 	是 	收货地址id
+        ID_number: ID_number,               // 	是 	身份证号
+        // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
+        // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
+        buy_method: buy_method,             // 	是 	配送方式 1 到店自提 2 快递送货
+        coupon_id: '',                      // 	否 	优惠券id
+        pay_points: 0,                      //  是 	使用的积分数
+        action: action,
+        goods_id: goods_id,
+        goods_num: goods_num
+    }
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/cart/cart3',
-        data: {
-            user_id: user_id,                   // 	是 	用户id
-            address_id: address.address_id,     // 	是 	收货地址id
-            ID_number: ID_number,               // 	是 	身份证号
-            // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
-            // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
-            buy_method: buy_method,             // 	是 	配送方式 1 到店自提 2 快递送货
-            coupon_id: '',                      // 	否 	优惠券id
-            pay_points: 0,                      //  是 	使用的积分数
-            action: action,
-            goods_id: goods_id,
-            goods_num: goods_num
-        },
+        data: getPricePosData,
         success: function (res) {
+            alert('user_id:' + getPricePosData.user_id)
+            alert('address_id:' + getPricePosData.address_id)
+            alert('ID_number:' + getPricePosData.ID_number)
+            alert('buy_method:' + getPricePosData.buy_method)
+            alert('coupon_id:' + getPricePosData.coupon_id)
+            alert('pay_points:' + getPricePosData.pay_points)
+            alert('goods_id:' + getPricePosData.goods_id)
+            alert('goods_num:' + getPricePosData.goods_num)
+            console.log(getPricePosData)
             console.log(res)
             let data = res.data;
             if(res.code == 200) {
