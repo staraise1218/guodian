@@ -1,15 +1,15 @@
 # 页面说明
 
-|页面|链接|说明|传参方式|其他|
+|页面|链接|说明|传参方式|备注|
 |---|---|----|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
 |购物袋|shoppingBag|接完数据了|待整理|
 |详情页|commodity|接完数据了|待整理|
 |文章页|article|接完数据了|type=xx|
-|待付款|orderWait|升级中|
-|待收货|orderReceive|升级中|
-|退货单|orderReturn|升级中|
-|全部订单|orderAll|升级中|
+|待付款|orderWait|升级中||弃用
+|待收货|orderReceive|升级中||弃用
+|退货单|orderReturn|升级中||弃用
+|全部订单|orderAll|升级中||弃用
 |会员中心|myMember|升级中|
 |优惠券|myCoupon|升级中|
 |我的积分|myIntegral|升级中|
@@ -30,6 +30,7 @@
 ***
 
 # 我的订单传参
+- 传参实例： `myOrder.html?type=ALL`
 
 |参数|说明|备注|
 |---|---|---|

@@ -248,9 +248,6 @@ function getWuLiu() {
                             </div>
                         </li>`
             })
-
-
-
             $('.alert-yunshu').html(head + listbody + bottom)
         }
     })

@@ -1,4 +1,4 @@
-alert('加载了商品详情页面')
+// alert('加载了商品详情页面')
 /**
  * =================================================
  *          公共变量
@@ -30,7 +30,7 @@ let user_id = myUsetInfo.user_id;
 // newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
 // newsid=newsids[1];//得到参数值
 goods_id = getParam('goods_id');
-alert(goods_id)
+// alert(goods_id)
 
 /**
  * =================================================
