@@ -32,7 +32,7 @@
 
 // 用户基本信息
 let myUsetInfo = store.get('USERINFO');
-myUsetInfo = JSON.parse(myUsetInfo);
+// myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
 let buy_method = 2;
@@ -114,7 +114,7 @@ $('.peison_method').on('click', function () {
 let isChooseAddress = ''; 
 if(store.get('isChooseAddress')) {
     isChooseAddress = store.get('isChooseAddress');
-    isChooseAddress = JSON.parse(isChooseAddress);
+    // isChooseAddress = JSON.parse(isChooseAddress);
     if(isChooseAddress.is == 1) {
         address = isChooseAddress;
         // console.log(address)
