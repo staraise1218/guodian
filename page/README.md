@@ -25,7 +25,8 @@
 |选择地址|addressChoose|ok|
 |选择管理列表|addressList|ok|
 |编辑地址-添加地址|addressEdit|ok|
-
+|分享|升级中
+|测试页面|MINE|||自己测试用
 
 ***
 
@@ -43,7 +44,7 @@
 
 
 
-
+- 地址： `http://guodian.staraise.com.cn/page/页面`
 
 
 
