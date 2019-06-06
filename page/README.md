@@ -1,11 +1,11 @@
 # 页面说明
 
-|页面|链接|说明|传参方式|备注|
-|---|---|----|---|---|
+|页面|链接|说明|传参方式|备注|bug|
+|---|---|----|---|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
-|购物袋|shoppingBag|接完数据了|待整理|
-|详情页|commodity|接完数据了|待整理|
-|文章页|article|接完数据了|type=xx|
+|购物袋|shoppingBag|ok||
+|详情页|commodity|ok|goods_id=xxx|
+|文章页|article|ok|type=xx|
 |待付款|orderWait|升级中||弃用
 |待收货|orderReceive|升级中||弃用
 |退货单|orderReturn|升级中||弃用
@@ -18,7 +18,7 @@
 |我的养护|myCuring|升级中|
 |经营信息|myManagement|升级中|
 |隐私权政策|myPrivacy|升级中|
-|我的订单|myOrder|ok|订单状态类型：全部 ALL ，待付款： WAITPAY ；待发货： WAITSEND ； 待收货： WAITRECEIVE ；已完成： FINISH ；已取消： CANCEL
+|我的订单|myOrder|ok|订单状态类型：全部 ALL ，待付款： WAITPAY ；待发货： WAITSEND ； 待收货： WAITRECEIVE ；已完成： FINISH ；已取消： CANCEL|下面有详细文档
 |订单详情|orderDetail|ok|
 |订单详情-配送方式|peisongMethod|ok|
 |结算中心|jieshuan|ok|
