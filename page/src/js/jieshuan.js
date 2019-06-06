@@ -28,8 +28,7 @@
  * action       ==========》    判断 立即购买  购物车结算
  * buy_method   ==========》    判断 到店自提  快递送货
  */
-
-
+alert('测试弹窗')
 // 用户基本信息
 let myUsetInfo = store.get('USERINFO');
 // myUsetInfo = JSON.parse(myUsetInfo);
