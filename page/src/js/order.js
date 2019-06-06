@@ -14,16 +14,7 @@ let type = getParam('type');
 
 
 
-
-
-
-
-
-
-
-
-
-
+console.log(type)
 var len = ''
 switch (type) {
     case 'WAITPAY':     // 代付款
@@ -64,6 +55,56 @@ switch (type) {
 }
 
 
+// 按钮操作
+$('.item-wrap').delegate('.btn-wrap span', 'click', function (event) {
+    console.log($(this))
+    event.stopPropagation();    //  阻止事件冒泡
+    console.log($(this).attr('data-action'))
+    console.log($(this).attr('data-orderid'))
+    switch($(this).attr('data-action')) {
+        case 'pay':         // 去付款
+            pay($(this).attr('data-orderid'));
+            break;
+        case 'cancel':      // 取消
+            cancelOrder($(this).attr('data-orderid'));
+            break;
+        case 'del':         // 删除
+
+            break;
+        case 'shouhuo':     // 确认收货
+
+            break;
+        case 'see':         // 查看物流
+
+            break;
+        default:
+            console.log('**************************传参出错*************************');
+            break;
+    }
+})
+
+
+// 跳转详情
+$('.content').delegate('.to', 'click', function () {
+    console.log($(this).attr('data-order_id'))
+    window.location.href = './orderDetail.html?order_id=' + $(this).attr('data-order_id')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * 初始化函数执行
  */
@@ -88,8 +129,11 @@ $('.tabBar li').on('click', function () {
     }
 })
 
-
-
+/**=================================================================================
+ *                  定义函数
+ * =================================================================================
+ */
+// 加载订单列表
 function createList(user_id, page, type) {
     var posData = {
         user_id: user_id,
@@ -134,28 +178,32 @@ function createList(user_id, page, type) {
                             <div class="ctr">
                                 <p class="title">订单金额：￥1231231231</p>
                                 <div class="btn-wrap">
-                                    <span class="btn">去付款</span>
+                                    <span data-action="pay" data-orderid="${item.order_id}" style="display: ${item.pay_btn == 1 ? 'inline-block' : 'none'}" class="btn">去付款</span>
+                                    <span data-action="cancel" data-orderid="${item.order_id}" style="display: ${item.cancel_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">取消</span>
+                                    <span data-action="del" data-orderid="${item.order_id}" style="display: ${item.del_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">删除</span>
+                                    <span data-action="shouhuo" data-orderid="${item.order_id}" style="display: ${item.receive_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">确认收货</span>
+                                    <span data-action="see" data-orderid="${item.order_id}" style="display: ${item.shipping_btn == 1 ? 'inline-block' : 'none'}" class="btn">查看物流</span>
                                 </div>
                             </div>
                         </li>`
                 switch (type) {
                     case '':
-                        $('.ALL').append(list)
+                        $('.ALL').append(list).show();
                         break;
                     case 'WAITPAY':
-                        $('.WAITPAY').append(list)
+                        $('.WAITPAY').append(list).show();
                         break;
                     case 'WAITRECEIVE':
-                        $('.WAITRECEIVE').append(list)
+                        $('.WAITRECEIVE').append(list).show();
                         break;
                     case 'FINISH':
-                        $('.FINISH').append(list)
+                        $('.FINISH').append(list).show();
                         break;
                     case 'CANCEL':
-                        $('.CANCEL').append(list)
+                        $('.CANCEL').append(list).show();
                         break;
                     default:
-                        $('.ALL').append(list)
+                        $('.ALL').append(list).show();
                         break;
                 }
             });
@@ -164,14 +212,57 @@ function createList(user_id, page, type) {
 }
 
 
+// 支付 页面
+function pay(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/api/payment/getCode',
+        data: {
+            order_id: order_id,
+            pay_code: 'unionpay'
+        },
+        success: function (res) {
+            console.log(res)
+            // 跳转到支付页面
+            if(res.code == 200) {
+                window.location.href = './payLoad.html?status=pay'
+                localStorage.setItem('payMsg', res.data);
+            } else {
+                console.log('********************************支付报错******************************')
+            }
+
+        }
+    })
+}
+
+// 取消订单
+function cancelOrder(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/cancel_order',
+        data: {
+            order_id: order_id,
+            user_id: user_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+            } else {
+                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+            }
+        }
+    })
+}
+
+/**
+ * TODO:
+ * 删除
+ * 确认收货
+ */
 
 
 
-
-$('.content').delegate('.to', 'click', function () {
-    console.log($(this).attr('data-order_id'))
-    window.location.href = './orderDetail.html?order_id=' + $(this).attr('data-order_id')
-})
 
 
 

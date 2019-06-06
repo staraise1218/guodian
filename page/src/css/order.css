@@ -151,13 +151,29 @@ body {
 .ctr .btn-wrap .btn {
     background: #D0A97A;
     color: #fff;
-    padding: .1rem .3rem;
+    /* padding: .1rem .3rem; */
     margin-left: .2rem;
+
+    box-sizing: border-box;
+    width: 1.6rem;
+    height: .6rem;
+    line-height: .6rem;
+    text-align: center;
 }
 .ctr .btn-wrap .btn-cancel {
     background: #fff;
     border: 1px solid #222;
     color: #222;
+    
+    /* background: #D0A97A; */
+    /* color: #fff; */
+    /* padding: .1rem .3rem; */
+    margin-left: .2rem;
+    box-sizing: border-box;
+    width: 1.6rem;
+    height: .6rem;
+    line-height: .6rem;
+    text-align: center;
 }
 
 

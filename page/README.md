@@ -18,13 +18,29 @@
 |我的养护|myCuring|升级中|
 |经营信息|myManagement|升级中|
 |隐私权政策|myPrivacy|升级中|
-|我的订单|myOrder|ok|订单状态类型：不传参默认全部，待付款：WAITPAY；待发货：WAITSEND； 待收货：WAITRECEIVE；已完成：FINISH；已取消：CANCEL
+|我的订单|myOrder|ok|订单状态类型：全部 ALL ，待付款： WAITPAY ；待发货： WAITSEND ； 待收货： WAITRECEIVE ；已完成： FINISH ；已取消： CANCEL
 |订单详情|orderDetail|ok|
 |订单详情-配送方式|peisongMethod|ok|
 |结算中心|jieshuan|ok|
 |选择地址|addressChoose|ok|
 |选择管理列表|addressList|ok|
 |编辑地址-添加地址|addressEdit|ok|
+
+
+***
+
+# 我的订单传参
+
+|参数|说明|备注|
+|---|---|---|
+|ALL|全部||
+|WAITPAY|待付款|
+|WAITRECEIVE|待收货|
+|FINISH|已完成|
+|CANCEL|已取消|
+||退货单|无 tab 页面|
+
+
 
 
 

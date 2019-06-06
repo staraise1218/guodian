@@ -41,7 +41,7 @@ let action = getParam('action');
 let goods_id = getParam('goods_id');
 let item_id = getParam('item_id');
 let goods_num = getParam('goods_num');
-let ID_number = '';         // 身份证
+let ID_number = localStorage.getItem('ID_number') || '';         // 身份证
 let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
@@ -66,6 +66,8 @@ let posData = {
     pay_points: pay_points,
     action: action
 };
+
+// 
 switch(action) {
     case 'buy_now':
         posData.goods_id = goods_id;
@@ -113,15 +115,26 @@ let isChooseAddress = '';
 if(localStorage.getItem('isChooseAddress')) {
     isChooseAddress = localStorage.getItem('isChooseAddress');
     isChooseAddress = JSON.parse(isChooseAddress);
-    if(isChooseAddress == 1) {
+    if(isChooseAddress.is == 1) {
         address = isChooseAddress;
+        // console.log(address)
+        createAddress(address.consignee, address.mobile, address.fulladdress);
     }
 }
 
 console.log(isChooseAddress)
 
-
-
+// 是否输入了身份证号
+if(ID_number) {
+    $('#shenfenCardVal').text(ID_number);
+    posData.ID_number = ID_number;
+}
+// 判断自提人信息
+if(localStorage.getItem('consignee') != null && localStorage.getItem('mobile') != null) {
+    $('#username-userphone').text(localStorage.getItem('consignee') + '-' + localStorage.getItem('mobile'));
+    posData.consignee = localStorage.getItem('consignee');
+    posData.mobile = localStorage.getItem('mobile');
+}
 
 
 /**
@@ -227,14 +240,30 @@ function getorderInfo() {
                 $('.goodsList-box').html(goodsList);
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
-                $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
-                $('.address2 .user-address-f').text(address.fulladdress);
+                // $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
+                // $('.address2 .user-address-f').text(address.fulladdress);
+                console.log(isChooseAddress)
+                if(isChooseAddress.is != 1) {
+                    createAddress(address.consignee, address.mobile, address.fulladdress)
+                }
                 imgArr = JSON.stringify(imgArr);
                 getPrice(); // 计算价格
             }
         }
     })
 }
+
+/**
+ * 渲染地址
+ * @param {*收货人} userName 
+ * @param {*联系电话} phone 
+ * @param {*详细地址} fulladdress 
+ */
+function createAddress(userName, phone, fulladdress) {
+    $('.address2 .user-name-number').text(userName + '  ' + phone);
+    $('.address2 .user-address-f').text(fulladdress);
+}
+
 
 // 获取价格信息
 function getPrice () {
@@ -285,27 +314,76 @@ function toPay() {
     }
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
+
+    console.log(buy_method)
     switch(buy_method) {
-        case '1': // 到店自提
-            posData.consignee = consignee;
-            posData.mobile = mobile;
+        case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');
+            posData.consignee = localStorage.getItem('consignee') || consignee;
+            posData.mobile = localStorage.getItem('mobile') || mobile;
+            console.log(payData)
+            if(!posData.consignee) {
+                createAlert($('.alert-tips'), 'alert_tips', '请输入姓名');
+                return;
+            }
+            if(!posData.mobile) {
+                createAlert($('.alert-tips'), 'alert_tips', '请输手机号');
+                return;
+            }
+            if(!posData.ID_number) {
+                createAlert($('.alert-tips'), 'alert_tips', '请输身份证号码');
+                return;
+            }
             break;
-        case '2': // 快递送货
+        case 2 || '2': // 快递送货
+            console.log('***********************快递送货****************************');
             delete posData.consignee;
             delete posData.mobile;
-            console.log('***********************快递送货****************************');
+            if(!payData.address_id) {
+                createAlert($('.alert-tips'), 'alert_tips', '请选择地址');
+                return;
+            }
+            if(!posData.ID_number) {
+                createAlert($('.alert-tips'), 'alert_tips', '请输身份证号码');
+                return;
+            }
             break;
         default:
             console.log('***********************传参错误 toPay*****************************');
-            break;
+            return;
     }
+    
+    // createAlert($('.alert-tips'), 'alert_tips', '提示', )
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/cart/cart3',
         data: payData,
         success: function (res) {
             console.log(res)
+            pay(res.data.order_id)
+        }
+    })
+}
+
+// 支付页面
+function pay(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/api/payment/getCode',
+        data: {
+            order_id: order_id,
+            pay_code: 'unionpay'
+        },
+        success: function (res) {
+            console.log(res)
+            // 跳转到支付页面
+            if(res.code == 200) {
+                window.location.href = './payLoad.html?status=pay'
+                localStorage.setItem('payMsg', res.data);
+            } else {
+                console.log('********************************支付报错******************************')
+            }
+
         }
     })
 }
@@ -365,6 +443,13 @@ $('#user-submit').on('click', function () {
     if (userNameStatus == 1 && userPhoneStatus == 1) {
         $('#username-userphone').text(userNameVal + '-' + userPhoneVal);
         $('.user-wrapper').css('display', 'none');
+        consignee = userNameVal;
+        mobile = userPhoneVal;
+        posData.consignee = userNameVal;
+        posData.mobile = userPhoneVal;
+        console.log(posData)
+        localStorage.setItem('consignee', userNameVal);
+        localStorage.setItem('mobile', userPhoneVal);
     }
 })
 
@@ -393,10 +478,11 @@ $('#shenfenCard').on('input', function () {
     if (shenfenCardRgx.test($(this).val())) {
         shfenCardStatus = 1;
         ID_number = $(this).val();
-        $('.shenfen-wrap .submit').addClass('shenfenCard-active')
+        $('.shenfen-wrap .submit').addClass('shenfenCard-active');
     } else {
         shfenCardStatus = 0;
-        $('.shenfenCard-active').removeClass('shenfenCard-active')
+        $('.shenfenCard-active').removeClass('shenfenCard-active');
+        localStorage.setItem('ID_number', '');
     }
 })
 
@@ -405,5 +491,7 @@ $('#shenfenCard-submit').on('click', function () {
     if (shfenCardStatus == 1) {
         $('#shenfenCardVal').text(ID_number);
         $('.shenfen-wrap').css('display', 'none');
+        posData.ID_number = ID_number;
+        localStorage.setItem('ID_number', ID_number);
     }
 })
