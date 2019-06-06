@@ -55,6 +55,11 @@ switch (type) {
 }
 
 
+/**
+ * 初始化函数执行
+ */
+createList(user_id, page, type); // 加载列表
+
 // 按钮操作
 $('.item-wrap').delegate('.btn-wrap span', 'click', function (event) {
     console.log($(this))
@@ -92,25 +97,6 @@ $('.content').delegate('.to', 'click', function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * 初始化函数执行
- */
-createList(user_id, page, type); // 加载列表
-
-
 /**
  * Tab 切换
  */
@@ -128,6 +114,18 @@ $('.tabBar li').on('click', function () {
         }
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**=================================================================================
  *                  定义函数
@@ -188,22 +186,22 @@ function createList(user_id, page, type) {
                         </li>`
                 switch (type) {
                     case '':
-                        $('.ALL').append(list).show();
+                        $('.ALL').html(list).show();
                         break;
                     case 'WAITPAY':
-                        $('.WAITPAY').append(list).show();
+                        $('.WAITPAY').html(list).show();
                         break;
                     case 'WAITRECEIVE':
-                        $('.WAITRECEIVE').append(list).show();
+                        $('.WAITRECEIVE').html(list).show();
                         break;
                     case 'FINISH':
-                        $('.FINISH').append(list).show();
+                        $('.FINISH').html(list).show();
                         break;
                     case 'CANCEL':
-                        $('.CANCEL').append(list).show();
+                        $('.CANCEL').html(list).show();
                         break;
                     default:
-                        $('.ALL').append(list).show();
+                        $('.ALL').html(list).show();
                         break;
                 }
             });

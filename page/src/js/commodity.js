@@ -39,6 +39,7 @@ goods_id = newsid;
  */
 // 滑动切换
 $(window).scroll(function () {
+    debugger;
     if ($(window).scrollTop() >= $(window).height()) {
         $('.nav').slideDown('fast');
     }
@@ -70,6 +71,7 @@ $(window).scroll(function () {
 
 // 点切换
 $('.nav-1').on('click', function () {
+    debugger;
     $('html,body').animate({
         scrollTop: $('#nav-1').offset().top - 50
     }, 'slow');
@@ -78,11 +80,13 @@ $('.nav-1').on('click', function () {
 //     $('html,body').animate({scrollTop:$('#nav-1').offset().top - 100},'slow');
 // })
 $('.nav-3').on('click', function () {
+    debugger;
     $('html,body').animate({
         scrollTop: ($('#nav-3').offset().top - 50)
     }, 'slow');
 })
 $('.nav-4').on('click', function () {
+    debugger;
     $('html,body').animate({
         scrollTop: ($('#nav-4').offset().top - 50)
     }, 'slow');
@@ -104,6 +108,7 @@ $.ajax({
     },
     dataType: 'json',
     success: function (res) {
+        debugger;
         console.log(res)
         // 渲染顶部标题
         $('.top-text').text(res.data.goodsInfo.goods_remark)
@@ -201,6 +206,7 @@ $.ajax({
         num: 21
     },
     success: function (res) {
+        debugger;
         console.log(res)
         // 在销售商品
         let shoppintCon = '';
@@ -229,6 +235,7 @@ $('body').delegate('.go', 'click', function () {
  * =================================================
  */
 $(window).on('load', function () {
+    debugger;
     setTimeout(function () {
         var swiper = new Swiper('.swiper-container', {
             // spaceBetween: 30,
@@ -250,23 +257,27 @@ $(window).on('load', function () {
  */
 // 购物车
 $('.add').on('click', function () {
+    debugger;
     $('.alert').css('display', 'block');
     $('.addChopCart').slideDown(200);
 })
 
 // 立即购买
 $('.payNow').on('click', function () {
+    debugger;
     $('.alert').css('display', 'block');
     $('.byNow').slideDown(200);
 })
 // 点击蒙层隐藏
 $('.alert').on('click', function () {
+    debugger;
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
 })
 // 点击close隐藏
 $('.close').on('click', function () {
+    debugger;
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
@@ -279,6 +290,7 @@ $('.close').on('click', function () {
  * =================================================
  */
 $('.collection').on('click', function () {
+    debugger;
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/goods/collect_goods',
@@ -301,6 +313,7 @@ $('.collection').on('click', function () {
  * =================================================
  */
 $('body').delegate('.tag', 'click', function () {
+    debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
     item_id[$(this).attr('data-msg')] = $(this).attr('data-id')
@@ -330,6 +343,7 @@ $('body').delegate('.tag', 'click', function () {
  * =================================================
  */
 $('.addcart_reduce').on('click', function () {
+    debugger;
     if (count >= 2) {
         count--;
         price = price_base * count;
@@ -353,6 +367,7 @@ $('.addcart_add').on('click', function () {
  * =================================================
  */
 $('.addBtn').on('click', function () {
+    debugger;
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/addCart',
@@ -382,6 +397,7 @@ $('.addBtn').on('click', function () {
  * =================================================
  */
 $('body').delegate('.tag', 'click', function () {
+    debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
     item_id[$(this).attr('data-msg')] = $(this).attr('data-id')
@@ -405,6 +421,7 @@ $('body').delegate('.tag', 'click', function () {
     }
 })
 
+
 /**
  * =================================================
  *      页面跳转
@@ -412,6 +429,7 @@ $('body').delegate('.tag', 'click', function () {
  */
 // 跳转 立即购买
 $('.byNowBtn').on('click', function () {
+    debugger;
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
@@ -420,5 +438,8 @@ $('.byNowBtn').on('click', function () {
 
 // 跳转购物袋
 $('#goShoppingBag').on('click', function () {
+    debugger;
     window.location.href ='./shoppingBag.html'
 })
+
+// cesigit

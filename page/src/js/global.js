@@ -127,7 +127,8 @@ $('.recommend').delegate('.good-item', 'click', function () {
  */
 
 function createAlert(el, str, info) {
-    if(!info) {
+    console.log('************************createAlert*********************')
+    if (!info) {
         info = '未知错误'
     }
     let alert_name_phone = `<div class="alert-wrapper user-wrapper" style="display: block">
@@ -156,9 +157,9 @@ function createAlert(el, str, info) {
                         </div>`;
     let alert_tips = `<div class="shoTost text-xs" style="display: block">${info}</div>`;
     let alert_name = ``;
-    
-    
-    switch(str) {
+
+
+    switch (str) {
         case 'alert_name_phone':
             el.html(alert_name_phone);
             break;
@@ -195,3 +196,55 @@ function createAlert(el, str, info) {
 $('body').delegate('#user-name-only', 'input', function () {
     console.log($(this).val())
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 复制到剪贴板
+ * @param {*复制的内容} text 
+ */
+function copyToClipboard(text, el) {
+    if (text.indexOf('-') !== -1) {
+        let arr = text.split('-');
+        text = arr[0] + arr[1];
+    }
+    var textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = '0';
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? '成功复制到剪贴板' : '该浏览器不支持点击复制到剪贴板';
+        alert(msg);
+        createAlert($('.alert-tips'), 'alert_tips', msg);
+        // return msg
+    } catch (err) {
+        alert('该浏览器不支持点击复制到剪贴板');
+        createAlert($('.alert-tips'), 'alert_tips', '该浏览器不支持点击复制到剪贴板');
+        // return msg
+    }
+
+    document.body.removeChild(textArea);
+}
