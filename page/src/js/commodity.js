@@ -89,7 +89,6 @@ $('.nav-4').on('click', function () {
 })
 
 
-
 /**
  * =================================================
  *          数据加载
@@ -100,7 +99,7 @@ getTuijian()
 function getInfo() {
     console.log('加载商品数据')
     $.ajax({
-        type: "POST",
+        type: 'post',
         url: GlobalHost + '/Api/goods/goodsInfo',
         data: {
             user_id: user_id,
@@ -192,9 +191,6 @@ function getInfo() {
             // 库存
             count_base = res.data.goodsInfo.store_count;
             $('.addChopCart .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
-        },
-        error: function (error) {
-            console.log('error', error);
         }
     });
 }
