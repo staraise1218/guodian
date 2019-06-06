@@ -31,7 +31,7 @@
 
 
 // 用户基本信息
-let myUsetInfo = localStorage.getItem('USERINFO');
+let myUsetInfo = store.get('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
@@ -41,7 +41,7 @@ let action = getParam('action');
 let goods_id = getParam('goods_id');
 let item_id = getParam('item_id');
 let goods_num = getParam('goods_num');
-let ID_number = localStorage.getItem('ID_number') || '';         // 身份证
+let ID_number = store.get('ID_number') || '';         // 身份证
 let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
@@ -112,8 +112,8 @@ $('.peison_method').on('click', function () {
  */
 // 判断地址是否选择了
 let isChooseAddress = ''; 
-if(localStorage.getItem('isChooseAddress')) {
-    isChooseAddress = localStorage.getItem('isChooseAddress');
+if(store.get('isChooseAddress')) {
+    isChooseAddress = store.get('isChooseAddress');
     isChooseAddress = JSON.parse(isChooseAddress);
     if(isChooseAddress.is == 1) {
         address = isChooseAddress;
@@ -130,10 +130,10 @@ if(ID_number) {
     posData.ID_number = ID_number;
 }
 // 判断自提人信息
-if(localStorage.getItem('consignee') != null && localStorage.getItem('mobile') != null) {
-    $('#username-userphone').text(localStorage.getItem('consignee') + '-' + localStorage.getItem('mobile'));
-    posData.consignee = localStorage.getItem('consignee');
-    posData.mobile = localStorage.getItem('mobile');
+if(store.get('consignee') != null && store.get('mobile') != null) {
+    $('#username-userphone').text(store.get('consignee') + '-' + store.get('mobile'));
+    posData.consignee = store.get('consignee');
+    posData.mobile = store.get('mobile');
 }
 
 
@@ -141,7 +141,7 @@ if(localStorage.getItem('consignee') != null && localStorage.getItem('mobile') !
  * 判断配送方式
  */
 
-buy_method = Number(localStorage.getItem('buy_method') || 2);
+buy_method = Number(store.get('buy_method') || 2);
 console.log(buy_method)
 switch(buy_method) {
     case 1:
@@ -181,7 +181,6 @@ $('#submit').on('click', function () {
  */
 // 获取订单详细信息
 function getorderInfo() {
-    debugger
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/cart2',
@@ -248,7 +247,6 @@ function getorderInfo() {
                     createAddress(address.consignee, address.mobile, address.fulladdress)
                 }
                 imgArr = JSON.stringify(imgArr);
-                debugger
                 getPrice(); // 计算价格
             }
         }
@@ -269,7 +267,6 @@ function createAddress(userName, phone, fulladdress) {
 
 // 获取价格信息
 function getPrice () {
-    debugger
     var getPricePosData = {
         user_id: user_id,                   // 	是 	用户id
         address_id: address.address_id,     // 	是 	收货地址id
@@ -288,14 +285,14 @@ function getPrice () {
         url: GlobalHost + '/Api/cart/cart3',
         data: getPricePosData,
         success: function (res) {
-            alert('user_id:' + getPricePosData.user_id)
-            alert('address_id:' + getPricePosData.address_id)
-            alert('ID_number:' + getPricePosData.ID_number)
-            alert('buy_method:' + getPricePosData.buy_method)
-            alert('coupon_id:' + getPricePosData.coupon_id)
-            alert('pay_points:' + getPricePosData.pay_points)
-            alert('goods_id:' + getPricePosData.goods_id)
-            alert('goods_num:' + getPricePosData.goods_num)
+            // alert('user_id:' + getPricePosData.user_id)
+            // alert('address_id:' + getPricePosData.address_id)
+            // alert('ID_number:' + getPricePosData.ID_number)
+            // alert('buy_method:' + getPricePosData.buy_method)
+            // alert('coupon_id:' + getPricePosData.coupon_id)
+            // alert('pay_points:' + getPricePosData.pay_points)
+            // alert('goods_id:' + getPricePosData.goods_id)
+            // alert('goods_num:' + getPricePosData.goods_num)
             console.log(getPricePosData)
             console.log(res)
             let data = res.data;
@@ -332,8 +329,8 @@ function toPay() {
     switch(buy_method) {
         case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');
-            posData.consignee = localStorage.getItem('consignee') || consignee;
-            posData.mobile = localStorage.getItem('mobile') || mobile;
+            posData.consignee = store.get('consignee') || consignee;
+            posData.mobile = store.get('mobile') || mobile;
             console.log(payData)
             if(!posData.consignee) {
                 createAlert($('.alert-tips'), 'alert_tips', '请输入姓名');
