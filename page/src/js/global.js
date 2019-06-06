@@ -248,3 +248,4 @@ function copyToClipboard(text, el) {
 
     document.body.removeChild(textArea);
 }
+

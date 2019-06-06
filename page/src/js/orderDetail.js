@@ -3,8 +3,11 @@
  * @order_id    【订单id】
  */
 let order_id = getParam('order_id');
-let user_id = 20;
 
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 
 
 

@@ -4,7 +4,10 @@
  * @page 	    【页码，从1开始】
  */
 
-let user_id = 20;
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
 

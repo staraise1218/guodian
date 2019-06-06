@@ -14,8 +14,11 @@
  * @lactChoose  【最后选择的是什么】 [province,city,district]
  * @changeStatus 【输入框状态】 [changeNume: '修改姓名'  ； changNumber: '修改手机号'     ; changeAddress: '修改详细地址']
  */
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id || '';
 let action = getParam('action');
-let user_id = 2;
 let address_id = getParam('address_id');
 let consignee = '';
 let mobile = '';

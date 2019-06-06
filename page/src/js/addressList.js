@@ -5,7 +5,12 @@
  * @del_address_id  【要删除的地址id】
  */
 
-let user_id = 2;
+
+
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id || '';
 let page = 1;
 let del_address_id = '';
 
