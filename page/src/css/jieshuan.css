@@ -274,3 +274,13 @@ body {
 }
 
 
+.alert-info {
+    position: fixed;
+    left: 50%;
+    top: 200px;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    line-height: 2em;
+    padding: 0 2em;
+}

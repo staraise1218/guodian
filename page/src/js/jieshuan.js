@@ -287,11 +287,13 @@ function getPrice () {
             console.log(res)
             let data = res.data;
             if(res.code == 200) {
+                $('.alert-info').show().text(res.msg)
                 alert(res.msg);
                 $('#total_fee_1').text('￥' + data.order_amount);
                 $('#total_fee_2').text('￥' + data.total_amount);
                 alert(res.msg);
             } else {
+                $('.alert-info').show().text(res.msg)
                 alert(res.msg);
                 $('#total_fee_1').text('￥ 计算失败');
                 $('#total_fee_2').text('￥ 计算失败');
