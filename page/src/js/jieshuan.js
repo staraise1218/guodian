@@ -104,6 +104,10 @@ $('.peison_method').on('click', function () {
     window.location.href = './peisongMethod.html?imgArr=' + imgArr;
 })
 
+// 跳转地址
+$('.toChooseAddress').on('click', function () {
+    window.location.href = './addressChoose.html';
+})
 
 
 /**=======================================================================
@@ -171,9 +175,17 @@ getorderInfo(); // 获取订单详细信息
  *                      通过动作执行函数
  * =======================================================================
  */
+// 支付
 $('#submit').on('click', function () {
     toPay()
 })
+
+$('.addClose').on('click', function () {
+    $('.alert-info').hide()
+})
+
+
+
 
 /**=======================================================================
  *                      函数定义
@@ -293,10 +305,11 @@ function getPrice () {
                 $('#total_fee_2').text('￥' + data.total_amount);
                 // alert(res.msg);
             } else {
-                $('.alert-info').show().text(res.msg)
-                setTimeout(() => {
-                    $('.alert-info').hide();
-                }, 1500);
+                $('.alert-info').show()
+                $('.addcon').text(res.msg)
+                // setTimeout(() => {
+                //     $('.alert-info').hide();
+                // }, 1500);
                 // alert(res.msg);
                 $('#total_fee_1').text('￥ 计算失败');
                 $('#total_fee_2').text('￥ 计算失败');

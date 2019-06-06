@@ -1,11 +1,14 @@
-/**
+/**定义数据
  * @user_id         【用户id】
  * @goodsList       【购物车商品数据】
  * @cartArr         【购物车所有商品   {id, goods_num，selected}】 购物车id ，商品数量 ，商品选中状态： 1 选中状态 0 未被选中
  * @cart = JSON.scriptfy(cartArr)
- * 
+ * @count           【选中商品的数量】
  */
 
+/**缓存数据
+  * 
+  */
 
 /**
  * =================================================
@@ -18,9 +21,7 @@ console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
 
 let goodsList = [];
-let cartArr = [];
-let cart = '';
-
+let count = 0;
 
 
 
@@ -29,10 +30,10 @@ $('.chooseAll .left-choose').on('click', function (e) {
     if($(this).attr('data-selected') == 0) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
         $(this).attr('data-selected', '1');
-        cartArr.forEach(item => {
+        goodsList.forEach(item => {
             item.selected = 1;
         })
-        cart = JSON.stringify(cartArr);
+        console.log(goodsList)
         getPrice(); // 计算价格
         $('.srco-item').attr('data-selected', 1);
         $('.srco-item .choose').hide();
@@ -41,38 +42,17 @@ $('.chooseAll .left-choose').on('click', function (e) {
     } else if($(this).attr('data-selected') == 1) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆.png');
         $(this).attr('data-selected', '0');
+        $('.srco-item').attr('data-selected', 0);
         $('.srco-item .choose-active').hide();
         $('.srco-item .choose').show();
         console.log('取消全选')
-        cartArr.forEach(item => {
+        goodsList.forEach(item => {
             item.selected = 0;
         })
-        cart = JSON.stringify(cartArr);
+        console.log(goodsList)
         getPrice(); // 计算价格
     }
 })
-
-// 弃用
-function changeChoose() {
-    console.log(cartArr)
-    let len = $('.srco-item').length;
-    for(var i = 0; i < len; i++) {
-        if(cartArr[i].selected == 0) {
-            $('.srco-item .choose').hide();
-            $('.srco-item .choose-active').show();
-        }
-        switch (cartArr[i].selected) {
-            case 0:
-                $('.srco-item .choose').hide();
-                $('.srco-item .choose-active').show();
-                break;
-            case 1:
-                $('.srco-item .choose-active').hide();
-                $('.srco-item .choose').show();
-                break;
-        }
-    }
-}
 
 
 /**===========================================================
@@ -81,8 +61,8 @@ function changeChoose() {
  */
 
 $('.footer .right').on('click', function () {
-    toPay()
-    window.location.href = './jieshuan.html?action=cart'
+    toPay();
+    // window.location.href = './jieshuan.html?action=cart';
 })
 /**==========================================================
  *                  函数执行
@@ -106,20 +86,19 @@ function getShopCartList () {
         },
         success: function (res) {
             console.log(res)
+            res.data.forEach( item => {
+                item.selected = 0;
+            })
             goodsList = res.data;
+            console.log(goodsList)
             let goodsListStr = '';
             res.data.forEach((item, index)  => {
-                cartArr[index] = {
-                    id: item.id,
-                    goods_num: item.goods_num,
-                    selected: 0
-                }
                 goodsListStr += `
-                <li class="srco-item good-item" data-selected="0" data-id="${item.id}" data-scroll="right">
+                <li class="srco-item good-item" data-selected="${item.selected}" data-id="${item.id}" data-scroll="right">
                     <div class="left">
                         <div class="choose-wrap" >
-                            <img class="icon-lg choose" src="./src/img/icon/圆.png" alt="">
-                            <img class="icon-lg choose-active" style="display:none" src="./src/img/icon/圆1.png" alt="">
+                            <img class="icon-lg choose" style="display:${item.selected == 0 ? 'block' : 'none'}" src="./src/img/icon/圆.png" alt="">
+                            <img class="icon-lg choose-active" style="display:${item.selected == 0 ? 'none' : 'block'}" src="./src/img/icon/圆1.png" alt="">
                         </div>
                         <div class="commity">
                             <img class="poster" src="${GlobalHost + item.goods.original_img}" alt="">
@@ -133,8 +112,6 @@ function getShopCartList () {
                     <div class="del" data-id="${item.id}">移除</div>
                 </li>`
             });
-            cart = JSON.stringify(cartArr)
-            console.log(cart)
             $('.commodityList').html(goodsListStr);
         }
     })
@@ -142,6 +119,16 @@ function getShopCartList () {
 
 // 获取价格信息
 function getPrice () {
+    var cart = [];
+    console.log(goodsList)
+    goodsList.forEach( (item, index) => {
+        cart[index] = {
+            id: item.id,
+            goods_num: item.goods_num,
+            selected: item.selected
+        }
+    })
+    cart = JSON.stringify(cart);
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/cart/AsyncUpdateCart',
@@ -155,6 +142,7 @@ function getPrice () {
             if(res.code == 200) {
                 $('.footer .price').text('￥ ' + res.data.result.total_fee);
                 $('.footer .right').text('去结算 （' + res.data.result.goods_num +'）');
+                count = res.data.result.goods_num
             }
         }
     })
@@ -162,17 +150,30 @@ function getPrice () {
 
 // 结算
 function toPay () {
-    $.ajax({
-        type: 'post',
-        url: GlobalHost + '/Api/cart/cart2',
-        data: {
-            user_id: user_id,
-            action: 'cart'
-        },
-        success: function (res) {
-            console.log(res)
-        }
-    })
+    if(count == 0) {
+        alert('你的购物车中没有商品')
+    } else {
+        $.ajax({
+            type: 'post',
+            url: GlobalHost + '/Api/cart/cart2',
+            data: {
+                user_id: user_id,
+                action: 'cart'
+            },
+            success: function (res) {
+                console.log(res)
+                if(res.code == 200) {
+                    if(res.data.address.length == 0) {
+                        alert('请先填写您的地址')
+                    }
+                    window.location.href = './jieshuan.html?action=cart';
+                } else {
+                    alert(res.msg)
+                }
+                
+            }
+        })
+    }
 }
 
 
@@ -258,31 +259,47 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
                 .animate({
                     left: 0
                 }, 500);
-        }
-        switch ($(this).attr('data-selected')) {
-            case '0':
-                $(this).find('.choose').css('display','none')
-                $(this).find('.choose-active').css('display','block')
-                $(this).attr('data-selected', '1')
-                cartArr[$(this).index()].selected = 1;
-                cart = JSON.stringify(cartArr);
-                console.log('选中')
-                getPrice(); // 计算价格
-                break;
-            case '1':
-                $(this).find('.choose').css('display','block')
-                $(this).find('.choose-active').css('display','none')
-                $(this).attr('data-selected', '0')
-                console.log($(this).index())
-                cartArr[$(this).index()].selected = 0;
-                cart = JSON.stringify(cartArr);
-                console.log('取消')
-                getPrice(); // 计算价格
-                break;
-            default:
-                console.log('ERROE')
-                console.log($(this).attr('data-selected'))
-                break;
+        } else {
+            // 选中商品
+            switch ($(this).attr('data-selected')) {
+                case '0':
+                    $(this).find('.choose').css('display','none')
+                    $(this).find('.choose-active').css('display','block')
+                    $(this).attr('data-selected', '1')
+                    goodsList[$(this).index()].selected = 1;
+                    console.log(goodsList)
+                    console.log('选中')
+
+                    // 判断是否都选中了
+                    var count = 0;
+                    goodsList.forEach(item => {
+                        if(item.selected == 0) {
+                            count++;
+                        }
+                    })
+                    if(count == 0) {
+                        $('.left-choose').find('.choose-icon').prop('src', './src/img/icon/圆1.png')
+                        $('.left-choose').attr('data-selected', '1');
+                    }
+                    getPrice(); // 计算价格
+                    break;
+                case '1':
+                    $(this).find('.choose').css('display','block')
+                    $(this).find('.choose-active').css('display','none')
+                    $(this).attr('data-selected', '0')
+                    console.log($(this).index())
+                    goodsList[$(this).index()].selected = 0;
+                    
+                    $('.left-choose').find('.choose-icon').prop('src', './src/img/icon/圆.png')
+                    $('.left-choose').attr('data-selected', '0');
+                    console.log('取消')
+                    getPrice(); // 计算价格
+                    break;
+                default:
+                    console.log('*************选中商品报错*************')
+                    console.log($(this).attr('data-selected'))
+                    break;
+            }
         }
         if($(e.target).attr('class') == 'del') {
             let cart_id = JSON.stringify($(this).attr('data-id'))
