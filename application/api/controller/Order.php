@@ -236,6 +236,42 @@ class Order extends Base
             response_error('', $data['msg']);
         }
     }
+
+    /**
+     * [del_order 取消后可删除订单]
+     * @return [type] [description]
+     */
+    public function del_order(){
+        $user_id = I('user_id');
+        $order_id = I('order_id');
+
+        $OrderLogic = new OrderLogic();
+        $OrderLogic->setUserId($user_id);
+        $data = $OrderLogic->delOrder($order_id);
+        
+        if($data['status'] == 1){
+            response_success('', '删除成功');
+        } else {
+            response_error('', $data['msg']);
+        }
+    }
+    /**
+     * 确定收货
+     */
+    public function receive_order()
+    {
+        $user_id = I('user_id');
+        $order_id = I('order_id');
+
+        $data = confirm_order($order_id, $user_id);
+
+        if ($data['status'] != 1) {
+            response_error('', $data['msg']);
+        } else {
+            response_success('', '操作成功');
+        }
+    }
+    
     /**
      * 确定收货成功
      */
