@@ -181,6 +181,7 @@ $('#submit').on('click', function () {
  */
 // 获取订单详细信息
 function getorderInfo() {
+    debugger
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/cart2',
@@ -247,6 +248,7 @@ function getorderInfo() {
                     createAddress(address.consignee, address.mobile, address.fulladdress)
                 }
                 imgArr = JSON.stringify(imgArr);
+                debugger
                 getPrice(); // 计算价格
             }
         }
@@ -267,6 +269,7 @@ function createAddress(userName, phone, fulladdress) {
 
 // 获取价格信息
 function getPrice () {
+    debugger
     var getPricePosData = {
         user_id: user_id,                   // 	是 	用户id
         address_id: address.address_id,     // 	是 	收货地址id
