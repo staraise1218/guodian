@@ -98,6 +98,7 @@ $('.nav-4').on('click', function () {
 getInfo();
 getTuijian()
 function getInfo() {
+    console.log('加载商品数据')
     $.ajax({
         type: "POST",
         url: GlobalHost + '/Api/goods/goodsInfo',
