@@ -1,4 +1,4 @@
-alert('加载购物车')
+// alert('加载购物车')
 /**定义数据
  * @user_id         【用户id】
  * @goodsList       【购物车商品数据】
@@ -24,26 +24,26 @@ let user_id = ''; //myUsetInfo.user_id;
 let goodsList = [];
 let count = 0;
 
-alert('url :' + window.location.href)
+// alert('url :' + window.location.href)
 var u = navigator.userAgent, 
     app = navigator.appVersion;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
 var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 if (isAndroid) {
-    alert("安卓机！")
+    // alert("安卓机！")
     user_id = getParam('user_id')
 }
 if (isIOS) {
-    alert("苹果机！")
+    // alert("苹果机！")
     let myUsetInfo = localStorage.getItem('USERINFO');
     myUsetInfo = JSON.parse(myUsetInfo);
     user_id = myUsetInfo.user_id;
 }
-alert('user_id :' + user_id)
+// alert('user_id :' + user_id)
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
-    alert('全选')
+    // alert('全选')
     if($(this).attr('data-selected') == 0) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
         $(this).attr('data-selected', '1');
@@ -55,14 +55,14 @@ $('.chooseAll .left-choose').on('click', function (e) {
         $('.srco-item').attr('data-selected', 1);
         $('.srco-item .choose').hide();
         $('.srco-item .choose-active').show();
-        console.log('全选')
+        // console.log('全选')
     } else if($(this).attr('data-selected') == 1) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆.png');
         $(this).attr('data-selected', '0');
         $('.srco-item').attr('data-selected', 0);
         $('.srco-item .choose-active').hide();
         $('.srco-item .choose').show();
-        console.log('取消全选')
+        // console.log('取消全选')
         goodsList.forEach(item => {
             item.selected = 0;
         })
@@ -78,7 +78,7 @@ $('.chooseAll .left-choose').on('click', function (e) {
  */
 
 $('.footer .right').on('click', function () {
-    alert('结算')
+    // alert('结算')
     toPay();
     // window.location.href = './jieshuan.html?action=cart';
 })
@@ -95,7 +95,7 @@ getShopCartList(); // 加载购物车列表
  */
 // 加载购物车列表
 function getShopCartList () {
-    alert('加载购物车列表')
+    // alert('加载购物车列表')
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/index',

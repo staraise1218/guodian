@@ -181,7 +181,8 @@ $('#submit').on('click', function () {
 })
 
 $('.addClose').on('click', function () {
-    $('.alert-info').hide()
+    // $('.alert-info').hide()
+    window.location.back(-1)
 })
 
 
