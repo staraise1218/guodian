@@ -24,7 +24,7 @@ let user_id = ''; //myUsetInfo.user_id;
 let goodsList = [];
 let count = 0;
 
-
+alert('url :' + window.location.href)
 var u = navigator.userAgent, 
     app = navigator.appVersion;
 var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
