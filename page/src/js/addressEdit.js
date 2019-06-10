@@ -338,6 +338,9 @@ $('.submit_address').on('click', function () {
             switch (res.code) {
                 case 200:
                     createAlert($('.alert'), 'alert_tips', res.msg);
+                    setTimeout(() => {
+                        history.back(-1)
+                    }, 1500);
                     break;
                 case 400:
                     createAlert($('.alert'), 'alert_tips', res.data);

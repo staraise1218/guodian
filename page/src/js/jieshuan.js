@@ -180,9 +180,10 @@ $('#submit').on('click', function () {
     toPay()
 })
 
-$('.addClose').on('click', function () {
+$('.alert-info .btn-cancel ').on('click', function () {
     // $('.alert-info').hide()
-    window.location.back(-1)
+    console.log(123)
+    history.back(-1)
 })
 
 
