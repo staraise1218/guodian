@@ -165,7 +165,7 @@ body {
 /* footer */
 .footer {
     position: fixed;
-    bottom: 50px;
+    bottom: 20px;
     background: #fff;
     width: 100%;
     font-size: 0;
