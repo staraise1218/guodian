@@ -45,6 +45,12 @@ if (isIOS) {
 }
 // alert('user_id :' + user_id)
 
+
+
+
+
+
+
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
     // alert('全选')
