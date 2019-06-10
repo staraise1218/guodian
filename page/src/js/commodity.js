@@ -14,6 +14,7 @@ let count = 1; // 选择数量
 let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = '';  // 商品 id
+alert(localStorage.getItem('USERINFO'))
 let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
