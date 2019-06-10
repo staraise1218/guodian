@@ -437,7 +437,9 @@ $('.byNowBtn').on('click', function (e) {
     $('.byNow').slideUp(200);
     alert('跳转')
     // window.open('./jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count)
-    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
+    // window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
+    var url = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
+    $(".byNowBtn").attr("href",url);//传入参数
 })
 
 // function buy_now() {
