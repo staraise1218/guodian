@@ -26,6 +26,21 @@ let goodsList = [];
 let count = 0;
 
 
+var u = navigator.userAgent, 
+    app = navigator.appVersion;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+if (isAndroid) {
+    alert("安卓机！")
+    user_id = getParam('user_id')
+}
+if (isIOS) {
+    alert("苹果机！")
+    let myUsetInfo = localStorage.getItem('USERINFO');
+    myUsetInfo = JSON.parse(myUsetInfo);
+    user_id = myUsetInfo.user_id;
+}
+alert(user_id)
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
