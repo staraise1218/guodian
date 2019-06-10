@@ -17,7 +17,7 @@ let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-alert('user_id :' + user_id)
+// alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -30,7 +30,7 @@ alert('user_id :' + user_id)
 // newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
 // newsid=newsids[1];//得到参数值
 goods_id = getParam('goods_id');
-alert('goods_id : (js)' + goods_id)
+// alert('goods_id : (js)' + goods_id)
 
 /**
  * =================================================
@@ -438,19 +438,9 @@ $('.byNowBtn').on('click', function (e) {
     return false;
 })
 
-// function buy_now() {
-//     $('.alert').css('display', 'none');
-//     $('.addChopCart').slideUp(200);
-//     $('.byNow').slideUp(200);
-//     alert('跳转')
-//     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
-// }
-
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
    // debugger;
     window.location.href ='./shoppingBag.html';
     return false;
 })
-
-// cesigit
