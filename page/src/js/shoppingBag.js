@@ -35,9 +35,13 @@ if (isAndroid) {
 }
 if (isIOS) {
     // alert("苹果机！")
-    let myUsetInfo = localStorage.getItem('USERINFO');
-    myUsetInfo = JSON.parse(myUsetInfo);
-    user_id = myUsetInfo.user_id;
+    if(localStorage.getItem('USERINFO') != '') {
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
+        user_id = myUsetInfo.user_id;
+    } else {
+        user_id = getParam('user_id')
+    }
 }
 // alert('user_id :' + user_id)
 
