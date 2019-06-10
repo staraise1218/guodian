@@ -146,6 +146,7 @@ $.ajax({
         $('.alert-address .choose').html(`<li class="active">${province.name}</li>
                                             <li>${city.name}</li>
                                             <li>${district.name}</li>`)
+        $('.loading').hide()
     }
 })
 

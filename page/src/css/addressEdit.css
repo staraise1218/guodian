@@ -144,6 +144,13 @@ body {
     position: relative;
     height: 6rem;
     width: 100%;
+    box-sizing: border-box;
+}
+.loading {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 100px;
 }
 .alert-address .choose .active {
     

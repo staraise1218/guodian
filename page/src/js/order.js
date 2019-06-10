@@ -195,27 +195,27 @@ function createList(user_id, page, type) {
                                 </div>
                             </div>
                         </li>`
-                switch (type) {
-                    case '':
-                        $('.ALL').html(list).show();
-                        break;
-                    case 'WAITPAY':
-                        $('.WAITPAY').html(list).show();
-                        break;
-                    case 'WAITRECEIVE':
-                        $('.WAITRECEIVE').html(list).show();
-                        break;
-                    case 'FINISH':
-                        $('.FINISH').html(list).show();
-                        break;
-                    case 'CANCEL':
-                        $('.CANCEL').html(list).show();
-                        break;
-                    default:
-                        $('.ALL').html(list).show();
-                        break;
-                }
             });
+            switch (type) {
+                case '':
+                    $('.ALL').html(list).show();
+                    break;
+                case 'WAITPAY':
+                    $('.WAITPAY').html(list).show();
+                    break;
+                case 'WAITRECEIVE':
+                    $('.WAITRECEIVE').html(list).show();
+                    break;
+                case 'FINISH':
+                    $('.FINISH').html(list).show();
+                    break;
+                case 'CANCEL':
+                    $('.CANCEL').html(list).show();
+                    break;
+                default:
+                    $('.ALL').html(list).show();
+                    break;
+            }
         }
     })
 }
@@ -255,19 +255,17 @@ function cancelOrder(order_id) {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
-                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                alert(res.msg)
+                createList(user_id, page, type)
             } else {
-                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                alert(res.msg)
             }
         }
     })
 }
 
-/**
- * TODO:
- * 删除
- * 确认收货
- */
 // 删除订单
 function delOrder(order_id) {
     $.ajax({
@@ -281,7 +279,8 @@ function delOrder(order_id) {
             console.log(res)
             if(res.code == 200) {
                 alert(res.msg)
-                createList(user_id, page, type);
+                createList(user_id, page, type)
+                // createList(user_id, page, type);
             } else {
                 alert(res.msg)
             }
@@ -305,7 +304,8 @@ function shouhuo(order_id) {
             console.log(res)
             if(res.code == 200) {
                 alert(res.msg);
-                createList(user_id, page, type);
+                createList(user_id, page, type)
+                // createList(user_id, page, type);
             } else {
                 alert(res.msg)
             }
