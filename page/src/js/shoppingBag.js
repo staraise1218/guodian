@@ -16,11 +16,12 @@ alert('加载购物车')
  *          公共变量
  * =================================================
  */
+alert(localStorage.getItem('USERINFO'))
 let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-
+alert(user_id)
 let goodsList = [];
 let count = 0;
 
