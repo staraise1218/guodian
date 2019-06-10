@@ -1,4 +1,3 @@
-alert('加载了商品详情页面JS')
 /**
  * =================================================
  *          公共变量
@@ -14,7 +13,6 @@ let count = 1; // 选择数量
 let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = '';  // 商品 id
-alert(localStorage.getItem('USERINFO'))
 let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
@@ -435,11 +433,9 @@ $('.byNowBtn').on('click', function (e) {
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
-    alert('跳转')
-    // window.open('./jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count)
+    alert('跳转2')
     // window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
-    var url = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
-    $(".byNowBtn").attr("href",url);//传入参数
+    window.location.href = './empty.html'
 })
 
 // function buy_now() {
