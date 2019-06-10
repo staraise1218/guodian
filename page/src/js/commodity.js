@@ -433,7 +433,8 @@ $('.byNowBtn').on('click', function () {
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
-    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count
+    window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
+    window.event.returnValue=false;  
 })
 
 // 跳转购物袋
