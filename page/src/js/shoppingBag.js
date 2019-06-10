@@ -29,6 +29,7 @@ let count = 0;
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
+    alert('全选')
     if($(this).attr('data-selected') == 0) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
         $(this).attr('data-selected', '1');
@@ -63,6 +64,7 @@ $('.chooseAll .left-choose').on('click', function (e) {
  */
 
 $('.footer .right').on('click', function () {
+    alert('结算')
     toPay();
     // window.location.href = './jieshuan.html?action=cart';
 })
@@ -79,6 +81,7 @@ getShopCartList(); // 加载购物车列表
  */
 // 加载购物车列表
 function getShopCartList () {
+    alert('加载购物车列表')
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/index',
@@ -121,6 +124,7 @@ function getShopCartList () {
 
 // 获取价格信息
 function getPrice () {
+    alert('获取价格信息')
     var cart = [];
     console.log(goodsList)
     goodsList.forEach( (item, index) => {
