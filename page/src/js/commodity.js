@@ -434,13 +434,14 @@ $('.byNowBtn').on('click', function () {
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
-    window.event.returnValue=false;  
+    return false;
 })
 
 // 跳转购物袋
 $('#goShoppingBag').on('click', function () {
    // debugger;
-    window.location.href ='./shoppingBag.html'
+    window.location.href ='./shoppingBag.html';
+    return false;
 })
 
 // cesigit
