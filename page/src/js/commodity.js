@@ -18,6 +18,7 @@ let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
+alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
