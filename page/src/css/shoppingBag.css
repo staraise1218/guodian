@@ -63,6 +63,7 @@ body {
 
 /* 商品列表 */
 .commodityList {
+    position: relative;
     padding: .2rem 0;
     overflow: hidden;
     color: #828282;

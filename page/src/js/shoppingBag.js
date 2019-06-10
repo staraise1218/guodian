@@ -138,7 +138,6 @@ function getShopCartList () {
 
 // 获取价格信息
 function getPrice () {
-    alert('获取价格信息')
     var cart = [];
     console.log(goodsList)
     goodsList.forEach( (item, index) => {
@@ -234,12 +233,13 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
         }
     }
     moveEndX = e.originalEvent.changedTouches[0].pageX,
-        moveEndY = e.originalEvent.changedTouches[0].pageY,
+    moveEndY = e.originalEvent.changedTouches[0].pageY,
         X = moveEndX - startX,
         Y = moveEndY - startY;
     //左滑
-    if (X > 0) {
-        // console.log('左滑');
+    if (X > 50) {
+        console.log(X)
+        console.log('右滑');
         if ($(this).attr('data-scroll') == 'left') {
             console.log($(this).attr('data-scroll'))
             $(this).attr('data-scroll', 'right')
@@ -249,8 +249,9 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
         }
     }
     //右滑
-    else if (X < 0) {
-        // console.log('右滑');
+    else if (X < -50) {
+        console.log(X)
+        console.log('左滑');
         if ($(this).attr('data-scroll') == 'right') {
             // console.log($(this).attr('data-scroll'))
             $(this).attr('data-scroll', 'left')
@@ -261,11 +262,13 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
     }
     //下滑
     else if (Y > 0) {
-        // console.log('下滑');
+        console.log(Y)
+        console.log('下滑');
     }
     //上滑
     else if (Y < 0) {
-        // console.log('上滑');
+        console.log(Y)
+        console.log('上滑');
     }
     //单击
     else {

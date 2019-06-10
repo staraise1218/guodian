@@ -74,6 +74,12 @@ $('.alert-address .tips-top').on('click', function () {
     createCity();
 })
 
+// user-close
+$('body').delegate('.user-close', 'click', function () {
+    $('.user-wrapper').hide();
+})
+
+
 function createCity() {
     switch (lactChoose) {
         case 'province':
