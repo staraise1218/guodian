@@ -16,12 +16,11 @@ alert('加载购物车')
  *          公共变量
  * =================================================
  */
-alert(localStorage.getItem('USERINFO'))
-let myUsetInfo = localStorage.getItem('USERINFO');
-myUsetInfo = JSON.parse(myUsetInfo);
-console.log(myUsetInfo)
-let user_id = myUsetInfo.user_id;
-alert(user_id)
+// alert(localStorage.getItem('USERINFO'))
+// let myUsetInfo = localStorage.getItem('USERINFO');
+// myUsetInfo = JSON.parse(myUsetInfo);
+// console.log(myUsetInfo)
+let user_id = ''; //myUsetInfo.user_id;
 let goodsList = [];
 let count = 0;
 
@@ -40,7 +39,7 @@ if (isIOS) {
     myUsetInfo = JSON.parse(myUsetInfo);
     user_id = myUsetInfo.user_id;
 }
-alert(user_id)
+alert('user_id :' + user_id)
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
