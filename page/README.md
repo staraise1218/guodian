@@ -26,6 +26,7 @@
 |选择管理列表|addressList|ok|
 |编辑地址-添加地址|addressEdit|ok|
 |分享|升级中
+|银联支付页面|payLoad|接口返回的html|
 |测试页面|MINE|||自己测试用
 
 ***

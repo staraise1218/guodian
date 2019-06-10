@@ -11,8 +11,6 @@
     <script src="./src/js/global.js"></script>
     <script>
         let user_id = getParam('user_id');
-        alert(window.location.href)
-        alert(user_id)
             $.ajax({
                 type: 'POST',
                 url: GlobalHost + '/Api/user/getUserInfo',
