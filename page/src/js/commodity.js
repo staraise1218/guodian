@@ -428,8 +428,9 @@ $('body').delegate('.tag', 'click', function () {
  * =================================================
  */
 // 跳转 立即购买
-$('.byNowBtn').on('click', function () {
+$('.byNowBtn').on('click', function (e) {
    // debugger;
+    e.preventDefault()
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
@@ -439,7 +440,7 @@ $('.byNowBtn').on('click', function () {
 })
 
 // 跳转购物袋
-$('#goShoppingBag').on('click', function () {
+$('#goShoppingBag').on('click', function (e) {
    // debugger;
     window.location.href ='./shoppingBag.html';
     return false;
