@@ -61,7 +61,7 @@ if (isAndroid) {
         if(window.history.length == 0) {
             window.android.goBack();
         } else {
-            window.location.back();
+            window.location.back(-1);
         }
     })
 } else {
