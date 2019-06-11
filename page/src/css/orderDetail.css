@@ -49,6 +49,10 @@ body {
     font-size: .2rem;
     padding: .04rem .0rem;
 }
+.tips .title:last-child {
+    font-size: .16rem;
+    opacity: .9;
+}
 .tips .CANCEL {
     padding: .4rem 0;
 }
@@ -466,4 +470,23 @@ body {
 .shop-list-wrap .info {
     flex: 1;
     margin-left: .2rem;
+}
+
+.loading {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    color: #fff;
+    line-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    display: none;
+}
+.loading_ {
+    text-align: center;
+    background: #fff;
+    padding: 2rem 0;
+    border-radius: .2rem;
 }

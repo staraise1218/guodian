@@ -158,11 +158,12 @@ function createList(user_id, page, type) {
             let list = '';
             res.data.forEach(item => {
                 var shopList = '';
+                // <img src="./src/img/1.png" alt="">
                 item.goods_list.forEach(el => {
                     shopList += `<li>
                                     <div class="shop-wrap border-bottom">
                                         <div class="poster">
-                                            <img src="./src/img/1.png" alt="">
+                                            <img src="${GlobalHost + el.original_img}" alt="">
                                         </div>
                                         <div class="right">
                                             <p class="text-df">${el.goods_name}</p>

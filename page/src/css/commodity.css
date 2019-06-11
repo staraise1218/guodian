@@ -5,11 +5,24 @@ body {
 
 /* 顶部 */
 .topBar {
-    position: relative;
+    /* position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .2rem; */
+
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: .2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    box-sizing: border-box;
+    background: #fff;
 }
 
 .topBar .center {
@@ -346,6 +359,7 @@ body {
     background: #fff;
     padding: .3rem .45rem .4rem .45rem;
     box-sizing: border-box;
+    z-index: 100;
 }
 
 .nav a {
