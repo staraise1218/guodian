@@ -46,17 +46,20 @@ body {
     justify-content: space-between;
     align-items: center;
     font-weight: 400;
-    font-size: .2rem;
+    font-size: 12px;
     padding: .04rem .0rem;
 }
 .tips .title:last-child {
-    font-size: .16rem;
+    font-size: 12px;
     opacity: .9;
 }
 .tips .CANCEL {
     padding: .4rem 0;
 }
 
+.tips .writpay {
+    
+}
 .tips .waitreceive {
     display: flex;
     justify-content: space-between;
