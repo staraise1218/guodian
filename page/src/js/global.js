@@ -57,6 +57,7 @@ function getParam(paramName) {
 // })
 if (isAndroid) {
     $('.back').on('click', function () {
+        alert('Android back')
         window.android.goBack();
     })
 } else {
