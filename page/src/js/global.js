@@ -58,7 +58,11 @@ function getParam(paramName) {
 if (isAndroid) {
     $('.back').on('click', function () {
         alert('Android back')
-        window.android.goBack();
+        if(window.history.length == 0) {
+            window.android.goBack();
+        } else {
+            window.location.back();
+        }
     })
 } else {
     $('.back').on('click', function () {
