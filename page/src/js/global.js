@@ -59,9 +59,9 @@ if (isAndroid) {
     $('.back').on('click', function () {
         alert(window.history.length)
         if(window.android.goBack()) {
-            window.android.goBack();
-        } else {
             window.history.back(-1);
+        } else {
+            window.android.goBack();
         }
     })
 } else {
