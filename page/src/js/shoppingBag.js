@@ -47,7 +47,15 @@ if (isIOS) {
 
 
 
-
+/**时间线
+ * 
+ */
+document.onreadystatechange = function () {
+    console.log(document.readyState)
+    if(document.readyState == 'interactive') {
+        getShopCartList(); // 加载购物车列表
+    }
+}
 
 
 
@@ -96,7 +104,7 @@ $('.footer .right').on('click', function () {
  *                  函数执行
  * ==========================================================
  */
-getShopCartList(); // 加载购物车列表
+// getShopCartList(); // 加载购物车列表
 
 /**
  * =====================================================
