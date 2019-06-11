@@ -12,20 +12,23 @@
     <link rel="stylesheet" href="./src/css/jieshuan.css">
 </head>
 <body>
+
+    <script>
+        // alert('结算测试')
+    </script>
     <!-- 顶部 -->
     <div class="topBar">
         <img src="./src/img/icon/back.png" alt="" class="icon-df back">
-        <p class="text-df">结算中心</p>
+        <p class="text-df">结算中心测试</p>
         <div class="right">
             <!-- <img class="icon-df" src="./src/img/icon/share.png" alt=""> -->
             <!-- <img class="icon-df m-l" src="./src/img/icon/message.png" alt=""> -->
         </div>
     </div>
     <!-- 顶部 END -->
-
     <div class="peison_method be-center border-bottom more">
         <p class="w-lg">配送方式</p>
-        <p class="peisong-title">配送方式con</p>
+        <p class="peisong-title">配送方式</p>
     </div>
 
     <!-- 自提人信息 -->
@@ -144,9 +147,20 @@
     <!-- 弹窗 tips -->
     <div class="alert-tips"></div>
 
+    <div class="alert-info" style="display: none">
+        <div class="content">
+            <p class="addcon">提示内容</p>
+            <div class="btn">
+                <div class="btn-cancel addClose">取消</div>
+                <div class="btn-ok toChooseAddress">确定</div>
+            </div>
+        </div>
+    </div>
+
 
 
     <script src="./src/js/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
     <script src="./src/js/global.js"></script>
     <script src="./src/js/jieshuan.js"></script>
 </body>

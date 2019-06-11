@@ -104,6 +104,10 @@ $('.peison_method').on('click', function () {
     window.location.href = './peisongMethod.html?imgArr=' + imgArr;
 })
 
+// 跳转地址
+$('.toChooseAddress').on('click', function () {
+    window.location.href = './addressChoose.html';
+})
 
 
 /**=======================================================================
@@ -141,7 +145,7 @@ if(localStorage.getItem('consignee') != null && localStorage.getItem('mobile') !
  * 判断配送方式
  */
 
-buy_method = Number(localStorage.getItem('buy_method'));
+buy_method = Number(localStorage.getItem('buy_method') || 2);
 console.log(buy_method)
 switch(buy_method) {
     case 1:
@@ -171,9 +175,19 @@ getorderInfo(); // 获取订单详细信息
  *                      通过动作执行函数
  * =======================================================================
  */
+// 支付
 $('#submit').on('click', function () {
     toPay()
 })
+
+$('.alert-info .btn-cancel ').on('click', function () {
+    // $('.alert-info').hide()
+    console.log(123)
+    history.back(-1)
+})
+
+
+
 
 /**=======================================================================
  *                      函数定义
@@ -287,9 +301,18 @@ function getPrice () {
             console.log(res)
             let data = res.data;
             if(res.code == 200) {
+                // $('.alert-info').show().text(res.msg)
+                // alert(res.msg);
                 $('#total_fee_1').text('￥' + data.order_amount);
                 $('#total_fee_2').text('￥' + data.total_amount);
+                // alert(res.msg);
             } else {
+                $('.alert-info').show()
+                $('.addcon').text(res.msg)
+                // setTimeout(() => {
+                //     $('.alert-info').hide();
+                // }, 1500);
+                // alert(res.msg);
                 $('#total_fee_1').text('￥ 计算失败');
                 $('#total_fee_2').text('￥ 计算失败');
             }
@@ -315,7 +338,7 @@ function toPay() {
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
 
-    console.log(buy_method)
+    console.log('buy_method', buy_method)
     switch(buy_method) {
         case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>传参页面</title>
+    <title>测试页面</title>
     <style lang="">
         * {
             margin: 0;
@@ -30,8 +30,13 @@
 
 
     <script src="./src/js/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
     <script>
         page = [
+            {
+                name: '传参页面',
+                link: './empty.html?user_id='
+            },
             {
                 name: '全部订单',
                 link: './myOrder.html?type=ALL'
@@ -98,7 +103,27 @@
             },{
                 name: '隐私与政策',
                 link: ''
-            }
+            },
+
+
+            {
+                name: '选择地址',
+                link: './addressChoose.html'
+            },
+            {
+                name: '选择管理列表',
+                link: './addressList.html'
+            },
+            {
+                name: '编辑地址-添加地址',
+                link: './addressEdit.html'
+            },
+
+
+
+
+
+
         ]
         let str = '';
         page.forEach(item => {
@@ -107,8 +132,7 @@
         $('#el').html(`<ul>` + str + `</ul>`)
 
 
+        
     </script>
-
-
 </body>
 </html>

@@ -3,6 +3,10 @@
  */
 let buy_method = Number(localStorage.getItem('buy_method'));
 
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 
 
 let imgArr = JSON.parse(getParam('imgArr'));

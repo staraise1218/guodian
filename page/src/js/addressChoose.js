@@ -5,7 +5,10 @@
  * @isChooseAddress 【是否选择了地址】
  */
 
-let user_id = 2;
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id || '';
 let page = 1;
 let isChooseAddress = {
     is: 0,              // 0 未选择， 1 选择地址了

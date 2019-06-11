@@ -14,7 +14,19 @@ let phoneRgx = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\d{8}$/;
 // 身份证
 let shenfenCardRgx = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 
-
+/**
+ * 区分Android ios
+ */
+var u = navigator.userAgent, 
+app = navigator.appVersion;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+if (isAndroid) {
+    console.log("安卓机！")
+}
+if (isIOS) {
+    console.log("苹果机！")
+}
 
 
 
@@ -40,11 +52,19 @@ function getParam(paramName) {
 /**
  * 回退 1
  */
-$('.back').on('click', function () {
-    window.history.back(-1);
-})
-
-
+// $('.back').on('click', function () {
+//     window.history.back(-1);
+// })
+if (isAndroid) {
+    $('.back').on('click', function () {
+        alert('Android back')
+        window.android.goBack();
+    })
+} else {
+    $('.back').on('click', function () {
+        window.history.back(-1);
+    })
+}
 
 /**
  * 时间戳转时间
@@ -127,7 +147,8 @@ $('.recommend').delegate('.good-item', 'click', function () {
  */
 
 function createAlert(el, str, info) {
-    if(!info) {
+    console.log('************************createAlert*********************')
+    if (!info) {
         info = '未知错误'
     }
     let alert_name_phone = `<div class="alert-wrapper user-wrapper" style="display: block">
@@ -156,9 +177,9 @@ function createAlert(el, str, info) {
                         </div>`;
     let alert_tips = `<div class="shoTost text-xs" style="display: block">${info}</div>`;
     let alert_name = ``;
-    
-    
-    switch(str) {
+
+
+    switch (str) {
         case 'alert_name_phone':
             el.html(alert_name_phone);
             break;
@@ -195,3 +216,56 @@ function createAlert(el, str, info) {
 $('body').delegate('#user-name-only', 'input', function () {
     console.log($(this).val())
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 复制到剪贴板
+ * @param {*复制的内容} text 
+ */
+function copyToClipboard(text, el) {
+    if (text.indexOf('-') !== -1) {
+        let arr = text.split('-');
+        text = arr[0] + arr[1];
+    }
+    var textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = '0';
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? '成功复制到剪贴板' : '该浏览器不支持点击复制到剪贴板';
+        alert(msg);
+        createAlert($('.alert-tips'), 'alert_tips', msg);
+        // return msg
+    } catch (err) {
+        alert('该浏览器不支持点击复制到剪贴板');
+        createAlert($('.alert-tips'), 'alert_tips', '该浏览器不支持点击复制到剪贴板');
+        // return msg
+    }
+
+    document.body.removeChild(textArea);
+}
+

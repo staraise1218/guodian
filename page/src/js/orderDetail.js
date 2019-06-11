@@ -3,8 +3,11 @@
  * @order_id    【订单id】
  */
 let order_id = getParam('order_id');
-let user_id = 20;
 
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 
 
 
@@ -42,7 +45,7 @@ function createOrder(order_id) {
                                             <p class="price">应付金额</p>
                                         </div>
                                     </div>`)
-                    $('.order-track').html(`<div class="order-title more text-df md">
+                    $('.order-track').html(`<div class="showWuLiu order-title more text-df md">
                                                 <div class="writpay">
                                                     <p class="w-1">订单跟踪</p>
                                                     <p class="w-1 text-xs">您的订单已提交，等待系统确认</p>
@@ -64,7 +67,7 @@ function createOrder(order_id) {
                                                 <img src="./src/img/icon/daishouhuo.png" alt="">
                                             </div>
                                         </div>`);
-                    $('.order-track').html(`<div id="showWuLiu" class="order-title more text-df md" data-order_id="${data.order_id}">
+                    $('.order-track').html(`<div  class="showWuLiu order-title more text-df md" data-order_id="${data.order_id}">
                                                 <div class="waitreceive">
                                                     <p class="w-1">运输中</p>
                                                     <p class="w-1 text-xs">顺丰快递单号：123</p>
@@ -77,7 +80,7 @@ function createOrder(order_id) {
                                         <img src="./src/img/icon/daishouhuo.png" alt="">
                                     </div>`);
                     $('.order-track').html(`<div class="order-title more text-df md">
-                                                    <div class="waitccomment">
+                                                    <div class="showWuLiu waitccomment">
                                                     <p class="w-1">已签收</p>
                                                     <p class="w-1 text-xs">${data.shipping_name}： 没有数据</p>
                                                 </div>
@@ -151,7 +154,7 @@ function createOrder(order_id) {
              */
             $('.shop_count').text('共' + 1 + '件商品');
             $('.total_amount').text('￥' + data.total_amount);
-            $('.order_sn').html(`订单编号：${data.order_sn} <span class="fuzhi">复制</span>`);
+            $('.order_sn').html(`订单编号：${data.order_sn} <span data-copy="${data.order_sn}" class="fuzhi">复制</span>`);
             data.add_time = formatDate(data.add_time);
             $('.add_time').text('下单时间：' + data.add_time);
 
@@ -176,11 +179,19 @@ function createOrder(order_id) {
     })
 }
 
+// 点击复制
+$('body').delegate('.fuzhi', 'click', function () {
+    console.log($(this).attr('data-copy'))
+    // console.log(copyToClipboard($(this).attr('data-copy')))
+    // copyToClipboard($(this).attr('data-copy'))
+    copyToClipboard($(this).attr('data-copy'))
+    // createAlert($('.alert-tips'), 'alert_tips', msg);
+})
 
 
 
 // 物流显示
-$('body').delegate('#showWuLiu', 'click', function () {
+$('body').delegate('.showWuLiu', 'click', function () {
     $('.alert-box').show();
     $('.alert-yunshu').show();
 })
@@ -240,9 +251,6 @@ function getWuLiu() {
                             </div>
                         </li>`
             })
-
-
-
             $('.alert-yunshu').html(head + listbody + bottom)
         }
     })

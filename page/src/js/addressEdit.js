@@ -14,8 +14,11 @@
  * @lactChoose  【最后选择的是什么】 [province,city,district]
  * @changeStatus 【输入框状态】 [changeNume: '修改姓名'  ； changNumber: '修改手机号'     ; changeAddress: '修改详细地址']
  */
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id || '';
 let action = getParam('action');
-let user_id = 2;
 let address_id = getParam('address_id');
 let consignee = '';
 let mobile = '';
@@ -70,6 +73,12 @@ $('.alert-address .tips-top').on('click', function () {
     $('.alert-address').slideToggle();
     createCity();
 })
+
+// user-close
+$('body').delegate('.user-close', 'click', function () {
+    $('.user-wrapper').hide();
+})
+
 
 function createCity() {
     switch (lactChoose) {
@@ -137,6 +146,7 @@ $.ajax({
         $('.alert-address .choose').html(`<li class="active">${province.name}</li>
                                             <li>${city.name}</li>
                                             <li>${district.name}</li>`)
+        $('.loading').hide()
     }
 })
 
@@ -329,6 +339,9 @@ $('.submit_address').on('click', function () {
             switch (res.code) {
                 case 200:
                     createAlert($('.alert'), 'alert_tips', res.msg);
+                    setTimeout(() => {
+                        history.back(-1)
+                    }, 1500);
                     break;
                 case 400:
                     createAlert($('.alert'), 'alert_tips', res.data);

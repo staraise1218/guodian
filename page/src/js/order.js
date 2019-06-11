@@ -4,10 +4,12 @@
  * @page 	    【页码，从1开始】
  */
 
-let user_id = 20;
+let myUsetInfo = localStorage.getItem('USERINFO');
+myUsetInfo = JSON.parse(myUsetInfo);
+console.log(myUsetInfo)
+let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
-
 
 
 
@@ -55,6 +57,16 @@ switch (type) {
 }
 
 
+// 关闭物流弹窗
+$('body').delegate('.close', 'click', function () {
+    $('.alert-box').hide();
+    $('.alert-yunshu').hide();
+})
+/**
+ * 初始化函数执行
+ */
+createList(user_id, page, type); // 加载列表
+
 // 按钮操作
 $('.item-wrap').delegate('.btn-wrap span', 'click', function (event) {
     console.log($(this))
@@ -69,12 +81,16 @@ $('.item-wrap').delegate('.btn-wrap span', 'click', function (event) {
             cancelOrder($(this).attr('data-orderid'));
             break;
         case 'del':         // 删除
-
+            delOrder($(this).attr('data-orderid'));
             break;
         case 'shouhuo':     // 确认收货
-
+            shouhuo($(this).attr('data-orderid'));
             break;
         case 'see':         // 查看物流
+            $('.alert-box').show();
+            $('.tips_loading').show();
+            $('.alert-yunshu').show();
+            getWuLiu();
 
             break;
         default:
@@ -90,25 +106,6 @@ $('.content').delegate('.to', 'click', function () {
     window.location.href = './orderDetail.html?order_id=' + $(this).attr('data-order_id')
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * 初始化函数执行
- */
-createList(user_id, page, type); // 加载列表
 
 
 /**
@@ -128,6 +125,18 @@ $('.tabBar li').on('click', function () {
         }
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**=================================================================================
  *                  定义函数
@@ -182,31 +191,31 @@ function createList(user_id, page, type) {
                                     <span data-action="cancel" data-orderid="${item.order_id}" style="display: ${item.cancel_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">取消</span>
                                     <span data-action="del" data-orderid="${item.order_id}" style="display: ${item.del_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">删除</span>
                                     <span data-action="shouhuo" data-orderid="${item.order_id}" style="display: ${item.receive_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">确认收货</span>
-                                    <span data-action="see" data-orderid="${item.order_id}" style="display: ${item.shipping_btn == 1 ? 'inline-block' : 'none'}" class="btn">查看物流</span>
+                                    <span data-action="see" data-orderid="${item.order_id}" style="display: ${item.shipping_btn == 1 ? 'inline-block' : 'none'}" class="btn wuliu">查看物流</span>
                                 </div>
                             </div>
                         </li>`
-                switch (type) {
-                    case '':
-                        $('.ALL').append(list).show();
-                        break;
-                    case 'WAITPAY':
-                        $('.WAITPAY').append(list).show();
-                        break;
-                    case 'WAITRECEIVE':
-                        $('.WAITRECEIVE').append(list).show();
-                        break;
-                    case 'FINISH':
-                        $('.FINISH').append(list).show();
-                        break;
-                    case 'CANCEL':
-                        $('.CANCEL').append(list).show();
-                        break;
-                    default:
-                        $('.ALL').append(list).show();
-                        break;
-                }
             });
+            switch (type) {
+                case '':
+                    $('.ALL').html(list).show();
+                    break;
+                case 'WAITPAY':
+                    $('.WAITPAY').html(list).show();
+                    break;
+                case 'WAITRECEIVE':
+                    $('.WAITRECEIVE').html(list).show();
+                    break;
+                case 'FINISH':
+                    $('.FINISH').html(list).show();
+                    break;
+                case 'CANCEL':
+                    $('.CANCEL').html(list).show();
+                    break;
+                default:
+                    $('.ALL').html(list).show();
+                    break;
+            }
         }
     })
 }
@@ -230,7 +239,6 @@ function pay(order_id) {
             } else {
                 console.log('********************************支付报错******************************')
             }
-
         }
     })
 }
@@ -247,22 +255,119 @@ function cancelOrder(order_id) {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
-                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                alert(res.msg)
+                createList(user_id, page, type)
             } else {
-                createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                alert(res.msg)
             }
         }
     })
 }
 
-/**
- * TODO:
- * 删除
- * 确认收货
- */
+// 删除订单
+function delOrder(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/del_order',
+        data: {
+            user_id: user_id,
+            order_id: order_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg)
+                createList(user_id, page, type)
+                // createList(user_id, page, type);
+            } else {
+                alert(res.msg)
+            }
+        },
+        error: function (error) {
+            console.log('************************删除订单 报错*****************************')
+        }
+    })
+}
+
+// 确认收货
+function shouhuo(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/receive_order',
+        data: {
+            user_id: user_id,
+            order_id: order_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg);
+                createList(user_id, page, type)
+                // createList(user_id, page, type);
+            } else {
+                alert(res.msg)
+            }
+        }
+    })
+}
 
 
 
+// 查看物流
+function getWuLiu() {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/getExpressInfo',
+        data: {
+            invoice_no: '3711389943985'
+        },
+        success: function (res) {
+            console.log(res)
+            var head = `<div class="top">
+                            <p>运输中</p>
+                            <div class="yunshu-title">
+                                <div class="left">
+                                    <img src="./src/img/1.png" alt="">
+                                </div>
+                                <div class="right">
+                                    <p>商品标题</p>
+                                    <p>快递信息</p>
+                                </div>
+                            </div>
+                        </div>            
+                        <ul class="list-wrap">`
+            var bottom = `</ul>
+                            <div class="bottom-tips text-xs">
+                                <img src="./src/img/icon/待收货/hei.png" alt=""> 
+                                <p>本数据由<em>快递公司</em>提供</p>
+                            </div>
+                            <div class="close">
+                                <img src="./src/img/icon/close.png" alt="">
+                            </div>`
+            var listbody = '';
+            res.data.list.forEach(item => {
+                var time=item.time.split(" ");
+                console.log(item.time.split(" "))
+                listbody += `<li class="list">
+                            <div class="date">
+                                <p class="time">${time[0]}</p>
+                                <p class="day">${time[1]}</p>
+                            </div>
+                            <div class="info">
+                                <img src="./src/img/icon/待收货/hei.png" alt="" class="info-icon">
+                                <div class="info-con">
+                                    <p class="left">${item.content}</p>
+                                </div>
+                            </div>
+                        </li>`
+            })
+            $('.alert-yunshu').html(head + listbody + bottom);
+            $('.tips_loading').hide();
+        }
+    })
+}
 
 
 
