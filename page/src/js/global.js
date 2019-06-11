@@ -58,7 +58,7 @@ function getParam(paramName) {
 if (isAndroid) {
     $('.back').on('click', function () {
         alert(window.history.length)
-        if(window.history.length == 1) {
+        if(window.android.goBack()) {
             window.android.goBack();
         } else {
             window.history.back(-1);
