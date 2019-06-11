@@ -14,7 +14,19 @@ let phoneRgx = /^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\d{8}$/;
 // 身份证
 let shenfenCardRgx = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 
-
+/**
+ * 区分Android ios
+ */
+var u = navigator.userAgent, 
+app = navigator.appVersion;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+if (isAndroid) {
+    console.log("安卓机！")
+}
+if (isIOS) {
+    console.log("苹果机！")
+}
 
 
 
@@ -40,11 +52,18 @@ function getParam(paramName) {
 /**
  * 回退 1
  */
-$('.back').on('click', function () {
-    window.history.back(-1);
-})
-
-
+// $('.back').on('click', function () {
+//     window.history.back(-1);
+// })
+if (isAndroid) {
+    $('.back').on('click', function () {
+        window.android.goBack();
+    })
+} else {
+    $('.back').on('click', function () {
+        window.history.back(-1);
+    })
+}
 
 /**
  * 时间戳转时间
