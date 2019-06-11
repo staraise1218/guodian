@@ -371,3 +371,52 @@ favorite ($('.recommend'), 20, 20);
 
 
 
+
+
+
+
+
+
+    //定义的全局变量
+    var disY, startY, endY;
+    //触摸事件开始时触发
+    $('body').on('touchstart', function (e) {
+        startY = e.changedTouches[0].pageY;
+    });
+    //触摸事件移动中时触发
+    $('body').on('touchmove', function (e) {
+        endY = e.changedTouches[0].pageY;
+        disY = endY - startY;
+        if (disY > 30) {
+            $('.status').css({
+                display: 'block',
+                height: disY + 'px',
+            });
+        }
+    });
+    //触摸事件结束时触发
+    $('body').on('touchend', function (e) {
+        endY = e.changedTouches[0].pageY;
+        disY = endY - startY;
+        if (disY > 72) {
+            //定义一个定时器，返回下拉到一定的高度
+            var timer = setInterval(function () {
+                disY -= 13;
+                if (disY <= 60) {
+                    $('.status').css({
+                        height: 52 + 'px',
+                    });
+                    clearInterval(timer);
+                    refresh();
+                }
+                $('.status').css({
+                    height: disY + 'px',
+                });
+            }, 75);
+        }
+    });
+    //请求刷新数据
+    function refresh() {
+        console.log('刷新')
+        getShopCartList(); // 加载购物车列表
+    }
