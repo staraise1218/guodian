@@ -64,6 +64,10 @@ function createOrder(order_id) {
              * @class[tips]         【金色提示】
              * @class[order-track]  【订单跟踪】
              */
+            if(data.add_time) {
+                var time_ = formatDateCom(data.add_time);
+                console.log(time_)
+            }
             switch (data.order_status_code) {
                 case 'WAITPAY': // 待付款
                         var timestamp = data.add_time
@@ -87,8 +91,6 @@ function createOrder(order_id) {
                                 sec = "0" + sec;
                             }
                             countDownTime = hour + "小时" + min + "分" + sec + "秒";
-                            console.log(hour + "小时" + min + "分" + sec + "秒")
-
                             $('.tips').html(`<div class="writpay">
                                 <div class="title">
                                     <p>待付款</p>
@@ -114,7 +116,7 @@ function createOrder(order_id) {
                                                 <div class="writpay">
                                                     <p class="w-1">订单跟踪</p>
                                                     <p class="w-1 text-xs">您的订单已提交，等待系统确认</p>
-                                                    <p class="text-xs op-4">2019</p>
+                                                    <p class="text-xs op-4">${time_}</p>
                                                 </div>
                                             </div>`)
                     // getCountDown($('.tips .time'), data.add_time);
@@ -324,7 +326,7 @@ function getWuLiu() {
                 var listbody = '';
                 res.data.list.forEach(item => {
                     var time=item.time.split(" ");
-                    console.log(item.time.split(" "))
+                    // console.log(item.time.split(" "))
                     listbody += `<li class="list">
                                 <div class="date">
                                     <p class="time">${time[0]}</p>

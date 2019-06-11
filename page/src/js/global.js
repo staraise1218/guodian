@@ -93,6 +93,7 @@ function formatDateCom(time) {
     m = date.getMinutes() + ':';
     s = date.getSeconds(); 
     console.log(Y+M+D+h+m+s);
+    return Y+M+D+h+m+s
 }
 
 /**倒计时
