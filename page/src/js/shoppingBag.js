@@ -417,6 +417,6 @@ favorite ($('.recommend'), 20, 20);
     });
     //请求刷新数据
     function refresh() {
-        console.log('刷新')
+        alert('刷新')
         getShopCartList(); // 加载购物车列表
     }
