@@ -34,11 +34,7 @@ class Order extends Base
         $where = ' user_id=' . $user_id . ' and deleted = 0 ';
         //条件搜索
         if($type) $where .= C(strtoupper(I('get.type')));
-        p($where);
-        $where.=' and order_prom_type < 5 ';//虚拟订单和拼团订单不列出来
-        // $count = M('order')->where($where)->count();
-        // $Page = new Page($count, 10);
-        // $show = $Page->show();
+
         $order_str = "order_id DESC";
         $order_list = M('order')
             ->order($order_str)
