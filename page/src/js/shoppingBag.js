@@ -1,4 +1,4 @@
-// alert('加载购物车')
+alert(window.location.href)
 /**定义数据
  * @user_id         【用户id】
  * @goodsList       【购物车商品数据】
