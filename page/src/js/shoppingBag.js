@@ -1,4 +1,3 @@
-alert(window.location.href)
 /**定义数据
  * @user_id         【用户id】
  * @goodsList       【购物车商品数据】
@@ -50,7 +49,6 @@ if (isIOS) {
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
-    alert(window.location.href)
     // alert('全选')
     if($(this).attr('data-selected') == 0) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
