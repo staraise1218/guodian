@@ -180,11 +180,11 @@ $('#submit').on('click', function () {
     toPay()
 })
 
-$('.alert-info .btn-cancel ').on('click', function () {
-    // $('.alert-info').hide()
-    console.log(123)
-    history.back(-1)
-})
+// $('.alert-info .btn-cancel ').on('click', function () {
+//     // $('.alert-info').hide()
+//     console.log(123)
+//     history.back(-1)
+// })
 
 
 

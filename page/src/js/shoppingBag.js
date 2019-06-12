@@ -23,6 +23,7 @@
 let user_id = ''; //myUsetInfo.user_id;
 let goodsList = [];
 let count = 0;
+let loadCOUNT = 0;
 
 // alert('url :' + window.location.href)
 var u = navigator.userAgent, 
@@ -44,18 +45,6 @@ if (isIOS) {
     }
 }
 // alert('user_id :' + user_id)
-
-
-
-/**时间线
- * 
- */
-document.onreadystatechange = function () {
-    console.log(document.readyState)
-    if(document.readyState == 'interactive') {
-        getShopCartList(); // 加载购物车列表
-    }
-}
 
 
 
@@ -104,7 +93,7 @@ $('.footer .right').on('click', function () {
  *                  函数执行
  * ==========================================================
  */
-// getShopCartList(); // 加载购物车列表
+getShopCartList(); // 加载购物车列表
 
 /**
  * =====================================================
@@ -149,7 +138,14 @@ function getShopCartList () {
                     <div class="del" data-id="${item.id}">移除</div>
                 </li>`
             });
-            $('.commodityList').html(goodsListStr);
+            if(res.data.length == 0) {
+                $('.commodityList').html(`<div class="empty">
+                                                <img src="./src/img/icon/empty_shopCart.png" alt="">
+                                            </div>`);
+            } else {
+                $('.commodityList').html(goodsListStr);
+            }
+            $('.loading-tips').hide();
         }
     })
 }
@@ -187,6 +183,7 @@ function getPrice () {
 
 // 结算
 function toPay () {
+    alert(user_id)
     if(count == 0) {
         alert('你的购物车中没有商品')
     } else {
@@ -199,6 +196,7 @@ function toPay () {
             },
             success: function (res) {
                 console.log(res)
+                alert(res.code)
                 if(res.code == 200) {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')
@@ -235,13 +233,13 @@ $(".commodityList").delegate('.srco-item',"touchstart", function (e) {
     if (e.cancelable) {
         // 判断默认行为是否已经被禁用
         if (!e.defaultPrevented) {
-            e.preventDefault();
+            // e.preventDefault();
         }
     }
     startX = e.originalEvent.changedTouches[0].pageX,
     startY = e.originalEvent.changedTouches[0].pageY;
 });
-// 商品上的操作
+// // 商品上的操作
 $(".commodityList").delegate('.srco-item',"touchend", function (e) {
     // 判断默认行为是否可以被禁用
     if (e.cancelable) {
@@ -361,8 +359,9 @@ $(".commodityList").delegate('.srco-item',"touchend", function (e) {
 });
 
 
+
 /**
- * 猜你喜欢
+ * 猜你喜欢 加载
  * @el      【挂在元素】
  * @user_id 【用户id】
  * @num     【加载数量】
