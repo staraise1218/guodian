@@ -75,31 +75,20 @@ class OrderLogic
 	public function addReturnGoods($rec_id,$order)
 	{
 		$data = I('post.');
-		$confirm_time_config = tpCache('shopping.auto_service_date');//后台设置多少天内可申请售后
-		$confirm_time = $confirm_time_config * 24 * 60 * 60;
-		if ((time() - $order['confirm_time']) > $confirm_time && !empty($order['confirm_time'])) {
-			return ['result'=>-1,'msg'=>'已经超过' . ($confirm_time_config ?: 0) . "天内退货时间"];
-		}
-        
-        $img = $this->uploadReturnGoodsImg();
-        if ($img['status'] !== 1) {
-            return $img;
-        }
-        $data['imgs'] = $img['result'] ?: ($data['imgs'] ?: ''); //兼容小程序，多传imgs
-	
+
 		$data['addtime'] = time();
 		$data['user_id'] = $order['user_id'];
-		$order_goods = M('order_goods')->where(array('rec_id'=>$rec_id))->find();
+		$data['order_sn'] = $order['order_sn'];
+		
 		if($data['type'] < 2){
-			//退款申请，若该商品有赠送积分或优惠券，在平台操作退款时需要追回
-			$rate = round($order_goods['member_goods_price']*$data['goods_num']/$order['goods_price'],2);
+			
 			if($order['order_amount']>0 && !empty($order['pay_code'])){
-				$data['refund_money'] = $rate*$order['order_amount'];//退款金额
-				$data['refund_deposit'] = $rate*$order['user_money'];//该退余额支付部分
-				$data['refund_integral'] = floor($rate*$order['integral']);//该退积分支付
+				$data['refund_money'] = $order['order_amount'];//退款金额
+				$data['refund_deposit'] = $order['user_money'];//该退余额支付部分
+				$data['refund_integral'] = floor($order['integral']);//该退积分支付
 			}else{
-				$data['refund_deposit'] = $rate*$order['user_money']+$rate*$order['order_amount'];//该退余额支付部分
-				$data['refund_integral'] = floor($rate*$order['integral']);//该退积分支付
+				$data['refund_deposit'] = $order['user_money']+$order['order_amount'];//该退余额支付部分
+				$data['refund_integral'] = floor($order['integral']);//该退积分支付
 			}
 		}
 

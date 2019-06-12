@@ -13,8 +13,7 @@ html, body {
   <div class="fixed-bar">
     <div class="item-title"><a class="back" href="{:U('/Admin/Order/return_list')}" title="微信公众号配置"><i class="fa fa-arrow-circle-o-left"></i></a>
       <div class="subject">
-        <h3>退换货详情</h3>
-        <h5>用户提交退换货详情</h5>
+        <h3>退款单详情</h3>
       </div>
     </div>
   </div>
@@ -60,7 +59,7 @@ html, body {
                     <dd class="opt">
                     	<if condition="$return_goods['type'] eq 0"> 仅退款</if>
                     	<if condition="$return_goods['type'] eq 1"> 退货退款</if>
-                    	<if condition="$return_goods['type'] eq 0"> 换货</if>
+                    	<if condition="$return_goods['type'] eq 2"> 换货</if>
                     </dd>
                 </dl>
                 <if condition="$return_goods['type'] lt 2">
@@ -75,32 +74,32 @@ html, body {
                     </dd>
                 </dl>
                 </if>
-                <dl class="row">
-                    <dt class="tit">
-                        <label>退货原因</label>
-                    </dt>
-                    <dd class="opt">
-                     {$return_goods['reason']}
-                    </dd>
-                </dl>
-                <dl class="row">
-                    <dt class="tit">
-                        <label>退货描述</label>
-                    </dt>
-                    <dd class="opt">
-                     {$return_goods['describe']}
-                    </dd>
-                </dl>
-                <dl class="row">
-                    <dt class="tit">
-                        <label>用户上传照片</label>
-                    </dt>
-                    <dd class="opt">
-                        <volist name="return_goods[imgs]" id="item">
-                            <a target="_blank" href="{$item}"><img src="{$item}" width="85" height="85" /></a>&nbsp;&nbsp;&nbsp;
-                        </volist>
-                    </dd>
-                </dl>
+               <!--  <dl class="row">
+                   <dt class="tit">
+                       <label>退货原因</label>
+                   </dt>
+                   <dd class="opt">
+                    {$return_goods['reason']}
+                   </dd>
+               </dl>
+               <dl class="row">
+                   <dt class="tit">
+                       <label>退货描述</label>
+                   </dt>
+                   <dd class="opt">
+                    {$return_goods['describe']}
+                   </dd>
+               </dl>
+               <dl class="row">
+                   <dt class="tit">
+                       <label>用户上传照片</label>
+                   </dt>
+                   <dd class="opt">
+                       <volist name="return_goods[imgs]" id="item">
+                           <a target="_blank" href="{$item}"><img src="{$item}" width="85" height="85" /></a>&nbsp;&nbsp;&nbsp;
+                       </volist>
+                   </dd>
+               </dl> -->
                 <if condition="$return_goods['is_receive'] eq 1 and $return_goods['status'] eq 1">
                     <dl class="row">
                         <dt class="tit">
