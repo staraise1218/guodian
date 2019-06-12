@@ -17,8 +17,33 @@
     </style>
 </head>
 <body>
-    <div class="content">
-        <img src="./src/img/upgrade.png" alt="">
-    </div>
+
+    <div class="content"></div>
+
+    
+    <script src="./src/js/jquery.min.js"></script>
+    <script src="./src/js/global.js"></script>
+    <script>
+        
+        $.ajax({
+            type: 'post',
+            url: GlobalHost + '/Api/article/getContent',
+            data: {
+                type: 2
+            },
+            success: function (res) {
+                console.log(res)
+                if(res.code == 200) {
+                    $('.content').html(res.data.content)
+                    $('title').text(res.data.title)
+                }
+            }
+        })
+    
+    
+    
+    
+    
+    </script>
 </body>
 </html>
