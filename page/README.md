@@ -60,6 +60,17 @@
 |type=5|隐私权策略|
 
 
+***
+
+# 支付成功失败页面
+- 传参实例： `/page/orderSuccess.html?status=success`
+
+|参数|说明|备注|
+|---|---|---|
+|status=success|支付成功||
+|status=fail|支付失败||
+
+
 
 
 - 页面地址： `http://guodian.staraise.com.cn/page/页面?参数`
