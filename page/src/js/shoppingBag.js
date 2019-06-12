@@ -34,6 +34,7 @@ if (isAndroid) {
     // alert("安卓机！")
     user_id = getParam('user_id')
 }
+alert(user_id)
 if (isIOS) {
     // alert("苹果机！")
     if(localStorage.getItem('USERINFO') != '') {
@@ -200,7 +201,7 @@ function toPay () {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')
                     }
-                    // window.location.href = './jieshuan.html?action=cart';
+                    window.location.href = './jieshuan.html?action=cart';
                 } else {
                     alert(res.msg)
                 }
