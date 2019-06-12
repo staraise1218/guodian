@@ -195,12 +195,12 @@ function toPay () {
             },
             success: function (res) {
                 console.log(res)
-                alert(res.msg)
+                alert(res.code)
                 if(res.code == 200) {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')
                     }
-                    window.location.href = './jieshuan.html?action=cart';
+                    // window.location.href = './jieshuan.html?action=cart';
                 } else {
                     alert(res.msg)
                 }
