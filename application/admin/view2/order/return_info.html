@@ -68,9 +68,8 @@ html, body {
                         <label>退款详情</label>
                     </dt>
                     <dd class="opt">
-                    	<if condition="$return_goods['refund_money'] gt 0"> <label>需退还金额 ：<input type="text" name="refund_money" value="{$return_goods['refund_money']}"></label></if>
-                    	<if condition="$return_goods['refund_deposit'] gt 1"> <label>需退还余额 ：<input type="text" name="refund_deposit" value="{$return_goods['refund_deposit']}"></label></if>
-                    	<if condition="$return_goods['refund_integral'] gt 2"> <label>需退还积分：<input type="text" name="refund_integral" value="{$return_goods['refund_integral']}"></label></if>
+                    	<if condition="$return_goods['refund_money'] gt 0"> <label>需退还金额 ：{$return_goods['refund_money']}</label></if>
+                    	
                     </dd>
                 </dl>
                 </if>
@@ -112,13 +111,12 @@ html, body {
                     </dl>
                 </if>
                 <if condition="$return_goods['status'] eq 0">
-                <dl class="row">
+                <dl class="row" style="display: none;">
                     <dt class="tit">
                         <label>审核意见</label>
                     </dt>
                     <dd class="opt">
-                        <label><input type="radio" name="status" checked value="1">审核通过</label>
-                        <label><input type="radio" name="status" value="-1">拒绝通过</label>
+                        <label><input type="radio" name="status" checked value="1">已退款</label>
                     </dd>
                 </dl>
                 </if>
@@ -131,7 +129,7 @@ html, body {
                     </dd>
                 </dl>
                 <input type="hidden" name="id" value="{$id}">
-                <div class="bot"><a href="JavaScript:;" onClick="document.return_form.submit()" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+                <div class="bot"><a href="JavaScript:;" onClick="document.return_form.submit()" class="ncap-btn-big ncap-btn-green" id="submitBtn">确定退款</a></div>
             </div>
         </form>
 <else/>

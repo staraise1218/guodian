@@ -250,7 +250,7 @@ class OrderLogic
     /**
      * 记录取消订单
      */
-    public function recordRefundOrder($user_id, $order_id, $user_note, $consignee, $mobile)
+    public function recordRefundOrder($user_id, $order_id)
     {
     	$order = M('order')->where(['order_id' => $order_id, 'user_id' => $user_id])->find();
     	if (!$order) {
@@ -260,23 +260,17 @@ class OrderLogic
     	if($order_return_num > 0){
     		return ['status' => -1, 'msg' => '该订单中有商品正在申请售后'];
     	}
-    	$order_status = 3;//已取消
-    	$order_info = [
-    	'user_note' => $user_note,
-    	'consignee' => $consignee,
-    	'mobile'    => $mobile,
-    	'order_status'=> $order_status,
-    	];
+    	
     
-    	$result = M('order')->where(['order_id' => $order_id])->update($order_info);
-    	if (!$result) {
+    	$result = M('order')->where(['order_id' => $order_id])->setField('order_status', 3);
+    	if ($result === false) {
     		return ['status' => 0, 'msg' => '操作失败'];
     	}
     
     	$data['order_id'] = $order_id;
     	$data['action_user'] = $user_id;
-    	$data['action_note'] = $user_note;
-    	$data['order_status'] = $order_status;
+    	$data['action_note'] = '申请退款';
+    	$data['order_status'] = 3;
     	$data['pay_status'] = $order['pay_status'];
     	$data['shipping_status'] = $order['shipping_status'];
     	$data['log_time'] = time();
