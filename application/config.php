@@ -319,7 +319,7 @@ return [
         'WAITCCOMMENT'=> '已收货', // 待评价
         'CANCEL'=> '已取消',
         'FINISH'=> '已完成', //
-        'CANCELLED'=> '已作废'
+        'CANCELLED'=> '已作废',
         'REFUND' => '已申请退款',
     ],
 
