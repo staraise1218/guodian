@@ -761,36 +761,23 @@ function orderBtn($order_id = 0, $order = array())
         'return_btn' => 0, // 退货按钮 (联系客服)
         'del_btn' => 0, // 删除订单，取消后的订单可删除
         'return_info' => 0, // 查看退货详情
+        'refund_btn' => 0,
     );
 
 
-    // 货到付款
-    if($order['pay_code'] == 'cod')
+    if($order['pay_status'] == 0 && $order['order_status'] == 0 && $order['shipping_status'] == 0) // 待支付
     {
-        if(($order['order_status']==0 || $order['order_status']==1) && $order['shipping_status'] == 0) // 待发货
-        {
-            $btn_arr['cancel_btn'] = 1; // 取消按钮 (联系客服)
-        }
-        if($order['shipping_status'] == 1 && $order['order_status'] == 1) //待收货
-        {
-            $btn_arr['receive_btn'] = 1;  // 确认收货
-        }
-    } else{// 非货到付款
-        if($order['pay_status'] == 0 && $order['order_status'] == 0) // 待支付
-        {
-            $btn_arr['pay_btn'] = 1; // 去支付按钮
-            $btn_arr['cancel_btn'] = 1; // 取消按钮
-        }
-        if($order['pay_status'] == 1 && in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0) // 待发货
-        {
-            //  $btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
-            $btn_arr['cancel_btn'] = 1; // 取消按钮
-        }
-        if($order['pay_status'] == 1 && $order['order_status'] == 1  && $order['shipping_status'] == 1) //待收货
-        {
-            $btn_arr['receive_btn'] = 1;  // 确认收货
-            //$btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
-        }
+        $btn_arr['pay_btn'] = 1; // 去支付按钮
+        $btn_arr['cancel_btn'] = 1; // 取消按钮
+    }
+    if($order['pay_status'] == 1 && in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0) // 待发货
+    {
+        $btn_arr['refund_btn'] = 1; // 退款按钮
+    }
+    if($order['pay_status'] == 1 && $order['order_status'] == 1  && $order['shipping_status'] == 1) //待收货
+    {
+        $btn_arr['receive_btn'] = 1;  // 确认收货
+        //$btn_arr['return_btn'] = 1; // 退货按钮 (联系客服)
     }
     if($order['order_status'] == 2)
     {

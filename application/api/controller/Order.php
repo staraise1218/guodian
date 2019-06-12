@@ -292,36 +292,25 @@ class Order extends Base
             exit;
         }
     }
-    //订单支付后取消订单
+    //订单支付后取消订单（退款）
     public function refund_order()
     {
-        $order_id = I('get.order_id/d');
 
-        $order = M('order')
-            ->field('order_id,pay_code,pay_name,user_money,integral_money,coupon_price,order_amount,consignee,mobile')
-            ->where(['order_id' => $order_id, 'user_id' => $this->user_id])
-            ->find();
-
-        $this->assign('user',  $this->user);
-        $this->assign('order', $order);
-        return $this->fetch();
-    }
-    //申请取消订单
-    public function record_refund_order()
-    {
+        $user_id   = input('post.user_id', 0);
         $order_id   = input('post.order_id', 0);
-        $user_note  = input('post.user_note', '');
-        $consignee  = input('post.consignee', '');
-        $mobile     = input('post.mobile', '');
 
-        $logic = new \app\common\logic\OrderLogic;
-        $return = $logic->recordRefundOrder($this->user_id, $order_id, $user_note, $consignee, $mobile);
+        $OrderLogic = new OrderLogic;
+        $return = $OrderLogic->recordRefundOrder($user_id, $order_id);
 
-        $this->ajaxReturn($return);
+        if($return['status'] == 1){
+            response_success('', '申请成功');
+        } else {
+            response_error('', $return['msg']);
+        }
     }
 
     /**
-     * 申请退款
+     * 商品申请退款退货
      */
     public function return_goods()
     {
