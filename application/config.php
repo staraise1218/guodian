@@ -258,7 +258,6 @@ return [
         3 => '已取消',                
         4 => '已完成',//评价完
         5 => '已作废',
-        6 => '退款单',
     ],
     'SHIPPING_STATUS' => array(
         0 => '未发货',
@@ -309,7 +308,8 @@ return [
     'WAITCCOMMENT'=> ' AND order_status=2 ', // 待评价 确认收货     //'FINISHED'=>'  AND order_status=1 ', //订单查询状态 已完成 
     'FINISH'=> ' AND order_status = 2 ', // 已完成 本来是4 才是完成，这里没有评价，已收货就是完成
     'CANCEL'=> ' AND order_status = 3 ', // 已取消
-    'CANCELLED'=> 'AND order_status = 5 ',//已作废
+    'CANCELLED'=> ' AND order_status = 5 ',//已作废
+    'REFUND' => ' AND order_status = 3 AND pay_status > 1', // 支付后的取消（退款）
     
     'ORDER_STATUS_DESC' => [
         'WAITPAY' => '待支付',
@@ -320,6 +320,7 @@ return [
         'CANCEL'=> '已取消',
         'FINISH'=> '已完成', //
         'CANCELLED'=> '已作废'
+        'REFUND' => '已申请退款',
     ],
 
     'REFUND_STATUS'=>array(
