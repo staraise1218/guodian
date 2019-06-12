@@ -28,7 +28,7 @@
 |编辑地址-添加地址|addressEdit|ok|
 |分享|升级中
 |银联支付页面|payLoad|接口返回的html|status=pay|需要IOS Android 加返回按钮
-|支付成功、失败页面|orderSuccess.html|
+|支付成功、失败页面|orderSuccess.html||success：支付成功； fail：支付失败
 |测试页面|MINE|||自己测试用
 
 ***
