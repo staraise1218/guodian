@@ -56,17 +56,17 @@ function getParam(paramName) {
 //     window.history.back(-1);
 // })
 if (isAndroid) {
-    window.android.goBack();
-    // $('.back').on('click', function () {
+    $('.back').on('click', function () {
+        window.android.goBack();
     //     console.log(window.history.__proto__.constructor)
     //     if(window.android.goBack() != 'undefined') {
     //     } else {
     //         // window.history.back(-1);
     //     }
-    // })
+    })
 } else {
     $('.back').on('click', function () {
-        // window.history.back(-1);
+        window.history.back(-1);
     })
 }
 
