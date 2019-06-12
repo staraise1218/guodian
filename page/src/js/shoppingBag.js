@@ -50,6 +50,7 @@ if (isIOS) {
 
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
+    alert(window.location.href)
     // alert('全选')
     if($(this).attr('data-selected') == 0) {
         $(this).find('.choose-icon').prop('src', './src/img/icon/圆1.png');
