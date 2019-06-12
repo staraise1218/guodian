@@ -7,7 +7,7 @@
 |详情页|commodity|ok|goods_id=xxx|
 |待付款|orderWait |弃用||
 |待收货|orderReceive |弃用||
-|退货单|orderReturn |弃用||
+|退货单|orderReturn |**loading**||
 |全部订单|orderAll |弃用||
 |会员中心|myMember|升级中|**暂时不做**
 |优惠券|myCoupon|升级中|**只有空状态UI**|激活优惠券不做
