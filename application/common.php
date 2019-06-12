@@ -706,27 +706,19 @@ function orderStatusDesc($order_id = 0, $order = array())
     if(empty($order))
         $order = M('Order')->where("order_id", $order_id)->find();
 
-    // 货到付款
-    if($order['pay_code'] == 'cod')
-    {
-        if(in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0)
-            return 'WAITSEND'; //'待发货',
-    }
-    else // 非货到付款
-    {
-        if($order['pay_status'] == 0 && $order['order_status'] == 0)
-            return 'WAITPAY'; //'待支付',
-        if($order['pay_status'] == 1 &&  in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0)
-            return 'WAITSEND'; //'待发货',
-        if($order['pay_status'] == 1 &&  $order['shipping_status'] == 2 && $order['order_status'] == 1)
-            return 'PORTIONSEND'; //'部分发货',
-    }
-    if(($order['shipping_status'] == 1) && ($order['order_status'] == 1))
+    if($order['pay_status'] == 0 && $order['order_status'] == 0)
+        return 'WAITPAY'; //'待支付',
+    if($order['pay_status'] == 1 &&  in_array($order['order_status'],array(0,1)) && $order['shipping_status'] == 0)
+        return 'WAITSEND'; //'待发货',
+
+    if($order['pay_status'] == 1 && $order['shipping_status'] == 1 && $order['order_status'] == 1)
         return 'WAITRECEIVE'; //'待收货',
     if($order['order_status'] == 2)
         return 'WAITCCOMMENT'; //'待评价',
-    if($order['order_status'] == 3)
+    if($order['pay_status'] == 0 && $order['shipping_status'] == 0 && $order['order_status'] == 3)
         return 'CANCEL'; //'已取消',
+    if($order['pay_status'] == 1 && $order['shipping_status'] == 0 && $order['order_status'] == 3)
+        return 'REFUND'; // 已申请退款,
     if($order['order_status'] == 4)
         return 'FINISH'; //'已完成',
     if($order['order_status'] == 5)
@@ -802,7 +794,7 @@ function orderBtn($order_id = 0, $order = array())
         $btn_arr['cancel_info'] = 1; // 取消订单详情
     }
 
-    if($order['order_status'] == 3 || $order_status == 5){
+    if($order['pay_status'] == 0  && $order['shipping_status'] == 0 && in_array($order['order_status'], array(3, 5))){
         $btn_arr['del_btn'] = 1; // 可删除订单
     }
 

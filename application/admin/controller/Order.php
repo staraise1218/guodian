@@ -211,6 +211,7 @@ exit("不支持此功能");
     	return $this->fetch();
     }
     
+    // 支付后取消订单（退款单）
     public function refund_order_list(){
     	$orderLogic = new OrderLogic();
     	$condition = array();
@@ -252,28 +253,8 @@ exit("不支持此功能");
         if(!order){
             $this->error('订单不存在或参数错误');
         }
-        if($data['pay_status'] == 3){
-            if($data['refund_type'] == 1){
-            	//取消订单退款退余额
-                if(updateRefundOrder($order,1)){
-                    $this->success('成功退款到账户余额');
-                }else{
-                    $this->error('退款失败');
-                }
-            }
-            if($data['refund_type']== 0){
-                //取消订单支付原路退回
-                if($order['pay_code'] == 'weixin' || $order['pay_code'] == 'alipay' || $order['pay_code'] == 'alipayMobile'){
-		header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
-                }else{
-                    $this->error('该订单支付方式不支持在线退回');
-                }
-            }
-        }else{
-            M('order')->where(array('order_id'=>$order['order_id']))->save($data);
-            $this->success('拒绝退款操作成功');
-        }
+        M('order')->where(array('order_id'=>$order['order_id']))->save($data);
+        $this->success('操作成功');
     }
 
     /**
