@@ -321,42 +321,26 @@ class Order extends Base
     }
 
     /**
-     * 申请退货
+     * 申请退款
      */
     public function return_goods()
     {
-        $rec_id = I('rec_id',0);
-        $return_goods = M('return_goods')->where(array('rec_id'=>$rec_id))->find();
-        if(!empty($return_goods))
-        {
-            $this->error('已经提交过退货申请!',U('Order/return_goods_info',array('id'=>$return_goods['id'])));
-        }
-        $order_goods = M('order_goods')->where(array('rec_id'=>$rec_id))->find();
-        $order = M('order')->where(array('order_id'=>$order_goods['order_id'],'user_id'=>$this->user_id))->find();
-        $confirm_time_config = tpCache('shopping.auto_service_date');//后台设置多少天内可申请售后
-        $confirm_time = $confirm_time_config * 24 * 60 * 60;
-        if ((time() - $order['confirm_time']) > $confirm_time && !empty($order['confirm_time'])) {
-            $this->error('已经超过' . $confirm_time_config . "天内退货时间");
-        }
-        if(empty($order))$this->error('非法操作');
-        if(IS_POST)
-        {
-            $model = new OrderLogic();
-            $res = $model->addReturnGoods($rec_id,$order);  //申请售后
-            if($res['status']==1)$this->success($res['msg'],U('Order/return_goods_list'));
-            $this->error($res['msg']);
-        }
-        $region_id[] = tpCache('shop_info.province');
-        $region_id[] = tpCache('shop_info.city');
-        $region_id[] = tpCache('shop_info.district');
-        $region_id[] = 0;
-        $return_address = M('region')->where("id in (".implode(',', $region_id).")")->getField('id,name');
-        $this->assign('return_address', $return_address);
-        $this->assign('return_type', C('RETURN_TYPE'));
-        $this->assign('goods', $order_goods);
-        $this->assign('order',$order);
-        return $this->fetch();
-    }
+        $user_id = I('user_id');
+        $order_id = I('order_id');
+
+        $return_goods = M('return_goods')->where(array('order_id'=>$order_id))->find();
+        if($return_goods) response_error('', '已经提交过退货申请');
+
+        $order = M('order')->where(array('order_id'=>$order_id,'user_id'=>$user_id))->find();
+        if(empty($order)) response_error('', '订单不存在');
+        if($order['shipping_status'] == 1) response_error('', '订单已发货，不支持退款');
+
+        
+        $model = new OrderLogic();
+        $res = $model->addReturnGoods($rec_id,$order);  //申请售后
+        if($res['status']==1) response_success('', $res['msg']);
+        response_error('', $res['msg']);
+}
 
     /**
      * 退换货列表
@@ -668,7 +652,7 @@ class Order extends Base
     }
 
     // 执行退款单
-    public function returnOrder(){
+   /* public function returnOrder(){
     	$user_id = I('user_id');
     	$order_id = I('order_id');
 
@@ -690,5 +674,5 @@ class Order extends Base
     	Db::name('order')->where('order_id', $order_id)->setField('order_status', 6);
 
     	response_success('', '操作成功');
-    }
+    }*/
 }
