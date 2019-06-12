@@ -444,3 +444,36 @@ $('#goShoppingBag').on('click', function (e) {
     window.location.href ='./shoppingBag.html';
     return false;
 })
+
+
+
+// 隐藏店铺
+$('.alert-bg').click(function () {
+    $('.alert-bg').hide();
+    $('.alert-dianpu').hide();
+})
+
+
+// 点击加载店铺
+$('.see-dp').click(function () {
+    zitidian();
+    $('.alert-bg').show();
+    $('.alert-dianpu').show();
+})
+// 加载店铺信息
+function zitidian () {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/api/cart/storeInfo',
+        success: function (res) {
+            console.log(res)
+            $('.loading').hide();
+            if(res.code == 200) {
+                res.data.storeInfo = res.data.storeInfo.replace(/[\r\n]/g, "</br>")
+                $('.zianpu-con').html(res.data.storeInfo);
+            } else {
+                console.log('接口报错了')
+            }
+        }
+    })
+}

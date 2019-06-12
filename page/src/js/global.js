@@ -57,8 +57,12 @@ function getParam(paramName) {
 // })
 if (isAndroid) {
     $('.back').on('click', function () {
-        alert('Android back')
         window.android.goBack();
+    //     console.log(window.history.__proto__.constructor)
+    //     if(window.android.goBack() != 'undefined') {
+    //     } else {
+    //         // window.history.back(-1);
+    //     }
     })
 } else {
     $('.back').on('click', function () {
@@ -82,6 +86,53 @@ function formatDate(date) {
     d = d < 10 ? ('0' + d) : d;
     return y + '-' + m + '-' + d;
 }
+function formatDateCom(time) {
+    time*= 1000
+    time = Number(time)
+    var date = new Date(time);
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    h = date.getHours() + ':';
+    m = date.getMinutes() + ':';
+    s = date.getSeconds(); 
+    console.log(Y+M+D+h+m+s);
+    return Y+M+D+h+m+s
+}
+
+/**倒计时
+ * @param {*END时间戳} timestamp 
+ * 调用 getCountDown(1451556000)
+ */
+function getCountDown(timestamp, callback){
+    timestamp*= 1000
+    timestamp = Number(timestamp)
+    var countDownTime = '';
+    setInterval(function(){
+        var nowTime = new Date();
+        var endTime = new Date(timestamp * 1000);
+
+        var t = endTime.getTime() - nowTime.getTime();
+        var hour=Math.floor(t/1000/60/60%24);
+           var min=Math.floor(t/1000/60%60);
+           var sec=Math.floor(t/1000%60);
+
+        if (hour < 10) {
+             hour = "0" + hour;
+        }
+        if (min < 10) {
+             min = "0" + min;
+        }
+        if (sec < 10) {
+             sec = "0" + sec;
+        }
+        countDownTime = hour + "小时" + min + "分" + sec + "秒";
+        console.log(hour + "小时" + min + "分" + sec + "秒")
+        return countDownTime
+    },1000);
+}
+
+
 
 /**
  * 删除数组中的某一位
@@ -268,4 +319,8 @@ function copyToClipboard(text, el) {
 
     document.body.removeChild(textArea);
 }
+
+
+
+
 

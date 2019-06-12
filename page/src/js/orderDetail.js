@@ -1,8 +1,10 @@
 /**
  * @user_id     【用户id】
  * @order_id    【订单id】
+ * @wuliuStatus 【物流加载成功 0 1】
  */
 let order_id = getParam('order_id');
+let wuliuStatus = 0;
 
 let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
@@ -11,8 +13,36 @@ let user_id = myUsetInfo.user_id;
 
 
 
-createOrder(order_id, user_id);
-getWuLiu();
+/**=================================================================================
+ *          加载
+ * =================================================================================
+ */
+createOrder(order_id, user_id); // 加载订单详情
+getWuLiu();                     // 加载物流信息
+
+
+/**=================================================================================
+ *          点击
+ * =================================================================================
+ */
+$('.ctr').delegate('span','click', function () {
+    console.log($(this).attr('data-type'))
+    console.log($(this).attr('data-order'))
+    switch($(this).attr('data-type')) {
+        case 'pay':
+            pay($(this).attr('data-order'));
+            break;
+        case 'cancel':
+            cancelOrder($(this).attr('data-order'));
+            break;
+        case 'pingjia':
+            pay($(this).attr('data-order'));
+            break;
+    }
+})
+
+
+
 
 
 // 加载订单详情
@@ -28,30 +58,68 @@ function createOrder(order_id) {
             console.log(res);
             let data = res.data;
 
+            // getCountDown(data.add_time)
             /**判断订单状态
              * @order_status_code   【待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT】
              * @class[tips]         【金色提示】
              * @class[order-track]  【订单跟踪】
              */
+            if(data.add_time) {
+                var time_ = formatDateCom(data.add_time);
+                console.log(time_)
+            }
             switch (data.order_status_code) {
                 case 'WAITPAY': // 待付款
-                    $('.tips').html(`<div class="writpay">
-                                        <div class="title">
-                                            <p>待付款</p>
-                                            <p class="price">￥123456</p>
-                                        </div>
-                                        <div class="title">
-                                            <p>剩余12341y94832</p>
-                                            <p class="price">应付金额</p>
-                                        </div>
-                                    </div>`)
+                        var timestamp = data.add_time
+                        timestamp*= 1000
+                        timestamp = Number(timestamp)
+                        setInterval(function(){
+                            var nowTime = new Date();
+                            var endTime = new Date(timestamp * 1000);
+                            var t = endTime.getTime() - nowTime.getTime();
+                            var hour=Math.floor(t/1000/60/60%24);
+                            var min=Math.floor(t/1000/60%60);
+                            var sec=Math.floor(t/1000%60);
+
+                            if (hour < 10) {
+                                hour = "0" + hour;
+                            }
+                            if (min < 10) {
+                                min = "0" + min;
+                            }
+                            if (sec < 10) {
+                                sec = "0" + sec;
+                            }
+                            countDownTime = hour + "小时" + min + "分" + sec + "秒";
+                            $('.tips').html(`<div class="writpay">
+                                <div class="title">
+                                    <p>待付款</p>
+                                    <p class="price">￥${data.total_amount}</p>
+                                </div>
+                                <div class="title">
+                                    <p>${"剩余" + hour + "小时" + min + "分" + sec + "秒 系统将自动取消订单"}</p>
+                                    <p class="price">应付金额</p>
+                                </div>
+                            </div>`)
+                        },200);
+                        // $('.tips').html(`<div class="writpay">
+                        //                     <div class="title">
+                        //                         <p>待付款</p>
+                        //                         <p class="price">￥${data.total_amount}</p>
+                        //                     </div>
+                        //                     <div class="title">
+                        //                         <p>123</p>
+                        //                         <p class="price">应付金额</p>
+                        //                     </div>
+                        //                 </div>`)
                     $('.order-track').html(`<div class="showWuLiu order-title more text-df md">
                                                 <div class="writpay">
                                                     <p class="w-1">订单跟踪</p>
                                                     <p class="w-1 text-xs">您的订单已提交，等待系统确认</p>
-                                                    <p class="text-xs op-4">2019</p>
+                                                    <p class="text-xs op-4">${time_}</p>
                                                 </div>
                                             </div>`)
+                    // getCountDown($('.tips .time'), data.add_time);
                     break;
                 case 'WAITSEND': // 待发货   TODO: 缺少UI
                     $('.tips').html('');
@@ -127,7 +195,7 @@ function createOrder(order_id) {
             data.goods_list.forEach(item => {
                 listStr += `<li class="list-item pd-df bd-df">
                                 <div class="poster">
-                                    <img src="./src/img/1.png" alt="">
+                                    <img src="${GlobalHost + item.original_img}" alt="">
                                 </div>
                                 <div class="info">
                                     <p>${item.goods_name}</p>
@@ -165,16 +233,19 @@ function createOrder(order_id) {
              * @comment_btn  	【评价】
              */
             if(data.pay_btn == 1) {
-                $('.ctr').append('<span>支付</span>')
+                $('.ctr').append(`<span data-order="${data.order_id}" data-type="pay">支付</span>`)
             }
             if(data.cancel_btn == 1) {
-                $('.ctr').append('<span>取消</span>')
+                $('.ctr').append(`<span data-order="${data.order_id}" data-type="cancel">取消</span>`)
             }
             if(data.comment_btn == 1) {
-                $('.ctr').append('<span>评价</span>')
+                $('.ctr').append(`<span data-order="${data.order_id}" data-type="pingjia">评价</span>`)
             }
             $('.ctr span').addClass('cancelbtn')
             $('.ctr span:last').addClass('paybtn')
+            if(data.pay_btn == 0 && data.cancel_btn == 0 && data.comment_btn == 0) {
+                $('.ctr').hide();
+            }
         }
     })
 }
@@ -194,6 +265,12 @@ $('body').delegate('.fuzhi', 'click', function () {
 $('body').delegate('.showWuLiu', 'click', function () {
     $('.alert-box').show();
     $('.alert-yunshu').show();
+    console.log(wuliuStatus)
+    // if(wuliuStatus == 0) {
+    //     $('.loading').text('物流信息加载中...').show();
+    // } else {
+    //     $('.loading').hide();
+    // }
 })
 
 // 关闭物流弹窗
@@ -202,6 +279,16 @@ $('body').delegate('.close', 'click', function () {
     $('.alert-yunshu').hide();
 })
 
+// 关闭物流弹窗
+$('.alert-box').on('click', function () {
+    $('.alert-box').hide();
+    $('.alert-yunshu').hide();
+})
+
+$('.loading_').on('click', function () {
+    $('.alert-box').hide();
+    $('.alert-yunshu').hide();
+})
 
 // 查看物流
 function getWuLiu() {
@@ -212,46 +299,143 @@ function getWuLiu() {
             invoice_no: '3711389943985'
         },
         success: function (res) {
+            wuliuStatus = 1
             console.log(res)
-            var head = `<div class="top">
-                            <p>运输中</p>
-                            <div class="yunshu-title">
-                                <div class="left">
-                                    <img src="./src/img/1.png" alt="">
+            if(res.code == 200) {
+                var head = `<div class="top">
+                                <p>运输中</p>
+                                <div class="yunshu-title">
+                                    <div class="left">
+                                        <img src="./src/img/1.png" alt="">
+                                    </div>
+                                    <div class="right">
+                                        <p>商品标题</p>
+                                        <p>快递信息</p>
+                                    </div>
                                 </div>
-                                <div class="right">
-                                    <p>商品标题</p>
-                                    <p>快递信息</p>
+                            </div>            
+                            <ul class="list-wrap">`
+                var bottom = `</ul>
+                                <div class="bottom-tips text-xs">
+                                    <img src="./src/img/icon/待收货/hei.png" alt=""> 
+                                    <p>本数据由<em>快递公司</em>提供</p>
                                 </div>
-                            </div>
-                        </div>            
-                        <ul class="list-wrap">`
-            var bottom = `</ul>
-                            <div class="bottom-tips text-xs">
-                                <img src="./src/img/icon/待收货/hei.png" alt=""> 
-                                <p>本数据由<em>快递公司</em>提供</p>
-                            </div>
-                            <div class="close">
-                                <img src="./src/img/icon/close.png" alt="">
-                            </div>`
-            var listbody = '';
-            res.data.list.forEach(item => {
-                var time=item.time.split(" ");
-                console.log(item.time.split(" "))
-                listbody += `<li class="list">
-                            <div class="date">
-                                <p class="time">${time[0]}</p>
-                                <p class="day">${time[1]}</p>
-                            </div>
-                            <div class="info">
-                                <img src="./src/img/icon/待收货/hei.png" alt="" class="info-icon">
-                                <div class="info-con">
-                                    <p class="left">${item.content}</p>
+                                <div class="close">
+                                    <img src="./src/img/icon/close.png" alt="">
+                                </div>`
+                var listbody = '';
+                res.data.list.forEach(item => {
+                    var time=item.time.split(" ");
+                    // console.log(item.time.split(" "))
+                    listbody += `<li class="list">
+                                <div class="date">
+                                    <p class="time">${time[0]}</p>
+                                    <p class="day">${time[1]}</p>
                                 </div>
-                            </div>
-                        </li>`
-            })
-            $('.alert-yunshu').html(head + listbody + bottom)
+                                <div class="info">
+                                    <img src="./src/img/icon/待收货/hei.png" alt="" class="info-icon">
+                                    <div class="info-con">
+                                        <p class="left">${item.content}</p>
+                                    </div>
+                                </div>
+                            </li>`
+                })
+                $('.alert-yunshu').html(head + listbody + bottom)
+            } else {
+                $('.alert-yunshu .loading_').text(res.msg)
+            }
         }
     })
 }
+
+
+
+// 支付 页面
+function pay(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/api/payment/getCode',
+        data: {
+            order_id: order_id,
+            pay_code: 'unionpay'
+        },
+        success: function (res) {
+            console.log(res)
+            // 跳转到支付页面
+            if(res.code == 200) {
+                window.location.href = './payLoad.html?status=pay'
+                localStorage.setItem('payMsg', res.data);
+            } else {
+                console.log('********************************支付报错******************************')
+            }
+        }
+    })
+}
+
+// 取消订单
+function cancelOrder(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/cancel_order',
+        data: {
+            order_id: order_id,
+            user_id: user_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg)
+                createOrder(order_id, user_id);
+            } else {
+                // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                alert(res.msg)
+            }
+        }
+    })
+}
+
+// 删除订单
+function delOrder(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/del_order',
+        data: {
+            user_id: user_id,
+            order_id: order_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg)
+                createOrder(order_id, user_id);
+            } else {
+                alert(res.msg)
+            }
+        },
+        error: function (error) {
+            console.log('************************删除订单 报错*****************************')
+        }
+    })
+}
+
+// 确认收货
+function shouhuo(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/order/receive_order',
+        data: {
+            user_id: user_id,
+            order_id: order_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg);
+                createOrder(order_id, user_id);
+            } else {
+                alert(res.msg)
+            }
+        }
+    })
+}
+
