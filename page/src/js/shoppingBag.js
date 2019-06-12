@@ -34,7 +34,6 @@ if (isAndroid) {
     // alert("安卓机！")
     user_id = getParam('user_id')
 }
-alert(user_id)
 if (isIOS) {
     // alert("苹果机！")
     if(localStorage.getItem('USERINFO') != '') {
@@ -184,6 +183,7 @@ function getPrice () {
 
 // 结算
 function toPay () {
+    alert(user_id)
     if(count == 0) {
         alert('你的购物车中没有商品')
     } else {
