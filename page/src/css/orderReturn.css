@@ -89,7 +89,7 @@ body {
 }
 .content .item-wrap > li {
     border-bottom: .2rem solid rgba(0,0,0,.05);
-    padding-bottom: .4rem;
+    /* padding-bottom: .4rem; */
 }
 .content .item-wrap > li:last-child {
     border-bottom: none;

@@ -171,7 +171,12 @@ function createOrder(order_id) {
                         <p>${data.order_status_desc}</p>
                         <img src="./src/img/icon/daishouhuo.png" alt="">
                     </div>`);
-                    $('.order-track').hide();
+                    $('.order-track').html(`<div data-type="REFUND" class="order-title more text-df md">
+                            <div class="showWuLiu waitccomment">
+                            <p class="w-1">退款</p>
+                            <p class="w-1 text-xs">${data.shipping_name}： 没有数据</p>
+                        </div>
+                    </div>`)
                     break;
                 default:
                     break;
@@ -275,10 +280,18 @@ $('body').delegate('.fuzhi', 'click', function () {
 
 
 // 物流显示
-$('body').delegate('.showWuLiu', 'click', function () {
-    $('.alert-box').show();
-    $('.alert-yunshu').show();
-    console.log(wuliuStatus)
+$('body').delegate('.order-title.more', 'click', function () {
+    console.log($(this).attr('data-type'))
+    switch($(this).attr('data-type')) {
+        case "REFUND":
+            getTuiKuan()
+            break;
+        default:
+            $('.alert-box').show();
+            $('.alert-yunshu').show();
+            console.log(wuliuStatus)
+            break;
+    }
     // if(wuliuStatus == 0) {
     //     $('.loading').text('物流信息加载中...').show();
     // } else {
@@ -365,61 +378,7 @@ function getWuLiu() {
 
 // 查看物流
 function getTuiKuan() {
-    $.ajax({
-        type: 'post',
-        url: GlobalHost + '/Api/order/getExpressInfo',
-        data: {
-            invoice_no: '3711389943985'
-        },
-        success: function (res) {
-            wuliuStatus = 1
-            if (res.code == 200) {
-                console.log(res)
-                kuaidiName = res.data.cname
-                var head = `<div class="top">
-                                <p>退款信息</p>
-                                <div class="yunshu-title">
-                                    <div class="left">
-                                        <img src="./src/img/1.png" alt="">
-                                    </div>
-                                    <div class="right">
-                                        <p>退款成功</p>
-                                        <p>2019年6月12日</p>
-                                    </div>
-                                </div>
-                            </div>            
-                            <ul class="list-wrap">`
-                var bottom = `</ul>
-                                <div class="bottom-tips text-xs">
-                                    <img src="./src/img/icon/待收货/hei.png" alt=""> 
-                                    <p>本数据由<em>快递公司</em>提供</p>
-                                </div>
-                                <div class="close">
-                                    <img src="./src/img/icon/close.png" alt="">
-                                </div>`
-                var listbody = '';
-                res.data.list.forEach(item => {
-                    var time = item.time.split(" ");
-                    // console.log(item.time.split(" "))
-                    listbody += `<li class="list">
-                                <div class="date">
-                                    <p class="time">${time[0]}</p>
-                                    <p class="day">${time[1]}</p>
-                                </div>
-                                <div class="info">
-                                    <img src="./src/img/icon/待收货/hei.png" alt="" class="info-icon">
-                                    <div class="info-con">
-                                        <p class="left">${item.content}</p>
-                                    </div>
-                                </div>
-                            </li>`
-                })
-                $('.alert-yunshu').html(head + listbody + bottom)
-            } else {
-                $('.alert-yunshu .loading_').text(res.msg)
-            }
-        }
-    })
+    
 }
 
 
