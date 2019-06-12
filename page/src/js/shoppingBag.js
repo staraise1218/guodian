@@ -48,18 +48,6 @@ if (isIOS) {
 
 
 
-/**时间线
- * 
- */
-document.onreadystatechange = function () {
-    console.log(document.readyState)
-    if(document.readyState == 'interactive') {
-        getShopCartList(); // 加载购物车列表
-    }
-}
-
-
-
 // 全选
 $('.chooseAll .left-choose').on('click', function (e) {
     // alert('全选')
@@ -105,7 +93,7 @@ $('.footer .right').on('click', function () {
  *                  函数执行
  * ==========================================================
  */
-// getShopCartList(); // 加载购物车列表
+getShopCartList(); // 加载购物车列表
 
 /**
  * =====================================================
@@ -207,6 +195,7 @@ function toPay () {
             },
             success: function (res) {
                 console.log(res)
+                alert(res.msg)
                 if(res.code == 200) {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')
