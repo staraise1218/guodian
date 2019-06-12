@@ -13,7 +13,7 @@
 |优惠券|myCoupon|升级中|**只有空状态UI**|激活优惠券不做
 |我的积分|myIntegral|升级中|**loading**
 |我的闲置|myFree|升级中|**暂时不做**
-|我的养护|myCuring|升级中|
+|我的养护|myCuring|升级中|**暂时不做**
 |文章页（探索国典）|article|ok|type=1|
 |鉴定机制|article.html|ok|type=2
 |消费者告知书|myInform  改为 article.html|ok|type=3
