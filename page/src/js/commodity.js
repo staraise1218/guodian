@@ -12,12 +12,12 @@ let store_count = 0; // 库存
 let count = 1; // 选择数量
 let count_base = 1; // 库存
 let $id = ''; // 规格id
-let goods_id = '';  // 商品 id
+let goods_id = ''; // 商品 id
 let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-// alert('user_id :' + user_id)
+alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -96,6 +96,7 @@ $('.nav-4').on('click', function () {
  */
 getInfo();
 getTuijian()
+
 function getInfo() {
     console.log('加载商品数据')
     $.ajax({
@@ -107,7 +108,7 @@ function getInfo() {
         },
         dataType: 'json',
         success: function (res) {
-           // debugger;
+            // debugger;
             console.log(res)
             // 渲染顶部标题
             $('.top-text').text(res.data.goodsInfo.goods_remark)
@@ -117,7 +118,7 @@ function getInfo() {
                 var imgstr = GlobalHost + res.data.goodsInfo.goods_images_list[i].image_url;
                 slider += `<div class="swiper-slide"><img  src="${imgstr}" alt="img"></div>`
             }
-            console.log( res.data.goodsInfo.goods_images_list.length)
+            console.log(res.data.goodsInfo.goods_images_list.length)
             $('.swiper-wrapper').html(slider)
             // 价格及商品信息
             price_base = res.data.goodsInfo.shop_price;
@@ -156,8 +157,9 @@ function getInfo() {
             // 是否收藏了该商品
             if (res.data.goodsInfo.is_collect == 1) {
                 $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+                $('.collection').attr('data-is_collect', 1)
             }
-    
+
             console.log(JSON.parse(res.data.spec_goods_price))
             spec_goods_price = JSON.parse(res.data.spec_goods_price);
             // 购物车
@@ -194,6 +196,7 @@ function getInfo() {
         }
     });
 }
+
 function getTuijian() {
     // debugger;
     $.ajax({
@@ -204,7 +207,7 @@ function getTuijian() {
             num: 21
         },
         success: function (res) {
-           // debugger;
+            // debugger;
             console.log(res)
             // 在销售商品
             let shoppintCon = '';
@@ -238,13 +241,13 @@ $(window).on('load', function () {
         var swiper = new Swiper('.swiper-container', {
             // spaceBetween: 30,
             pagination: {
-              el: '.swiper-pagination',
-              clickable: true,
+                el: '.swiper-pagination',
+                clickable: true,
             },
-            autoplay:true,
-            loop : true,
+            autoplay: true,
+            loop: true,
             disableOnInteraction: false,
-          });
+        });
     }, 1000)
 })
 
@@ -255,27 +258,27 @@ $(window).on('load', function () {
  */
 // 购物车
 $('.add').on('click', function () {
-   // debugger;
+    // debugger;
     $('.alert').css('display', 'block');
     $('.addChopCart').slideDown(200);
 })
 
 // 立即购买
 $('.payNow').on('click', function () {
-   // debugger;
+    // debugger;
     $('.alert').css('display', 'block');
     $('.byNow').slideDown(200);
 })
 // 点击蒙层隐藏
 $('.alert').on('click', function () {
-   // debugger;
+    // debugger;
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
 })
 // 点击close隐藏
 $('.close').on('click', function () {
-   // debugger;
+    // debugger;
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
@@ -288,7 +291,6 @@ $('.close').on('click', function () {
  * =================================================
  */
 $('.collection').on('click', function () {
-   // debugger;
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/goods/collect_goods',
@@ -311,7 +313,7 @@ $('.collection').on('click', function () {
  * =================================================
  */
 $('body').delegate('.tag', 'click', function () {
-   // debugger;
+    // debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
     item_id[$(this).attr('data-msg')] = $(this).attr('data-id')
@@ -341,7 +343,7 @@ $('body').delegate('.tag', 'click', function () {
  * =================================================
  */
 $('.addcart_reduce').on('click', function () {
-   // debugger;
+    // debugger;
     if (count >= 2) {
         count--;
         price = price_base * count;
@@ -365,7 +367,7 @@ $('.addcart_add').on('click', function () {
  * =================================================
  */
 $('.addBtn').on('click', function () {
-   // debugger;
+    // debugger;
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/cart/addCart',
@@ -395,7 +397,7 @@ $('.addBtn').on('click', function () {
  * =================================================
  */
 $('body').delegate('.tag', 'click', function () {
-   // debugger;
+    // debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
     item_id[$(this).attr('data-msg')] = $(this).attr('data-id')
@@ -427,7 +429,7 @@ $('body').delegate('.tag', 'click', function () {
  */
 // 跳转 立即购买
 $('.byNowBtn').on('click', function (e) {
-   // debugger;
+    // debugger;
     e.preventDefault();
     e.stopPropagation();
     $('.alert').css('display', 'none');
@@ -440,8 +442,8 @@ $('.byNowBtn').on('click', function (e) {
 
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
-   // debugger;
-    window.location.href ='./shoppingBag.html';
+    // debugger;
+    window.location.href = './shoppingBag.html';
     return false;
 })
 
@@ -461,14 +463,14 @@ $('.see-dp').click(function () {
     $('.alert-dianpu').show();
 })
 // 加载店铺信息
-function zitidian () {
+function zitidian() {
     $.ajax({
         type: 'post',
         url: GlobalHost + '/api/cart/storeInfo',
         success: function (res) {
             console.log(res)
             $('.loading').hide();
-            if(res.code == 200) {
+            if (res.code == 200) {
                 res.data.storeInfo = res.data.storeInfo.replace(/[\r\n]/g, "</br>")
                 $('.zianpu-con').html(res.data.storeInfo);
             } else {
