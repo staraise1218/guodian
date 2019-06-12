@@ -258,7 +258,7 @@ function cancelOrder(order_id) {
             if(res.code == 200) {
                 // createAlert($('.alert-tips'), 'alert_tips', res.msg);
                 alert(res.msg)
-                createList(user_id, page, type)
+                // createList(user_id, page, type)
             } else {
                 // createAlert($('.alert-tips'), 'alert_tips', res.msg);
                 alert(res.msg)
@@ -280,7 +280,7 @@ function delOrder(order_id) {
             console.log(res)
             if(res.code == 200) {
                 alert(res.msg)
-                createList(user_id, page, type)
+                // createList(user_id, page, type)
                 // createList(user_id, page, type);
             } else {
                 alert(res.msg)
@@ -305,7 +305,7 @@ function shouhuo(order_id) {
             console.log(res)
             if(res.code == 200) {
                 alert(res.msg);
-                createList(user_id, page, type)
+                // createList(user_id, page, type)
                 // createList(user_id, page, type);
             } else {
                 alert(res.msg)
@@ -314,6 +314,28 @@ function shouhuo(order_id) {
     })
 }
 
+
+// 订单退款
+function shouhuo(order_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/api/order/return_goods',
+        data: {
+            user_id: user_id,
+            order_id: order_id
+        },
+        success: function (res) {
+            console.log(res)
+            if(res.code == 200) {
+                alert(res.msg);
+                // createList(user_id, page, type)
+                // createList(user_id, page, type);
+            } else {
+                alert(res.msg)
+            }
+        }
+    })
+}
 
 
 // 查看物流

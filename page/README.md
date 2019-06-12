@@ -3,7 +3,7 @@
 |页面|链接|说明|传参方式|备注|bug|
 |---|---|----|---|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
-|购物袋|shoppingBag|ok||
+|购物袋|shoppingBag|ok|user_id=xx|
 |详情页|commodity|ok|goods_id=xxx|
 |待付款|orderWait |弃用||
 |待收货|orderReceive |弃用||
