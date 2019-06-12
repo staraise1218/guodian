@@ -794,7 +794,7 @@ function orderBtn($order_id = 0, $order = array())
         $btn_arr['cancel_info'] = 1; // 取消订单详情
     }
 
-    if($order['order_status'] == 3 || $order_status == 5){
+    if($order['pay_status'] == 0  && $order['shipping_status'] == 0 && in_array($order['order_status'], array(3, 5))){
         $btn_arr['del_btn'] = 1; // 可删除订单
     }
 
