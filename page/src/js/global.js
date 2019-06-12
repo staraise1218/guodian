@@ -56,17 +56,17 @@ function getParam(paramName) {
 //     window.history.back(-1);
 // })
 if (isAndroid) {
-    $('.back').on('click', function () {
-        // alert(window.history.length)
-        if(window.android.goBack()) {
-            window.history.back(-1);
-        } else {
-            window.android.goBack();
-        }
-    })
+    window.android.goBack();
+    // $('.back').on('click', function () {
+    //     console.log(window.history.__proto__.constructor)
+    //     if(window.android.goBack() != 'undefined') {
+    //     } else {
+    //         // window.history.back(-1);
+    //     }
+    // })
 } else {
     $('.back').on('click', function () {
-        window.history.back(-1);
+        // window.history.back(-1);
     })
 }
 
