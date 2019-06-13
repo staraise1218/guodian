@@ -4,6 +4,7 @@
  * @wuliuStatus 【物流加载成功 0 1】
  * @orderName   【商品标题】
  * @kuaidiName  【快递标题】
+ * @orderMSG    【订单信息】
  */
 let order_id = getParam('order_id');
 let wuliuStatus = 0;
@@ -60,7 +61,8 @@ function createOrder(order_id) {
         success: function (res) {
             console.log(res);
             let data = res.data;
-            orderName = data.goods_list[0].goods_name
+            orderMSG = data;
+            orderName = data.goods_list[0].goods_name;
 
             // getCountDown(data.add_time)
             /**判断订单状态
@@ -167,6 +169,21 @@ function createOrder(order_id) {
                     $('.order-track').html('')
                     break;
                 case "REFUND": // 退货单
+                    let pay_status_str = '';
+                    switch(data.pay_status) {
+                        case "1": // 卖家确认中
+                            pay_status_str = "卖家确认中";
+                            break;
+                        case "3": // 已退款
+                            pay_status_str = "已退款";
+                            break;
+                        case "4": // 已拒绝
+                            pay_status_str = "已拒绝";
+                            break;
+                        default:
+                            console.log('判断退款状态出错')
+                            break;
+                    }
                     $('.tips').html(`<div class="waitccomment">
                         <p>${data.order_status_desc}</p>
                         <img src="./src/img/icon/daishouhuo.png" alt="">
@@ -174,7 +191,7 @@ function createOrder(order_id) {
                     $('.order-track').html(`<div data-type="REFUND" class="order-title more text-df md">
                             <div class="showWuLiu waitccomment">
                             <p class="w-1">退款</p>
-                            <p class="w-1 text-xs">${data.shipping_name}： 没有数据</p>
+                            <p class="w-1 text-xs">${data.order_status_desc}： ${pay_status_str}</p>
                         </div>
                     </div>`)
                     break;
@@ -316,6 +333,12 @@ $('.loading_').on('click', function () {
     $('.alert-yunshu').hide();
 })
 
+// 关闭退款
+$('.tuikuan_bg').click(function () {
+    $('.tuikuan_bg').hide();
+    $('.tuikuan').hide();
+})
+
 // 查看物流
 function getWuLiu() {
     $.ajax({
@@ -376,9 +399,81 @@ function getWuLiu() {
 }
 
 
-// 查看物流
+// 退款信息
 function getTuiKuan() {
-    
+    let head = '';
+    let list = '';
+    let footer = '';
+    let refund_time = formatDateCom(orderMSG.refund_time);  // 退款时间1
+    let dorefund_time = formatDateCom(orderMSG.dorefund_time);  // 退款时间1
+    let pay_status_str = '';   // 退款状态
+    switch(orderMSG.pay_status) {
+        case "1": // 卖家确认中
+            pay_status_str = "卖家确认中";
+            break;
+        case "3": // 已退款
+            pay_status_str = "已退款";
+            break;
+        case "4": // 已拒绝
+            pay_status_str = "已拒绝";
+            break;
+        default:
+            console.log('判断退款状态出错')
+            break;
+    }
+    console.log(refund_time)
+
+    head = `<div class="top">
+                <p>退款信息</p>
+                <p>${orderMSG.order_status_desc}</p>
+                <p>${orderMSG.add_time}</p>
+            </div>
+            <div class="tuik-content">
+                <div class="item">
+                    <p>退款总金额</p>
+                    <p>￥ ${orderMSG.order_amount}</p>
+                </div>
+                <div class="item">
+                    <p>返回银行卡</p>
+                    <p>￥ ${orderMSG.order_amount}</p>
+                </div>
+                <div class="jindu">
+                    <div class="jd-item">
+                        <p>等待买家退款</p>
+                        <span>${refund_time}</span>
+                    </div>
+                    <div class="jd-item">
+                        <p>${pay_status_str}</p>
+                        <span>${dorefund_time}</span>
+                    </div>
+                </div>
+                <p class="tk-title">退款信息</p>
+                <ul class="shop-list-wrap">`
+
+    footer = `</ul><div class="footer">
+                    <p>退款金额：￥ ${orderMSG.order_amount}</p>
+                    <p>申请时间：${orderMSG.add_time}</p>
+                    <p>退款编号：${orderMSG.order_sn}</p>
+                </div>
+                <div class="btn">
+                    <a href="tel:0147-88469258">联系买家</a>
+                </div>`
+    orderMSG.goods_list.forEach(item => {
+        list += `<li>
+                    <div class="left">
+                        <img src="${GlobalHost + item.original_img}" alt="">
+                    </div>
+                    <div class="right">
+                        <p class="t">${item.goods_name}</p>
+                        <p>标题</p>
+                        <p>标题</p>
+                        <p>标题</p>
+                        <p class="price">￥ ${item.goods_price}</p>
+                    </div>
+                </li>`
+    })
+    $('.tuikuan').html(head + list + footer).show();
+    $('.tuikuan_bg').show();
 }
 
 
