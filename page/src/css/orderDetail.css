@@ -567,6 +567,9 @@ body {
     top: 14px;
     left: 0;
 }
+.tuikuan .jindu.active::before {
+    background: #6CB976;
+}
 .tuikuan .jindu .jd-item {
     display: flex;
     flex-direction: column;
@@ -579,16 +582,35 @@ body {
 .tuikuan .jindu .jd-item p::before {
     position: absolute;
     left: 50%;
-    top: -20px;
+    top: -22.5px;
     transform: translateX(-50%);
     content: '';
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     background: #B7B7B7;
     border-radius: 50%;
     z-index: 992;
 }
+.tuikuan .jindu .jd-item:first-child p::before {
+    background: #70BB7A;
+}
+.tuikuan .jindu .jd-item:last-child.activeSuccess p::before {
+    background: #fff;
+    background-image: url('../img/icon/对号2.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.tuikuan .jindu .jd-item:last-child.activeFail p::before {
+    background: #fff;
+    background-image: url('../img/icon/失败.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
+
+
 .tuikuan .jindu .jd-item:first-child p::after {
     content: '';
     display: block;

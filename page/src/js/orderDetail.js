@@ -126,6 +126,7 @@ function createOrder(order_id) {
                                                 </div>
                                             </div>`)
                     // getCountDown($('.tips .time'), data.add_time);
+                    getWuLiu()
                     break;
                 case 'WAITSEND': // 待发货   TODO: 缺少UI
                     $('.tips').html('');
@@ -356,11 +357,11 @@ function getWuLiu() {
                                 <p>运输中</p>
                                 <div class="yunshu-title">
                                     <div class="left">
-                                        <img src="./src/img/1.png" alt="">
+                                        <img src="${GlobalHost + orderMSG.goods_list[0].original_img}" alt="">
                                     </div>
                                     <div class="right">
-                                        <p>商品标题</p>
-                                        <p>快递信息</p>
+                                        <p>${orderMSG.goods_list[0].goods_name}</p>
+                                        <p>${res.data.cname}： ${res.data.no}</p>
                                     </div>
                                 </div>
                             </div>            
@@ -426,7 +427,7 @@ function getTuiKuan() {
     head = `<div class="top">
                 <p>退款信息</p>
                 <p>${orderMSG.order_status_desc}</p>
-                <p>${orderMSG.add_time}</p>
+                <p>${refund_time}</p>
             </div>
             <div class="tuik-content">
                 <div class="item">
@@ -437,12 +438,12 @@ function getTuiKuan() {
                     <p>返回银行卡</p>
                     <p>￥ ${orderMSG.order_amount}</p>
                 </div>
-                <div class="jindu">
-                    <div class="jd-item">
+                <div class="jindu ${orderMSG.pay_status == '3' || orderMSG.pay_status == '4' ? 'active' : ''}">
+                    <div class="jd-item ${orderMSG.pay_status != '1' ? 'active' : ''}">
                         <p>等待买家退款</p>
                         <span>${refund_time}</span>
                     </div>
-                    <div class="jd-item">
+                    <div class="jd-item ${orderMSG.pay_status == '3' ? 'activeSuccess' : ''} ${orderMSG.pay_status == '4' ? 'activeFail' : ''}">
                         <p>${pay_status_str}</p>
                         <span>${dorefund_time}</span>
                     </div>
@@ -452,11 +453,11 @@ function getTuiKuan() {
 
     footer = `</ul><div class="footer">
                     <p>退款金额：￥ ${orderMSG.order_amount}</p>
-                    <p>申请时间：${orderMSG.add_time}</p>
+                    <p>申请时间：${refund_time}</p>
                     <p>退款编号：${orderMSG.order_sn}</p>
                 </div>
                 <div class="btn">
-                    <a href="tel:0147-88469258">联系买家</a>
+                    <a href="tel:0000-00000000">联系买家</a>
                 </div>`
     orderMSG.goods_list.forEach(item => {
         list += `<li>
