@@ -669,3 +669,46 @@ body {
     text-align: center;
     line-height: 4em;
 }
+
+
+/* share */
+.share_bg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 900;
+    background: rgba(0, 0, 0, .5);
+    width: 100%;
+    height: 100vh;
+}
+.share-wrap {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 991;
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.share-wrap p {
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    padding-bottom: 10px;
+    text-align: center;
+}
+.share-wrap ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+}
+.share-wrap ul li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+}
+.share-wrap ul li img {
+    height: 30px;
+    margin-bottom: 5px;
+}

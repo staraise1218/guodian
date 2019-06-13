@@ -61,7 +61,7 @@ $(window).scroll(function () {
         $('.nav .nav-3').addClass('active')
     }
     // nav-4 ----- nav-3 推荐
-    if ($(window).scrollTop() >= ($('#nav-4').offset().top - 51) && $(window).scrollTop() < (($('#nav-3').offset().top) - 51)) {
+    if ($(window).scrollTop() >= ($('#nav-4').offset().top - 51) && $(window).scrollTop() < (($('#nav-3').offset().top) - 81)) {
         $('.nav .nav-1').removeClass('active')
         $('.nav .nav-2').removeClass('active')
         $('.nav .nav-3').removeClass('active')
@@ -85,10 +85,44 @@ $('.nav-3').on('click', function () {
 })
 $('.nav-4').on('click', function () {
     $('html,body').animate({
-        scrollTop: ($('#nav-4').offset().top - 50)
+        scrollTop: ($('#nav-4').offset().top - 80)
     }, 'slow');
 })
 
+/**
+ * 分享
+ */
+$('.share-show').click(function () {
+    $('.share_bg').show();
+    $('.share-wrap').slideDown('fast')
+})
+// 关闭分享
+$('.share_bg').click(function () {
+    $('.share_bg').hide();
+    $('.share-wrap').slideUp('fast')
+})
+
+// 分享
+$('.share-wrap li').on('click', function () {
+    console.log($(this).attr('data-type'))
+    switch($(this).attr('data-type')) {
+        case 0: // 朋友圈
+
+            console.log('分享到朋友圈')
+            break;
+        case 0: // 微信
+            shareWx();
+            console.log('分享到微信')
+            break;
+        case 0: // QQ
+
+            console.log('分享到QQ')
+            break;
+        default:
+            console.log('分享错误');
+            break;
+    }
+})
 
 /**
  * =================================================
@@ -479,4 +513,10 @@ function zitidian() {
             }
         }
     })
+}
+
+
+// 分享到微信
+function shareWx() {
+
 }
