@@ -262,7 +262,11 @@ class OrderLogic
     	}
     	
     
-    	$result = M('order')->where(['order_id' => $order_id])->setField('order_status', 3);
+    	$updatedata = array(
+    		'order_status' => 3,
+    		'refundtime' => time(),
+    	);
+    	$result = M('order')->where(['order_id' => $order_id])->update($updatedata);
     	if ($result === false) {
     		return ['status' => 0, 'msg' => '操作失败'];
     	}

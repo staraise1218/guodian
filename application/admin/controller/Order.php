@@ -253,6 +253,7 @@ exit("不支持此功能");
         if(!order){
             $this->error('订单不存在或参数错误');
         }
+        $data['dorefund_time'] => time();
         M('order')->where(array('order_id'=>$order['order_id']))->save($data);
         $this->success('操作成功');
     }
