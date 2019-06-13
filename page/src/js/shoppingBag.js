@@ -1,4 +1,3 @@
-// alert('加载购物车')
 /**定义数据
  * @user_id         【用户id】
  * @goodsList       【购物车商品数据】
@@ -183,7 +182,7 @@ function getPrice () {
 
 // 结算
 function toPay () {
-    alert(user_id)
+    // alert(user_id)
     if(count == 0) {
         alert('你的购物车中没有商品')
     } else {
@@ -196,7 +195,7 @@ function toPay () {
             },
             success: function (res) {
                 console.log(res)
-                alert(res.code)
+                // alert(res.code)
                 if(res.code == 200) {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')

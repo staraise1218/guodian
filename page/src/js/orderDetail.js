@@ -2,6 +2,8 @@
  * @user_id     【用户id】
  * @order_id    【订单id】
  * @wuliuStatus 【物流加载成功 0 1】
+ * @orderName   【商品标题】
+ * @kuaidiName  【快递标题】
  */
 let order_id = getParam('order_id');
 let wuliuStatus = 0;
@@ -11,6 +13,8 @@ myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
 
+let orderName = '';
+let kuaidiName = '';
 
 
 /**=================================================================================
@@ -18,17 +22,16 @@ let user_id = myUsetInfo.user_id;
  * =================================================================================
  */
 createOrder(order_id, user_id); // 加载订单详情
-getWuLiu();                     // 加载物流信息
 
 
 /**=================================================================================
  *          点击
  * =================================================================================
  */
-$('.ctr').delegate('span','click', function () {
+$('.ctr').delegate('span', 'click', function () {
     console.log($(this).attr('data-type'))
     console.log($(this).attr('data-order'))
-    switch($(this).attr('data-type')) {
+    switch ($(this).attr('data-type')) {
         case 'pay':
             pay($(this).attr('data-order'));
             break;
@@ -57,41 +60,42 @@ function createOrder(order_id) {
         success: function (res) {
             console.log(res);
             let data = res.data;
+            orderName = data.goods_list[0].goods_name
 
             // getCountDown(data.add_time)
             /**判断订单状态
-             * @order_status_code   【待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT】
+             * @order_status_code   【待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT，REFUND 已申请退款】
              * @class[tips]         【金色提示】
              * @class[order-track]  【订单跟踪】
              */
-            if(data.add_time) {
+            if (data.add_time) {
                 var time_ = formatDateCom(data.add_time);
                 console.log(time_)
             }
             switch (data.order_status_code) {
                 case 'WAITPAY': // 待付款
-                        var timestamp = data.add_time
-                        timestamp*= 1000
-                        timestamp = Number(timestamp)
-                        setInterval(function(){
-                            var nowTime = new Date();
-                            var endTime = new Date(timestamp * 1000);
-                            var t = endTime.getTime() - nowTime.getTime();
-                            var hour=Math.floor(t/1000/60/60%24);
-                            var min=Math.floor(t/1000/60%60);
-                            var sec=Math.floor(t/1000%60);
+                    var timestamp = data.add_time
+                    timestamp *= 1000
+                    timestamp = Number(timestamp)
+                    setInterval(function () {
+                        var nowTime = new Date();
+                        var endTime = new Date(timestamp * 1000);
+                        var t = endTime.getTime() - nowTime.getTime();
+                        var hour = Math.floor(t / 1000 / 60 / 60 % 24);
+                        var min = Math.floor(t / 1000 / 60 % 60);
+                        var sec = Math.floor(t / 1000 % 60);
 
-                            if (hour < 10) {
-                                hour = "0" + hour;
-                            }
-                            if (min < 10) {
-                                min = "0" + min;
-                            }
-                            if (sec < 10) {
-                                sec = "0" + sec;
-                            }
-                            countDownTime = hour + "小时" + min + "分" + sec + "秒";
-                            $('.tips').html(`<div class="writpay">
+                        if (hour < 10) {
+                            hour = "0" + hour;
+                        }
+                        if (min < 10) {
+                            min = "0" + min;
+                        }
+                        if (sec < 10) {
+                            sec = "0" + sec;
+                        }
+                        countDownTime = hour + "小时" + min + "分" + sec + "秒";
+                        $('.tips').html(`<div class="writpay">
                                 <div class="title">
                                     <p>待付款</p>
                                     <p class="price">￥${data.total_amount}</p>
@@ -101,17 +105,17 @@ function createOrder(order_id) {
                                     <p class="price">应付金额</p>
                                 </div>
                             </div>`)
-                        },200);
-                        // $('.tips').html(`<div class="writpay">
-                        //                     <div class="title">
-                        //                         <p>待付款</p>
-                        //                         <p class="price">￥${data.total_amount}</p>
-                        //                     </div>
-                        //                     <div class="title">
-                        //                         <p>123</p>
-                        //                         <p class="price">应付金额</p>
-                        //                     </div>
-                        //                 </div>`)
+                    }, 200);
+                    // $('.tips').html(`<div class="writpay">
+                    //                     <div class="title">
+                    //                         <p>待付款</p>
+                    //                         <p class="price">￥${data.total_amount}</p>
+                    //                     </div>
+                    //                     <div class="title">
+                    //                         <p>123</p>
+                    //                         <p class="price">应付金额</p>
+                    //                     </div>
+                    //                 </div>`)
                     $('.order-track').html(`<div class="showWuLiu order-title more text-df md">
                                                 <div class="writpay">
                                                     <p class="w-1">订单跟踪</p>
@@ -126,7 +130,7 @@ function createOrder(order_id) {
                     $('.order-track').html('')
                     break;
                 case 'WAITRECEIVE': // 待收货
-                    $('.tips').html(`<div class="waitreceive">
+                        $('.tips').html(`<div class="waitreceive">
                                             <div class="left">
                                                 <p class="text-lg">卖家已发货</p>
                                                 <p>还剩</p>
@@ -135,12 +139,13 @@ function createOrder(order_id) {
                                                 <img src="./src/img/icon/daishouhuo.png" alt="">
                                             </div>
                                         </div>`);
-                    $('.order-track').html(`<div  class="showWuLiu order-title more text-df md" data-order_id="${data.order_id}">
+                        $('.order-track').html(`<div  class="showWuLiu order-title more text-df md" data-order_id="${data.order_id}">
                                                 <div class="waitreceive">
                                                     <p class="w-1">运输中</p>
                                                     <p class="w-1 text-xs">顺丰快递单号：123</p>
                                                 </div>
                                             </div>`)
+                        getWuLiu(); // 加载物流信息
                     break;
                 case 'WAITCCOMMENT': // 待评价
                     $('.tips').html(`<div class="waitccomment">
@@ -153,12 +158,25 @@ function createOrder(order_id) {
                                                     <p class="w-1 text-xs">${data.shipping_name}： 没有数据</p>
                                                 </div>
                                             </div>`)
+                        getWuLiu(); // 加载物流信息
                     break;
-                case 'CANCEL':   // 已取消
+                case 'CANCEL': // 已取消
                     $('.tips').html(`<div class="CANCEL">
                                         <p>已取消</p>
                                     </div>`);
                     $('.order-track').html('')
+                    break;
+                case "REFUND": // 退货单
+                    $('.tips').html(`<div class="waitccomment">
+                        <p>${data.order_status_desc}</p>
+                        <img src="./src/img/icon/daishouhuo.png" alt="">
+                    </div>`);
+                    $('.order-track').html(`<div data-type="REFUND" class="order-title more text-df md">
+                            <div class="showWuLiu waitccomment">
+                            <p class="w-1">退款</p>
+                            <p class="w-1 text-xs">${data.shipping_name}： 没有数据</p>
+                        </div>
+                    </div>`)
                     break;
                 default:
                     break;
@@ -232,18 +250,18 @@ function createOrder(order_id) {
              * @cancel_btn   	【取消】
              * @comment_btn  	【评价】
              */
-            if(data.pay_btn == 1) {
+            if (data.pay_btn == 1) {
                 $('.ctr').append(`<span data-order="${data.order_id}" data-type="pay">支付</span>`)
             }
-            if(data.cancel_btn == 1) {
+            if (data.cancel_btn == 1) {
                 $('.ctr').append(`<span data-order="${data.order_id}" data-type="cancel">取消</span>`)
             }
-            if(data.comment_btn == 1) {
+            if (data.comment_btn == 1) {
                 $('.ctr').append(`<span data-order="${data.order_id}" data-type="pingjia">评价</span>`)
             }
             $('.ctr span').addClass('cancelbtn')
             $('.ctr span:last').addClass('paybtn')
-            if(data.pay_btn == 0 && data.cancel_btn == 0 && data.comment_btn == 0) {
+            if (data.pay_btn == 0 && data.cancel_btn == 0 && data.comment_btn == 0) {
                 $('.ctr').hide();
             }
         }
@@ -262,10 +280,18 @@ $('body').delegate('.fuzhi', 'click', function () {
 
 
 // 物流显示
-$('body').delegate('.showWuLiu', 'click', function () {
-    $('.alert-box').show();
-    $('.alert-yunshu').show();
-    console.log(wuliuStatus)
+$('body').delegate('.order-title.more', 'click', function () {
+    console.log($(this).attr('data-type'))
+    switch($(this).attr('data-type')) {
+        case "REFUND":
+            getTuiKuan()
+            break;
+        default:
+            $('.alert-box').show();
+            $('.alert-yunshu').show();
+            console.log(wuliuStatus)
+            break;
+    }
     // if(wuliuStatus == 0) {
     //     $('.loading').text('物流信息加载中...').show();
     // } else {
@@ -300,8 +326,9 @@ function getWuLiu() {
         },
         success: function (res) {
             wuliuStatus = 1
-            console.log(res)
-            if(res.code == 200) {
+            if (res.code == 200) {
+                console.log(res)
+                kuaidiName = res.data.cname
                 var head = `<div class="top">
                                 <p>运输中</p>
                                 <div class="yunshu-title">
@@ -325,7 +352,7 @@ function getWuLiu() {
                                 </div>`
                 var listbody = '';
                 res.data.list.forEach(item => {
-                    var time=item.time.split(" ");
+                    var time = item.time.split(" ");
                     // console.log(item.time.split(" "))
                     listbody += `<li class="list">
                                 <div class="date">
@@ -349,6 +376,11 @@ function getWuLiu() {
 }
 
 
+// 查看物流
+function getTuiKuan() {
+    
+}
+
 
 // 支付 页面
 function pay(order_id) {
@@ -362,7 +394,7 @@ function pay(order_id) {
         success: function (res) {
             console.log(res)
             // 跳转到支付页面
-            if(res.code == 200) {
+            if (res.code == 200) {
                 window.location.href = './payLoad.html?status=pay'
                 localStorage.setItem('payMsg', res.data);
             } else {
@@ -383,7 +415,7 @@ function cancelOrder(order_id) {
         },
         success: function (res) {
             console.log(res)
-            if(res.code == 200) {
+            if (res.code == 200) {
                 alert(res.msg)
                 createOrder(order_id, user_id);
             } else {
@@ -405,7 +437,7 @@ function delOrder(order_id) {
         },
         success: function (res) {
             console.log(res)
-            if(res.code == 200) {
+            if (res.code == 200) {
                 alert(res.msg)
                 createOrder(order_id, user_id);
             } else {
@@ -429,7 +461,7 @@ function shouhuo(order_id) {
         },
         success: function (res) {
             console.log(res)
-            if(res.code == 200) {
+            if (res.code == 200) {
                 alert(res.msg);
                 createOrder(order_id, user_id);
             } else {
@@ -438,4 +470,3 @@ function shouhuo(order_id) {
         }
     })
 }
-
