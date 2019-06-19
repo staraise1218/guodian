@@ -316,7 +316,7 @@ class Cart extends Base {
         $dosubmit           = I('dosubmit', 0);  // 是否提交订单
         $ID_number          = I('ID_number');  // 身份证号
         $buy_method         = I('buy_method', 1);  // 配送方式
-        $consignee         = I('consignee'); // 当选择配送方式是到店自提时提供 姓名
+        $consignee          = I('consignee'); // 当选择配送方式是到店自提时提供 姓名
         $mobile             = I('mobile'); // 当选择配送方式是到店自提时提供 电话
 
         mb_strlen($user_note) > 60 && response_error('', '备注超出限制可输入字符长度！');
