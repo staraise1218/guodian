@@ -19,7 +19,9 @@
                 },
                 success: function (res) {
                     console.log(res);
+                    alert(res)
                     localStorage.setItem('USERINFO', JSON.stringify(res.data));
+                    alert(localStorage.getItem('USERINFO'));
                 }
             })
     </script>
