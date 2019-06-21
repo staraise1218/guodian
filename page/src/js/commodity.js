@@ -93,8 +93,8 @@ $('.nav-4').on('click', function () {
  * 分享
  */
 $('.share-show').click(function () {
-    $('.share_bg').show();
-    $('.share-wrap').slideDown('fast')
+    // $('.share_bg').show();
+    // $('.share-wrap').slideDown('fast')
 })
 // 关闭分享
 $('.share_bg').click(function () {
