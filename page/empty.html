@@ -22,6 +22,9 @@
                     alert(res)
                     localStorage.setItem('USERINFO', JSON.stringify(res.data));
                     alert(localStorage.getItem('USERINFO'));
+                },
+                error: function (error) {
+                    alert(error)
                 }
             })
     </script>
