@@ -12,6 +12,7 @@
     <script>
         let user_id = getParam('user_id');
         console.log(user_id)
+        alert('empty page')
             $.ajax({
                 type: 'POST',
                 url: GlobalHost + '/Api/user/getUserInfo',
@@ -20,13 +21,13 @@
                 },
                 success: function (res) {
                     console.log(res);
-                    // alert(res)
-                    // localStorage.setItem('USERINFO', JSON.stringify(res.data));
-                    // alert(localStorage.getItem('USERINFO'));
+                    alert('res',res)
+                    localStorage.setItem('USERINFO', JSON.stringify(res.data));
+                    alert(localStorage.getItem('USERINFO'));
                 },
                 error: function (error) {
                     console.log(error);
-                    // alert(error)
+                    alert('error',error)
                 }
             })
     </script>
