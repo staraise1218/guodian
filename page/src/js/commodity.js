@@ -15,10 +15,11 @@ let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let myUsetInfo = localStorage.getItem('USERINFO');
+alert(localStorage.getItem('USERINFO'))
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-// alert('user_id :' + user_id)
+alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
