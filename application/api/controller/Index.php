@@ -29,13 +29,13 @@ class Index extends Base {
         if($adList){
         	foreach ($adList as $k => $item) {
         		// 首页banner
-        		($item['pid'] == 14 ) && $bannerList[] = $item;
+        		($item['pid'] == 13 ) && $bannerList[] = $item;
         		// 热门商品
-        		($item['pid'] == 15 ) && $hotlist[] = $item;
+        		($item['pid'] == 14 ) && $hotlist[] = $item;
         		// 注册送好礼和探索国典
-        		($item['pid'] == 16 ) && $reg_about[] = $item;
+        		($item['pid'] == 15 ) && $reg_about[] = $item;
         		// 下方自定义商品入口
-        		($item['pid'] == 17 ) && $custom_goods[] = $item;
+        		($item['pid'] == 16 ) && $custom_goods[] = $item;
         	}
         }
 
