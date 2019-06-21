@@ -1,7 +1,7 @@
 /**
  * API 公共
  */
-var GlobalHost = 'www.guodianjm.com'
+var GlobalHost = 'http://www.guodianjm.com'
 // var GlobalHost = 'http://guodian.staraise.com.cn'
 
 
