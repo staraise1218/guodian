@@ -1,4 +1,4 @@
-// alert(window.location.href)
+alert(window.location.href)
 /**
  * =================================================
  *          公共变量
@@ -15,10 +15,11 @@ let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let myUsetInfo = localStorage.getItem('USERINFO');
+alert(localStorage.getItem('USERINFO'))
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-// alert('user_id :' + user_id)
+alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -31,7 +32,7 @@ let user_id = myUsetInfo.user_id;
 // newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
 // newsid=newsids[1];//得到参数值
 goods_id = getParam('goods_id');
-// alert('goods_id : (js)' + goods_id)
+alert('goods_id : (js)' + goods_id)
 
 /**
  * =================================================
@@ -93,8 +94,8 @@ $('.nav-4').on('click', function () {
  * 分享
  */
 $('.share-show').click(function () {
-    $('.share_bg').show();
-    $('.share-wrap').slideDown('fast')
+    // $('.share_bg').show();
+    // $('.share-wrap').slideDown('fast')
 })
 // 关闭分享
 $('.share_bg').click(function () {
