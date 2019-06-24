@@ -22,20 +22,20 @@ class Index extends Base {
 		$bannerList = $hotlist = $reg_about = $custom_goods = array();
         $adList = Db::name('ad')
             ->where('enabled', 1)
-            ->where('pid', array('in', array(13, 14, 15, 16)))
+            ->where('pid', array('in', array(14, 15, 16, 17)))
             ->field('ad_name, ad_link, ad_code, pid')
             ->order('orderby asc, ad_id asc')
             ->select();
         if($adList){
         	foreach ($adList as $k => $item) {
         		// 首页banner
-        		($item['pid'] == 13 ) && $bannerList[] = $item;
+        		($item['pid'] == 14 ) && $bannerList[] = $item;
         		// 热门商品
-        		($item['pid'] == 14 ) && $hotlist[] = $item;
+        		($item['pid'] == 15 ) && $hotlist[] = $item;
         		// 注册送好礼和探索国典
-        		($item['pid'] == 15 ) && $reg_about[] = $item;
+        		($item['pid'] == 16 ) && $reg_about[] = $item;
         		// 下方自定义商品入口
-        		($item['pid'] == 16 ) && $custom_goods[] = $item;
+        		($item['pid'] == 17 ) && $custom_goods[] = $item;
         	}
         }
 
