@@ -18,11 +18,11 @@ class Article extends Base {
 		$type = input('type');
 		$article_id = input('article_id', 0);
 
-		if($type == 1) $article_id = 37; // 探索国典
-		if($type == 2) $article_id = 38; // 鉴定机制
-		if($type == 3) $article_id = 39; // 消费者告知书
-		if($type == 4) $article_id = 40; // 经营信息
-		if($type == 5) $article_id = 41; // 隐私权策略
+		if($type == 1) $article_id = 98; // 探索国典
+		if($type == 2) $article_id = 99; // 鉴定机制
+		if($type == 3) $article_id = 100; // 消费者告知书
+		if($type == 4) $article_id = 101; // 经营信息
+		if($type == 5) $article_id = 102; // 隐私权策略
 
 		$info = Db::name('article')
 			->where('article_id', $article_id)
