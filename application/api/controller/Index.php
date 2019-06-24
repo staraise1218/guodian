@@ -22,7 +22,7 @@ class Index extends Base {
 		$bannerList = $hotlist = $reg_about = $custom_goods = array();
         $adList = Db::name('ad')
             ->where('enabled', 1)
-            ->where('pid', array('in', array(14, 15, 16, 17)))
+            ->where('pid', array('in', array(13, 14, 15, 16)))
             ->field('ad_name, ad_link, ad_code, pid')
             ->order('orderby asc, ad_id asc')
             ->select();
