@@ -177,15 +177,16 @@ class User extends Base {
 
         $logic = new UsersLogic();
         $data = $logic->get_coupon($user_id, $type);
+        p($data);
         foreach($data['result'] as $k =>$v){
             $user_type = $v['use_type'];
             $data['result'][$k]['use_scope'] = C('COUPON_USER_TYPE')["$user_type"];
-            if($user_type==1){ //指定商品
+            /*if($user_type==1){ //指定商品
                 $data['result'][$k]['goods_id'] = M('goods_coupon')->field('goods_id')->where(['coupon_id'=>$v['cid']])->getField('goods_id');
             }
             if($user_type==2){ //指定分类
                 $data['result'][$k]['category_id'] = Db::name('goods_coupon')->where(['coupon_id'=>$v['cid']])->getField('goods_category_id');
-            }
+            }*/
         }
         $coupon_list = $data['result'];
         

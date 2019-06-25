@@ -126,12 +126,12 @@ class ActivityLogic extends Model
             // 未使用
             $where['l.order_id'] = 0;
             $where['c.use_end_time'] = array('gt', time());
-            $where['c.status'] = 0;
+            $where['l.status'] = 0;
         } elseif ($type == 1) {
             //已使用
             $where['l.order_id'] = array('gt', 0);
             $where['l.use_time'] = array('gt', 0);
-            $where['c.status'] = 1;
+            $where['l.status'] = 1;
         } elseif ($type == 2) {
             //已过期
             $where['c.use_end_time'] = array('lt', time());
@@ -152,7 +152,7 @@ class ActivityLogic extends Model
         $query = M('coupon_list')->alias('l')
             ->join('__COUPON__ c','l.cid = c.id'.$condition)
             ->where($where);
-        
+
         if ($queryType != 0) {
             $query = $query->field('l.*,c.name,c.money,c.use_start_time,c.use_end_time,c.condition,c.use_type')
                     ->order($order);
