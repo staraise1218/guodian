@@ -249,7 +249,7 @@ class Goods extends Base {
         if(isMobile()) {
             $page = new Page($count, 20, '', 3);
         }else{
-            $page = new Page($count, 20, '', 9);
+            $page = new Page($count, 25);
         }
 
         if($count > 0)
