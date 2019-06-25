@@ -104,9 +104,9 @@ body {
 .commodityList li .right p:nth-child(3) {
     font-weight: 600;
     color: #545454;
-    position: absolute;
-    left: 0;
-    bottom: 0
+    /* position: absolute; */
+    /* left: 0; */
+    /* bottom: 0 */
 }
 .commodityList li .del {
     position: absolute;

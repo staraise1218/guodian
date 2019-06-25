@@ -1,4 +1,4 @@
-alert(window.location.href)
+// alert(window.location.href)
 /**
  * =================================================
  *          公共变量
@@ -15,11 +15,12 @@ let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let myUsetInfo = localStorage.getItem('USERINFO');
-alert(localStorage.getItem('USERINFO'))
+// alert(localStorage.getItem('USERINFO'))
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
-alert('user_id :' + user_id)
+let kucun = '';     // 库存
+// alert('user_id :' + user_id)
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -32,7 +33,7 @@ alert('user_id :' + user_id)
 // newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
 // newsid=newsids[1];//得到参数值
 goods_id = getParam('goods_id');
-alert('goods_id : (js)' + goods_id)
+// alert('goods_id : (js)' + goods_id)
 
 /**
  * =================================================
@@ -228,7 +229,9 @@ function getInfo() {
             $('.alert-list').html(alertStr)
             // 库存
             count_base = res.data.goodsInfo.store_count;
+            kucun = res.data.goodsInfo.store_count;
             $('.addChopCart .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
+            $('.byNow .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
         }
     });
 }
@@ -418,6 +421,7 @@ $('.addBtn').on('click', function () {
             $('.alert').css('display', 'none');
             $('.addChopCart').slideUp(200);
             $('.byNow').slideUp(200);
+            alert(res.msg)
         }
     })
 })
@@ -466,6 +470,10 @@ $('body').delegate('.tag', 'click', function () {
 // 跳转 立即购买
 $('.byNowBtn').on('click', function (e) {
     // debugger;
+    if(kucun == 0) {
+        alert('库存不足')
+        return;
+    }
     e.preventDefault();
     e.stopPropagation();
     $('.alert').css('display', 'none');
