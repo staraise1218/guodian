@@ -418,6 +418,7 @@ $('.addBtn').on('click', function () {
             $('.alert').css('display', 'none');
             $('.addChopCart').slideUp(200);
             $('.byNow').slideUp(200);
+            alert(res.msg)
         }
     })
 })
