@@ -7,11 +7,11 @@ myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
 let type = Number(getParam('type'));
+let page = 1;
 
 
 
-
-getLoading ()
+getLoading (page)
 
 
 // 加载页面时判断 type
@@ -39,7 +39,7 @@ $('.nav .nav-item').on('click', function () {
     switch ($(this).index()) {
         case 0:
             type = 0;
-            getLoading();
+            getLoading(page);
             $('.weishiyong').show();
             $('.yishiyong').hide();
             $('.yishixiao').hide();
@@ -48,7 +48,7 @@ $('.nav .nav-item').on('click', function () {
             break;
         case 1:
             type = 1;
-            getLoading();
+            getLoading(page);
             $('.yishiyong').show();
             $('.weishiyong').hide();
             $('.yishixiao').hide();
@@ -57,7 +57,7 @@ $('.nav .nav-item').on('click', function () {
             break;
         case 2:
             type = 2;
-            getLoading();
+            getLoading(page);
             $('.yishixiao').show();
             $('.weishiyong').hide();
             $('.yishiyong').hide();
@@ -71,14 +71,14 @@ $('.nav .nav-item').on('click', function () {
 
 
 // 获取优惠券数据
-function getLoading () {
+function getLoading (page) {
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/user/coupon',
         data: {
             user_id: user_id,
             type: type,
-            page: 1
+            page: page
         },
         success: function(res) {
             console.log(res)

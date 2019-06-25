@@ -66,12 +66,7 @@ body {
     padding-top: 1.5rem;
 }
 
-
-
-.content .weishiyong,
-.content .yishiyong,
 .content .yishixiao {
-    display: none;
     padding: 14px;
 }
 .content .empty {
@@ -83,10 +78,7 @@ body {
     background: #fff;
     position: relative;
     height: 120px;
-    margin-bottom: 13px;
 }
-.content .weishiyong li i,
-.content .yishiyong li i,
 .content .yishixiao li i {
     font-style: normal;
 }
@@ -104,104 +96,28 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
 }
-.content .weishiyong li div:first-child {
-    padding-bottom: 10px;
-    padding-left: 54px;
-}
-.content .weishiyong li div:first-child p:first-child {
-    font-size: 28px;
-    font-weight: 600;
-}
-.content .weishiyong li div:first-child p:last-child {
-    font-size: 14px;
-    font-weight: 600;
-}
-.content .weishiyong li div:first-child b {
-    font-size: 46px;
-}
-.content .weishiyong li div:last-child {
-    font-size: 12px;
-    color: rgba(0,0,0,.5);
-    line-height: 2em;
-    border-top: 1px solid rgba(0,0,0,.2);
-    padding-left: 54px;
-}
-
-
-
-.content .yishiyong li {
-    border-radius: 4px;
-}
-.content .yishiyong li::before {
-    content: '';
-    display: block;
-    width: 41px;
-    height: 120px;
-    position: absolute;
-    left: 0;
-    background-image: url('../img/icon/YH2.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.content .yishiyong li::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 120px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-image: url('../img/icon/YH4.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-.content .yishiyong li div:first-child {
-    padding-bottom: 10px;
-    padding-left: 54px;
-    opacity: .33;
-}
-.content .yishiyong li div:first-child p:first-child {
-    font-size: 28px;
-    font-weight: 600;
-}
-.content .yishiyong li div:first-child p:last-child {
-    font-size: 14px;
-    font-weight: 600;
-}
-.content .yishiyong li div:first-child b {
-    font-size: 46px;
-}
-.content .yishiyong li div:last-child {
-    font-size: 12px;
-    color: rgba(0,0,0,.3);
-    line-height: 2em;
-    border-top: 1px solid rgba(0,0,0,.2);
-    padding-left: 54px;
-}
-
-
-
 
 
 
 .content .yishixiao li {
     border-radius: 4px;
+    margin-bottom: 13px;
 }
-.content .yishixiao li::before {
+.content .yishixiao li::after {
     content: '';
     display: block;
-    width: 41px;
+    width: 86px;
     height: 120px;
     position: absolute;
-    left: 0;
-    background-image: url('../img/icon/YH2.png');
+    right: 0;
+    top: 0;
+    background-image: url('../img/icon/YH3.png');
     background-size: contain;
     background-repeat: no-repeat;
 }
 .content .yishixiao li div:first-child {
     padding-bottom: 10px;
-    padding-left: 54px;
-    opacity: .33;
+    padding-left: 13px;
 }
 .content .yishixiao li div:first-child p:first-child {
     font-size: 28px;
@@ -216,11 +132,18 @@ body {
 }
 .content .yishixiao li div:last-child {
     font-size: 12px;
-    color: rgba(0,0,0,.5);
+    color: rgba(0,0,0,.8);
     line-height: 2em;
     border-top: 1px solid rgba(0,0,0,.2);
-    padding-left: 54px;
+    padding-left: 13px;
 }
+
+
+
+
+
+
+
 
 .lingqu_bg {
     display: none;

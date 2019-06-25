@@ -1,7 +1,7 @@
 # 页面说明
 
-|页面|链接|说明|传参方式|备注|bug|
-|---|---|----|---|---|---|
+|页面|链接|说明|传参方式|备注|bug|其他|
+|---|---|----|---|---|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
 |购物袋|shoppingBag|ok|user_id=xx|
 |详情页|commodity|ok|goods_id=xxx|
@@ -10,7 +10,8 @@
 |退货单|orderReturn |**loading**||
 |全部订单|orderAll |弃用||
 |会员中心|myMember|升级中|**暂时不做**
-|优惠券|myCoupon|升级中|**只有空状态UI**|激活优惠券不做
+|优惠券|myCoupon|ok|激活优惠券不做|传参在下面|
+|优惠券领取|myCouponLingqu|ok||
 |我的积分|myIntegral|升级中|**loading**
 |我的闲置|myFree|升级中|**暂时不做**
 |我的养护|myCuring|升级中|**暂时不做**
