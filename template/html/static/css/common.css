@@ -537,7 +537,7 @@ ul.memenu.skyblue{
 }
 .footer-grids .address p:nth-child(1),
 .footer-grids .address p:nth-child(2){
-    width: 32rem;
+    width: 36rem;
 }
 .footer-grids .address p:last-child{
     flex: 1;
@@ -561,7 +561,7 @@ ul.memenu.skyblue{
   padding-left: 5rem;
 }
 .footer-bottom p:nth-child(1){
-  width: 32rem;
+  width: 36rem;
 }
 .footer-bottom p:nth-child(2){
   flex: 1;
