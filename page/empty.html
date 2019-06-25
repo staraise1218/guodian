@@ -20,7 +20,9 @@
                 },
                 success: function (res) {
                     console.log(res);
-                    localStorage.setItem('USERINFO', JSON.stringify(res.data));
+                    var data = res.data;
+                    data = JSON.stringify(data);
+                    localStorage.setItem('USERINFO', data);
                 },
                 error: function (error) {
                     console.log(error);
