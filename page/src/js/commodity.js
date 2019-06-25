@@ -19,6 +19,7 @@ let myUsetInfo = localStorage.getItem('USERINFO');
 myUsetInfo = JSON.parse(myUsetInfo);
 console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
+let kucun = '';     // 库存
 // alert('user_id :' + user_id)
 /**
  * =================================================
@@ -228,6 +229,7 @@ function getInfo() {
             $('.alert-list').html(alertStr)
             // 库存
             count_base = res.data.goodsInfo.store_count;
+            kucun = res.data.goodsInfo.store_count;
             $('.addChopCart .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
             $('.byNow .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
         }
@@ -468,6 +470,10 @@ $('body').delegate('.tag', 'click', function () {
 // 跳转 立即购买
 $('.byNowBtn').on('click', function (e) {
     // debugger;
+    if(kucun == 0) {
+        alert('库存不足')
+        return;
+    }
     e.preventDefault();
     e.stopPropagation();
     $('.alert').css('display', 'none');
