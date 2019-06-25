@@ -229,6 +229,7 @@ function getInfo() {
             // 库存
             count_base = res.data.goodsInfo.store_count;
             $('.addChopCart .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
+            $('.byNow .ctr .store_count').text('库存' + res.data.goodsInfo.store_count + '件')
         }
     });
 }
