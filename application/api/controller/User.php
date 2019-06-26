@@ -177,7 +177,7 @@ class User extends Base {
 
         $logic = new UsersLogic();
         $data = $logic->get_coupon($user_id, $type);
-        p($data);
+
         foreach($data['result'] as $k =>$v){
             $user_type = $v['use_type'];
             $data['result'][$k]['use_scope'] = C('COUPON_USER_TYPE')["$user_type"];
