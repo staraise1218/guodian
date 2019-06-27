@@ -335,6 +335,8 @@ function getPrice () {
             console.log(res)
             let data = res.data;
             setTimeout(() => {
+                console.log(res.code, 'code')
+                console.log(typeof res.code, 'code')
                 if(res.code == '200') {
                     // $('.alert-info').show().text(res.msg)
                     // alert(res.msg);
