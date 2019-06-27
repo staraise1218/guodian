@@ -12,6 +12,7 @@
 |会员中心|myMember|升级中|**暂时不做**
 |优惠券|myCoupon|ok|激活优惠券不做|传参在下面|
 |优惠券领取|myCouponLingqu|ok||
+|选择优惠券|myCouponChoose|ok|
 |我的积分|myIntegral|升级中|**loading**
 |我的闲置|myFree|升级中|**暂时不做**
 |我的养护|myCuring|升级中|**暂时不做**
