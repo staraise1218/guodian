@@ -335,7 +335,7 @@ function getPrice () {
             console.log(res)
             let data = res.data;
             setTimeout(() => {
-                if(res.code == 200) {
+                if(res.code == '200') {
                     // $('.alert-info').show().text(res.msg)
                     // alert(res.msg);
                     $('#total_fee_1').text('￥' + data.order_amount);
