@@ -205,7 +205,6 @@ function toPay () {
                 } else {
                     alert(res.msg)
                 }
-                
             }
         })
     }
