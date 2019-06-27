@@ -438,9 +438,10 @@ function pay(order_id) {
             console.log(res)
             // 跳转到支付页面
             if(res.code == 200) {
-                // window.location.href = './payLoad.html?status=pay'
+                window.location.href = './payLoad.html?status=pay'
                 localStorage.setItem('payMsg', res.data);
             } else {
+                alert(res.msg)
                 console.log('********************************支付报错******************************')
             }
         }
