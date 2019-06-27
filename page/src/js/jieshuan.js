@@ -132,7 +132,7 @@ if(YH.STATUS == '1') {
     YH.STATUS = 2;
     var str = JSON.stringify(YH)
     localStorage.setItem('YH', str);
-    getPrice();
+    getorderInfo();
 }
 
 // 判断地址是否选择了
