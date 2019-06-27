@@ -124,6 +124,7 @@ $('.chooseYH').click(function () {
  * =======================================================================
  */
 // 判断优惠券
+    console.log('ppppppppppppppppppppppppppppp1',YH.STATUS)
 if(YH.STATUS == '1') {
     $('.chooseYH').text(YH.name);
     console.log('pppppppppppppppppppppppppppppp')
