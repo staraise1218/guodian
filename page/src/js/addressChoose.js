@@ -57,7 +57,7 @@ $('.address-list-wrap').delegate('.list-item', 'click', function () {
     isChooseAddress.mobile = $(this).attr('data-mobile');
     isChooseAddress = JSON.stringify(isChooseAddress)
     localStorage.setItem('isChooseAddress', isChooseAddress);
-    window.history.back(-1);
+    // window.history.back(-1);
 })
 
 
