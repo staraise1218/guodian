@@ -78,7 +78,7 @@ function getorderInfo() {
             let list = '';
             res.data.couponList.forEach( item => {
                 var endTime = formatDateCom(item.send_time)
-                list += `<li data-id="${item.id}" data-cid="${item.cid}">
+                list += `<li data-id="${item.id}" data-cid="${item.cid}" data-name="${item.name}">
                             <div>
                                 <p>
                                     <i>￥</i><b>${item.coupon.money}</b>
@@ -102,7 +102,8 @@ $('.weishiyong').delegate('li','click', function () {
         title: '选择优惠券',
         isChoose: true,
         id: $(this).attr('data-id'),
-        cid: $(this).attr('data-cid')
+        cid: $(this).attr('data-cid'),
+        name: $(this).attr('data-name')
     }
     localStorage.setItem('YH', JSON.stringify(YH));
     window.history.back(-1);
