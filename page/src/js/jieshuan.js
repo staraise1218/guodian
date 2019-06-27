@@ -279,14 +279,14 @@ function getorderInfo() {
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
                 console.log(YH.STATUS)
-                if(YH.STATUS == 3) {
-                    if(res.data.couponList.length > 0) {
-                        $('.chooseYH').text('选择优惠券');
-                        $('.chooseYH').attr('data-status', '1')
-                    } else {
-                        $('.chooseYH').text('无可用优惠券');
-                    }
-                }
+                // if(YH.STATUS == 3) {
+                //     if(res.data.couponList.length > 0) {
+                //         $('.chooseYH').text('选择优惠券');
+                //         $('.chooseYH').attr('data-status', '1')
+                //     } else {
+                //         $('.chooseYH').text('无可用优惠券');
+                //     }
+                // }
                 if(res.data.couponList.length > 0) {
                     $('.chooseYH').attr('data-status', '1')
                 }
