@@ -200,6 +200,7 @@ function toPay () {
                     if(res.data.address.length == 0) {
                         alert('请先填写您的地址')
                     }
+                    localStorage.setItem('YH', "{STATUS:0}");
                     window.location.href = './jieshuan.html?action=cart';
                 } else {
                     alert(res.msg)
