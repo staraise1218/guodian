@@ -333,9 +333,6 @@ function getPrice () {
             console.log(res)
             let data = res.data;
             setTimeout(() => {
-                console.log(res.code, 'code')
-                console.log(res.code==200, 'code')
-                console.log(typeof res.code, 'code')
                 if(res.code == 200) {
                     // $('.alert-info').show().text(res.msg)
                     // alert(res.msg);
@@ -439,7 +436,7 @@ function pay(order_id) {
             console.log(res)
             // 跳转到支付页面
             if(res.code == 200) {
-                window.location.href = './payLoad.html?status=pay'
+                // window.location.href = './payLoad.html?status=pay'
                 localStorage.setItem('payMsg', res.data);
             } else {
                 console.log('********************************支付报错******************************')
