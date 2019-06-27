@@ -485,7 +485,7 @@ $('.byNowBtn').on('click', function (e) {
     // }
     // localStorage.setItem('YH', JSON.stringify(YH))
     
-    localStorage.setItem('YH', "{STATUS:0}");
+    localStorage.setItem('YH', JSON.stringify({STATUS:0}));
     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
     return false;
 })
