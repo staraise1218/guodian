@@ -254,6 +254,11 @@ function getorderInfo() {
                 $('.goodsList-box').html(goodsList);
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
+                if(res.data.couponList.length > 0) {
+                    $('.chooseYH').text('选择优惠券');
+                } else {
+                    $('.chooseYH').text('无可用优惠券');
+                }
                 // $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
                 // $('.address2 .user-address-f').text(address.fulladdress);
                 console.log(isChooseAddress)
