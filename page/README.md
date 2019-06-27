@@ -18,9 +18,9 @@
 |我的养护|myCuring|升级中|**暂时不做**
 |文章页（探索国典）|article|ok|type=1|
 |鉴定机制|article.html|ok|type=2
-|消费者告知书|myInform  改为 article.html|ok|type=3
-|经营信息|myManagement 改为 article.html|ok|type=4|
-|隐私权政策|myPrivacy 改为 article.html |OK|type=5
+|消费者告知书|myInform  改为 article.html|CHANGE|type=3
+|经营信息|myManagement 改为 article.html|CHANGE|type=4|
+|隐私权政策|myPrivacy 改为 article.html |CHANGE|type=5
 |我的订单|myOrder|ok|订单状态类型：全部 ALL ，待付款： WAITPAY ；待发货： WAITSEND ； 待收货： WAITRECEIVE ；已完成： FINISH ；已取消： CANCEL|下面有详细文档
 |订单详情|orderDetail|ok|
 |订单详情-配送方式|peisongMethod|ok|
