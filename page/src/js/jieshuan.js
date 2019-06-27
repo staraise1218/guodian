@@ -278,6 +278,7 @@ function getorderInfo() {
                 $('.goodsList-box').html(goodsList);
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
+                console.log(YH.STATUS)
                 if(YH.STATUS == 3) {
                     if(res.data.couponList.length > 0) {
                         $('.chooseYH').text('选择优惠券');
