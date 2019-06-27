@@ -82,6 +82,84 @@ function getLoading (page) {
         },
         success: function(res) {
             console.log(res)
+            let list ='';
+            switch(type) {
+                case 0:
+                    if(res.data.length == 0) {
+                        list = `<li class="empty">
+                                    <img src="./src/img/icon/tips_empty.png" alt="">
+                                </li>`
+                    } else {
+                        res.data.forEach(item => {
+                            var startTime = formatDateCom(item.use_start_time);
+                            var useTime = formatDateCom(item.use_time);
+                            var endTime = formatDateCom(item.use_end_time);
+                        list += `<li>
+                                    <div>
+                                        <p>
+                                            <i>￥</i><b>${item.money}</b>
+                                        </p>
+                                        <p><span>${item.use_scope}</span></p>
+                                    </div>
+                                    <div>
+                                        ${endTime}
+                                    </div>
+                                </li>`
+                        })
+                    }
+                    $('.weishiyong').html(list);
+                    break;
+                case 1:
+                    if(res.data.length == 0) {
+                        list = `<li class="empty">
+                                    <img src="./src/img/icon/tips_empty.png" alt="">
+                                </li>`
+                    } else {
+                        res.data.forEach(item => {
+                            var startTime = formatDateCom(item.use_start_time);
+                            var useTime = formatDateCom(item.use_time);
+                            var endTime = formatDateCom(item.use_end_time);
+                        list += `<li>
+                                    <div>
+                                        <p>
+                                            <i>￥</i><b>${item.money}</b>
+                                        </p>
+                                        <p><span>${item.use_scope}</span></p>
+                                    </div>
+                                    <div>
+                                        ${useTime}
+                                    </div>
+                                </li>`
+                        })
+                    }
+                    $('.yishiyong').html(list);
+                    break;
+                case 2:
+                    if(res.data.length == 0) {
+                        list = `<li class="empty">
+                                    <img src="./src/img/icon/tips_empty.png" alt="">
+                                </li>`
+                    } else {
+                        res.data.forEach(item => {
+                            var startTime = formatDateCom(item.use_start_time);
+                            var useTime = formatDateCom(item.use_time);
+                            var endTime = formatDateCom(item.use_end_time);
+                        list += `<li>
+                                    <div>
+                                        <p>
+                                            <i>￥</i><b>${item.money}</b>
+                                        </p>
+                                        <p><span>${item.use_scope}</span></p>
+                                    </div>
+                                    <div>
+                                        ${endTime}
+                                    </div>
+                                </li>`
+                        })
+                    }
+                    $('.yishixiao').html(list);
+                    break;
+            }
         }
     })
 }
