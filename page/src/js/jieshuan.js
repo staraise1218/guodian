@@ -374,7 +374,8 @@ function toPay() {
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
 
-    console.log('buy_method', buy_method)
+    // console.log('buy_method', buy_method)
+    // console.log(payData)
     switch(buy_method) {
         case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');
