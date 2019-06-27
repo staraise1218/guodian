@@ -126,6 +126,7 @@ $('.chooseYH').click(function () {
 // 判断优惠券
 if(YH.STATUS == '1') {
     $('.chooseYH').text(YH.name);
+    console.log('pppppppppppppppppppppppppppppp')
     coupon_id = YH.id;
     YH.STATUS = 2;
     var str = JSON.stringify(YH)
