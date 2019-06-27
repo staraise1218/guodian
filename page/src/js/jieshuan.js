@@ -341,7 +341,7 @@ function getPrice () {
                 $('#total_fee_2').text('￥' + data.total_amount);
                 // alert(res.msg);
             } else {
-                // $('.alert-info').show() TODO:
+                $('.alert-info').show() //TODO:
                 $('.addcon').text(res.msg)
                 // setTimeout(() => {
                 //     $('.alert-info').hide();
