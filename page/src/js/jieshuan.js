@@ -126,7 +126,7 @@ $('.chooseYH').click(function () {
 // 判断优惠券
 if(localStorage.getItem('YH')) {
     YH = localStorage.getItem('YH');
-    YH = JSON.stringify(YH);
+    YH = JSON.parse(YH);
     if(YH.STATUS == 1) {
         $('.chooseYH').text(YH.name);
         coupon_id = YH.id;
