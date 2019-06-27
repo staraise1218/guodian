@@ -49,8 +49,8 @@ let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
 let imgArr = [];
-let YH = {};                // 优惠券信息
-    YH.STATUS = 3;
+let YH = localStorage.getItem('YH') // 优惠券信息
+YH = JSON.parse(YH);
 
 /**
  * 输入框信息 判断
@@ -124,17 +124,13 @@ $('.chooseYH').click(function () {
  * =======================================================================
  */
 // 判断优惠券
-if(localStorage.getItem('YH')) {
-    YH = localStorage.getItem('YH');
-    YH = JSON.parse(YH);
-    if(YH.STATUS == 1) {
-        $('.chooseYH').text(YH.name);
-        coupon_id = YH.id;
-        YH.STATUS = 2;
-        var str = JSON.stringify(YH)
-        localStorage.setItem('YH', str);
-        getPrice();
-    }
+if(YH.STATUS == 1) {
+    $('.chooseYH').text(YH.name);
+    coupon_id = YH.id;
+    YH.STATUS = 2;
+    var str = JSON.stringify(YH)
+    localStorage.setItem('YH', str);
+    getPrice();
 }
 
 // 判断地址是否选择了
