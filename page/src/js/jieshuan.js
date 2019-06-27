@@ -344,7 +344,8 @@ function getPrice () {
                     $('#total_fee_1').text('￥' + data.order_amount);
                     $('#total_fee_2').text('￥' + data.total_amount);
                     // alert(res.msg);
-                } else {
+                }
+                if(res.code == 400 || res.code == 500) {
                     $('.alert-info').show() //TODO:
                     $('.addcon').text(res.msg)
                     // setTimeout(() => {
