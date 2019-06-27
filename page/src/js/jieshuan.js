@@ -50,6 +50,7 @@ let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
 let imgArr = [];
 let YH = {};                // 优惠券信息
+    YH.STATUS = 3;
 
 /**
  * 输入框信息 判断
@@ -126,18 +127,15 @@ $('.chooseYH').click(function () {
 if(localStorage.getItem('YH')) {
     YH = localStorage.getItem('YH');
     YH = JSON.stringify(YH);
-    if(YH.isChoose) {
+    if(YH.STATUS == 1) {
         $('.chooseYH').text(YH.name);
         coupon_id = YH.id;
-        YH.isChoose = false;
+        YH.STATUS = 2;
         var str = JSON.stringify(YH)
         localStorage.setItem('YH', str);
         getPrice();
     }
 }
-
-
-
 
 // 判断地址是否选择了
 let isChooseAddress = ''; 
@@ -280,11 +278,13 @@ function getorderInfo() {
                 $('.goodsList-box').html(goodsList);
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
-                if(res.data.couponList.length > 0) {
-                    $('.chooseYH').text('选择优惠券');
-                    $('.chooseYH').attr('data-status', '1')
-                } else {
-                    $('.chooseYH').text('无可用优惠券');
+                if(YH.STATUS == 3) {
+                    if(res.data.couponList.length > 0) {
+                        $('.chooseYH').text('选择优惠券');
+                        $('.chooseYH').attr('data-status', '1')
+                    } else {
+                        $('.chooseYH').text('无可用优惠券');
+                    }
                 }
                 // $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
                 // $('.address2 .user-address-f').text(address.fulladdress);
