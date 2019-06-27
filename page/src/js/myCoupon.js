@@ -86,9 +86,9 @@ function getLoading (page) {
             switch(type) {
                 case 0:
                     if(res.data.length == 0) {
-                        list = `<li class="empty">
+                        list = `<div class="empty">
                                     <img src="./src/img/icon/tips_empty.png" alt="">
-                                </li>`
+                                </div>`
                     } else {
                         res.data.forEach(item => {
                             var startTime = formatDateCom(item.use_start_time);
@@ -111,9 +111,9 @@ function getLoading (page) {
                     break;
                 case 1:
                     if(res.data.length == 0) {
-                        list = `<li class="empty">
+                        list = `<div class="empty">
                                     <img src="./src/img/icon/tips_empty.png" alt="">
-                                </li>`
+                                </div>`
                     } else {
                         res.data.forEach(item => {
                             var startTime = formatDateCom(item.use_start_time);
@@ -136,9 +136,9 @@ function getLoading (page) {
                     break;
                 case 2:
                     if(res.data.length == 0) {
-                        list = `<li class="empty">
+                        list = `<div class="empty">
                                     <img src="./src/img/icon/tips_empty.png" alt="">
-                                </li>`
+                                </div>`
                     } else {
                         res.data.forEach(item => {
                             var startTime = formatDateCom(item.use_start_time);
