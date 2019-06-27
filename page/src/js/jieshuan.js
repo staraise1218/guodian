@@ -368,7 +368,8 @@ function toPay() {
         action: action,                     //  是
         goods_id: goods_id,
         goods_num: goods_num,
-        dosubmit: 1
+        dosubmit: 1,
+        coupon_id : coupon_id == 01 ? '' : coupon_id;
     }
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
@@ -441,7 +442,6 @@ function pay(order_id) {
             } else {
                 console.log('********************************支付报错******************************')
             }
-
         }
     })
 }
