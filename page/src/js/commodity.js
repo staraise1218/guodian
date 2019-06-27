@@ -480,6 +480,10 @@ $('.byNowBtn').on('click', function (e) {
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
     // alert('跳转3')
+    var YH = {
+        STATUS: 0
+    }
+    localStorage.setItem('YH', JSON.stringify(YH))
     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
     return false;
 })
