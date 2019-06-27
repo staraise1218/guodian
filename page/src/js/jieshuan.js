@@ -286,6 +286,9 @@ function getorderInfo() {
                         $('.chooseYH').text('无可用优惠券');
                     }
                 }
+                if(res.data.couponList.length > 0) {
+                    $('.chooseYH').attr('data-status', '1')
+                }
                 // $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
                 // $('.address2 .user-address-f').text(address.fulladdress);
                 console.log(isChooseAddress)

@@ -112,6 +112,7 @@
 
 - 正式地址： `http://www.guodianjm.com/page/xxx.html?xxx=xxx`
 - 测试地址： `http://guodian.staraise.com.cn/page/页面?参数`
+- 测试后台:  `http://guodian.staraise.com.cn/admin`
 
 
 ***
