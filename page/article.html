@@ -1,6 +1,7 @@
 <!-- 文章页 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,60 @@
     <title></title>
     <link rel="stylesheet" href="">
     <script src="./src/js/rem.js"></script>
+    <link rel="stylesheet" href="./src/css/global.css">
     <style>
+        body {
+            padding-bottom: 2rem;
+            padding-top: 1rem;
+        }
+        .topBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: .8rem;
+            background: #fff;
+            z-index: 1;
+        }
+        .topBar img {
+            position: absolute;
+            left: .1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .topBar p {
+            width: 100%;
+            text-align: center;
+            line-height: .8rem;
+        }
+        .topBar .right {
+            position: absolute;
+            right: .4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+        }
         .content {
             padding: .2rem;
         }
+
         img {
             max-width: 100%;
         }
     </style>
 </head>
+
 <body>
+    <!-- 顶部 -->
+    <div class="topBar">
+        <img src="./src/img/icon/back.png" alt="" class="icon-df back">
+        <p class="text-df ttt">加载中..</p>
+        <div class="right">
+            <img class="icon-df" src="./src/img/icon/share.png" alt="">
+            <!-- <img class="icon-df m-l back" src="./src/img/icon/message.png" alt=""> -->
+        </div>
+    </div>
+    <!-- 顶部 END -->
     <div class="content"></div>
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
@@ -27,20 +72,31 @@
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
         const type = getParam('type');
+        switch(type) {
+            case '1':
+                $('.ttt').text('探索国典');
+                break;
+            case '2':
+                $('.ttt').text('鉴定机制');
+                break;
+        }
         setTimeout(function () {
             $.ajax({
-            type: 'POST',
+                type: 'POST',
                 url: GlobalHost + '/Api/article/getContent',
                 data: {
                     type: type
                 },
                 success: function (res) {
                     console.log(res)
+                    var reg = /\/public/ig
+                    res.data.content = res.data.content.replace(reg, GlobalHost + '/public')
                     $('.content').html(res.data.content)
-                    $('title').text(res.data.title)
+                    $('.ttt').text(res.data.title);
                 }
             })
         }, 200)
     </script>
 </body>
+
 </html>
