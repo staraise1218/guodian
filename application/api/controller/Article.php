@@ -13,7 +13,7 @@ class Article extends Base {
 		parent::__construct();
 	}
 
-	// type ： 1 探索国典 2 鉴定机制 3 消费者告知书 4 经营信息 5 隐私权策略
+	// type ： 1 探索国典 2 鉴定机制 3 消费者告知书 4 经营信息 5 隐私权策略 6 我的闲置 7 我的养护
 	public function getContent(){
 		$type = input('type');
 		$article_id = input('article_id', 0);
@@ -23,6 +23,8 @@ class Article extends Base {
 		if($type == 3) $article_id = 100; // 消费者告知书
 		if($type == 4) $article_id = 101; // 经营信息
 		if($type == 5) $article_id = 102; // 隐私权策略
+		if($type == 6) $article_id = 109; // 我的闲置
+		if($type == 7) $article_id = 110; // 我的养护
 
 		$info = Db::name('article')
 			->where('article_id', $article_id)
