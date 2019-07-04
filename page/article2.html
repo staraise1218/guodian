@@ -71,21 +71,15 @@
         let myUsetInfo = localStorage.getItem('USERINFO');
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
-        const type = getParam('type');
-        switch(type) {
-            case '6':
-                $('.content').css('padding','0');
-                break;
-            case '7':
-                $('.content').css('padding','0');
-                break;
-        }
+        let user_id = myUsetInfo.user_id;
+        const article_id = getParam('article_id');
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: GlobalHost + '/Api/article/getContent',
+                url: GlobalHost + '/Api/find/detail',
                 data: {
-                    type: type
+                    user_id: user_id,
+                    article_id: article_id
                 },
                 success: function (res) {
                     console.log(res)
@@ -98,5 +92,4 @@
         }, 200)
     </script>
 </body>
-
 </html>

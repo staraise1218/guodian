@@ -22,6 +22,8 @@
   * @mobile 	    否 	【到店自提】    手机号
   * 
   * @dosubmit 	    否 	【提交订单时传入1】
+  * 
+  * @YH             优惠券信息
   */
 
 /**【TIPS】
@@ -38,6 +40,7 @@ let user_id = myUsetInfo.user_id;
 let buy_method = 2;
 let pay_points = 0;
 let action = getParam('action');
+let coupon_id = -1;
 let goods_id = getParam('goods_id');
 let item_id = getParam('item_id');
 let goods_num = getParam('goods_num');
@@ -46,7 +49,8 @@ let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
 let imgArr = [];
-
+let YH = localStorage.getItem('YH') // 优惠券信息
+YH = JSON.parse(YH);
 
 /**
  * 输入框信息 判断
@@ -109,11 +113,26 @@ $('.toChooseAddress').on('click', function () {
     window.location.href = './addressChoose.html';
 })
 
-
+// 选择优惠券
+$('.chooseYH').click(function () {
+    if($(this).attr('data-status') == 1) {
+        window.location.href = './myCouponChoose.html?action=' + action + '&goods_id=' + goods_id + '&item_id=' + item_id + '&goods_num=' + goods_num;
+    }
+})
 /**=======================================================================
  *                      判断
  * =======================================================================
  */
+// 判断优惠券
+if(YH.STATUS == '1' || YH.STATUS == '2') {
+    $('.chooseYH').text(YH.name);
+    coupon_id = YH.id;
+    YH.STATUS = 2;
+    var str = JSON.stringify(YH)
+    localStorage.setItem('YH', str);
+    getorderInfo();
+}
+
 // 判断地址是否选择了
 let isChooseAddress = ''; 
 if(localStorage.getItem('isChooseAddress')) {
@@ -162,6 +181,7 @@ switch(buy_method) {
         console.log('判断配送方式出错')
         break;
 }
+
 
 
 /**=======================================================================
@@ -254,6 +274,18 @@ function getorderInfo() {
                 $('.goodsList-box').html(goodsList);
                 $('#total_fee_1').text('￥ 正在计算...');
                 $('#total_fee_2').text('￥ 正在计算...');
+                console.log(YH.STATUS)
+                if(YH.STATUS == '0') {
+                    if(res.data.couponList.length > 0) {
+                        $('.chooseYH').text('选择优惠券');
+                        $('.chooseYH').attr('data-status', '1')
+                    } else {
+                        $('.chooseYH').text('无可用优惠券');
+                    }
+                }
+                if(res.data.couponList.length > 0) {
+                    $('.chooseYH').attr('data-status', '1')
+                }
                 // $('.address2 .user-name-number').text(address.consignee + '  ' + address.mobile);
                 // $('.address2 .user-address-f').text(address.fulladdress);
                 console.log(isChooseAddress)
@@ -266,7 +298,6 @@ function getorderInfo() {
         }
     })
 }
-
 /**
  * 渲染地址
  * @param {*收货人} userName 
@@ -281,41 +312,45 @@ function createAddress(userName, phone, fulladdress) {
 
 // 获取价格信息
 function getPrice () {
+    var priceData = {
+        user_id: user_id,                   // 	是 	用户id
+        address_id: address.address_id,     // 	是 	收货地址id
+        ID_number: ID_number,               // 	是 	身份证号
+        // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
+        // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
+        buy_method: buy_method,             // 	是 	配送方式 1 到店自提 2 快递送货
+        coupon_id: coupon_id == -1 ? '' : coupon_id,                      // 	否 	优惠券id
+        pay_points: 0,                      //  是 	使用的积分数
+        action: action,
+        goods_id: goods_id,
+        goods_num: goods_num
+    }
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/cart/cart3',
-        data: {
-            user_id: user_id,                   // 	是 	用户id
-            address_id: address.address_id,     // 	是 	收货地址id
-            ID_number: ID_number,               // 	是 	身份证号
-            // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
-            // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
-            buy_method: buy_method,             // 	是 	配送方式 1 到店自提 2 快递送货
-            coupon_id: '',                      // 	否 	优惠券id
-            pay_points: 0,                      //  是 	使用的积分数
-            action: action,
-            goods_id: goods_id,
-            goods_num: goods_num
-        },
+        data: priceData,
         success: function (res) {
             console.log(res)
             let data = res.data;
-            if(res.code == 200) {
-                // $('.alert-info').show().text(res.msg)
-                // alert(res.msg);
-                $('#total_fee_1').text('￥' + data.order_amount);
-                $('#total_fee_2').text('￥' + data.total_amount);
-                // alert(res.msg);
-            } else {
-                $('.alert-info').show()
-                $('.addcon').text(res.msg)
-                // setTimeout(() => {
-                //     $('.alert-info').hide();
-                // }, 1500);
-                // alert(res.msg);
-                $('#total_fee_1').text('￥ 计算失败');
-                $('#total_fee_2').text('￥ 计算失败');
-            }
+            setTimeout(() => {
+                if(res.code == 200) {
+                    // $('.alert-info').show().text(res.msg)
+                    // alert(res.msg);
+                    $('#total_fee_1').text('￥' + data.order_amount);
+                    $('#total_fee_2').text('￥' + data.total_amount);
+                    // alert(res.msg);
+                }
+                if(res.code == 400 || res.code == 500) {
+                    $('.alert-info').show() //TODO:
+                    $('.addcon').text(res.msg)
+                    // setTimeout(() => {
+                    //     $('.alert-info').hide();
+                    // }, 1500);
+                    // alert(res.msg);
+                    $('#total_fee_1').text('￥ 计算失败');
+                    $('#total_fee_2').text('￥ 计算失败');
+                }
+            }, 500)
         }
     })
 }
@@ -333,12 +368,14 @@ function toPay() {
         action: action,                     //  是
         goods_id: goods_id,
         goods_num: goods_num,
-        dosubmit: 1
+        dosubmit: 1,
+        coupon_id : coupon_id == -1 ? '' : coupon_id
     }
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
 
-    console.log('buy_method', buy_method)
+    // console.log('buy_method', buy_method)
+    // console.log(payData)
     switch(buy_method) {
         case 1 || '1': // 到店自提
             console.log('***********************到店自提****************************');
@@ -404,9 +441,9 @@ function pay(order_id) {
                 window.location.href = './payLoad.html?status=pay'
                 localStorage.setItem('payMsg', res.data);
             } else {
+                alert(res.msg)
                 console.log('********************************支付报错******************************')
             }
-
         }
     })
 }

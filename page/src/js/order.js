@@ -257,6 +257,7 @@ function cancelOrder(order_id) {
             console.log(res)
             if(res.code == 200) {
                 // createAlert($('.alert-tips'), 'alert_tips', res.msg);
+                createList(user_id, page, type)
                 alert(res.msg)
                 // createList(user_id, page, type)
             } else {
@@ -279,6 +280,7 @@ function delOrder(order_id) {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
+                createList(user_id, page, type)
                 alert(res.msg)
                 // createList(user_id, page, type)
                 // createList(user_id, page, type);
@@ -304,6 +306,7 @@ function shouhuo(order_id) {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
+                createList(user_id, page, type)
                 alert(res.msg);
                 // createList(user_id, page, type)
                 // createList(user_id, page, type);
@@ -327,6 +330,7 @@ function shouhuo(order_id) {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
+                createList(user_id, page, type)
                 alert(res.msg);
                 // createList(user_id, page, type)
                 // createList(user_id, page, type);
