@@ -70,7 +70,7 @@
 |待收货|orderReceive |弃用||
 |退货单|orderReturn |**loading**||
 |全部订单|orderAll |弃用||
-|会员中心|myMember|升级中|**暂时不做**
+|会员中心|huiyuan.html|ok|**静态页**
 |优惠券|myCoupon|ok|激活优惠券不做|传参在下面|
 |优惠券领取|myCouponLingqu|ok||
 |选择优惠券|myCouponChoose|ok|
