@@ -5,6 +5,7 @@
 |传参页面|empty|传id等信息|user_id=xx|
 |购物袋|shoppingBag|ok|user_id=xx|
 |详情页|commodity|ok|goods_id=xxx|
+|发现-文章详情|article2.html|article_id=xx|
 |待付款|orderWait |弃用||
 |待收货|orderReceive |弃用||
 |退货单|orderReturn |**loading**||
