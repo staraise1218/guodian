@@ -72,6 +72,14 @@
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
         const type = getParam('type');
+        switch(type) {
+            case '6':
+                $('.content').css('padding','0');
+                break;
+            case '7':
+                $('.content').css('padding','0');
+                break;
+        }
         setTimeout(function () {
             $.ajax({
                 type: 'POST',

@@ -1,3 +1,63 @@
+[toc]
+
+***
+
+### 我的订单传参
+- 传参实例： `myOrder.html?type=ALL`
+
+|参数|说明|备注|
+|---|---|---|
+|ALL|全部||
+|WAITPAY|待付款|
+|WAITRECEIVE|待收货|
+|FINISH|已完成|
+|CANCEL|已取消|
+||退货单|无 tab 页面|
+
+
+
+***
+
+### 文章页面 【探索国典、鉴定机制、消费者告知书、经营信息、隐私权策略】
+- 传参实例： `/page/article.html?type=5`
+
+|参数|说明|备注|
+|---|---|---|
+|type=1|探索国典||
+|type=2|鉴定机制|
+|type=3|消费者告知书|
+|type=4|经营信息|
+|type=5|隐私权策略|
+|type=6|我的闲置|
+|type=7|我的养护|
+
+
+***
+
+### 支付成功失败页面
+- 传参实例： `/page/orderSuccess.html?status=success`
+
+|参数|说明|备注|
+|---|---|---|
+|status=success|支付成功||
+|status=fail|支付失败||
+
+
+
+***
+
+### 优惠券页面
+- 传参实例： `/page/myCoupon.html?type=0`
+
+|参数|说明|备注|
+|---|---|---|
+|type=0|未使用||
+|type=1|已使用||
+|type=2|已失效||
+
+
+***
+
 # 页面说明
 
 |页面|链接|说明|传参方式|备注|bug|其他|
@@ -36,85 +96,13 @@
 
 ***
 
-# 我的订单传参
-- 传参实例： `myOrder.html?type=ALL`
-
-|参数|说明|备注|
-|---|---|---|
-|ALL|全部||
-|WAITPAY|待付款|
-|WAITRECEIVE|待收货|
-|FINISH|已完成|
-|CANCEL|已取消|
-||退货单|无 tab 页面|
-
-
-
-***
-
-# 文章页面 【探索国典、鉴定机制、消费者告知书、经营信息、隐私权策略】
-- 传参实例： `/page/article.html?type=5`
-
-|参数|说明|备注|
-|---|---|---|
-|type=1|探索国典||
-|type=2|鉴定机制|
-|type=3|消费者告知书|
-|type=4|经营信息|
-|type=5|隐私权策略|
-
-
-***
-
-# 支付成功失败页面
-- 传参实例： `/page/orderSuccess.html?status=success`
-
-|参数|说明|备注|
-|---|---|---|
-|status=success|支付成功||
-|status=fail|支付失败||
-
-
-
-***
-
-# 优惠券页面
-- 传参实例： `/page/myCoupon.html?type=0`
-
-|参数|说明|备注|
-|---|---|---|
-|type=0|未使用||
-|type=1|已使用||
-|type=2|已失效||
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# 服务器地址
 
 
 
 - 正式地址： `http://www.guodianjm.com/page/xxx.html?xxx=xxx`
 - 测试地址： `http://guodian.staraise.com.cn/page/页面?参数`
 - 测试后台:  `http://guodian.staraise.com.cn/admin`
-
 
 ***
 
