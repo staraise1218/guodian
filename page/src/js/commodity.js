@@ -101,8 +101,8 @@ $('.nav-4').on('click', function () {
  * 分享
  */
 $('.share-show').click(function () {
-    // $('.share_bg').show();
-    // $('.share-wrap').slideDown('fast')
+    $('.share_bg').show();
+    $('.share-wrap').slideDown('fast')
 })
 // 关闭分享
 $('.share_bg').click(function () {
@@ -114,9 +114,8 @@ $('.share_bg').click(function () {
 $('.share-wrap li').on('click', function () {
     console.log($(this).attr('data-type'))
     switch($(this).attr('data-type')) {
-        case 0: // 朋友圈
-
-            console.log('分享到朋友圈')
+        case 0: // 微博
+            console.log('分享到微博')
             break;
         case 0: // 微信
             shareWx();
