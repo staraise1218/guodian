@@ -153,16 +153,32 @@ class User extends Base {
         $user_id = I('user_id');
         $page = I('page', 1);
 
-        $list = Db::name('coupon')
-            ->where('type', 2)
-            ->where('send_start_time', ['<', time()])
-            ->where('send_end_time', ['>', time()])
-            ->where('status', 1)
+        $where = array(
+            'type'  => 2,
+            'send_start_time'   => ['<', time()],
+            'send_end_time' => ['>', time()],
+            'status'    => 1,
+            'createnum' => ['exp', ' > `send_num`'],
+        );
+        $list = Db::name('coupon')->alias('c')
+            ->where($where)
+            ->where(function($query) use ($user_id){
+                $query->table('tp_coupon_list')->where('uid', $user_id)->where('cid', 'exp', '=`c`.`id`');
+            }, 'not exists')
             ->field('id, name, money, condition, use_start_time, use_end_time')
             ->order('id desc')
             ->page($page)
             ->limit(20)
             ->select();
+        if(!empty($list)){
+            foreach ($list as &$item) {
+                $count =  Db::name('coupon_list')
+                    ->where('cid', $item['id'])
+                    ->where('uid', $user_id)
+                    ->count();
+                $item['is_get'] = $count ? 1 : 0;
+            }
+        }
 
         response_success($list);
     }
