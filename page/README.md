@@ -63,6 +63,7 @@
 |页面|链接|说明|传参方式|备注|bug|其他|
 |---|---|----|---|---|---|---|
 |传参页面|empty|传id等信息|user_id=xx|
+|退出登录|out.html|
 |购物袋|shoppingBag|ok|user_id=xx|
 |详情页|commodity|ok|goods_id=xxx|
 |发现-文章详情|article2.html|article_id=xx|**点赞功能未作**
