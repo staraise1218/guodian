@@ -57,13 +57,14 @@
     <!-- 顶部 -->
     <div class="topBar">
         <img src="./src/img/icon/back.png" alt="" class="icon-df back">
-        <p class="text-df ttt">加载中..</p>
+        <p class="text-df ttt">文章详情页</p>
         <div class="right">
             <img class="icon-df" src="./src/img/icon/share.png" alt="">
             <!-- <img class="icon-df m-l back" src="./src/img/icon/message.png" alt=""> -->
         </div>
     </div>
     <!-- 顶部 END -->
+    <div class="title"></div>
     <div class="content"></div>
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
@@ -76,7 +77,7 @@
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: GlobalHost + '/Api/find/detail',
+                url: GlobalHost + '/Api/article/detail',
                 data: {
                     // user_id: user_id,
                     article_id: article_id
@@ -86,7 +87,7 @@
                     var reg = /\/public/ig
                     res.data.content = res.data.content.replace(reg, GlobalHost + '/public')
                     $('.content').html(res.data.content)
-                    $('.ttt').text(res.data.title);
+                    $('.title').text(res.data.title);
                 }
             })
         }, 200)

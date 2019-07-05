@@ -36,4 +36,18 @@ class Article extends Base {
 
 		response_success($info);
 	}
+
+	public function detail(){
+		$article_id = input('article_id', 0);
+
+		$info = Db::name('article')
+			->where('article_id', $article_id)
+			->where('is_open', 1)
+			->field('title, content')
+			->find();
+
+		if($info) $info['content'] = html_entity_decode($info['content']);
+
+		response_success($info);
+	}
 }
