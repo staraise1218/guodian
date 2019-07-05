@@ -114,14 +114,14 @@ $('.share_bg').click(function () {
 $('.share-wrap li').on('click', function () {
     console.log($(this).attr('data-type'))
     switch($(this).attr('data-type')) {
-        case 0: // 微博
+        case '0': // 微博
             console.log('分享到微博')
             break;
-        case 0: // 微信
+        case '1': // 微信
             shareWx();
             console.log('分享到微信')
             break;
-        case 0: // QQ
+        case '2': // QQ
 
             console.log('分享到QQ')
             break;
