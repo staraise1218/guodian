@@ -131,6 +131,9 @@ class Cart extends Base {
         $goods_num = I("goods_num/d");// 商品数量
         $item_id = I("item_id/d", 0); // 商品规格id
 
+        if(empty($user_id)){
+            response_success('请先登录');
+        }
         if(empty($goods_id)){
             response_success('请选择要购买的商品');
         }
