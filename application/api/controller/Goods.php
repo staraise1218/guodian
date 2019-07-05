@@ -71,7 +71,11 @@ class Goods extends Base {
         // $goods['commentStatistics'] = $goodsLogic->commentStatistics($goods_id);// 获取某个商品的评论统计
       	$goods['sale_num'] = M('order_goods')->where(['goods_id'=>$goods_id,'is_send'=>1])->sum('goods_num');
         //当前用户收藏
-        $goods['is_collect'] = M('goods_collect')->where(array("goods_id"=>$goods_id ,"user_id"=>$user_id))->count();
+       	if($user_id == 0){
+       	 	$goods['is_collect'] = 0;
+       	} else {
+       		 $goods['is_collect'] = M('goods_collect')->where(array("goods_id"=>$goods_id ,"user_id"=>$user_id))->count();
+       	}
 
         // $goods_collect_count = M('goods_collect')->where(array("goods_id"=>$goods_id))->count(); //商品收藏数
         $goods['goods_content'] = $goods['goods_content'] ? htmlspecialchars_decode($goods['goods_content']) : '';
@@ -79,7 +83,7 @@ class Goods extends Base {
         $cartLogic = new CartLogic();
  		$goods['cart_num'] = $cartLogic->getUserCartGoodsTypeNum();//获取用户购物车商品总数
  		// 记录浏览日志
- 		$goodsLogic2->add_visit_log($user_id, $goods);
+ 		if($user_id) $goodsLogic2->add_visit_log($user_id, $goods);
 
  		$result['goodsInfo'] = $goods;
  		$result['goods_attribute'] = $goods_attribute;
@@ -122,11 +126,11 @@ class Goods extends Base {
     {
     	$user_id = I('user_id/d');
         $goods_id = I('goods_id/d');
+        if($user_id == 0) response_error('', '请先登录');
         
         $goodsLogic = new GoodsLogic();
         $result = $goodsLogic->collect_goods($user_id, $goods_id);
 
-        if($result['status'] == '-1') response_error('', '未登录');
         if($result['status'] == '-3') response_success('', '您已收藏');
         if($result['status'] == '1') response_success('', '收藏成功');
     }
