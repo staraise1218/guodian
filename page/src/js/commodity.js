@@ -21,7 +21,6 @@ if(localStorage.getItem('USERINFO')) {
     console.log(myUsetInfo)
     user_id = myUsetInfo.user_id;
 } else {
-    alert('您未登录，请先登录')
     user_id = 0;
 }
 // alert(localStorage.getItem('USERINFO'))
@@ -302,14 +301,26 @@ $(window).on('load', function () {
  */
 // 购物车
 $('.add').on('click', function () {
-    // debugger;
+    if(user_id == 0) {
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 3000)
+        return
+    }
     $('.alert').css('display', 'block');
     $('.addChopCart').slideDown(200);
 })
 
 // 立即购买
 $('.payNow').on('click', function () {
-    // debugger;
+    if(user_id == 0) {
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 3000)
+        return
+    }
     $('.alert').css('display', 'block');
     $('.byNow').slideDown(200);
 })
@@ -335,6 +346,13 @@ $('.close').on('click', function () {
  * =================================================
  */
 $('.collection').on('click', function () {
+    if(user_id == 0) {
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 3000)
+        return
+    }
     $.ajax({
         type: 'POST',
         url: GlobalHost + '/Api/goods/collect_goods',

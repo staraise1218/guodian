@@ -9,7 +9,10 @@ let user_id = myUsetInfo.user_id;
 let type = Number(getParam('type'));
 let page = 1;
 
-
+// 领券
+$('#lingquan').click(function () {
+    window.location.href = 'myCouponLingqu.html'
+})
 
 getLoading (page)
 
