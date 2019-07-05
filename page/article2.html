@@ -68,17 +68,17 @@
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
     <script>
-        let myUsetInfo = localStorage.getItem('USERINFO');
+        /*let myUsetInfo = localStorage.getItem('USERINFO');
         myUsetInfo = JSON.parse(myUsetInfo);
         console.log(myUsetInfo)
-        let user_id = myUsetInfo.user_id;
+        let user_id = myUsetInfo.user_id;*/
         const article_id = getParam('article_id');
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
                 url: GlobalHost + '/Api/find/detail',
                 data: {
-                    user_id: user_id,
+                    // user_id: user_id,
                     article_id: article_id
                 },
                 success: function (res) {
