@@ -305,7 +305,7 @@ $('.add').on('click', function () {
         $('#login').show();
         setTimeout(() => {
             $('#login').hide();
-        }, 800)
+        }, 2000)
         return
     }
     $('.alert').css('display', 'block');
@@ -318,7 +318,7 @@ $('.payNow').on('click', function () {
         $('#login').show();
         setTimeout(() => {
             $('#login').hide();
-        }, 800)
+        }, 2000)
         return
     }
     $('.alert').css('display', 'block');
@@ -350,7 +350,7 @@ $('.collection').on('click', function () {
         $('#login').show();
         setTimeout(() => {
             $('#login').hide();
-        }, 800)
+        }, 2000)
         return
     }
     $.ajax({
