@@ -301,9 +301,11 @@ $(window).on('load', function () {
  */
 // 购物车
 $('.add').on('click', function () {
-    // debugger;
     if(user_id == 0) {
-        alert('您未登录，请先登录！')
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 800)
         return
     }
     $('.alert').css('display', 'block');
@@ -312,9 +314,11 @@ $('.add').on('click', function () {
 
 // 立即购买
 $('.payNow').on('click', function () {
-    // debugger;
     if(user_id == 0) {
-        alert('您未登录，请先登录！')
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 800)
         return
     }
     $('.alert').css('display', 'block');
@@ -343,7 +347,10 @@ $('.close').on('click', function () {
  */
 $('.collection').on('click', function () {
     if(user_id == 0) {
-        alert('您未登录，请先登录！')
+        $('#login').show();
+        setTimeout(() => {
+            $('#login').hide();
+        }, 800)
         return
     }
     $.ajax({
