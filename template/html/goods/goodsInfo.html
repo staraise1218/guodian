@@ -70,8 +70,8 @@
             </if>
 				<foreach name="goods_images_list" item="v" key="k" >
                 <figure>
-                  <a href="{$v|get_sub_images=$v[goods_id],800,800}" data-size="800x1142" style="border: 10px solid red">
-                      <img src="{$v|get_sub_images=$v[goods_id],800,800}" alt="" xq_big="true" setting='{"pwidth":400,"pheight":400,"margin_top":0,"margin_left":50}' class="big-img">
+                  <a href="{$v|get_sub_images=$v[goods_id],800,800}" data-size="800x1142" >
+                      <!-- <img src="{$v|get_sub_images=$v[goods_id],800,800}" alt="" xq_big="true" setting='{"pwidth":400,"pheight":400,"margin_top":0,"margin_left":50}' class="big-img"> -->
                   </a>
                 </figure>
 				</foreach>
