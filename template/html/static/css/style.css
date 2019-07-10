@@ -18,7 +18,7 @@ a:hover, a:focus {
 }
 img{
   /*width: 100%;*/
-  max-width: 100%;
+  /* max-width: 100%; */
 }
 @font-face {
    font-family: 'Dosis-Regular';
@@ -520,7 +520,7 @@ span.disc {
 .about-us h3{
 	color: #555;
 	font-size:16px;
-	font-family: 'Æ»·½';
+	font-family: 'Æ»ï¿½ï¿½';
 	margin-bottom:1em;
 }
 .about-us p{
@@ -1667,7 +1667,7 @@ font-size:1.3em;
 padding-bottom:10px; 
 }
 .log form {
-  font-family: 'Æ»·½';
+  font-family: 'Æ»ï¿½ï¿½';
 }
 .log form h3{
   font-size: 22px;
@@ -2128,7 +2128,7 @@ p.para {
 }
 .contact {
     padding-bottom: 0em;
-    font-family: 'Æ»·½';
+    font-family: 'Æ»ï¿½ï¿½';
 }
 .subscribe form {
     width: 80%;
