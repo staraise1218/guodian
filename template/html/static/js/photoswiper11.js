@@ -28,7 +28,7 @@
                         item = {
                             src: linkEl.getAttribute('href'),
                             w: parseInt(size[0], 10),
-                            h: parseInt(size[1], 10)
+                            h: parseInt(size[1], 20)
                         };
 
                         if(figureEl.children.length > 1) {
@@ -199,9 +199,9 @@
             initPhotoSwipeFromDOM('.my-gallery');
             
 
-                window.onload = function() {
-                    auto_data_size();
-                };
+            auto_data_size();
+                // window.onload = function() {
+                // };
 
                 function auto_data_size() {
                     var imgss = $("figure img");
@@ -209,7 +209,7 @@
                         var imgs = new Image();
                         imgs.src = $(this).attr("src");
                         var w = imgs.width,
-                            h = imgs.height;
+                        h = imgs.height;
                         $(this).parent("a").attr("data-size", "").attr("data-size", w + "x" + h);
                     })
                 }
