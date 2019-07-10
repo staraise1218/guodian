@@ -27,8 +27,8 @@
                         // create slide object
                         item = {
                             src: linkEl.getAttribute('href'),
-                            w: parseInt(size[0], 10),
-                            h: parseInt(size[1], 20)
+                            w: parseInt(size[0], 20),
+                            h: parseInt(size[1], 10)
                         };
 
                         if(figureEl.children.length > 1) {
