@@ -70,8 +70,8 @@
             </if>
 				<foreach name="goods_images_list" item="v" key="k" >
                 <figure>
-                  <a href="{$v|get_sub_images=$v[goods_id],800,800}" data-size="800x1142" >
-                      <img src="{$v|get_sub_images=$v[goods_id],800,800}" alt="" xq_big="true" setting='{"pwidth":800,"pheight":400,"margin_top":0,"margin_left":50}' class="big-img">
+                  <a href="{$v|get_sub_images=$v[goods_id],800,800}" data-size="800x1142">
+                      <img src="{$v|get_sub_images=$v[goods_id],800,800}" alt="" xq_big="true" setting='{"pwidth":400,"pheight":400,"margin_top":0,"margin_left":50}' class="big-img">
                   </a>
                 </figure>
 				</foreach>
@@ -236,14 +236,14 @@
 <script src="__STATIC__/js/simpleCart.min.js"> </script>
 <script type="text/javascript" src="__STATIC__/js/memenu.js"></script>
 <script defer src="__STATIC__/js/jquery.flexslider.js"></script>
-<!-- <script src="__STATIC__/js/imagezoom.js"> </script> -->
+<script src="__STATIC__/js/imagezoom.js"> </script>
 <script src="__STATIC__/js/common.js"> </script>
 <script src="http://cdn.bootcss.com/photoswipe/4.1.0/photoswipe.js"></script>
 <script src="http://cdn.bootcss.com/photoswipe/4.1.0/photoswipe-ui-default.js"></script>
 <script src="__STATIC__/js/photoswiper11.js"> </script>
 
 <script type="text/javascript">
-
+    alert('test')
     var spec_goods_price = {$spec_goods_price|default='null'}; //规格库存价格
 
     $(document).ready(function () {
