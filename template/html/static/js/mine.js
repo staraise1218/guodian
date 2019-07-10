@@ -218,7 +218,7 @@ if(!(navigator.userAgent.match(/(iPhone|iPod|Android|ios|Windows Phone)/i))){
             this.pdiv =Math.floor(Math.random()*this.width*this.height);
             this.setting={
                 "pwidth"  :   300,
-                "pheight" :   200,
+                "pheight" :   300,
                 "scale"   :   3,
                 "margin_top"  : 50,
                 "margin_left"   : 50,
