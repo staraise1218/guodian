@@ -1739,6 +1739,9 @@ ul.memenu.skyblue{
   color: #000;
   padding-bottom: 107px;
 }
+.product-detail img {
+  max-width: 100%;
+}
 .product-detail .top-sing .title{
   margin-bottom: 15px;
   display: flex;
