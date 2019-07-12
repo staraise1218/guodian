@@ -85,6 +85,14 @@ class Goods extends Base {
  		// 记录浏览日志
  		if($user_id) $goodsLogic2->add_visit_log($user_id, $goods);
 
+ 		// 获取商品系列
+ 		$series = M('series')->where('id', $goods['series_id'])->field('name')->find();
+ 		$goods['series_name'] = $series['name'];
+
+ 		// 获取商品品牌
+ 		$brand = M('brand')->where('id', $goods['brand_id'])->field('name')->find();
+ 		$goods['brand_name'] = $brand['name'];
+
  		$result['goodsInfo'] = $goods;
  		$result['goods_attribute'] = $goods_attribute;
  		$result['goods_attr_list'] = $goods_attr_list; // 商品属性
