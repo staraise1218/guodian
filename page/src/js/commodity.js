@@ -165,14 +165,12 @@ function getInfo() {
             price_base = res.data.goodsInfo.shop_price;
             $('.infoWrap').html(`
                 <div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
-                <div class="del">官方公价：<del>￥${res.data.goodsInfo.brand_id}</del></div>
+                <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
                 <div class="box">
-                    <span class="left">会员专享￥${res.data.goodsInfo.brand_id}</span>
+                    <span class="left">会员专享</span>
                     <span class="right">开通会员 <img class="icon-sm" src="${res.data.goodsInfo.brand_id}" alt=""></span>
                 </div>
-                <div>${res.data.goodsInfo.goods_name}</div>
-                <div>${res.data.goodsInfo.brand_id}</div>
-                <div>商品成色：${res.data.goodsInfo.brand_id}</div>
+                <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>
             `)
             // 商品信息
             let shopInfo = '';

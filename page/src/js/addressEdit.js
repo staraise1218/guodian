@@ -47,12 +47,6 @@ let changeStatus = '';
 
 
 
-if(action == 'EDIT') {
-    console.log('修改地址')
-    getAddressCon(address_id, user_id)
-}
-
-
 /**
  * 选择地址
  */
@@ -258,6 +252,7 @@ $('.change_userPhone').on('click', function () {
 
 // 详细地址号弹窗
 $('.change_address').on('click', function () {
+    console.log(changeStatus)
     if(changeStatus != 'changeAddress') {
         $('#change_info').val('');
         $('.alert-wrapper .active').removeClass('active');
@@ -265,6 +260,7 @@ $('.change_address').on('click', function () {
     $('#change_info').attr('placeholder','请输入详细地址');
     $('.alert-wrapper').css('display','block');
     changeStatus = 'changeAddress';
+    console.log(changeStatus)
 })
 
 
@@ -359,6 +355,12 @@ $('.submit_address').on('click', function () {
 })
 
 
+if(action == 'EDIT') {
+    console.log('修改地址')
+    getAddressCon(address_id, user_id)
+}
+
+
 
 function getAddressCon(id, user_id) {
     $.ajax({
@@ -370,6 +372,18 @@ function getAddressCon(id, user_id) {
         },
         success: function (res) {
             console.log(res)
+            let data = res.data;
+            address = data.address;
+            address_id = data.address_id;
+            consignee = data.consignee;
+            province = data.province;
+            city = data.city;
+            district = data.district;
+            mobile = data.mobile;
+            $('.user_name_con').text(consignee);
+            $('.user_phone_con').text(mobile);
+            $('.address-con_').text(province + city + district);
+            $('.user_address_con').text(address);
         }
     })
 }

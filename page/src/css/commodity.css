@@ -107,7 +107,7 @@ body {
     color: #5B5B5B;
     font-size: .2rem;
     padding-bottom: .3rem;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 
 .infoWrap .price {
