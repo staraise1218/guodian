@@ -3,6 +3,7 @@
  * @user_id  【用户id，测试用2】
  * @page     【地址列表页码，默认1，从1开始】
  * @isChooseAddress 【是否选择了地址】
+ * @addressArr     【地址保存】
  */
 
 let myUsetInfo = localStorage.getItem('USERINFO');
@@ -18,6 +19,7 @@ let isChooseAddress = {
     mobile: ''          // 收货人电话
 }
 
+let addressArr = [];
 
 if(localStorage.getItem('isChooseAddress')) {
     isChooseAddress = JSON.parse(localStorage.getItem('isChooseAddress'));
@@ -50,13 +52,22 @@ $('.address-list-wrap').delegate('.edit','click', function () {
 
 // 选择地址
 $('.address-list-wrap').delegate('.list-item', 'click', function () {
-    isChooseAddress.is = 1;
-    isChooseAddress.address_id = $(this).attr('data-address_id');
-    isChooseAddress.fulladdress = $(this).attr('data-fulladdress');
-    isChooseAddress.consignee = $(this).attr('data-consignee');
-    isChooseAddress.mobile = $(this).attr('data-mobile');
-    isChooseAddress = JSON.stringify(isChooseAddress)
-    localStorage.setItem('isChooseAddress', isChooseAddress);
+    // isChooseAddress.is = 1;
+    // isChooseAddress.address_id = $(this).attr('data-address_id');
+    // isChooseAddress.fulladdress = $(this).attr('data-fulladdress');
+    // isChooseAddress.consignee = $(this).attr('data-consignee');
+    // isChooseAddress.mobile = $(this).attr('data-mobile');
+    // isChooseAddress = JSON.stringify(isChooseAddress)
+    // localStorage.setItem('isChooseAddress', isChooseAddress);
+    var changeAddress = {};
+    addressArr.forEach(item => {
+        if($(this).attr('data-address_id') == item.address_id) {
+            changeAddress = JSON.stringify(item);
+            console.log(changeAddress)
+            localStorage.setItem('changeAddress', changeAddress)
+        }
+    })
+    
     window.history.back(-1);
 })
 
@@ -84,6 +95,7 @@ function createList (user_id, page, status){
             console.log(res)
             let data = res.data;
             let addressList = '';
+            addressArr = data;
             data.forEach(item => {
                 addressList += 
                                 `<li class="list-item bg-df" 
