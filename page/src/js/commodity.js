@@ -520,7 +520,7 @@ $('#goShoppingBag').on('click', function (e) {
 // 隐藏店铺
 $('.alert-bg').click(function () {
     $('.alert-bg').hide();
-    $('.alert-dianpu').hide();
+    $('.alert-dianpu').slideUp();
 })
 
 
@@ -528,7 +528,7 @@ $('.alert-bg').click(function () {
 $('.see-dp').click(function () {
     zitidian();
     $('.alert-bg').show();
-    $('.alert-dianpu').slideDown(1000);
+    $('.alert-dianpu').slideDown(200);
 })
 // 加载店铺信息
 function zitidian() {
