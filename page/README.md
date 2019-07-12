@@ -76,8 +76,8 @@
 |优惠券领取|myCouponLingqu|ok||
 |选择优惠券|myCouponChoose|ok|
 |我的积分|myIntegral|升级中|**loading**
-|我的闲置|myFree|升级中|**暂时不做**
-|我的养护|myCuring|升级中|**暂时不做**
+|我的闲置|article|传参在上面|
+|我的养护|article|传参在上面|
 |文章页（探索国典）|article|ok|type=1|
 |鉴定机制|article.html|ok|type=2
 |消费者告知书|myInform  改为 article.html|CHANGE|type=3
@@ -93,6 +93,7 @@
 |分享|升级中
 |银联支付页面|payLoad|接口返回的html|status=pay|需要IOS Android 加返回按钮
 |支付成功、失败页面|orderSuccess.html||success：支付成功； fail：支付失败
+|在线客服|news|
 |测试页面|MINE|||自己测试用
 
 ***
