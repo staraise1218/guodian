@@ -131,4 +131,30 @@ class Address extends Base {
             response_error('操作失败');
         }
     }
+
+    
+
+    // 获取地址详情
+    public function detail(){
+        $address_id = I('address_id');
+        $user_id = I('user_id');
+
+        $info = Db::name('user_address')
+            ->where('user_id', $user_id)
+            ->where('address_id', $address_id)
+            ->find();
+        $area_id[] = $info['province'];
+        $area_id[] = $info['city'];
+        $area_id[] = $info['district'];
+
+        $area_id = array_filter($area_id);
+        $area_id = implode(',', $area_id);
+
+        $regionList = Db::name('region2')->where("code", "in", $area_id)->getField('code,name');
+        $info['province_name'] = $regionList[$info['province']];
+        $info['city_name'] = $regionList[$info['city']];
+        $info['district_name'] = $regionList[$info['district']];
+
+        response_success($info);
+    }
 }
