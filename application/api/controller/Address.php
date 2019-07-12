@@ -132,7 +132,7 @@ class Address extends Base {
         }
     }
 
-    
+
 
     // 获取地址详情
     public function detail(){
@@ -150,7 +150,7 @@ class Address extends Base {
         $area_id = array_filter($area_id);
         $area_id = implode(',', $area_id);
 
-        $regionList = Db::name('region2')->where("code", "in", $area_id)->getField('code,name');
+        $regionList = Db::name('region')->where("id", "in", $area_id)->getField('id,name');
         $info['province_name'] = $regionList[$info['province']];
         $info['city_name'] = $regionList[$info['city']];
         $info['district_name'] = $regionList[$info['district']];
