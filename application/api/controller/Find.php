@@ -20,11 +20,11 @@ class Find extends Base {
         
         $list = M('Article')
         	->where('cat_id', 8)
-        	->where('id_open', 1)
+        	->where('is_open', 1)
         	->order('article_id desc')
         	->page($page)
         	->limit(16)
-        	->field('article_id, title, thumb, like_num')
+        	->field('article_id, title, thumb_app thumb, like_num')
         	->select();
        	
        	if(is_array($list)){
