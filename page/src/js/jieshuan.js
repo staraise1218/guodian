@@ -24,6 +24,8 @@
   * @dosubmit 	    否 	【提交订单时传入1】
   * 
   * @YH             优惠券信息
+  * 
+  * @reMSG          结算错误的返回
   */
 
 /**【TIPS】
@@ -51,6 +53,9 @@ let address = {};           // address 信息
 let imgArr = [];
 let YH = localStorage.getItem('YH') // 优惠券信息
 YH = JSON.parse(YH);
+
+
+
 
 /**
  * 输入框信息 判断
@@ -96,9 +101,9 @@ switch(action) {
  */
 // 跳转选择地址
 $('.address2').on('click', function () {
-    isChooseAddress.is = 0
-    isChooseAddress = JSON.stringify(isChooseAddress);
-    localStorage.setItem('isChooseAddress', isChooseAddress);
+    // isChooseAddress.is = 0
+    // isChooseAddress = JSON.stringify(isChooseAddress);
+    // localStorage.setItem('isChooseAddress', isChooseAddress);
     window.location.href = './addressChoose.html';
 })
 
@@ -110,7 +115,11 @@ $('.peison_method').on('click', function () {
 
 // 跳转地址
 $('.toChooseAddress').on('click', function () {
-    window.location.href = './addressChoose.html';
+    if(reMSG == "必须传递商品规格") {
+        window.history.back();
+    } else {
+        window.location.href = './addressChoose.html';
+    }
 })
 
 // 选择优惠券
@@ -134,13 +143,13 @@ if(YH.STATUS == '1' || YH.STATUS == '2') {
 }
 
 // 判断地址是否选择了
-let isChooseAddress = ''; 
+let isChooseAddress = '';
 if(localStorage.getItem('isChooseAddress')) {
     isChooseAddress = localStorage.getItem('isChooseAddress');
     isChooseAddress = JSON.parse(isChooseAddress);
     if(isChooseAddress.is == 1) {
         address = isChooseAddress;
-        // console.log(address)
+        console.log('address',address)
         createAddress(address.consignee, address.mobile, address.fulladdress);
     }
 }
@@ -228,7 +237,13 @@ function getorderInfo() {
         success: function (res) {
             console.log(res)
             if(res.code == 200) {
-                address = res.data.address;
+                if(localStorage.getItem('changeAddress')) {
+                    address = JSON.parse(localStorage.getItem('changeAddress'))
+                    console.log(address)
+                    localStorage.removeItem('changeAddress');
+                } else {
+                    address = res.data.address; // TODO:
+                }
                 let goodsList = '';
                 let goods = []
                 switch(action) {
@@ -346,6 +361,7 @@ function getPrice () {
                 if(res.code == 400 || res.code == 500) {
                     $('.alert-info').show() //TODO:
                     $('.addcon').text(res.msg)
+                    reMSG = res.msg;
                     // setTimeout(() => {
                     //     $('.alert-info').hide();
                     // }, 1500);

@@ -49,7 +49,9 @@ let changeStatus = '';
 
 if(action == 'EDIT') {
     console.log('修改地址')
+    getAddressCon(address_id, user_id)
 }
+
 
 /**
  * 选择地址
@@ -68,7 +70,13 @@ $('.alert-box').on('click', function () {
 })
 
 // 关闭弹窗
-$('.alert-address .tips-top').on('click', function () {
+$('.alert-address .tips-top img').on('click', function () {
+    $('.alert-box').css('display','none');
+    $('.alert-address').slideToggle();
+    // createCity();
+})
+// 确定地址
+$('.alert-address .tips-top i').on('click', function () {
     $('.alert-box').css('display','none');
     $('.alert-address').slideToggle();
     createCity();
@@ -352,3 +360,16 @@ $('.submit_address').on('click', function () {
 
 
 
+function getAddressCon(id, user_id) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/address/detail',
+        data: {
+            address_id: id,
+            user_id: user_id
+        },
+        success: function (res) {
+            console.log(res)
+        }
+    })
+}

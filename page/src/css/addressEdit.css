@@ -102,16 +102,33 @@ body {
 }
 .alert-address .tips-top {
     position: relative;
-    padding: .2rem;
+    padding: 0 .2rem;
+    height: 40px;
+}
+.alert-address .tips-top img {
+    position: absolute;
+    left: .2rem;
+    top: 50%;
+    transform: translateY(-50%)
+}
+.alert-address .tips-top i {
+    position: absolute;
+    right: .2rem;
+    top: 50%;
+    transform: translateY(-50%)
 }
 .alert-address .tips-top p {
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     padding: .2rem;
     text-align: center;
     width: 100%;
     z-index: 0;
+}
+.alert-address .tips-top i {
+    font-style: normal;
 }
 .alert-address .tips-top .close {
     z-index: 999;
