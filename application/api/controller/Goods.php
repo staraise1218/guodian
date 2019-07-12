@@ -87,11 +87,11 @@ class Goods extends Base {
 
  		// 获取商品系列
  		$series = M('series')->where('id', $goods['series_id'])->field('name')->find();
- 		$goods['series_name'] = $series['name'];
+ 		$goods['series_name'] = $series['name'] ? $series['name'] : '无';
 
  		// 获取商品品牌
  		$brand = M('brand')->where('id', $goods['brand_id'])->field('name')->find();
- 		$goods['brand_name'] = $brand['name'];
+ 		$goods['brand_name'] = $brand['name'] ? $brand['name'] : '无';
 
  		$result['goodsInfo'] = $goods;
  		$result['goods_attribute'] = $goods_attribute;
