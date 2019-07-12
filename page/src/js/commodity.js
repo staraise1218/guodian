@@ -164,7 +164,7 @@ function getInfo() {
             // 价格及商品信息
             price_base = res.data.goodsInfo.shop_price;
             $('.infoWrap').html(`
-                <div class="_price">￥ ${res.data.goodsInfo.shop_price}</div>
+                <div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
                 <div class="del">官方公价：<del>￥${res.data.goodsInfo.brand_id}</del></div>
                 <div class="box">
                     <span class="left">会员专享￥${res.data.goodsInfo.brand_id}</span>
@@ -528,7 +528,7 @@ $('.alert-bg').click(function () {
 $('.see-dp').click(function () {
     zitidian();
     $('.alert-bg').show();
-    $('.alert-dianpu').show();
+    $('.alert-dianpu').slideDown(1000);
 })
 // 加载店铺信息
 function zitidian() {

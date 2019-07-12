@@ -42,7 +42,7 @@ let pay_points = 0;
 let action = getParam('action');
 let coupon_id = -1;
 let goods_id = getParam('goods_id');
-let item_id = getParam('item_id');
+let item_id = getParam('item_id') || "";
 let goods_num = getParam('goods_num');
 let ID_number = localStorage.getItem('ID_number') || '';         // 身份证
 let consignee = '';         // 到点自提 -- 姓名
@@ -324,6 +324,9 @@ function getPrice () {
         action: action,
         goods_id: goods_id,
         goods_num: goods_num
+    }
+    if(item_id) {
+        priceData.item_id = item_id;
     }
     $.ajax({
         type: 'post',
