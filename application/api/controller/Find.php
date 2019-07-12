@@ -16,20 +16,13 @@ class Find extends Base {
 	// 发现首页列表
 	public function index(){
 		$user_id = I('user_id');
-
-        // 获取发现分类
-        $cats = M('article_cat')
-        	->where('parent_id', 10)
-        	->where('show_in_nav', 1)
-        	->order('sort_order asc, cat_id asc')
-        	->field('cat_id, cat_name')
-        	->select();
-        
-        $firstCat = current($cats);
+		$page = I('page', 1);
         
         $list = M('Article')
-        	->where('cat_id', 10)
+        	->where('cat_id', 8)
+        	->where('id_open', 1)
         	->order('article_id desc')
+        	->page($page)
         	->limit(16)
         	->field('article_id, title, thumb, like_num')
         	->select();
@@ -39,8 +32,7 @@ class Find extends Base {
         		$item['isliked'] = $this->isLike($user_id, $item['article_id']);
         	}
         }
-        
-        $result['cats']= $cats;
+
         $result['list']= $list;
         response_success($result);
 	}

@@ -48,7 +48,7 @@ html, body {overflow: visible;}
       </dl>    
       <dl class="row">
             <dt class="tit">
-                <label>缩略图</label>
+                <label>官网缩略图</label>
             </dt>
             <dd class="opt">
                 <div class="input-file-show">
@@ -61,6 +61,27 @@ html, body {overflow: visible;}
                             <input type="text" id="thumb" name="thumb" value="{$info.thumb}" class="type-file-text">
                             <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
                             <input class="type-file-file" onClick="GetUploadify(1,'','find','img_call_back')" size="30" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                        </span>
+                </div>
+                <span class="err"></span>
+                <p class="notic">请上传图片格式文件</p>
+            </dd>
+        </dl>
+      <dl class="row">
+            <dt class="tit">
+                <label>APP缩略图</label>
+            </dt>
+            <dd class="opt">
+                <div class="input-file-show">
+                        <span class="show">
+                            <a id="img_a_app" target="_blank" class="nyroModal" rel="gal" href="{$info.thumb_app}">
+                                <i id="img_i_app" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$info.thumb_app}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                            </a>
+                        </span>
+                        <span class="type-file-box">
+                            <input type="text" id="thumb_app" name="thumb_app" value="{$info.thumb_app}" class="type-file-text">
+                            <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+                            <input class="type-file-file" onClick="GetUploadify(1,'','find','img_call_back_app')" size="30" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
                         </span>
                 </div>
                 <span class="err"></span>
@@ -194,6 +215,14 @@ html, body {overflow: visible;}
         $("#thumb").val(fileurl_tmp);
         $("#img_a").attr('href', fileurl_tmp);
         $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
+
+
+    function img_call_back_app(fileurl_tmp)
+    {
+        $("#thumb_app").val(fileurl_tmp);
+        $("#img_a_app").attr('href', fileurl_tmp);
+        $("#img_i_app").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
     }
     
 </script>
