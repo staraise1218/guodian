@@ -120,21 +120,25 @@ $('.share-wrap li').on('click', function () {
             // console.log(shareName)
             // console.log(window.location.href)
             // console.log( GlobalHost + goods_images_list[0].image_url)
-            window.android.showShare(shareName, window.location.href, 'test', GlobalHost + goods_images_list[0]);
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0], "webo");
             break;
         case '1': // 微信
             shareWx();
             console.log('分享到微信')
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0], "wx");
             break;
         case '2': // QQ
 
             console.log('分享到QQ')
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0], "qq");
             break;
         default:
             console.log('分享错误');
             break;
     }
 })
+
+// wx qq webo
 // public void showShare(String title, String url, String text, String imageUrl) {
 //     OnekeyShare oks = new OnekeyShare();
 //     //关闭sso授权
