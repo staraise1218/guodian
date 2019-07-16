@@ -15,6 +15,8 @@ let count_base = 1; // 库存
 let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let user_id = '';
+let shareName = '';     // 分享名称
+let goods_images_list = []; // 轮播图数组
 if(localStorage.getItem('USERINFO')) {
     let myUsetInfo = localStorage.getItem('USERINFO');
     myUsetInfo = JSON.parse(myUsetInfo);
@@ -112,23 +114,50 @@ $('.share_bg').click(function () {
 // 分享
 $('.share-wrap li').on('click', function () {
     console.log($(this).attr('data-type'))
+    alert($(this).attr('data-type'))
+    alert('shareName',shareName)
+    alert('url',GlobalHost + goods_images_list[0].image_url)
     switch($(this).attr('data-type')) {
         case '0': // 微博
             console.log('分享到微博')
+            // console.log(shareName)
+            // console.log(window.location.href)
+            // console.log( GlobalHost + goods_images_list[0].image_url)
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "webo");
             break;
         case '1': // 微信
-            shareWx();
             console.log('分享到微信')
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "wx");
             break;
         case '2': // QQ
 
             console.log('分享到QQ')
+            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "qq");
             break;
         default:
             console.log('分享错误');
             break;
     }
 })
+
+// wx qq webo
+// public void showShare(String title, String url, String text, String imageUrl) {
+//     OnekeyShare oks = new OnekeyShare();
+//     //关闭sso授权
+//     oks.disableSSOWhenAuthorize();
+//     // title标题，微信、QQ和QQ空间等平台使用
+//     oks.setTitle(title);
+//     // titleUrl QQ和QQ空间跳转链接
+//     oks.setTitleUrl(url);
+//     // text是分享文本，所有平台都需要这个字段
+//     oks.setText(text);
+//     // imageUrl是图片的路径
+//     oks.setImageUrl(imageUrl);
+//     // url在微信、微博，Facebook等平台中使用
+//     oks.setUrl(url);
+//     // 启动分享GUI
+//     oks.show(this);
+//     }
 
 /**
  * =================================================
@@ -149,8 +178,10 @@ function getInfo() {
         },
         dataType: 'json',
         success: function (res) {
+            goods_images_list = res.data.goodsInfo.goods_images_list;
             // debugger;
             console.log(res)
+            shareName = res.data.goodsInfo.goods_name;
             // 渲染顶部标题
             $('.top-text').text(res.data.goodsInfo.goods_remark)
             // 渲染轮播图
