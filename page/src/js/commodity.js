@@ -17,7 +17,7 @@ let goods_id = ''; // 商品 id
 let user_id = '';
 let shareName = '';     // 分享名称
 let goods_images_list = []; // 轮播图数组
-if(localStorage.getItem('USERINFO')) {
+if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
     debugger
     let myUsetInfo = localStorage.getItem('USERINFO');
     alert(myUsetInfo)
