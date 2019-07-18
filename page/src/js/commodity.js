@@ -18,13 +18,16 @@ let user_id = '';
 let shareName = '';     // 分享名称
 let goods_images_list = []; // 轮播图数组
 if(localStorage.getItem('USERINFO')) {
+    debugger
     let myUsetInfo = localStorage.getItem('USERINFO');
+    alert(myUsetInfo)
     myUsetInfo = JSON.parse(myUsetInfo);
     console.log(myUsetInfo)
     user_id = myUsetInfo.user_id;
 } else {
     user_id = 0;
 }
+alert(user_id)
 // alert(localStorage.getItem('USERINFO'))
 let kucun = '';     // 库存
 // alert('user_id :' + user_id)
