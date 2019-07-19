@@ -146,6 +146,10 @@ body {
     flex: 2;
     color: #fff;
     background: #5B5B5B;
+    font-size: 0;
+}
+.infoWrap .box .right p {
+    font-size: 12px;
 }
 
 .infoWrap .box .right img {
