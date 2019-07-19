@@ -194,15 +194,17 @@ function getInfo() {
             $('.swiper-wrapper').html(slider)
             // 价格及商品信息
             price_base = res.data.goodsInfo.shop_price;
-            $('.infoWrap').html(`
-                <div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
-                <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
-                <div class="box">
-                    <span class="left">会员专享</span>
-                    <span class="right" onclick="window.location.href='myMember.html'"><p>开通会员</p> <img class="icon-sm" src="./src/img/icon/right.png" alt=""></span>
-                </div>
-                <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>
-            `)
+            var str = `<div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
+                        <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
+                        <div class="box">
+                            <span class="left">会员专享</span>
+                            <span class="right" onclick="window.location.href='myMember.html'"><p>开通会员</p> <img class="icon-sm" src="./src/img/icon/right.png" alt=""></span>
+                        </div>
+                        <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>`
+            if(res.data.goodsInfo.chengse) {
+                str += `<div>商品成色：${res.data.goodsInfo.chengse}</div>`
+            }
+            $('.infoWrap').html(str)
             // 商品信息
             let shopInfo = '';
             for (let j = 0; j < res.data.goods_attr_list.length; j++) {
