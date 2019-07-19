@@ -17,9 +17,6 @@
             text-align: center;
             padding: 10px 0;
         }
-
-
-
     </style>
 </head>
 <body>
@@ -136,6 +133,7 @@
         ]
         let str = '';
         page.forEach(item => {
+            console.log(item)
             str += `<a href="${item.link}">${item.name}</a>`
         });
         $('#el').html(`<ul>` + str + `</ul>`)

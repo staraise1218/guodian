@@ -57,7 +57,7 @@
     <!-- 顶部 -->
     <div class="topBar">
         <img src="./src/img/icon/back.png" alt="" class="icon-df back">
-        <p class="text-df ttt">文章详情页</p>
+        <p class="text-df ttt"></p>
         <div class="right">
             <img class="icon-df" src="./src/img/icon/share.png" alt="">
             <!-- <img class="icon-df m-l back" src="./src/img/icon/message.png" alt=""> -->
@@ -69,17 +69,23 @@
     <script src="./src/js/jquery.min.js"></script>
     <script src="./src/js/global.js"></script>
     <script>
-        /*let myUsetInfo = localStorage.getItem('USERINFO');
-        myUsetInfo = JSON.parse(myUsetInfo);
-        console.log(myUsetInfo)
-        let user_id = myUsetInfo.user_id;*/
+        
+        let user_id = '';
+        if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
+            let myUsetInfo = localStorage.getItem('USERINFO');
+            myUsetInfo = JSON.parse(myUsetInfo);
+            console.log(myUsetInfo)
+            user_id = myUsetInfo.user_id;
+        } else {
+            user_id = 0;
+        }
         const article_id = getParam('article_id');
         setTimeout(function () {
             $.ajax({
                 type: 'POST',
-                url: GlobalHost + '/Api/article/detail',
+                url: GlobalHost + '/Api/find/detail',
                 data: {
-                    // user_id: user_id,
+                    user_id: user_id,
                     article_id: article_id
                 },
                 success: function (res) {
@@ -87,7 +93,8 @@
                     var reg = /\/public/ig
                     res.data.content = res.data.content.replace(reg, GlobalHost + '/public')
                     $('.content').html(res.data.content)
-                    $('.title').text(res.data.title);
+                    // $('.title').text(res.data.title);
+                    $('.ttt').text(res.data.title)
                 }
             })
         }, 200)
