@@ -79,6 +79,7 @@ $(window).scroll(function () {
     }
 });
 
+
 // 点切换
 $('.nav-1').on('click', function () {
     $('html,body').animate({
@@ -234,7 +235,7 @@ function getInfo() {
             // 是否收藏了该商品
             if (res.data.goodsInfo.is_collect == 1) {
                 $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
-                $('.collection').attr('data-is_collect', 1)
+                $('.collection').attr('data-is_collect', '1')
             }
 
             console.log(JSON.parse(res.data.spec_goods_price))
@@ -389,20 +390,37 @@ $('.collection').on('click', function () {
         }, 3000)
         return
     }
-    $.ajax({
-        type: 'POST',
-        url: GlobalHost + '/Api/goods/collect_goods',
-        data: {
-            user_id: user_id,
-            goods_id: goods_id
-        },
-        success: function (res) {
-            console.log(res)
-            if (res.code == 200) {
-                $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+    if($(this).attr('data-is_collect') == 1) {
+        $.ajax({
+            type: 'POST',
+            url: GlobalHost + '/Api/user/cancel_collect',
+            data: {
+                user_id: user_id,
+                collect_id: $(this).attr('data-goods_id')
+            },
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    $('.collection-icon').prop('src', './src/img/icon/collection.png')
+                }
             }
-        }
-    })
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: GlobalHost + '/Api/goods/collect_goods',
+            data: {
+                user_id: user_id,
+                goods_id: goods_id
+            },
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+                }
+            }
+        })
+    }
 })
 
 /**
