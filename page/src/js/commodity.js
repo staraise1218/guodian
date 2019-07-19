@@ -40,7 +40,7 @@ let kucun = '';     // 库存
 // newsids=newsidinfo.split("=");//对获得的参数字符串按照“=”进行分割
 // newsid=newsids[1];//得到参数值
 goods_id = getParam('goods_id');
-alert('goods_id : (js)' + goods_id)
+// alert('goods_id : (js)' + goods_id)
 
 /**
  * =================================================
@@ -183,7 +183,7 @@ function getInfo() {
             console.log(res)
             shareName = res.data.goodsInfo.goods_name;
             // 渲染顶部标题
-            $('.top-text').text(res.data.goodsInfo.goods_remark)
+            $('.top-text').text(res.data.goodsInfo.goods_name)
             // 渲染轮播图
             let slider = '';
             for (let i = 0; i < res.data.goodsInfo.goods_images_list.length; i++) {
@@ -199,7 +199,7 @@ function getInfo() {
                 <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
                 <div class="box">
                     <span class="left">会员专享</span>
-                    <span class="right">开通会员 <img class="icon-sm" src="${res.data.goodsInfo.brand_id}" alt=""></span>
+                    <span class="right" onclick="window.location.href='myMember.html'"><p>开通会员</p> <img class="icon-sm" src="./src/img/icon/right.png" alt=""></span>
                 </div>
                 <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>
             `)
