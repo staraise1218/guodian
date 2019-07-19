@@ -114,27 +114,30 @@ $('.share_bg').click(function () {
 // 分享
 $('.share-wrap li').on('click', function () {
     console.log($(this).attr('data-type'))
+    console.log($(this).attr('data-type'))
+    console.log('shareName',shareName)
+    console.log('url',GlobalHost + goods_images_list[0].image_url)
     alert($(this).attr('data-type'))
-    alert('shareName',shareName)
-    alert('url',GlobalHost + goods_images_list[0].image_url)
+    alert(shareName)
+    alert(GlobalHost + goods_images_list[0].image_url)
     switch($(this).attr('data-type')) {
         case '0': // 微博
             console.log('分享到微博')
-            // console.log(shareName)
-            // console.log(window.location.href)
-            // console.log( GlobalHost + goods_images_list[0].image_url)
+            alert('微博')
             window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "webo");
             break;
         case '1': // 微信
             console.log('分享到微信')
+            alert('微信')
             window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "wx");
             break;
         case '2': // QQ
-
             console.log('分享到QQ')
+            alert('QQ')
             window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "qq");
             break;
         default:
+            alert('分享错误')
             console.log('分享错误');
             break;
     }
