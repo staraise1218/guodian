@@ -94,6 +94,7 @@
 |银联支付页面|payLoad|接口返回的html|status=pay|需要IOS Android 加返回按钮
 |支付成功、失败页面|orderSuccess.html||success：支付成功； fail：支付失败
 |在线客服|news|
+|客服与帮助|kfAndHelp.html|
 |测试页面|MINE|||自己测试用
 
 ***
