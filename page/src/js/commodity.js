@@ -16,6 +16,7 @@ let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let user_id = '';
 let shareName = '';     // 分享名称
+let shareName2 = '';     // 分享名称
 let goods_images_list = []; // 轮播图数组
 if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
     let myUsetInfo = localStorage.getItem('USERINFO');
@@ -124,17 +125,17 @@ $('.share-wrap li').on('click', function () {
         case '0': // 微博
             console.log('分享到微博')
             // alert('微博')
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "webo");
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "webo");
             break;
         case '1': // 微信
             console.log('分享到微信')
             // alert('微信')
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "wx");
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "wx");
             break;
         case '2': // QQ
             // console.log('分享到QQ')
             alert('QQ')
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "qq");
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "qq");
             break;
         default:
             // alert('分享错误')
@@ -185,6 +186,7 @@ function getInfo() {
             // debugger;
             console.log(res)
             shareName = res.data.goodsInfo.goods_name;
+            shareName2 = res.data.goodsInfo.goods_remark;
             // 渲染顶部标题
             $('.top-text').text(res.data.goodsInfo.goods_name)
             // 渲染轮播图
