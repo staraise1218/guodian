@@ -126,7 +126,14 @@
     <script src="./src/js/global.js"></script>
     <script>
 
-
+    if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
+        console.log(myUsetInfo)
+        user_id = myUsetInfo.user_id;
+    } else {
+        user_id = 0;
+    }
     var totalHeight = $(document).height();//整个文档高度
     var seeHeight = $(window).height();//浏览器可视窗口高度
     var thisBodyHeight = $(document.body).height();//浏览器当前窗口文档body的高度
@@ -162,7 +169,7 @@
             type: 'post',
             url: GlobalHost + '/Api/user/message',
             data: {
-                user_id: 337,
+                user_id: user_id,
                 page: page
             },
             success: function(res) {

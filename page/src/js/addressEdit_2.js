@@ -47,6 +47,12 @@ let changeStatus = '';
 
 
 
+if(action == 'EDIT') {
+    console.log('修改地址')
+    getAddressCon(address_id, user_id)
+}
+
+
 /**
  * 选择地址
  */
@@ -175,13 +181,11 @@ $('.province').delegate('li','click', function () {
     lactChoose = 'province';
     // 渲染城市
     let cityList = '';
-    console.log(province)
     getJson[province.index].sub.forEach(city => {
         cityList += `<li data-id="${city.id}">${city.name}</li>`
     })
     $('.alert-address .city').html(cityList);
     $('.alert-address .district').html('');
-    console.log(province)
 })
 
 
@@ -254,7 +258,6 @@ $('.change_userPhone').on('click', function () {
 
 // 详细地址号弹窗
 $('.change_address').on('click', function () {
-    console.log(changeStatus)
     if(changeStatus != 'changeAddress') {
         $('#change_info').val('');
         $('.alert-wrapper .active').removeClass('active');
@@ -262,7 +265,6 @@ $('.change_address').on('click', function () {
     $('#change_info').attr('placeholder','请输入详细地址');
     $('.alert-wrapper').css('display','block');
     changeStatus = 'changeAddress';
-    console.log(changeStatus)
 })
 
 
@@ -324,46 +326,80 @@ $('.alert-wrapper').delegate('.active','click', function () {
 
 
 $('.submit_address').on('click', function () {
-    $.ajax({
-        type: 'post',
-        url: GlobalHost + '/api/address/add_address',
-        data: {
-            user_id: user_id,
-            consignee: consignee,
-            mobile: mobile,
-            province: province.id,
-            city: city.id,
-            district: district.id,
-            address: address,
-            is_default: is_default
-        },
-        success: function (res) {
-            console.log(res);
-            if(res.code == 200) {
+    switch (action) {
+        case "EDIT":
+            $.ajax({
+                type: 'post',
+                url: GlobalHost + '/Api/Address/edit_address',
+                data: {
+                    address_id: address_id,
+                    user_id: user_id,
+                    consignee: consignee,
+                    mobile: mobile,
+                    province: province.id,
+                    city: city.id,
+                    district: district.id,
+                    address: address,
+                    is_default: is_default
+                },
+                success: function (res) {
+                    console.log(res);
+                    if(res.code == 200) {
+        
+                    }
+                    switch (res.code) {
+                        case 200:
+                            createAlert($('.alert'), 'alert_tips', res.msg);
+                            setTimeout(() => {
+                                // history.back(-1)
+                            }, 1500);
+                            break;
+                        case 400:
+                            createAlert($('.alert'), 'alert_tips', res.data);
+                    }
+                }
+            })
+            break;
+        case "ADD":
+            $.ajax({
+                type: 'post',
+                url: GlobalHost + '/api/address/add_address',
+                data: {
+                    user_id: user_id,
+                    consignee: consignee,
+                    mobile: mobile,
+                    province: province.id,
+                    city: city.id,
+                    district: district.id,
+                    address: address,
+                    is_default: is_default
+                },
+                success: function (res) {
+                    console.log(res);
+                    if(res.code == 200) {
+        
+                    }
+                    switch (res.code) {
+                        case 200:
+                            createAlert($('.alert'), 'alert_tips', res.msg);
+                            setTimeout(() => {
+                                history.back(-1)
+                            }, 1500);
+                            break;
+                        case 400:
+                            createAlert($('.alert'), 'alert_tips', res.data);
+                    }
+                }
+            })
+            break;
+        default:
+            console.log('保存 出错')
 
-            }
-            switch (res.code) {
-                case 200:
-                    createAlert($('.alert'), 'alert_tips', res.msg);
-                    setTimeout(() => {
-                        history.back(-1)
-                    }, 1500);
-                    break;
-                case 400:
-                    createAlert($('.alert'), 'alert_tips', res.data);
-            }
-        }
-    })
+    }
 })
 
 
-if(action == 'EDIT') {
-    console.log('修改地址')
-    getAddressCon(address_id, user_id)
-}
-
-
-
+// 获取地址相信信息  修改前加载
 function getAddressCon(id, user_id) {
     $.ajax({
         type: 'post',
@@ -375,17 +411,47 @@ function getAddressCon(id, user_id) {
         success: function (res) {
             console.log(res)
             let data = res.data;
-            address = data.address;
-            address_id = data.address_id;
             consignee = data.consignee;
-            province = data.province;
-            city = data.city;
-            district = data.district;
+            address_id = data.address_id;
             mobile = data.mobile;
+            address = data.address;
+            province = {
+                id: data.province,
+                name: data.province_name,
+                index: '-1'
+            }
+            city = {
+                id: data.city,
+                name: data.city_name,
+                index: '-1'
+            }
+            district = {
+                id: data.district_name,
+                name: data.district_name,
+                index: '-1'
+            }
             $('.user_name_con').text(consignee);
             $('.user_phone_con').text(mobile);
-            $('.address-con_').text(province + city + district);
             $('.user_address_con').text(address);
+            $('.address-con_').text(province.name + ' ' + city.name + ' ' + district.name);
+            $('.user_address_con').text(address);
+            $('#change_info').val(mobile);
+/**
+ * 全局变量
+ * @action      【动作，添加地址ADD，修改地址EDIT】
+ * @user_id     【用户id】
+ * @address_id  【地址id】
+ * @consignee 	【收货人】
+ * @mobile 	    【联系电话】
+ * @province 	【省】  {name, id, index}
+ * @city 	    【市】  {name, id, index}
+ * @district 	【区】  {name, id, index}
+ * @address 	【详细地址】
+ * @is_default 	【是否默认 0 否 1 是】
+ * @getJson     【城市数据】
+ * @lactChoose  【最后选择的是什么】 [province,city,district]
+ * @changeStatus 【输入框状态】 [changeNume: '修改姓名'  ； changNumber: '修改手机号'     ; changeAddress: '修改详细地址']
+ */
         }
     })
 }
