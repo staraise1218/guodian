@@ -16,6 +16,7 @@ let $id = ''; // 规格id
 let goods_id = ''; // 商品 id
 let user_id = '';
 let shareName = '';     // 分享名称
+let shareName2 = '';     // 分享名称
 let goods_images_list = []; // 轮播图数组
 if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
     let myUsetInfo = localStorage.getItem('USERINFO');
@@ -78,6 +79,7 @@ $(window).scroll(function () {
     }
 });
 
+
 // 点切换
 $('.nav-1').on('click', function () {
     $('html,body').animate({
@@ -114,27 +116,30 @@ $('.share_bg').click(function () {
 // 分享
 $('.share-wrap li').on('click', function () {
     console.log($(this).attr('data-type'))
-    alert($(this).attr('data-type'))
-    alert('shareName',shareName)
-    alert('url',GlobalHost + goods_images_list[0].image_url)
+    console.log($(this).attr('data-type'))
+    console.log('shareName',shareName)
+    console.log('url',GlobalHost + goods_images_list[0].image_url)
+    // alert($(this).attr('data-type'))
+    // alert(shareName)
+    // alert(GlobalHost + goods_images_list[0].image_url)
     switch($(this).attr('data-type')) {
         case '0': // 微博
             console.log('分享到微博')
-            // console.log(shareName)
-            // console.log(window.location.href)
-            // console.log( GlobalHost + goods_images_list[0].image_url)
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "webo");
+            // alert('微博')
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "webo");
             break;
         case '1': // 微信
             console.log('分享到微信')
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "wx");
+            // alert('微信')
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "wx");
             break;
         case '2': // QQ
-
-            console.log('分享到QQ')
-            window.android.showShare(shareName, window.location.href, "test", GlobalHost + goods_images_list[0].image_url, "qq");
+            // console.log('分享到QQ')
+            alert('QQ')
+            window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "qq");
             break;
         default:
+            // alert('分享错误')
             console.log('分享错误');
             break;
     }
@@ -182,6 +187,7 @@ function getInfo() {
             // debugger;
             console.log(res)
             shareName = res.data.goodsInfo.goods_name;
+            shareName2 = res.data.goodsInfo.goods_remark;
             // 渲染顶部标题
             $('.top-text').text(res.data.goodsInfo.goods_name)
             // 渲染轮播图
@@ -194,15 +200,17 @@ function getInfo() {
             $('.swiper-wrapper').html(slider)
             // 价格及商品信息
             price_base = res.data.goodsInfo.shop_price;
-            $('.infoWrap').html(`
-                <div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
-                <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
-                <div class="box">
-                    <span class="left">会员专享</span>
-                    <span class="right" onclick="window.location.href='myMember.html'"><p>开通会员</p> <img class="icon-sm" src="./src/img/icon/right.png" alt=""></span>
-                </div>
-                <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>
-            `)
+            var str = `<div class="price">￥ ${res.data.goodsInfo.shop_price}</div>
+                        <div class="del" onclick="window.location.href='myMember.html'">官方公价：<del>￥${res.data.goodsInfo.market_price}</del></div>
+                        <div class="box">
+                            <span class="left">会员专享</span>
+                            <span class="right" onclick="window.location.href='myMember.html'"><p>开通会员</p> </span>
+                        </div>
+                        <div>${res.data.goodsInfo.series_name} / ${res.data.goodsInfo.brand_name}</div>`
+            if(res.data.goodsInfo.chengse) {
+                str += `<div>商品成色：${res.data.goodsInfo.chengse}</div>`
+            }
+            $('.infoWrap').html(str)
             // 商品信息
             let shopInfo = '';
             for (let j = 0; j < res.data.goods_attr_list.length; j++) {
@@ -227,7 +235,7 @@ function getInfo() {
             // 是否收藏了该商品
             if (res.data.goodsInfo.is_collect == 1) {
                 $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
-                $('.collection').attr('data-is_collect', 1)
+                $('.collection').attr('data-is_collect', '1')
             }
 
             console.log(JSON.parse(res.data.spec_goods_price))
@@ -382,20 +390,37 @@ $('.collection').on('click', function () {
         }, 3000)
         return
     }
-    $.ajax({
-        type: 'POST',
-        url: GlobalHost + '/Api/goods/collect_goods',
-        data: {
-            user_id: user_id,
-            goods_id: goods_id
-        },
-        success: function (res) {
-            console.log(res)
-            if (res.code == 200) {
-                $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+    if($(this).attr('data-is_collect') == 1) {
+        $.ajax({
+            type: 'POST',
+            url: GlobalHost + '/Api/user/cancel_collect',
+            data: {
+                user_id: user_id,
+                collect_id: $(this).attr('data-goods_id')
+            },
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    $('.collection-icon').prop('src', './src/img/icon/collection.png')
+                }
             }
-        }
-    })
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: GlobalHost + '/Api/goods/collect_goods',
+            data: {
+                user_id: user_id,
+                goods_id: goods_id
+            },
+            success: function (res) {
+                console.log(res)
+                if (res.code == 200) {
+                    $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+                }
+            }
+        })
+    }
 })
 
 /**
