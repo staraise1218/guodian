@@ -93,7 +93,7 @@ class Category extends Base {
 		$goodsList = Db::name('goods')
 			->where($where)
 			->order($order)
-			->field('goods_id, goods_name, store_count, original_img, shop_price, market_price')
+			->field('goods_id, goods_name, store_count, original_img, shop_price, market_price, reserved')
 			->page($page)
 			->limit(12)
 			->select();
