@@ -303,3 +303,24 @@ b {
 }
 
 
+.recommend .poster {
+    position: relative;
+    width: 100%;
+}
+.recommend .poster img {
+    width: 100%;
+}
+.recommend .poster .yd {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 0;
+    top: 0;
+}
+.recommend .poster .sq {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    right: 0;
+    bottom: 0;
+}

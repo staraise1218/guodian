@@ -88,6 +88,23 @@ body {
     width: 1.2rem;
     margin-left: .2rem;
 }
+.commodityList li .commity {
+    position: relative;
+}
+.commodityList li .commity .yd {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 35px;
+    height: 35px;
+}
+.commodityList li .commity .sq {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 35px;
+    height: 35px;
+}
 .commodityList li .right {
 
     position: relative;

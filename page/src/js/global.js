@@ -168,7 +168,11 @@ function favorite(el, user_id, num) {
             console.log(res.data)
             $.each(res.data, function (index, item) {
                 recommendStr += `<li class="good-item" data-goodid="${item.goods_id}">
-                                    <img src="${ GlobalHost + item.original_img }" class="com" />
+                                    <div class="poster">
+                                        <img src="${ GlobalHost + item.original_img }" class="com" />
+                                        <img class="yd"  src="./src/img/icon/yd.png" alt="img" style="display: ${item.reserved == 1 ? 'block' : 'none'}">
+                                        <img class="sq"  src="./src/img/icon/sq.png" alt="img" style="display: ${item.store_count == 0 ? 'block' : 'none'}">
+                                    </div>
                                     <p>${item.goods_name}</p>
                                     <p class="price">价格：￥${item.shop_price}</p>
                                     <p class="del">官方公价：￥1,238,300</p>
