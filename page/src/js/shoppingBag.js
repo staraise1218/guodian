@@ -132,7 +132,7 @@ function getShopCartList () {
                     <div class="right">
                         <p>AUDEMARS PIGUET</p>
                         <p>${item.goods_name}</p>
-                        <p class="price">￥ 336,384</p>
+                        <p class="price">￥ ${item.goods_price}</p>
                     </div>
                     <div class="del" data-id="${item.id}">移除</div>
                 </li>`
