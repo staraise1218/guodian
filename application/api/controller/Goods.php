@@ -142,6 +142,19 @@ class Goods extends Base {
         if($result['status'] == '-3') response_success('', '您已收藏');
         if($result['status'] == '1') response_success('', '收藏成功');
     }
+    // 详情页取消收藏
+    public function cancel_collect(){
+    	$user_id = I('user_id/d');
+        $goods_id = I('goods_id/d');
+
+        Db::name('goods_collect')
+        	->where('user_id', $user_id)
+        	->where('goods_id', $goods_id)
+        	->delete();
+
+        response_success('', '操作成功');
+    }
+
 
     // 搜索页面信息
     public function searchPage(){

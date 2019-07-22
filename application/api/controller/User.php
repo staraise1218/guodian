@@ -266,6 +266,7 @@ class User extends Base {
     public function del_visit_log()
     {
         $visit_ids = I('get.visit_ids', 0);
+        $visit_ids = trim($visit_ids, ',');
         $row = M('goods_visit')->where('visit_id','IN', $visit_ids)->delete();
 
         if($row) {
