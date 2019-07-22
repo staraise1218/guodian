@@ -20,6 +20,27 @@ class User extends Base {
     public function index(){
         $user_id = I('user_id');
 
+        // 待付款数量
+        $result['waitPayNum'] = Db::name('order')
+            ->where('user_id', $user_id)
+            ->where('pay_status', 0)
+            ->where('order_status', 0)
+            ->count();
+        // 待收货数量
+        $result['waitReceiveNum'] = Db::name('order')
+            ->where('user_id', $user_id)
+            ->where('pay_status', 1)
+            ->where('order_status', 'in', array(0, 1))
+            ->count();
+        // 退货单数量
+        $result['refundNum'] = Db::name('order')
+            ->where('user_id', $user_id)
+            ->where('pay_status', 1)
+            ->where('order_status', 3)
+            ->count();
+
+
+
         $UsersLogic = new UsersLogic();
         $data = $UsersLogic->get_info($user_id);
         // 为您挑选
@@ -27,6 +48,8 @@ class User extends Base {
                 WHERE goods_id >= (SELECT floor( RAND() * ((SELECT MAX(goods_id) FROM tp_goods)-(SELECT MIN(goods_id) FROM tp_goods)) + (SELECT MIN(goods_id) FROM tp_goods))) and store_count > 0
                 ORDER BY goods_id LIMIT 2";
         $recommendList = Db::query($sql);
+
+
 
         $result['userInfo'] = $data['result'];
         $result['recommendList'] = $recommendList;
@@ -267,6 +290,7 @@ class User extends Base {
     {
         $visit_ids = I('get.visit_ids', 0);
         $visit_ids = trim($visit_ids, ',');
+
         $row = M('goods_visit')->where('visit_id','IN', $visit_ids)->delete();
 
         if($row) {
