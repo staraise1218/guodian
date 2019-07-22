@@ -194,7 +194,15 @@ function getInfo() {
             let slider = '';
             for (let i = 0; i < res.data.goodsInfo.goods_images_list.length; i++) {
                 var imgstr = GlobalHost + res.data.goodsInfo.goods_images_list[i].image_url;
-                slider += `<div class="swiper-slide"><img  src="${imgstr}" alt="img"></div>`
+                slider += `<div class="swiper-slide">
+                            <img  src="${imgstr}" alt="img">
+                            <div style="display:${res.data.goodsInfo.store_count == 0 ? 'block' : 'none'}">
+                                <img class="sq"  src="./src/img/icon/sq.png" alt="img">
+                            </div>
+                            <div class="yd" style="display:${res.data.goodsInfo.reserved == 1 ? 'block' : 'none'}">
+                                <img class="sq"  src="./src/img/icon/yd.png" alt="img">
+                            </div>
+                        </div>`
             }
             console.log(res.data.goodsInfo.goods_images_list.length)
             $('.swiper-wrapper').html(slider)

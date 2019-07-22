@@ -84,9 +84,32 @@ body {
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
-    height: auto
+    height: auto;
+    position: relative;
 }
 
+.swiper-slide div {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.swiper-slide .yd img {
+    left: 0;
+    top: 0;
+    width: 20%;
+    height: 20%;
+}
+.swiper-slide .sq {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    /* transform: translate(-50%, -50%); */
+    width: 30%;
+    height: 30%;
+}
 .swiper-slide img {
     width: 100%
 }

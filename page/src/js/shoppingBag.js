@@ -127,6 +127,9 @@ function getShopCartList () {
                         </div>
                         <div class="commity">
                             <img class="poster" src="${GlobalHost + item.goods.original_img}" alt="">
+                            <img class="sq"  src="./src/img/icon/sq.png" alt="img" style="display: none">
+                            <img class="yd"  src="./src/img/icon/yd.png" alt="img" style="display: none">
+                            
                         </div>
                     </div>
                     <div class="right">
@@ -228,6 +231,7 @@ function toPay () {
 
 $(".commodityList").delegate('.srco-item',"touchstart", function (e) {
     // console.log($(this).attr('data-scroll'))
+    console.log(e)
     // 判断默认行为是否可以被禁用
     if (e.cancelable) {
         // 判断默认行为是否已经被禁用
