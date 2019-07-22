@@ -20,7 +20,7 @@ class User extends Base {
     public function index(){
         $user_id = I('user_id');
 
-        // 待付款数量
+        /*// 待付款数量
         $result['waitPayNum'] = Db::name('order')
             ->where('user_id', $user_id)
             ->where('pay_status', 0)
@@ -37,7 +37,7 @@ class User extends Base {
             ->where('user_id', $user_id)
             ->where('pay_status', 1)
             ->where('order_status', 3)
-            ->count();
+            ->count();*/
 
 
 
