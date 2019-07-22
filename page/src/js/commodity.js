@@ -135,7 +135,7 @@ $('.share-wrap li').on('click', function () {
             break;
         case '2': // QQ
             // console.log('分享到QQ')
-            alert('QQ')
+            // alert('QQ')
             window.android.showShare(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, "qq");
             break;
         default:
@@ -390,21 +390,22 @@ $('.collection').on('click', function () {
         }, 3000)
         return
     }
-    if($(this).attr('data-is_collect') == 1) {
-        $.ajax({
-            type: 'POST',
-            url: GlobalHost + '/Api/user/cancel_collect',
-            data: {
-                user_id: user_id,
-                collect_id: $(this).attr('data-goods_id')
-            },
-            success: function (res) {
-                console.log(res)
-                if (res.code == 200) {
-                    $('.collection-icon').prop('src', './src/img/icon/collection.png')
-                }
-            }
-        })
+    if($(this).attr('data-is_collect') == "1") {
+        getCollect()
+        // $.ajax({
+        //     type: 'POST',
+        //     url: GlobalHost + '/Api/user/cancel_collect',
+        //     data: {
+        //         user_id: user_id,
+        //         collect_id: $(this).attr('data-goods_id')
+        //     },
+        //     success: function (res) {
+        //         console.log(res)
+        //         if (res.code == 200) {
+        //             $('.collection-icon').prop('src', './src/img/icon/collection.png')
+        //         }
+        //     }
+        // })
     } else {
         $.ajax({
             type: 'POST',
@@ -416,7 +417,8 @@ $('.collection').on('click', function () {
             success: function (res) {
                 console.log(res)
                 if (res.code == 200) {
-                    $('.collection-icon').prop('src', './src/img/icon/collection-choose.png')
+                    $('.collection-icon').prop('src', './src/img/icon/collection-choose.png');
+                    $('.collection').attr('data-is_collect', '1');
                 }
             }
         })
@@ -603,7 +605,21 @@ function zitidian() {
 }
 
 
-// 分享到微信
-function shareWx() {
-
+// 取消收藏
+function getCollect() {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + "/api/goods/cancel_collect",
+        data: {
+            user_id: user_id,
+            goods_id: goods_id
+        },
+        success: function (res) {
+            console.log(res)
+            if (res.code == 200) {
+                $('.collection-icon').prop('src', './src/img/icon/collection.png')
+                $('.collection').attr('data-is_collect', '0');
+            }
+        }
+    })
 }

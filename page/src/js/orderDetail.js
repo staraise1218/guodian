@@ -5,6 +5,7 @@
  * @orderName   【商品标题】
  * @kuaidiName  【快递标题】
  * @orderMSG    【订单信息】
+ * @invoice_no  【快递单号】
  */
 let order_id = getParam('order_id');
 let wuliuStatus = 0;
@@ -16,7 +17,7 @@ let user_id = myUsetInfo.user_id;
 
 let orderName = '';
 let kuaidiName = '';
-
+let invoice_no = "";
 
 /**=================================================================================
  *          加载
@@ -63,7 +64,7 @@ function createOrder(order_id) {
             let data = res.data;
             orderMSG = data;
             orderName = data.goods_list[0].goods_name;
-
+            invoice_no = data.invoice_no;
             // getCountDown(data.add_time)
             /**判断订单状态
              * @order_status_code   【待付款：WAITPAY，待发货：WAITSEND， 待收货：WAITRECEIVE，待评价：WAITCCOMMENT，REFUND 已申请退款】
@@ -259,7 +260,8 @@ function createOrder(order_id) {
             $('.shop_count').text('共' + 1 + '件商品');
             $('.total_amount').text('￥' + data.total_amount);
             $('.order_sn').html(`订单编号：${data.order_sn} <span data-copy="${data.order_sn}" class="fuzhi">复制</span>`);
-            data.add_time = formatDate(data.add_time);
+            data.add_time = formatDateCom(data.add_time);
+            console.log(data)
             $('.add_time').text('下单时间：' + data.add_time);
 
             /**按钮显示
@@ -346,9 +348,13 @@ function getWuLiu() {
         type: 'post',
         url: GlobalHost + '/Api/order/getExpressInfo',
         data: {
-            invoice_no: '3711389943985'
+            invoice_no: invoice_no
         },
         success: function (res) {
+            if(invoice_no == "") {
+                $('.loading_').text('暂无物流信息');
+                return;
+            }
             wuliuStatus = 1
             if (res.code == 200) {
                 console.log(res)

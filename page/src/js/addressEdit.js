@@ -175,11 +175,13 @@ $('.province').delegate('li','click', function () {
     lactChoose = 'province';
     // 渲染城市
     let cityList = '';
+    console.log(province)
     getJson[province.index].sub.forEach(city => {
         cityList += `<li data-id="${city.id}">${city.name}</li>`
     })
     $('.alert-address .city').html(cityList);
     $('.alert-address .district').html('');
+    console.log(province)
 })
 
 

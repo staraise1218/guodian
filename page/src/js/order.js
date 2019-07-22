@@ -186,7 +186,7 @@ function createList(user_id, page, type) {
                             </p>
                             ${shopList}
                             <div class="ctr">
-                                <p class="title">订单金额：￥1231231231</p>
+                                <p class="title">订单金额：￥${item.total_amount}</p>
                                 <div class="btn-wrap">
                                     <span data-action="pay" data-orderid="${item.order_id}" style="display: ${item.pay_btn == 1 ? 'inline-block' : 'none'}" class="btn">去付款</span>
                                     <span data-action="cancel" data-orderid="${item.order_id}" style="display: ${item.cancel_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">取消</span>
