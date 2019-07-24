@@ -236,9 +236,6 @@ function createOrder(order_id) {
                                 </div>
                                 <div class="info">
                                     <p>${item.goods_name}</p>
-                                    <p class="op-6">标题</p>
-                                    <p class="op-6">标题</p>
-                                    <p class="op-6">标题</p>
                                     <div class="tag-wrap op-4">
                                         <div class="left">
                                             <span class="tag">${item.spec_key_name}</span>
@@ -262,8 +259,8 @@ function createOrder(order_id) {
             $('.order_sn').html(`订单编号：${data.order_sn} <span data-copy="${data.order_sn}" class="fuzhi">复制</span>`);
             data.add_time = formatDateCom(data.add_time);
             console.log(data)
-            
-            // $('.ID_number .con').text()
+
+            $('.ID_number .con').text(data.ID_number)
             $('.add_time').text('下单时间：' + data.add_time);
 
             /**按钮显示
@@ -474,9 +471,6 @@ function getTuiKuan() {
                     </div>
                     <div class="right">
                         <p class="t">${item.goods_name}</p>
-                        <p>标题</p>
-                        <p>标题</p>
-                        <p>标题</p>
                         <p class="price">￥ ${item.goods_price}</p>
                     </div>
                 </li>`
