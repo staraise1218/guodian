@@ -30,6 +30,7 @@
             left: .1rem;
             top: 50%;
             transform: translateY(-50%);
+            height: 60%;
         }
         .topBar p {
             width: 100%;
@@ -48,7 +49,8 @@
         }
 
         img {
-            max-width: 100%;
+            width: 100%;
+            height: 100%;
         }
         
         /* share */
@@ -117,14 +119,14 @@
     <!-- 顶部 -->
     <div class="topBar">
         <img src="./src/img/icon/back.png" alt="" class="icon-df back">
-        <p class="text-df ttt"></p>
+        <p class="text-df ttt">文章页</p>
         <div class="right share-show">
             <img class="icon-df" src="./src/img/icon/share.png" alt="">
             <!-- <img class="icon-df m-l back" src="./src/img/icon/message.png" alt=""> -->
         </div>
     </div>
     <!-- 顶部 END -->
-    <div class="title" style="text-align: center;"></div>
+    <!-- <div class="title" style="text-align: center;"></div> -->
     <div class="content"></div>
     
     <!-- share -->
@@ -186,7 +188,7 @@
                     res.data.content = res.data.content.replace(reg, GlobalHost + '/public')
                     $('.content').html(res.data.content)
                     // $('.title').text(res.data.title);
-                    $('.ttt').text(res.data.title)
+                    $('.title').text(res.data.title)
                 }
             })
         // }, 200)
