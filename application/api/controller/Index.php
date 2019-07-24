@@ -127,7 +127,7 @@ class Index extends Base {
 		// 获取分类
 		$categoryList = Db::name('goods_category')
 			->where('is_show', 1)
-			->order('store_count !=0 desc, sort_order')
+			->order('sort_order')
 			->field('id, mobile_name cat_name')
 			->cache(true)
 			->select();
@@ -140,16 +140,16 @@ class Index extends Base {
 		if($cat_id == '') $cat_id = $categoryList[0]['id'];
 		$cat_id && $where['cat_id'] = $cat_id;
 
-		$order = 'sort asc, goods_id desc';
-		if($type == 1) $order = 'sort asc, goods_id desc';
+		$order = 'store_count !=0 desc, sort asc, goods_id desc';
+		if($type == 1) $order = 'store_count !=0 desc, sort asc, goods_id desc';
 		if($type == 2) $order = 'shop_price desc';
 		if($type == 3) {
 			$where['temai'] = 1;
-			$order = 'sort asc, goods_id desc';
+			$order = 'store_count !=0 desc, sort asc, goods_id desc';
 		}
 		if($type == 4) {
 			unset($where['cat_id']);
-			$order = 'sort asc, goods_id desc';
+			$order = 'store_count !=0 desc, sort asc, goods_id desc';
 		}
 
 		
