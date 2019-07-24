@@ -64,9 +64,11 @@ $('#address-alert').on('click', function () {
 
 // 关闭弹窗
 $('.alert-box').on('click', function () {
+    // $('.alert-box').css('display','none');
+    // $('.alert-address').slideToggle();
     $('.alert-box').css('display','none');
     $('.alert-address').slideToggle();
-    createCity();
+    // createCity();
 })
 
 // 关闭弹窗
@@ -80,6 +82,7 @@ $('.alert-address .tips-top i').on('click', function () {
     $('.alert-box').css('display','none');
     $('.alert-address').slideToggle();
     createCity();
+    pd();
 })
 
 // user-close
@@ -321,6 +324,7 @@ $('.alert-wrapper').delegate('.active','click', function () {
             break;
     }
     $('.alert-wrapper').hide();
+    pd();
 })
 
 
@@ -454,4 +458,34 @@ function getAddressCon(id, user_id) {
  */
         }
     })
+}
+
+
+
+function pd() {
+    if(consignee) {
+        if(mobile) {
+            if(province.id) {
+                if(city.id) {
+                    if(district.id) {
+                        if(address) {
+                            $('.submit_address').addClass('active')
+                        } else {
+                            $('.submit_address').removeClass('active')
+                        }
+                    } else {
+                        $('.submit_address').removeClass('active')
+                    }
+                } else {
+                    $('.submit_address').removeClass('active')
+                }
+            } else {
+                $('.submit_address').removeClass('active')
+            }
+        } else {
+            $('.submit_address').removeClass('active')
+        }
+    } else {
+        $('.submit_address').removeClass('active')
+    }
 }
