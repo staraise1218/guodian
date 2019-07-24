@@ -232,7 +232,10 @@ class Auth extends Base {
         $mobile = I('mobile');
         $scene = I('scene', 1);
 
-        
+        $count = Db::name('users')->where('mobile', $mobile)->count();
+        if($scene == 1 && $count) response_error('该手机号已注册'); // 注册时判断手机号是否已注册
+        if($scene == 2 && ! $count) response_error('该手机号未注册'); // 找回密码时判断手机号是否已注册
+
 
         $SmsLogic = new SmsLogic();
         $code = $SmsLogic->send($mobile, $scene, $error);
@@ -274,7 +277,6 @@ class Auth extends Base {
         // 验证码检测
         $SmsLogic = new SmsLogic();
         if($SmsLogic->checkCode($mobile, $code, '3', $error) == false) response_error('', $error);
-
 
         $userInfo = Db::name('users')->where("mobile={$mobile}")->find();
         if($userInfo) {
