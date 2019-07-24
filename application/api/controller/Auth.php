@@ -232,6 +232,8 @@ class Auth extends Base {
         $mobile = I('mobile');
         $scene = I('scene', 1);
 
+        
+
         $SmsLogic = new SmsLogic();
         $code = $SmsLogic->send($mobile, $scene, $error);
         if($code != false){
