@@ -80,10 +80,10 @@ class Category extends Base {
 
 
 		// 排序
-		$order = 'sort asc, goods_id desc';
-		$sales_num && $order = "sales_sum $sales_num";
-		$shop_price && $order = "shop_price $shop_price";
-		$is_new == 1 && $order = "is_new desc";
+		$order = 'sort asc, goods_id desc, store_count = 0 desc, ';
+		$sales_num && $order = "sales_sum $sales_num, store_count = 0 desc, ";
+		$shop_price && $order = "shop_price $shop_price, store_count = 0 desc, ";
+		$is_new == 1 && $order = "is_new desc, store_count = 0 desc, ";
 
 		$where = array(
 			'brand_id' => $brand_id, // 品牌筛选
