@@ -127,7 +127,7 @@ class Index extends Base {
 		// 获取分类
 		$categoryList = Db::name('goods_category')
 			->where('is_show', 1)
-			->order('sort_order')
+			->order('store_count !=0 desc, sort_order')
 			->field('id, mobile_name cat_name')
 			->cache(true)
 			->select();
