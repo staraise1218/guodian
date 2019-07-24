@@ -50,6 +50,7 @@ class Base extends Controller {
         }
         $filename = $filepath.date('d').'.log';
 
+$data .= $_SERVER['HTTP_USER_AGENT'];
         file_put_contents($filename, $data, FILE_APPEND);
     }
 }
