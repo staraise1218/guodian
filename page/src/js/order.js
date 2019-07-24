@@ -167,8 +167,6 @@ function createList(user_id, page, type) {
                                         </div>
                                         <div class="right">
                                             <p class="text-df">${el.goods_name}</p>
-                                            <p class="text-df color_3">副标题</p>
-                                            <p class="text-df color_3">副标题</p>
                                             <div class="text-xs color_3 tag-wrap">
                                                 <p class="tag">${el.spec_key_name}</p>
                                                 <p class="num">x${el.goods_num}</p>
