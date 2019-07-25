@@ -63,6 +63,7 @@ class Payment extends Base {
                exit($code_str);
            }else{
              // p($order, $config_value);
+                $config_value['frontUrl_app'] = 'http://www.guodianjm.com/index.php/home/payment/returnUrl/pay_code/unionpay/type/app';
            	    $code_str = $this->payment->get_code($order,$config_value);
            }
            
