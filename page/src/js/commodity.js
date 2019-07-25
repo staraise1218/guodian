@@ -575,7 +575,8 @@ $('.byNowBtn').on('click', function (e) {
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
     // debugger;
-    window.location.href = './shoppingBag.html';
+    // window.location.href = './shoppingBag.html';
+    window.android.goCart();
     return false;
 })
 
