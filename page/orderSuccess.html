@@ -60,7 +60,7 @@
 <body>
     <!-- 顶部 -->
     <div class="topBar">
-        <img src="./src/img/icon/back.png" alt="" class="icon-df back">
+        <img src="./src/img/icon/back.png" alt="" class="icon-df back2">
         <p class="text-df title">结算中心</p>
         <div class="right">
         </div>
@@ -93,6 +93,10 @@
                 break;
         }
     
+
+        $('.back2').click(function () {
+            window.history.go(-5)
+        })
     </script>
 </body>
 </html>
