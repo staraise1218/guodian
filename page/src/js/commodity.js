@@ -572,7 +572,6 @@ $('.byNowBtn').on('click', function (e) {
     return false;
 })
 
-alert('test')
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
     // debugger;
