@@ -119,9 +119,9 @@ class Payment extends Base {
 
     // 页面跳转   
     public function returnUrl(){
+        $type = I('type', null);
 
         $result = $this->payment->respond2(); // $result['order_sn'] = '201512241425288593';
-
 
         $order = M('order')->where("order_sn", $result['order_sn'])->find();
         if(empty($order)) // order_sn 找不到 根据 order_id 去找
@@ -129,7 +129,12 @@ class Payment extends Base {
             $order_id = session('order_id'); // 最近支付的一笔订单 id        
             $order = M('order')->where("order_id", $order_id)->find();
         }
-
+    $filepath = 'runtime/log/'.date('Y/m/');
+    if(!is_dir($filepath)){
+        mkdir($filepath, 0777, true);
+    }
+    $filename = $filepath.date('d').'.log';
+file_put_contents($filename, $type, FILE_APPEND);
         $this->assign('order', $order);
 
         if($result['status'] == 1){
