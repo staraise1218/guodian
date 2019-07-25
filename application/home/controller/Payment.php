@@ -131,12 +131,19 @@ class Payment extends Base {
         }
 
         $this->assign('order', $order);
+
         if($result['status'] == 1){
+            if($type == 'app') {
+                $this->redirect('http://guodianjm.com//page/orderSuccess.html?status=success');
+            }
             if(isMobile()){
                 $this->redirect('mobile/payment/pay_success'); 
             }
             return $this->fetch('success');   
         } else {
+            if($type == 'app') {
+                $this->redirect('http://guodianjm.com//page/orderSuccess.html?status=fail');
+            }
             if(isMobile()){
                 $this->redirect('mobile/payment/pay_error'); 
             }
