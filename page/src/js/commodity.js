@@ -590,6 +590,7 @@ $('#goShoppingBag').on('click', function (e) {
         window.android.goCart();
         return false;
     } else {
+        alert('IOS 下一步执行跳转')
         jumpIOS();
     }
 })
