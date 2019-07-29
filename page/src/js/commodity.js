@@ -1,4 +1,3 @@
-alert('test')
 /**
  * =================================================
  *          公共变量
@@ -590,7 +589,7 @@ $('#goShoppingBag').on('click', function (e) {
         window.android.goCart();
         return false;
     } else {
-        alert('IOS 下一步执行跳转')
+        // alert('IOS 下一步执行跳转')
         jumpIOS();
     }
 })
