@@ -18,6 +18,7 @@ let user_id = '';
 let shareName = '';     // 分享名称
 let shareName2 = '';     // 分享名称
 let goods_images_list = []; // 轮播图数组
+let hasGuiGe = false;       // 是否有商品规格
 if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
     let myUsetInfo = localStorage.getItem('USERINFO');
     myUsetInfo = JSON.parse(myUsetInfo);
@@ -186,6 +187,9 @@ function getInfo() {
             goods_images_list = res.data.goodsInfo.goods_images_list;
             // debugger;
             console.log(res)
+            if(res.data.filter_spec.length != 0) {
+                hasGuiGe = true;
+            }
             shareName = res.data.goodsInfo.goods_name;
             shareName2 = res.data.goodsInfo.goods_remark;
             // 渲染顶部标题
@@ -560,6 +564,12 @@ $('.byNowBtn').on('click', function (e) {
     if(kucun == 0) {
         alert('库存不足')
         return;
+    }
+    if(hasGuiGe) {
+        if(!$id) {
+            alert('请选择商品规格')
+            return;
+        }
     }
     e.preventDefault();
     e.stopPropagation();
