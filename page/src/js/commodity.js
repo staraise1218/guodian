@@ -586,8 +586,12 @@ $('.byNowBtn').on('click', function (e) {
 $('#goShoppingBag').on('click', function (e) {
     // debugger;
     // window.location.href = './shoppingBag.html';
-    window.android.goCart();
-    return false;
+    if (isAndroid) {
+        window.android.goCart();
+        return false;
+    } else {
+        jumpIOS();
+    }
 })
 
 
