@@ -584,12 +584,13 @@ $('.byNowBtn').on('click', function (e) {
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
     // debugger;
+    alert('测试跳转')
     // window.location.href = './shoppingBag.html';
     if (isAndroid) {
         window.android.goCart();
         return false;
     } else {
-        // alert('IOS 下一步执行跳转')
+        alert('IOS 下一步执行跳转')
         jumpIOS();
     }
 })
