@@ -179,7 +179,7 @@
                 <img class="icon-xsl collection-icon" src="./src/img/icon/collection.png" alt="">
                 <p>收藏</p>
             </div>
-            <div class="shopCart-item">
+            <div class="shopCart-item" onclick="ysf('open')">
                 <img class="icon-xsl" src="./src/img/icon/service.png" alt="">
                 <p>客服</p>
             </div>
@@ -333,6 +333,39 @@
     <script src="./src/js/global.js"></script>
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script src="./src/js/commodity.js"></script>
+    <script>
+        (function (w, d, n, a, j) {
+            w[n] = w[n] || function () {
+                (w[n].a = w[n].a || []).push(arguments);
+            };
+            j = d.createElement('script');
+            j.async = true;
+            j.src ='https://qiyukf.com/script/f7d7bda2488a94a7103e779cf1aa436c.js';
+            d.body.appendChild(j);
+        })(window, document, 'ysf');
+            
+        // var isSdkReady = true;
+     //    ysf('onLayerload', function () {
+     //        isSdkReady = true;
+     //    })
+
+     //    window.openSdk = function () {
+     //        if (isSdkReady) {
+     //            ysf('open');
+     //        } else {
+     //            alert('sdk尚未加载成功，请稍后再试');
+     //        }
+     //    }
+
+
+        ysf('config', {
+            uid: '{$Think.cookie.PHPSESSID}',
+            name:'{$Think.cookie.uname|urldecode}',
+            email:'{$Think.cookie.email}',
+            mobile:'{$Think.cookie.mobile}',
+        });
+
+    </script>
 
 </body>
 
