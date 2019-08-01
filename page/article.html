@@ -213,20 +213,64 @@ $('.share-wrap li').on('click', function () {
 
     </script>
 
-<link rel="stylesheet" type="text/css" href="../public/plugins/layui/css/layui.css">
-<script type="text/javascript" src="../public/plugins/layui/layui.js"></script>
-<script type="text/javascript">
-  // 弹出图片
-  $('#jdzs img').click(function(){
-    layui.use(['layer', 'form'], function(){
-      var layer = layui.layer;
-      layer.photos({
-          photos: "#jdzs",
-          anim: 0 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-      }); 
-    });   
-  })
+<div class="big_img">
+  <div class="swiper-container2">
+    <div class="swiper-wrapper"> </div>
+  </div>
+</div>
+<link rel="stylesheet"  href="../public/plugins/swiper/swiper.min.css"/>
+<style type="text/css">
+    .big_img{position: fixed;z-index: -1;opacity: 0;background: rgba(255,255,255,0.9);width: 100%;height: 100%;top:0;left:0;}
+    .big_img .swiper-container2 {position: relative;width: 100%;height: 100%;}
+    .big_img .swiper-container2  .swiper-wrapper{width: 100%;height: 100%;}
+    .big_img .swiper-slide{width: 100%;height: 100%;display: table}
+    .big_img .swiper-slide .cell{width: 100%;;height: 100%;display: table-cell;vertical-align: middle;text-align: center;}
+    .big_img .swiper-slide img{max-width: 90%;max-height: 80%;margin:0 auto;}
+    .big_img .swiper-pagination2{position: absolute; top:0.2rem;text-align: center;width: 100%;}
+    .big_img .swiper-pagination2 span{margin:0 0.05rem;}
+</style>
+<script type="text/javascript" src="./src/js/jquery.min.js"></script>
+<script type="text/javascript" src="../public/plugins/swiper/swiper.min.js"></script>
+<script>
+$(document).ready(function(){
+  /*调起大图 S*/
+   var mySwiper = new Swiper('.swiper-container2', {
+        loop: false,
+        pagination: '.swiper-pagination2',
+        })
+    $(".content").on("click", ".jdzs img", function() {
+
+        var imgBox = $(this).parents(".jdzs").find("img");
+        var i = $(imgBox).index(this);
+        $(".big_img .swiper-wrapper").html("")
+
+        for(var j = 0 ,c = imgBox.length; j < c ;j++){
+         $(".big_img .swiper-wrapper").append('<div class="swiper-slide"><div class="cell"><img src="' + imgBox.eq(j).attr("src") + '" / ></div></div>');
+        }
+        mySwiper.updateSlidesSize();
+        mySwiper.updatePagination();
+        $(".big_img").css({
+            "z-index": 1001,
+            "opacity": "1"
+        });
+        mySwiper.slideTo(i, 0, false);
+        return false;
+    });
+  
+    $(".big_img").on("click", 
+    function() {
+        $(this).css({
+            "z-index": "-1",
+            "opacity": "0"
+        });
+
+    });
+  });
+  /*调起大图 E*/
+
+
 </script>
+
 </body>
 
 </html>
