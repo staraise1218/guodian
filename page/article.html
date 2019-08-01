@@ -212,6 +212,24 @@ $('.share-wrap li').on('click', function () {
 })
 
     </script>
+
+    <link rel="stylesheet" type="text/css" href="../public/plugins/layui/css/layui.css">
+<script type="text/javascript" src="../public/plugins/layui/layui.js"></script>
+<script type="text/javascript">
+  // 弹出图片
+  $('#jdzs img').click(function(){
+    layui.use(['layer', 'form'], function(){
+      var layer = layui.layer;
+      layer.photos({
+          photos: "#jdzs",
+          anim: 0 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+      }); 
+    });   
+  })
+  baguetteBox.run('.jdzs', {
+      animation: 'fadeIn',
+  });
+</script>
 </body>
 
 </html>
