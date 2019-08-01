@@ -10,7 +10,7 @@
     <title>商品页面</title>
     <link rel="stylesheet" href="">
     <script src="./src/js/rem.js"></script>
-    <link rel="stylesheet" href="./src/css/global.css">
+    <link rel="stylesheet" href="./src/css/global.css?v=1.1">
     <link rel="stylesheet" href="./src/css/swipeslider.css">
     <link rel="stylesheet" href="./src/css/commodity.css">
 </head>
@@ -333,6 +333,7 @@
     <script src="./src/js/global.js"></script>
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script src="./src/js/commodity.js"></script>
+<!-- 网易七鱼 开始 -->
     <script>
         (function (w, d, n, a, j) {
             w[n] = w[n] || function () {
@@ -357,16 +358,21 @@
      //        }
      //    }
 
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
 
         ysf('config', {
-            uid: '{$Think.cookie.PHPSESSID}',
-            name:'{$Think.cookie.uname|urldecode}',
-            email:'{$Think.cookie.email}',
-            mobile:'{$Think.cookie.mobile}',
+            uid: myUsetInfo.user_id,
+            name:myUsetInfo.nickname,
+            email:myUsetInfo.email,
+            mobile:myUsetInfo.mobile,
         });
 
     </script>
-
+<style type="text/css">
+    #YSF-BTN-HOLDER { right: -10000000px; }
+</style>
+<!-- 网易七鱼 结束 -->
 </body>
 
 </html>
