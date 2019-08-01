@@ -405,14 +405,14 @@
      //        }
      //    }
 
-        let myUsetInfo = localStorage.getItem('USERINFO');
-        myUsetInfo = JSON.parse(myUsetInfo);
-
+        let userInfo = localStorage.getItem('USERINFO');
+        userInfo = JSON.parse(userInfo);
+        
         ysf('config', {
-            uid: myUsetInfo.user_id,
-            name:myUsetInfo.nickname,
-            email:myUsetInfo.email,
-            mobile:myUsetInfo.mobile,
+            uid: userInfo.user_id,
+            name:userInfo.nickname,
+            email:userInfo.email,
+            mobile:userInfo.mobile,
         });
 
     </script>
