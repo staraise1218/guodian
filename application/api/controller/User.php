@@ -407,4 +407,46 @@ class User extends Base {
 
         response_success('', '绑定成功');
     }
+
+    // 身份证实名认证
+    public function IDCardAuth(){
+        $IDCard = input('post.IDCard');
+        $realname = input('post.realname');
+        if($realname == '') response_error('', '姓名不能为空');
+        if( ! is_idcard($IDCard)) response_error('', '身份证号格式不正确');
+
+        $host = "https://idcert.market.alicloudapi.com";
+        $path = "/idcard";
+        $method = "GET";
+        $appcode = "b39931ae19e7430885cd5e77845af2b4";
+        $headers = array();
+        array_push($headers, "Authorization:APPCODE " . $appcode);
+        $querys = "idCard={$IDCard}&realname={$realname}";
+        $bodys = "";
+        $url = $host . $path . "?" . $querys;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        //curl_setopt($curl, CURLOPT_HEADER, true); 如不输出json, 请打开这行代码，打印调试头部状态码。
+        //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+        if (1 == strpos("$".$host, "https://"))
+        {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        $out_put = curl_exec($curl);
+        $result = json_decode($out_put, true);
+
+        if($result['status'] == '01') {
+
+            response_success($result, '认证通过');
+        } else {
+            response_error('', '认证失败');
+        }
+    }
 }
