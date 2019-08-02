@@ -443,7 +443,12 @@ class User extends Base {
         $result = json_decode($out_put, true);
 
         if($result['status'] == '01') {
-
+            $data = array(
+                'realname' => $realname,
+                'IDCard' => $IDCard,
+                'sex' => $result['sex'] == '男' ? '1' : '2',
+            );
+            Db::name('users')->insert($data);
             response_success($result, '认证通过');
         } else {
             response_error('', '认证失败');
