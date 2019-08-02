@@ -1,0 +1,58 @@
+body {
+    padding-bottom: 2rem;
+    /* padding-top: .8rem; */
+}
+.topBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: .8rem;
+    /* border-bottom: .2rem solid #eee; */
+    background: transparent !important;
+    z-index: 1;
+}
+.topBar img {
+    position: absolute;
+    left: .1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.topBar p {
+    width: 100%;
+    text-align: center;
+    line-height: .8rem;
+}
+.topBar .right {
+    position: absolute;
+    right: .3rem
+}
+
+
+._top {
+    background: linear-gradient(rgb(253, 221, 183), rgb(210, 172, 125));
+    font-size: 12px;
+    padding: 5em 1em 3em 1em;
+}
+._top p {
+    line-height: 1.5em;
+}
+._top p:last-child {
+    color: #fff;
+    opacity: .8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
