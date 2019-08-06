@@ -1,4 +1,18 @@
 
+let user_id = '';
+let getUserInfoMsg = '';
+let loadFlag = false;
+
+if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
+    let myUsetInfo = localStorage.getItem('USERINFO');
+    myUsetInfo = JSON.parse(myUsetInfo);
+    console.log(myUsetInfo)
+    user_id = myUsetInfo.user_id;
+} else {
+    user_id = 0;
+}
+
+
 var years=[];
 var month=[];
 var day=[];
@@ -92,6 +106,8 @@ var mobileSelect1 = new MobileSelect({
     callback:function(indexArr, data){
         console.log(data);
         $("#trigger1").text(data[0].value + '-' + data[1].value+'-'+data[2].value);
+        save.birDay = data[0].value + '-' + data[1].value+'-'+data[2].value;
+        changeInfo("2")
     }
 });
 
@@ -121,14 +137,20 @@ $('.list_wrap').delegate('li p', 'click', function () {
     console.log($(this).attr('data-status'))
     switch($(this).attr('data-status')) {
         case "name":
+            if($(this).attr('data-default') == 1) {
+                return;
+            }
             $('.name_save').show();
             $('.bg').show();
             break;
         case "sex":
-            $('.bg').show();
-            $('.save_sex').show();
+            // $('.bg').show();
+            // $('.save_sex').show();
             break;
         case "phone":
+            if($(this).attr('data-default') == 1) {
+                return;
+            }
             $('.save_phone').show();
             $('.bg').show();
             break;
@@ -213,3 +235,99 @@ $('.name_save').delegate('.active','click', function () {
     $('.name_save').hide();
     $('.list_wrap .list_item:eq(0) .r p').text(save.name);
 })
+
+
+
+
+
+
+
+
+getInfo ();
+function getInfo () {
+    $.ajax({
+        type: "post",
+        url: GlobalHost + '/Api/user/getUserInfo',
+        data: {
+            user_id: user_id
+        },
+        success: function (res) {
+            console.log(res);
+            getUserInfoMsg = res.data;
+            loadFlag = true;
+        }
+    })
+}
+
+
+
+
+setInterval(() => {
+    if(loadFlag) {
+        if(getUserInfoMsg) {
+            if(getUserInfoMsg.mobile) {
+                $('.list_wrap .list_item:eq(2) .r p').text(getUserInfoMsg.mobile).attr('data-default', '1');
+            }
+            
+            if(getUserInfoMsg.nickname) {
+                $('.list_wrap .list_item:eq(0) .r p').text(getUserInfoMsg.nickname).attr('data-default', '1');
+            }
+            switch(getUserInfoMsg.sex) {
+                case "0":
+                    $('.list_wrap .list_item:eq(1) .r p').text("未完善");
+                    break;
+                case "1":
+                    $('.list_wrap .list_item:eq(1) .r p').text("男");
+                    break;
+                case "2":
+                    $('.list_wrap .list_item:eq(1) .r p').text("女");
+                    break;
+            }
+            if(getUserInfoMsg.birthday) {
+                $('.list_wrap .list_item:eq(3) .r p').text(getUserInfoMsg.birthday).attr('data-default', '1');
+            }
+            loadFlag = false;
+        }
+    }
+}, 200);
+
+
+/**
+ * @param {*} status 
+ * @param {*} val 
+ */
+// 昵称：nickname; 
+// 姓名：realname; 
+// 生日：birthday 格式：1990-12-12
+function changeInfo(status) {
+    switch(status) {
+        case "0": // 姓名
+            postInfo(save.name, "nickname");
+            break;
+        case "1": // 手机号
+            break;
+        case "2": // 生日
+            console.log(save.birDay)
+            postInfo(save.birDay, "birthday");
+            break;
+    }
+}
+
+function postInfo(fieldValue, field) {
+    console.log(fieldValue)
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/user/changeField',
+        data: {
+            user_id: user_id,
+            fieldValue: fieldValue,
+            field: field
+        },
+        success: function (res) {
+            console.log(res);
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+}
