@@ -112,15 +112,19 @@
             </div>
             <div class="formRow">
               <div class="label">真实姓名：</div>
-              <div class="inputtext"><input class="text" type="text" name="realname" value="{$user.realname}"></div>
+              <div class="inputtext realname_box"><input class="text" type="text" name="realname" value="{$user.realname}"></div>
             </div>
             <div class="formRow">
+              <div class="label">身份证号：</div>
+              <div class="inputtext IDCard_box" style="overflow: hidden;"><input style="float: left;" class="text" type="text" name="IDCard" value="{$user.IDCard}"><button style="float:left; height: 28px;  line-height: 28px;margin: 2px 0 0 10px;" type="button" class="renzhengBtn">实名认证</button></div>
+            </div>
+            <!-- <div class="formRow">
               <div class="label">姓别：</div>
               <div class="inputtext">
                 <input id="sex" type="hidden" name="sex" value="{$user['sex']}">
-				<span class="radio <if condition="$user['sex'] eq '0'">current</if>" name="sex" value="0" ></span><span class="radioValue">保密</span>
-				<span class="radio <if condition="$user['sex'] eq '1'">current</if>" name="sex" value="1" ></span><span class="radioValue">男</span>
-				<span class="radio <if condition="$user['sex'] eq '2'">current</if>" name="sex" value="2" ></span><span class="radioValue">女</span>
+                              <span class="radio <if condition="$user['sex'] eq '0'">current</if>" name="sex" value="0" ></span><span class="radioValue">保密</span>
+                              <span class="radio <if condition="$user['sex'] eq '1'">current</if>" name="sex" value="1" ></span><span class="radioValue">男</span>
+                              <span class="radio <if condition="$user['sex'] eq '2'">current</if>" name="sex" value="2" ></span><span class="radioValue">女</span>
               </div>
             </div>
             <div class="formRow">
@@ -128,7 +132,7 @@
               <div class="inputtext">
                 <input class="text" id="timePicker" type="text" name="birthday" value="{$user.birthday == '0000-00-00' ? '' : $user.birthday}">
               </div>
-            </div>
+            </div> -->
             <div class="formRow">
               <div class="label">手机号码：</div>
               <div class="inputtext">{:substr_replace($user['mobile'], '****', 3, 4)} 
@@ -362,5 +366,32 @@
         $('img[class="headpic"]').attr('src',str);
 
     }
+
+    // 身份证实名认证
+    $('.renzhengBtn').click(function(){
+        var realname = $('input[name=realname]').val();
+        var IDCard = $('input[name=IDCard]').val();
+
+        if(realname == '') layer.msg('请填写姓名', {icon:2})
+        if(IDCard == '') layer.msg('请填写身份证号', {icon:2})
+
+        layer.load(1);
+        $.ajax({
+            url: '{:U("api/user/IDCardAuth")}',
+            type: 'post',
+            dataType: 'json',
+            data: {user_id: '{$user_id}', realname: realname, IDCard: IDCard},
+            success: function(data){
+                layer.closeAll('loading');
+                if(data.code == 200) {
+                    $('.realname_box').html(realname);
+                    $('.IDCard_box').html(IDCard);
+                } else {
+                   layer.msg(data.msg, {icon: 2})
+                }
+            }
+        })
+
+    })
 </script>
 </html>

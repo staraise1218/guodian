@@ -20,26 +20,6 @@ class User extends Base {
     public function index(){
         $user_id = I('user_id');
 
-        /*// 待付款数量
-        $result['waitPayNum'] = Db::name('order')
-            ->where('user_id', $user_id)
-            ->where('pay_status', 0)
-            ->where('order_status', 0)
-            ->count();
-        // 待收货数量
-        $result['waitReceiveNum'] = Db::name('order')
-            ->where('user_id', $user_id)
-            ->where('pay_status', 1)
-            ->where('order_status', 'in', array(0, 1))
-            ->count();
-        // 退货单数量
-        $result['refundNum'] = Db::name('order')
-            ->where('user_id', $user_id)
-            ->where('pay_status', 1)
-            ->where('order_status', 3)
-            ->count();*/
-
-
 
         $UsersLogic = new UsersLogic();
         $data = $UsersLogic->get_info($user_id);
@@ -410,6 +390,7 @@ class User extends Base {
 
     // 身份证实名认证
     public function IDCardAuth(){
+        $user_id = input('post.user_id');
         $IDCard = input('post.IDCard');
         $realname = input('post.realname');
         if($realname == '') response_error('', '姓名不能为空');
@@ -447,6 +428,7 @@ class User extends Base {
                 'realname' => $realname,
                 'IDCard' => $IDCard,
                 'sex' => $result['sex'] == '男' ? '1' : '2',
+                'birthday' => $result['birthday'],
             );
             Db::name('users')->insert($data);
             response_success($result, '认证通过');
