@@ -402,7 +402,7 @@ class User extends Base {
         $appcode = "b39931ae19e7430885cd5e77845af2b4";
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
-        $querys = "idCard={$IDCard}&realname={$realname}";
+        $querys = "idCard={$IDCard}&name={$realname}";
         $bodys = "";
         $url = $host . $path . "?" . $querys;
 
@@ -412,7 +412,7 @@ class User extends Base {
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_FAILONERROR, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_HEADER, ture);
         //curl_setopt($curl, CURLOPT_HEADER, true); 如不输出json, 请打开这行代码，打印调试头部状态码。
         //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
         if (1 == strpos("$".$host, "https://"))
@@ -421,7 +421,7 @@ class User extends Base {
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }
         $out_put = curl_exec($curl);
-        p($out_put);
+
         $result = json_decode($out_put, true);
 
         if($result['status'] == '01') {
@@ -431,7 +431,7 @@ class User extends Base {
                 'sex' => $result['sex'] == '男' ? '1' : '2',
                 'birthday' => $result['birthday'],
             );
-            Db::name('users')->insert($data);
+            Db::name('users')->where('user_id', $user_id)->update($data);
             response_success($result, '认证通过');
         } else {
             response_error('', '认证失败');
