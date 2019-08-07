@@ -421,6 +421,7 @@ class User extends Base {
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }
         $out_put = curl_exec($curl);
+        p($out_put);
         $result = json_decode($out_put, true);
 
         if($result['status'] == '01') {
