@@ -132,6 +132,11 @@ class Cart extends Base {
             $this->redirect('Home/User/login');
             // $this->error('请先登录', U('Home/User/login'));
         }
+
+        // 判断是否实名认证
+        $user = $this->user;
+        if(empty($user['IDCard'])) $this->error('请进行实名认证', U('user/info'));
+        
         $cartLogic = new CartLogic();
         $couponLogic = new CouponLogic();
         $cartLogic->setUserId($this->user_id);

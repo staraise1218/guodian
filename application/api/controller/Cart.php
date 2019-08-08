@@ -208,6 +208,7 @@ class Cart extends Base {
         $result['address'] = $address; // 地址
         $result['couponList'] = $userCartCouponList; //优惠券，用able判断是否可用
         $result['cartList'] = $cartList; // 购物车的商品
+        $result['userInfo'] = Db::name('users')->where('user_id', $$user_id)->field('realname, IDCard, mobile')->find();
         // $result['cartPriceInfo'] = $cartPriceInfo;//商品优惠总价
         
         response_success($result);

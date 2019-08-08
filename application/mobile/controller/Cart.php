@@ -130,6 +130,11 @@ class Cart extends Base {
             // $this->error('请先登录', U('Home/User/login'));
         }
 
+
+        // 判断是否实名认证
+        $user = $this->user;
+        if(empty($user['IDCard'])) $this->redirect(U('user/info'));
+
         $address_id = I('address_id/d');
         if($address_id){
             $address = M('user_address')->where("address_id", $address_id)->find();

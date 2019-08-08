@@ -31,27 +31,29 @@
       </div>
       <div class="name _public">
         <a href="javascript:;">姓名</a>
-	       <input type="text" maxlength="10" name="realname" value="{$user['realname']}">
-	
+         <input type="text" maxlength="10" name="realname" value="{$user['realname']}" <if condition="$user.realname != '' && $user.IDCard != ''">disabled="disabled"</if>>
+  
         <!--  <span id="name">{$user.nickname}</span>  -->
       </div>
-      <div class="brand _public" style="position: relative;">
+      <div class="name _public">
+        <a href="javascript:;">身份证</a>
+         <input type="text" maxlength="10" name="IDCard" value="{$user['IDCard']}" <if condition="$user.realname != '' && $user.IDCard != ''">disabled="disabled"</if>>
+  
+        <!--  <span id="name">{$user.nickname}</span>  -->
+      </div>
+      <!-- <div class="brand _public" style="position: relative;">
         <a href="javascript:;">性别</a>
-	       <select name="sex" id="">
+               <select name="sex" id="">
           <option value="0">保密</option>
           <option value="1" <if $user['sex'] eq 1>selected=selected</if>>男</option>
           <option value="2" <if $user['sex'] eq 2>selected=selected</if>>女</option>
         </select>
-
-	<!--  <if condition="$user['sex'] eq '0'"><span class="gender">保密</span></if>
-	<if condition="$user['sex'] eq '1'"><span class="gender">男</span></if>
-	<if condition="$user['sex'] eq '2'"><span class="gender">女</span></if>  -->
-
-      </div>
-      <div class="birth _public">
+      
+      </div> -->
+      <!-- <div class="birth _public">
         <a href="javascript:;">生日</a>
         <input id="dateSelectorOne" name="birthday" type="text" readonly="readonly" value="{$user.birthday == '0000-00-00' ? '' : $user.birthday}">
-      </div>
+      </div> -->
       <div class="phone _public" style="background: #fff;">
         <a href="javascript:;">手机号码</a>
 	     <input type="text" name="mobile" value="{$user.mobile}" readonly="readonly">
@@ -267,6 +269,36 @@
       var reg_mobile = /^1\d{10}$/;
       return reg_mobile.test(phone);
     }
+
+
+    // 身份证实名认证
+    $('input[name=IDCard]').blur(function(){
+        var realname = $('input[name=realname]').val();
+        var IDCard = $('input[name=IDCard]').val();
+
+        if(realname == '') layer.msg('请填写姓名', {icon:2})
+        if(IDCard == '') layer.msg('请填写身份证号', {icon:2})
+
+        layer.load(1);
+        $.ajax({
+            url: '{:U("api/user/IDCardAuth")}',
+            type: 'post',
+            dataType: 'json',
+            data: {user_id: '{$user_id}', realname: realname, IDCard: IDCard},
+            success: function(data){
+                layer.closeAll('loading');
+                if(data.code == 200) {
+                   layer.msg('认证成功',{icon:1}, function(){
+                       $('input[name=realname]').attr('disabled', 'true');
+                       $('input[name=IDCard]').attr('disabled', 'true');
+                   })
+                } else {
+                   layer.msg(data.msg, {icon: 2})
+                }
+            }
+        })
+
+    })
 
 </script>
 </html>
