@@ -93,7 +93,7 @@
     <!-- 顶部 END -->
 
     <ul class="list_wrap">
-        <li class="list_item" onclick="console.log('打开在线客服')">
+        <li class="list_item" onclick="ysf('open')">
             <div class="l">
                 <img src="./src/img/icon/客服.png" alt="">
                 <div class="r">
@@ -138,13 +138,45 @@
     <script src="./src/js/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/store.js/1.3.20/store.min.js"></script>
     <script src="./src/js/global.js"></script>
+<!-- 网易七鱼 开始 -->
     <script>
+        (function (w, d, n, a, j) {
+            w[n] = w[n] || function () {
+                (w[n].a = w[n].a || []).push(arguments);
+            };
+            j = d.createElement('script');
+            j.async = true;
+            j.src ='https://qiyukf.com/script/f7d7bda2488a94a7103e779cf1aa436c.js';
+            d.body.appendChild(j);
+        })(window, document, 'ysf');
+            
+        // var isSdkReady = true;
+     //    ysf('onLayerload', function () {
+     //        isSdkReady = true;
+     //    })
 
+     //    window.openSdk = function () {
+     //        if (isSdkReady) {
+     //            ysf('open');
+     //        } else {
+     //            alert('sdk尚未加载成功，请稍后再试');
+     //        }
+     //    }
 
+        let myUsetInfo = localStorage.getItem('USERINFO');
+        myUsetInfo = JSON.parse(myUsetInfo);
 
-
-
+        ysf('config', {
+            uid: myUsetInfo.user_id,
+            name:myUsetInfo.nickname,
+            email:myUsetInfo.email,
+            mobile:myUsetInfo.mobile,
+        });
 
     </script>
+<style type="text/css">
+    #YSF-BTN-HOLDER { right: -10000000px; }
+</style>
+<!-- 网易七鱼 结束 -->
 </body>
 </html>
