@@ -23,6 +23,7 @@ body {
     width: 100%;
     text-align: center;
     line-height: .8rem;
+    font-size: 0.34rem;
 }
 .topBar .right {
     position: absolute;
