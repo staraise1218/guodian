@@ -155,8 +155,8 @@ $('.list_wrap').delegate('li p', 'click', function () {
             $('.bg').show();
             break;
         case "idCard": // 身份证
-            $('.bg').show();
-            $('.save_IDcard').show();
+            // $('.bg').show();
+            // $('.save_IDcard').show();
             
         default:
             console.log('*')
