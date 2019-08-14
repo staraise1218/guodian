@@ -22,7 +22,7 @@ body {
 .topBar p {
     width: 100%;
     text-align: center;
-    line-height: .8rem;
+    /* line-height: .8rem; */
     font-size: 0.36rem;
 }
 .topBar .right {
