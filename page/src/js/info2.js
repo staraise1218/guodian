@@ -123,14 +123,18 @@ let cache = {
     phone : '',
     sex : '',
     birDay : '',
-    name : ''
+    name : '',
+    IDCard: '',
+    IDname: ''
 }
 
 let save = {
     phone : '',
     sex : '',
     birDay : '',
-    name : ''
+    name : '',
+    IDCard: '',
+    IDname: ''
 }
 
 $('.list_wrap').delegate('li p', 'click', function () {
@@ -155,8 +159,8 @@ $('.list_wrap').delegate('li p', 'click', function () {
             $('.bg').show();
             break;
         case "idCard": // 身份证
-            // $('.bg').show();
-            // $('.save_IDcard').show();
+            $('.bg').show();
+            $('.save_IDcard').show();
             
         default:
             console.log('*')
@@ -185,7 +189,7 @@ $('.bg').click(function () {
 
 
 
-
+// 验证姓名
 $('#info_user_name').on('input', function () {
     console.log($(this).val())
     if(phoneRgx.test($(this).val())) {
@@ -195,7 +199,7 @@ $('#info_user_name').on('input', function () {
 })
 
 
-
+// 性别
 $('.save_sex .item').click(function () {
     console.log($(this).attr('data-sex'));
     switch($(this).attr('data-sex')) {
@@ -219,7 +223,7 @@ $('.save_sex .item').click(function () {
 })
 
 
-
+// 验证手机
 $('.save_phone').delegate('.active','click',function () {
     save.phone = cache.phone;
     $('.list_wrap .list_item:eq(2) .r p').text(save.phone);
@@ -242,9 +246,33 @@ $('.name_save').delegate('.active','click', function () {
     $('.list_wrap .list_item:eq(0) .r p').text(save.name);
 })
 
+// 验证身份证
+$('#info_IDcard').on('input', function () {
+    console.log($(this).val());
+    if(shenfenCardRgx.test($(this).val())) {
+        if(cache.IDCname) {
+            $('.save_IDcard .sub button').addClass('active');
+        } else {
+            $('.save_IDcard .sub button.active').removeClass('active');
+        }
+        cache.IDCard = $(this).val();
+    }
+})
+$('#info_IDname').on('input', function () {
+    console.log($(this).val());
+    if($(this).val().length >= 2) {
+        cache.IDCname = $(this).val();
+        if(cache.IDCard) {
+            $('.save_IDcard .sub button').addClass('active');
+        } else {
+            $('.save_IDcard .sub button.active').removeClass('active');
+        }
+    }
+})
 
-
-
+$('.save_IDcard').delegate('.active', 'click', function () {
+    console.log('验证身份证。。。')
+})
 
 
 
@@ -336,6 +364,23 @@ function postInfo(fieldValue, field) {
         },
         error: function(error) {
             console.log(error)
+        }
+    })
+}
+
+
+
+function yzIDcard(name, id) {
+    $.ajax({
+        type: 'postp',
+        url: GlobalHost + '/Api/user/IDCardAuth',
+        data: {
+            user_id: user_id,
+            realname: name,
+            IDCard: id
+        },
+        success: function (res) {
+            console.log(res);
         }
     })
 }
