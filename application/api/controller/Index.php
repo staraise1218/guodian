@@ -56,7 +56,7 @@ class Index extends Base {
 
 		$guessGoodsList = Db::name('goods')
 			->where($where)
-			->order('sort asc, goods_id desc')
+			->order('store_count !=0 desc, sort desc, goods_id desc')
 			->field('goods_id, goods_name, store_count, original_img, shop_price, market_price')
 			->limit(6)
 			->select();
