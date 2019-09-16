@@ -141,17 +141,24 @@
           </div>
           </a>          
           </div> 
-        <div class="fbutton">
+        <!-- <div class="fbutton">
             <a href="{:U('Admin/Goods/initGoodsSearchWord')}">
                 <div class="add" title="初始化商品搜索关键词">
                     <span><i class="fa fa-plus"></i>初始化商品搜索关键词</span>
                 </div>
             </a>
-        </div>
+        </div> -->
         <div class="fbutton">
           <a href="javascript:;" onclick="publicHandleAll('del')">
               <div class="add" title="批量删除">
                   <span>批量删除</span>
+              </div>
+          </a>
+      </div>
+        <div class="fbutton">
+          <a href="javascript:;" onclick="selectStorehouse()">
+              <div class="add" title="商品调库">
+                  <span>商品调库</span>
               </div>
           </a>
       </div>
@@ -202,14 +209,49 @@
         });
     }
 	
-        // 点击排序
-        function sort(field)
-        {
-           $("input[name='orderby1']").val(field);
-           var v = $("input[name='orderby2']").val() == 'desc' ? 'asc' : 'desc';             
-           $("input[name='orderby2']").val(v);
-           ajax_get_table('search-form2',cur_page);
+    // 点击排序
+    function sort(field)
+    {
+       $("input[name='orderby1']").val(field);
+       var v = $("input[name='orderby2']").val() == 'desc' ? 'asc' : 'desc';             
+       $("input[name='orderby2']").val(v);
+       ajax_get_table('search-form2',cur_page);
+    }
+
+
+
+    //发送站内信
+    function selectStorehouse()
+    {
+        var obj = $('.trSelected');
+        var url = "{:U('Admin/goods/selectStorehouse')}";
+        if(obj.length > 0){
+            var check_val = [];
+            obj.each(function(){
+                check_val.push($(this).attr('data-id'));
+            });
+            url += "?goods_id_array="+check_val;
+            layer.open({
+                type: 2,
+                title: '选择仓库',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['1000px', '480px'],
+                content: url
+            });
+        }else{
+            layer.msg('请选择商品',{icon:2});
         }
+
+    }
+
+    
+
+    function call_back(){
+        
+        layer.closeAll('iframe');
+        // window.location.reload();
+    }
 </script>
 </body>
 </html>

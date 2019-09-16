@@ -245,12 +245,12 @@ class PayLogic
             throw new TpshopException("计算订单价格",0,['status'=>-1,'msg'=>'请填写收货信息','result'=>['']]);
         }
         $GoodsLogic = new GoodsLogic();
-        $checkGoodsShipping = $GoodsLogic->checkGoodsListShipping($this->payList, $district_id);
+       /* $checkGoodsShipping = $GoodsLogic->checkGoodsListShipping($this->payList, $district_id);
         foreach($checkGoodsShipping as $shippingKey => $shippingVal){
             if($shippingVal['shipping_able'] != true){
                 throw new TpshopException("计算订单价格",0,['status'=>-1,'msg'=>'订单中部分商品不支持对当前地址的配送请返回购物车修改','result'=>['goods_shipping'=>$checkGoodsShipping]]);
             }
-        }
+        }*/
         $freight_free = tpCache('shopping.freight_free'); // 全场满多少免运费
         if($this->goodsPrice < $freight_free || $freight_free == 0){
             $this->shippingPrice = $GoodsLogic->getFreight($this->payList, $district_id);

@@ -58,6 +58,8 @@ class UsersLogic extends Model
 		if ($user_count > 0) {
 			return array('status' => -1, 'msg' => '账号已存在');
 		}
+
+        $user['nickname'] = $user['nickname'] ? $user['nickname'] : $user['mobile'];
     	$user['password'] = encrypt($user['password']);
     	$user['reg_time'] = time();
     	$user_id = M('users')->add($user);

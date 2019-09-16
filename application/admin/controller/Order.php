@@ -5,6 +5,8 @@ use app\admin\logic\OrderLogic;
 use think\AjaxPage;
 use think\Page;
 use think\Db;
+use app\common\logic\PayLogic;
+use app\common\logic\PlaceOrderLogic;
 
 class Order extends Base {
     public  $order_status;
@@ -80,39 +82,6 @@ class Order extends Base {
         $this->assign('orderList',$orderList);
         $this->assign('page',$show);// 赋值分页输出
         $this->assign('pager',$Page);
-        return $this->fetch();
-    }
-    //虚拟订单
-    public function virtual_list(){
-    header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
-    }
-    // 虚拟订单
-    public function virtual_info(){
-    header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
-    }
-
-    public function virtual_cancel(){
-        $order_id = I('order_id/d');
-        if(IS_POST){
-            $admin_note = I('admin_note');
-            $order = M('order')->where(array('order_id'=>$order_id))->find();
-            if($order){
-                $r = M('order')->where(array('order_id'=>$order_id))->save(array('order_status'=>3,'admin_note'=>$admin_note));
-                if($r){
-                    $orderLogic = new OrderLogic();
-                    $orderLogic->orderActionLog($order_id,$admin_note, '取消订单');
-                    $this->ajaxReturn(array('status'=>1,'msg'=>'操作成功'));
-                }else{
-                    $this->ajaxReturn(array('status'=>-1,'msg'=>'操作失败'));
-                }
-            }else{
-                $this->ajaxReturn(array('status'=>-1,'msg'=>'订单不存在'));
-            }
-        }
-        $order = M('order')->where(array('order_id'=>$order_id))->find();
-        $this->assign('order',$order);
         return $this->fetch();
     }
 
@@ -1027,7 +996,7 @@ exit("不支持此功能");
         $shipping_list = M('plugin')->where(array('status'=>1,'type'=>'shipping'))->select();
         //  获取支付方式
         $payment_list = M('plugin')->where(array('status'=>1,'type'=>'payment'))->select();
-        if(IS_POST)
+        /*if(IS_POST)
         {
             $order['user_id'] = I('user_id');// 用户id 可以为空
             $order['consignee'] = I('consignee');// 收货人
@@ -1088,13 +1057,72 @@ exit("不支持此功能");
             else{
                 $this->error('添加失败');
             }                
-        }     
+        }   */  
         $this->assign('shipping_list',$shipping_list);
         $this->assign('payment_list',$payment_list);
         $this->assign('province',$province);
         $this->assign('city',$city);
         $this->assign('area',$area);        
         return $this->fetch();
+    }
+
+    /**
+     * 提交添加订单
+     */
+    public function addOrder(){
+            $user_id = I('user_id');// 用户id 不可以为空
+            $admin_note = I('admin_note'); // 管理员备注
+            //收货信息
+            $user  = Db::name('users')->where(['user_id'=>$user_id])->find();
+            $address['consignee'] = I('consignee');// 收货人
+            $address['province'] = I('province'); // 省份
+            $address['city'] = I('city'); // 城市
+            $address['district'] = I('district'); // 县
+            $address['address'] = I('address'); // 收货地址
+            $address['mobile'] = I('mobile'); // 手机
+            $address['zipcode'] = I('zipcode'); // 邮编
+            $address['email'] = $user['email']; // 邮编
+            $invoice_title = I('invoice_title');// 发票抬头
+            $taxpayer = I('taxpayer');// 纳税人识别号
+            if(!empty($taxpayer)){
+                $invoice_desc = "商品明细";// 发票内容
+            }
+            $goods_id_arr = I("goods_id/a");
+            $orderLogic = new OrderLogic();
+            $order_goods = $orderLogic->get_spec_goods($goods_id_arr);
+            $pay = new PayLogic();
+            try{
+                $pay->setUserId($user_id);
+                $pay->payGoodsList($order_goods);
+                $pay->delivery($address['district']);
+                $pay->orderPromotion();
+            } catch (TpshopException $t) {
+                $error = $t->getErrorArr();
+                $this->error($error['msg']);
+            }
+            $placeOrder = new PlaceOrderLogic($pay);
+            $placeOrder->setExtraParams(array('admin_id'=>session('admin_id')));
+            $placeOrder->setPayLogic($pay);
+            $placeOrder->setUserAddress($address);
+            $placeOrder->setInvoiceTitle($invoice_title);
+            $placeOrder->setTaxpayer($taxpayer);
+            $placeOrder->setInvoiceDesc($invoice_desc);
+            $placeOrder->addNormalOrder();
+            $order = $placeOrder->getOrder();
+            if($order) {
+                M('order_action')->add([
+                    'order_id'      => $order['order_id'],
+                    'action_user'   => session('admin_id'),
+                    'order_status'  => 0,  //待支付
+                    'shipping_status' => 0, //待确认
+                    'action_note'   => $admin_note,
+                    'status_desc'   => '提交订单',
+                    'log_time'      => time()
+                ]);
+                $this->success('添加订单成功',U("Admin/Order/detail",array('order_id'=>$order['order_id'])));
+            } else{
+                $this->error('添加失败');
+            }
     }
     
     /**
@@ -1152,5 +1180,19 @@ exit("不支持此功能");
     public function ajaxOrderNotice(){
         $order_amount = M('order')->where("order_status=0 and (pay_status=1 or pay_code='cod')")->count();
         echo $order_amount;
+    }
+
+    /**
+     * 搜索用户名
+     */
+    public function search_user()
+    {
+        $search_key = trim(I('search_key'));
+        if ($search_key == '') $this->ajaxReturn(['status' => -1, 'msg' => '请按要求输入！！']);
+        $list = M('users')->where('mobile', $search_key)->select();
+        if ($list) {
+            $this->ajaxReturn(['status' => 1, 'msg' => '获取成功', 'result' => $list]);
+        }
+        $this->ajaxReturn(['status' => -1, 'msg' => '未查询到相应数据！！']);
     }
 }

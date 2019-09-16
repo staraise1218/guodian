@@ -22,37 +22,32 @@ function ajax_submit_form(form_id,submit_url){
                     var v =  eval('('+v+')');
                         // 验证成功提交表单
                     if(v.hasOwnProperty('status'))
-                    {      
-					    //layer.alert(v.msg);						
-						layer.msg(v.msg, {
-						  icon: 1,   // 成功图标
-						  time: 2000 //2秒关闭（如果不配置，默认是3秒）
-						});							
-						
-                    	// 删除按钮
-                		//layer.confirm('确认删除？', {
-                		//	btn: ['确定'] //按钮
-                		//}, function () {
-                			
-                		//}, function () {
-                		//});
-                		
+                    {  
                         if(v.status == 1)
-						{							
-							if(v.hasOwnProperty('data')){
-								if(v.data.hasOwnProperty('url')){
-									location.href = v.data.url;
-								}else{
-									location.href = location.href;
-								}
-							}else{
-								location.href = location.href;
-							}
-							return true;
+						          {			
+                            layer.msg(v.msg, {
+                              icon: 1,   // 成功图标
+                              time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });     				
+          							if(v.hasOwnProperty('data')){
+          								if(v.data.hasOwnProperty('url')){
+          									location.href = v.data.url;
+          								}else if(v.data.hasOwnProperty('back')){
+                              window.history.back(-1);
+                            }else{
+          									location.href = location.href;
+          								}
+          							}else{
+          								location.href = location.href;
+          							}
+          							return true;
                         }
                         if(v.status == 0)
                         {                            
-                            return false;
+                           layer.msg(v.msg, {
+                              icon: 2,   // 成功图标
+                              time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            });     
                         }
                             //return false;
                     }

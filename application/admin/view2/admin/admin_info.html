@@ -22,16 +22,7 @@
                 </dt>
                 <dd class="opt">
                     <input type="text" name="user_name" value="{$info.user_name}" id="user_name" class="input-txt">
-                    <p class="notic">用户名</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label for="email"><em>*</em>Email地址</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" name="email" value="{$info.email}" id="email" class="input-txt">
-                    <p class="notic">Email地址</p>
+                    <p class="notic">用户名作为登录账号使用</p>
                 </dd>
             </dl>
             <dl class="row">
@@ -41,6 +32,51 @@
                 <dd class="opt">
                     <input type="text" name="password" value="{$info.password}" id="password" class="input-txt">
                     <p class="notic">登陆密码</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="realname">姓名</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="realname" value="{$info.realname}" id="realname" class="input-txt">
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="phone">电话</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="phone" value="{$info.phone}" id="phone" class="input-txt">
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="ID_number">身份证号</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="ID_number" value="{$info.ID_number}" id="ID_number" class="input-txt">
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="department">部门</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="department" value="{$info.department}" id="department" class="input-txt">
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="entry_date">入职日期</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="entry_date" id="entry_date" value="{$info.entry_date == '0000-00-00' ? '' : $info.entry_date}" id="entry_date" class="input-txt">
+                    <p class="notic"></p>
                 </dd>
             </dl>
             <if condition=" ($act eq 'add') OR ($info['admin_id'] gt 1)">
@@ -63,6 +99,8 @@
         </div>
     </form>
 </div>
+
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
 <script type="text/javascript">
     // 判断输入框是否为空
     function adsubmit(){
@@ -70,16 +108,21 @@
             layer.msg('用户名不能为空！', {icon: 2,time: 1000});   //alert('少年，用户名不能为空！');
             return false;
         }
-        if($('input[name=email]').val() == ''){
-            layer.msg('邮箱不能为空！', {icon: 2,time: 1000});//alert('少年，邮箱不能为空！');
-            return false;
-        }
-        if($('input[name=password]').val() == ''){
-            layer.msg('密码不能为空！', {icon: 2,time: 1000});//alert('少年，密码不能为空！');
-            return false;
-        }
+        // if($('input[name=email]').val() == ''){
+        //     layer.msg('邮箱不能为空！', {icon: 2,time: 1000});//alert('少年，邮箱不能为空！');
+        //     return false;
+        // }
+        
         $('#adminHandle').submit();
     }
+
+    laydate.skin('molv');//选择肤色
+    laydate({
+        type: "date",
+        elem: "#entry_date"
+    })
+ 
+
 </script>
 </body>
 </html>

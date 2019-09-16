@@ -10,12 +10,15 @@ class Admin extends Base {
 
     public function index(){
     	$list = array();
-    	$keywords = I('keywords/s');
-    	if(empty($keywords)){
-    		$res = D('admin')->select();
-    	}else{
-			$res = DB::name('admin')->where('user_name','like','%'.$keywords.'%')->order('admin_id')->select();
-    	}
+        $keyword = I('keyword/s');
+        $role_id = I('role_id/d');
+
+        $where = array();
+        if($keyword) $where['realname'] = array('like', "%$keyword%");
+    	if($role_id) $where['role_id'] = $role_id;
+
+        $res = DB::name('admin')->where($where)->order('admin_id')->select();
+    	
     	$role = D('admin_role')->getField('role_id,role_name');
     	if($res && $role){
     		foreach ($res as $val){
@@ -24,7 +27,9 @@ class Admin extends Base {
     			$list[] = $val;
     		}
     	}
-    	$this->assign('list',$list);
+
+        $this->assign('list',$list);
+        $this->assign('role',$role);
         return $this->fetch();
     }
     

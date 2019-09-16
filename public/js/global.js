@@ -64,7 +64,7 @@ function get_area(t){
             return;
         },
         success: function(v) {
-            v = '<option>选择区域</option>'+ v;
+            v = '<option value="0">选择区域</option>'+ v;
             $('#district').empty().html(v);
         }
     });

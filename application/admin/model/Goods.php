@@ -73,7 +73,7 @@ class Goods extends Model {
          delFile(UPLOAD_PATH."goods/thumb/$goods_id"); // 删除缩略图
          
          // 商品规格价钱处理        
-//         M("SpecGoodsPrice")->where('goods_id = '.$goods_id)->delete(); // 删除原有的价格规格对象
+        // M("SpecGoodsPrice")->where('goods_id = '.$goods_id)->delete(); // 删除原有的价格规格对象
         $goods_item = I('item/a');
         if ($goods_item) {
             $keyArr = '';//规格key数组
@@ -110,7 +110,7 @@ class Goods extends Model {
             if($keyArr){
                 Db::name('spec_goods_price')->where('goods_id',$goods_id)->whereNotIn('key',$keyArr)->delete();
             }
-//             M("SpecGoodsPrice")->insertAll($dataList);
+            //   M("SpecGoodsPrice")->insertAll($dataList);
 
         }
          

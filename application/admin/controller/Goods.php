@@ -337,56 +337,43 @@ class Goods extends Base {
             }
             $data['virtual_indate'] = !empty($virtual_indate) ? strtotime($virtual_indate) : 0;
             $data['exchange_integral'] = ($data['is_virtual'] == 1) ? 0 : $data['exchange_integral'];
-            $Goods->data($data, true); // 收集数据
-            $Goods->on_time = time(); // 上架时间
-            I('cat_id_2') && ($Goods->cat_id = I('cat_id_2'));
-            I('cat_id_3') && ($Goods->cat_id = I('cat_id_3'));
+     
+            I('cat_id_2') && ($data['cat_id'] = I('cat_id_2'));
+            I('cat_id_3') && ($data['cat_id'] = I('cat_id_3'));
 
-            I('extend_cat_id_2') && ($Goods->extend_cat_id = I('extend_cat_id_2'));
-            I('extend_cat_id_3') && ($Goods->extend_cat_id = I('extend_cat_id_3'));
-            $Goods->shipping_area_ids = implode(',', I('shipping_area_ids/a', []));
-            $Goods->shipping_area_ids = $Goods->shipping_area_ids ? $Goods->shipping_area_ids : '';
-            $Goods->spec_type = $Goods->goods_type;
-            $price_ladder = array();
-            if ($Goods->ladder_amount[0] > 0) {
-                foreach ($Goods->ladder_amount as $key => $value) {
-                    $price_ladder[$key]['amount'] = intval($Goods->ladder_amount[$key]);
-                    $price_ladder[$key]['price'] = floatval($Goods->ladder_price[$key]);
-                }
-                $price_ladder = array_values(array_sort($price_ladder, 'amount', 'asc'));
-                $price_ladder_max = count($price_ladder);
-                if ($price_ladder[$price_ladder_max - 1]['price'] >= $Goods->shop_price) {
-                    $return_arr = array(
-                        'msg' => '价格阶梯最大金额不能大于商品原价！',
-                        'status' => -0,
-                        'data' => array('url' => $return_url)
-                    );
-                    $this->ajaxReturn($return_arr);
-                }
-                if ($price_ladder[0]['amount'] <= 0 || $price_ladder[0]['price'] <= 0) {
-                    $return_arr = array(
-                        'msg' => '您没有输入有效的价格阶梯！',
-                        'status' => -0,
-                        'data' => array('url' => $return_url)
-                    );
-                    $this->ajaxReturn($return_arr);
-                }
-                $Goods->price_ladder = serialize($price_ladder);
-            } else {
-                $Goods->price_ladder = '';
-            }
+            I('extend_cat_id_2') && ($data['extend_cat_id'] = I('extend_cat_id_2'));
+            I('extend_cat_id_3') && ($data['extend_cat_id'] = I('extend_cat_id_3'));
+            $shipping_area_ids = implode(',', I('shipping_area_ids/a', []));
+            $data['shipping_area_ids'] = $shipping_area_ids ? $shipping_area_ids : '';
+            $data['spec_type'] = $data['goods_type'];
 
+            // 修改信息
             if ($type == 2) {
-                $Goods->isUpdate(true)->save(); // 写入数据到数据库
+                $GoodsLog = new \app\admin\model\GoodsLog();
+                // 将修改数据记录到goods_log 表
+                $data['goods_id'] = $goods_id;
+                $data['admin_id'] = session('admin_id');
+                $data['action'] = 2; // 1 新增 2 修改
+                $data['change_time'] = time();
+                $GoodsLog->data($data, true)->allowField(true)->save(); 
                 // 修改商品后购物车的商品价格也修改一下
-                M('cart')->where("goods_id = $goods_id and spec_key = ''")->save(array(
+               /* M('cart')->where("goods_id = $goods_id and spec_key = ''")->save(array(
                     'market_price' => I('market_price'), //市场价
                     'goods_price' => I('shop_price'), // 本店价
                     'member_goods_price' => I('shop_price'), // 会员折扣价
-                ));
+                ));*/
             } else {
-                $Goods->save(); // 写入数据到数据库
+                $Goods->data($data, true)->save(); // 写入数据到数据库
                 $goods_id = $insert_id = $Goods->getLastInsID();
+
+                // 将数据写入goods_log 表中
+                $data['goods_id'] = $goods_id;
+                $data['admin_id'] = session('admin_id');
+                $data['action'] = 1; // 1 新增 2 修改
+                $data['change_time'] = time();
+
+                $GoodsLog = new \app\admin\model\GoodsLog();
+                $GoodsLog->data($data)->allowField(true)->save();
             }
             $Goods->afterSave($goods_id);
             $GoodsLogic->saveGoodsAttr($goods_id, I('goods_type')); // 处理商品 属性
@@ -399,6 +386,19 @@ class Goods extends Base {
         }
 
         $goodsInfo = M('Goods')->where('goods_id=' . I('GET.id', 0))->find();
+        // 判断是否有修改且未审核的记录
+
+        if(I('get.id')){
+            $goods_log = M('goods_log')
+                ->where('goods_id', $id)
+                ->where('status', 0)
+                ->where('action', 2)
+                ->order('id desc')
+                ->find();
+            if($goods_log){
+                $goodsInfo = array_merge($goodsInfo, $goods_log);
+            }
+        }
         if ($goodsInfo['price_ladder']) {
             $goodsInfo['price_ladder'] = unserialize($goodsInfo['price_ladder']);
         }
@@ -971,5 +971,53 @@ class Goods extends Base {
             $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U("Admin/goods/seriesList")]);
         }
         $this->ajaxReturn(['status' => -1,'msg' => '操作失败','data'  =>'']);
+    }
+
+    // 商品选择仓库时获取仓库列表
+    public function selectStorehouse()
+    {
+        $keyword = input('keyword');
+        
+        $where = array();
+        if($keyword) $where['name'] = ['like','%'.$keyword.'%'];
+
+
+        $count = Db::name('storehouse')->where($where)->count();
+        $Page = new Page($count, 10);
+
+        $list = Db::name('storehouse')
+            ->where($where)
+            ->order('id DESC')
+            ->limit($Page->firstRow . ',' . $Page->listRows)
+            ->select();
+
+        $this->assign('page', $Page);
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
+
+
+    // 商品选择仓库动作
+    public function ajax_select_storehouse(){
+        $new_storehouse_id = input('post.storehouse_id');
+        $goods_id_array = input('post.goods_id_array');
+
+        $goods_array = explode(',', $goods_id_array);
+
+
+        $goodsArrayInfo = Db::name('goods')->where('goods_id', 'in', $goods_array)->column('goods_id, storehouse_id');
+
+        foreach ($goodsArrayInfo as $goods_id => $storehouse_id) {
+            $data = array(
+                'goods_id' => $goods_id,
+                'storehouse_id' => $storehouse_id,
+                'new_storehouse_id' => $new_storehouse_id,
+                'add_time' => time(),
+                'admin_id' => session('admin_id'),
+            );
+            Db::name('goods_storehouse_log')->insert($data);
+        }
+
+        die(json_encode(array('code'=>200)));
     }
 }

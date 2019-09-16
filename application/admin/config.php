@@ -38,5 +38,6 @@ return [
     'DATA_BACKUP_COMPRESS_LEVEL' => 9, //数据库备份文件压缩级别
     // URL伪静态后缀
     'url_html_suffix'        => '',        
+    'SALE_ID' => 6, // 定义销售用户id
 ]
 ?>

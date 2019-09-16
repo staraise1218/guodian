@@ -101,8 +101,8 @@
                 <li><a href="javascript:void(0);" data-index='1' class="tab current"><span>通用信息</span></a></li>
                 <li><a href="javascript:void(0);" data-index='2' class="tab"><span>商品相册</span></a></li>
                 <li><a href="javascript:void(0);" data-index='3' class="tab"><span>商品模型</span></a></li>
-                <li><a href="javascript:void(0);" data-index='4' class="tab"><span>商品物流</span></a></li>
-                <li><a href="javascript:void(0);" data-index='5' class="tab"><span>积分折扣</span></a></li>                
+                <!-- <li><a href="javascript:void(0);" data-index='4' class="tab"><span>商品物流</span></a></li> -->
+                <!-- <li><a href="javascript:void(0);" data-index='5' class="tab"><span>积分折扣</span></a></li>                 -->
             </ul>
         </div>
     </div>
@@ -281,35 +281,35 @@
                     <span class="err" id="err_chengse" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
-	  <dl class="row">
-        <dt class="tit">
-          <label>是否包邮</label>
-        </dt>
-        <dd class="opt">
-          <div class="onoff">
-            <label for="is_free_shipping1" class="cb-enable <if condition="$goodsInfo[is_free_shipping] eq 1">selected</if>">是</label>
-            <label for="is_free_shipping0" class="cb-disable <if condition="$goodsInfo[is_free_shipping] eq 0">selected</if>">否</label>
-            <input id="is_free_shipping1" name="is_free_shipping" value="1" type="radio" <if condition="$goodsInfo[is_free_shipping] eq 1"> checked="checked"</if>>
-            <input id="is_free_shipping0" name="is_free_shipping" value="0" type="radio" <if condition="$goodsInfo[is_free_shipping] eq 0"> checked="checked"</if>>
-          </div>
-          <p class="notic"></p>
-        </dd>
-      </dl>
+	  <!-- <dl class="row">
+              <dt class="tit">
+                <label>是否包邮</label>
+              </dt>
+              <dd class="opt">
+                <div class="onoff">
+                  <label for="is_free_shipping1" class="cb-enable <if condition="$goodsInfo[is_free_shipping] eq 1">selected</if>">是</label>
+                  <label for="is_free_shipping0" class="cb-disable <if condition="$goodsInfo[is_free_shipping] eq 0">selected</if>">否</label>
+                  <input id="is_free_shipping1" name="is_free_shipping" value="1" type="radio" <if condition="$goodsInfo[is_free_shipping] eq 1"> checked="checked"</if>>
+                  <input id="is_free_shipping0" name="is_free_shipping" value="0" type="radio" <if condition="$goodsInfo[is_free_shipping] eq 0"> checked="checked"</if>>
+                </div>
+                <p class="notic"></p>
+              </dd>
+            </dl> -->
 
-<dl class="row">
-        <dt class="tit">
-          <label>是否已预订</label>
-        </dt>
-        <dd class="opt">
-          <div class="onoff">
-            <label for="reserved1" class="cb-enable <if condition="$goodsInfo[reserved] eq 1">selected</if>">是</label>
-            <label for="reserved0" class="cb-disable <if condition="$goodsInfo[reserved] eq 0">selected</if>">否</label>
-            <input id="reserved1" name="reserved" value="1" type="radio" <if condition="$goodsInfo[reserved] eq 1"> checked="checked"</if>>
-            <input id="reserved0" name="reserved" value="0" type="radio" <if condition="$goodsInfo[reserved] eq 0"> checked="checked"</if>>
-          </div>
-          <p class="notic"></p>
-        </dd>
-      </dl> 
+        <dl class="row">
+            <dt class="tit">
+              <label>是否已预订</label>
+            </dt>
+            <dd class="opt">
+              <div class="onoff">
+                <label for="reserved1" class="cb-enable <if condition="$goodsInfo[reserved] eq 1">selected</if>">是</label>
+                <label for="reserved0" class="cb-disable <if condition="$goodsInfo[reserved] eq 0">selected</if>">否</label>
+                <input id="reserved1" name="reserved" value="1" type="radio" <if condition="$goodsInfo[reserved] eq 1"> checked="checked"</if>>
+                <input id="reserved0" name="reserved" value="0" type="radio" <if condition="$goodsInfo[reserved] eq 0"> checked="checked"</if>>
+              </div>
+              <p class="notic"></p>
+            </dd>
+          </dl> 
             <dl class="row">
                 <dt class="tit">
                     <label for="record_no">总库存</label>
@@ -512,7 +512,10 @@
             <div class="bot">            
                 <input type="hidden" name="goods_id" value="{$goodsInfo.goods_id}">
                 <input type="hidden" name="__token__" value="{$Request.token}" />
-                <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onClick="ajax_submit_form('addEditGoodsForm','{:U('Goods/addEditGoods?is_ajax=1')}');">确认提交</a>
+
+                
+                <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onClick="ajax_submit_form('addEditGoodsForm','{:U('Goods/addEditGoods?is_ajax=1')}');">保存</a>
+                
             </div>
         </div> 
      </form>

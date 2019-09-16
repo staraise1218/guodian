@@ -21,21 +21,21 @@ class User extends Base {
     public function ajaxindex(){
         // 搜索条件
         $condition = array();
-        I('mobile') ? $condition['mobile'] = I('mobile') : false;
-        I('email') ? $condition['email'] = I('email') : false;
+        $search_type = input('post.search_type');
+        $keyword = input('post.keyword');
 
-        I('first_leader') && ($condition['first_leader'] = I('first_leader')); // 查看一级下线人有哪些
-        I('second_leader') && ($condition['second_leader'] = I('second_leader')); // 查看二级下线人有哪些
-        I('third_leader') && ($condition['third_leader'] = I('third_leader')); // 查看三级下线人有哪些
+        if($search_type == 'mobile' && $keyword) $condition['mobile'] = $keyword;
+        if($search_type == 'realname' && $keyword) $condition['realname'] = array('like', "%$keyword%");
+
         $sort_order = I('order_by').' '.I('sort');
-               
+
         $model = M('users');
         $count = $model->where($condition)->count();
         $Page  = new AjaxPage($count,10);
         //  搜索条件下 分页赋值
-        foreach($condition as $key=>$val) {
-            $Page->parameter[$key]   =   urlencode($val);
-        }
+        /*foreach($condition as $key=>$val) {
+            $Page->parameter[$key]   =   $val;
+        }*/
         
         $userList = $model->where($condition)->order($sort_order)->limit($Page->firstRow.','.$Page->listRows)->select();
                 
@@ -110,17 +110,42 @@ class User extends Base {
     }
     
     public function add_user(){
-    	if(IS_POST){
-    		$data = I('post.');
-			$user_obj = new UsersLogic();
-			$res = $user_obj->addUser($data);
-			if($res['status'] == 1){
-				$this->success('添加成功',U('User/index'));exit;
-			}else{
-				$this->error('添加失败,'.$res['msg'],U('User/index'));
-			}
-    	}
-    	return $this->fetch();
+        if(IS_POST){
+            $data = I('post.');
+            $user_obj = new UsersLogic();
+            $res = $user_obj->addUser($data);
+            if($res['status'] == 1){
+                $this->success('添加成功',U('User/index'));
+                exit;
+            }else{
+                $this->error('添加失败,'.$res['msg']);
+            }
+        }
+        return $this->fetch();
+    }
+    
+    public function edit_user(){
+        $user_id = input('get.user_id');
+
+        if(IS_POST){
+
+            $data = input('post.');
+            if(empty($data['password'])) {
+                unset($data['password']);
+            } else {
+                $data['password'] = encrypt($data['password']);
+            }
+
+            $user_id = $data['user_id'];
+            unset($data['user_id']);
+            Db::name('users')->where('user_id', $user_id)->update($data);
+            $this->success('修改成功', U('user/index'));
+        }
+
+        $user = Db::name('users')->where('user_id', $user_id)->find();
+
+        $this->assign('user', $user);
+        return $this->fetch();
     }
     
     public function export_user(){
@@ -169,48 +194,19 @@ class User extends Base {
     /**
      * 用户收货地址查看
      */
-    public function address(){
+    /*public function address(){
         $uid = I('get.id');
         $lists = D('user_address')->where(array('user_id'=>$uid))->select();
         $regionList = get_region_list();
         $this->assign('regionList',$regionList);
         $this->assign('lists',$lists);
         return $this->fetch();
-    }
-
-    /**
-     * 删除会员
-     */
-    public function delete(){
-        $uid = I('get.id');
-        $row = M('users')->where(array('user_id'=>$uid))->delete();
-        if($row){
-            $this->success('成功删除会员');
-        }else{
-            $this->error('操作失败');
-        }
-    }
-    /**
-     * 删除会员
-     */
-    public function ajax_delete(){
-        $uid = I('id');
-        if($uid){
-            $row = M('users')->where(array('user_id'=>$uid))->delete();
-            if($row !== false){
-                $this->ajaxReturn(array('status' => 1, 'msg' => '删除成功', 'data' => ''));
-            }else{
-                $this->ajaxReturn(array('status' => 0, 'msg' => '删除失败', 'data' => ''));
-            }
-        }else{
-            $this->ajaxReturn(array('status' => 0, 'msg' => '参数错误', 'data' => ''));
-        }
-    }
+    }*/
 
     /**
      * 账户资金记录
      */
-    public function account_log(){
+    /*public function account_log(){
         $user_id = I('get.id');
         //获取类型
         $type = I('get.type');
@@ -223,58 +219,10 @@ class User extends Base {
         $this->assign('page',$page->show());
         $this->assign('lists',$lists);
         return $this->fetch();
-    }
+    }*/
 
-    /**
-     * 账户资金调节
-     */
-    public function account_edit(){
-        $user_id = I('user_id');
-        if(!$user_id > 0) $this->ajaxReturn(['status'=>0,'msg'=>"参数有误"]);
-        $user = M('users')->field('user_id,user_money,frozen_money,pay_points,is_lock')->where('user_id',$user_id)->find();
-        if(IS_POST){
-            $desc = I('post.desc');
-            if(!$desc)
-                $this->ajaxReturn(['status'=>0,'msg'=>"请填写操作说明"]);
-            //加减用户资金
-            $m_op_type = I('post.money_act_type');
-            $user_money = I('post.user_money/f');
-            $user_money =  $m_op_type ? $user_money : 0-$user_money;
-            //加减用户积分
-            $p_op_type = I('post.point_act_type');
-            $pay_points = I('post.pay_points/d');
-            $pay_points =  $p_op_type ? $pay_points : 0-$pay_points;
-            //加减冻结资金
-            $f_op_type = I('post.frozen_act_type');
-            $revision_frozen_money = I('post.frozen_money/f');
-            if( $revision_frozen_money != 0){    //有加减冻结资金的时候
-                $frozen_money =  $f_op_type ? $revision_frozen_money : 0-$revision_frozen_money;
-                $frozen_money = $user['frozen_money']+$frozen_money;    //计算用户被冻结的资金
-                if($f_op_type==1 and $revision_frozen_money > $user['user_money'])
-                {
-                    $this->ajaxReturn(['status'=>0,'msg'=>"用户剩余资金不足！！"]);
-                }
-                if($f_op_type==0 and $revision_frozen_money > $user['frozen_money'])
-                {
-                    $this->ajaxReturn(['status'=>0,'msg'=>"冻结的资金不足！！"]);
-                }
-                $user_money = $f_op_type ? 0-$revision_frozen_money : $revision_frozen_money ;    //计算用户剩余资金
-                M('users')->where('user_id',$user_id)->update(['frozen_money' => $frozen_money]);
-            }
-            if(accountLog($user_id,$user_money,$pay_points,$desc,0))
-            {
-                $this->ajaxReturn(['status'=>1,'msg'=>"操作成功",'url'=>U("Admin/User/account_log",array('id'=>$user_id))]);
-            }else{
-                $this->ajaxReturn(['status'=>-1,'msg'=>"操作失败"]);
-            }
-            exit;
-        }
-        $this->assign('user_id',$user_id);
-        $this->assign('user',$user);
-        return $this->fetch();
-    }
     
-    public function recharge(){
+    /*public function recharge(){
     	$timegap = urldecode(I('timegap'));
     	$nickname = I('nickname');
     	$map = array();
@@ -322,12 +270,12 @@ class User extends Base {
     	$show = $Page->show();
     	$this->assign('page',$show);
     	return $this->fetch();
-    }
+    }*/
 
     /**
      * 会员等级添加编辑删除
      */
-    public function levelHandle()
+    /*public function levelHandle()
     {
         $data = I('post.');
         $userLevelValidate = Loader::validate('UserLevel');
@@ -365,41 +313,8 @@ class User extends Base {
             }
         }
         $this->ajaxReturn($return);
-    }
+    }*/
 
-    /**
-     * 搜索用户名
-     */
-    public function search_user()
-    {
-        $search_key = trim(I('search_key'));        
-        if(strstr($search_key,'@'))    
-        {
-            $list = M('users')->where(" email like '%$search_key%' ")->select();        
-            foreach($list as $key => $val)
-            {
-                echo "<option value='{$val['user_id']}'>{$val['email']}</option>";
-            }                        
-        }
-        else
-        {
-            $list = M('users')->where(" mobile like '%$search_key%' ")->select();        
-            foreach($list as $key => $val)
-            {
-                echo "<option value='{$val['user_id']}'>{$val['mobile']}</option>";
-            }            
-        } 
-        exit;
-    }
-    
-    /**
-     * 分销树状关系
-     */
-    public function ajax_distribut_tree()
-    {
-          $list = M('users')->where("first_leader = 1")->select();
-          return $this->fetch();
-    }
 
     /**
      *
@@ -510,199 +425,70 @@ class User extends Base {
     }
 
     /**
-     * 提现申请记录
+     *
+     * 分配销售
      */
-    public function withdrawals()
+    public function assignSale()
     {
-    	$this->get_withdrawals_list();
-        return $this->fetch();
-    }
-    
-    public function get_withdrawals_list($status=''){
-    	$user_id = I('user_id/d');
-    	$realname = I('realname');
-    	$bank_card = I('bank_card');
-    	$create_time = I('create_time');
-    	$create_time = str_replace("+"," ",$create_time);
-    	$create_time2 = $create_time  ? $create_time  : date('Y-m-d',strtotime('-1 year')).' - '.date('Y-m-d',strtotime('+1 day'));
-    	$create_time3 = explode(' - ',$create_time2);
-    	$this->assign('start_time',$create_time3[0]);
-    	$this->assign('end_time',$create_time3[1]);
-    	$where['w.create_time'] =  array(array('gt', strtotime(strtotime($create_time3[0])), array('lt', strtotime($create_time3[1]))));
-    	$status = empty($status) ? I('status') : $status;
-    	if(empty($status) || $status === '0'){
-    		$where['w.status'] =  array('lt',1);
-    	}
-    	if($status === '0' || $status > 0) {
-    		$where['w.status'] = $status;
-    	}
-    	$user_id && $where['u.user_id'] = $user_id;
-    	$realname && $where['w.realname'] = array('like','%'.$realname.'%');
-    	$bank_card && $where['w.bank_card'] = array('like','%'.$bank_card.'%');
-    	$export = I('export');
-    	if($export == 1){
-    		$strTable ='<table width="500" border="1">';
-    		$strTable .= '<tr>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;width:120px;">申请人</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="100">提现金额</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="*">银行名称</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="*">银行账号</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="*">开户人姓名</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="*">申请时间</td>';
-    		$strTable .= '<td style="text-align:center;font-size:12px;" width="*">提现备注</td>';
-    		$strTable .= '</tr>';
-    		$remittanceList = Db::name('withdrawals')->alias('w')->field('w.*,u.nickname')->join('__USERS__ u', 'u.user_id = w.user_id', 'INNER')->where($where)->order("w.id desc")->select();
-    		if(is_array($remittanceList)){
-    			foreach($remittanceList as $k=>$val){
-    				$strTable .= '<tr>';
-    				$strTable .= '<td style="text-align:center;font-size:12px;">'.$val['nickname'].'</td>';
-    				$strTable .= '<td style="text-align:left;font-size:12px;">'.$val['money'].' </td>';
-    				$strTable .= '<td style="text-align:left;font-size:12px;">'.$val['bank_name'].'</td>';
-    				$strTable .= '<td style="vnd.ms-excel.numberformat:@">'.$val['bank_card'].'</td>';
-    				$strTable .= '<td style="text-align:left;font-size:12px;">'.$val['realname'].'</td>';
-    				$strTable .= '<td style="text-align:left;font-size:12px;">'.date('Y-m-d H:i:s',$val['create_time']).'</td>';
-    				$strTable .= '<td style="text-align:left;font-size:12px;">'.$val['remark'].'</td>';
-    				$strTable .= '</tr>';
-    			}
-    		}
-    		$strTable .='</table>';
-    		unset($remittanceList);
-    		downloadExcel($strTable,'remittance');
-    		exit();
-    	}
-    	$count = Db::name('withdrawals')->alias('w')->join('__USERS__ u', 'u.user_id = w.user_id', 'INNER')->where($where)->count();
-    	$Page  = new Page($count,20);
-    	$list = Db::name('withdrawals')->alias('w')->field('w.*,u.nickname')->join('__USERS__ u', 'u.user_id = w.user_id', 'INNER')->where($where)->order("w.id desc")->limit($Page->firstRow.','.$Page->listRows)->select();
-    	$this->assign('create_time',$create_time2);
-    	$show  = $Page->show();
-    	$this->assign('show',$show);
-    	$this->assign('list',$list);
-    	$this->assign('pager',$Page);
-    	C('TOKEN_ON',false);
-    }
-    
-    /**
-     * 删除申请记录
-     */
-    public function delWithdrawals()
-    {
-        $model = M("withdrawals");
-        $model->where('id ='.$_GET['id'])->delete();
-        $return_arr = array('status' => 1,'msg' => '操作成功','data'  =>'',);   //$return_arr = array('status' => -1,'msg' => '删除失败','data'  =>'',);
-        $this->ajaxReturn($return_arr);
-    }
-
-    /**
-     * 修改编辑 申请提现
-     */
-    public  function editWithdrawals(){        
-       $id = I('id');
-       $model = M("withdrawals");
-       $withdrawals = $model->find($id);
-       $user = M('users')->where("user_id = {$withdrawals[user_id]}")->find();     
-       if($user['nickname'])        
-           $withdrawals['user_name'] = $user['nickname'];
-       elseif($user['email'])        
-           $withdrawals['user_name'] = $user['email'];
-       elseif($user['mobile'])        
-           $withdrawals['user_name'] = $user['mobile'];            
-       
-       $this->assign('user',$user);
-       $this->assign('data',$withdrawals);
-       return $this->fetch();
-    }  
-
-    /**
-     *  处理会员提现申请
-     */
-    public function withdrawals_update(){
-    	$id = I('id/a');
-        $data['status']=$status = I('status');
-    	$data['remark'] = I('remark');
-        if($status == 1) $data['check_time'] = time();
-        if($status != 1) $data['refuse_time'] = time();
-        $r = M('withdrawals')->where('id in ('.implode(',', $id).')')->update($data);
-    	if($r){
-    		$this->ajaxReturn(array('status'=>1,'msg'=>"操作成功"),'JSON');
-    	}else{
-    		$this->ajaxReturn(array('status'=>0,'msg'=>"操作失败"),'JSON');
-    	}  	
-    }
-    // 用户申请提现
-    public function transfer(){
-    	$id = I('selected/a');
-    	if(empty($id))$this->error('请至少选择一条记录');
-    	$atype = I('atype');
-    	if(is_array($id)){
-    		$withdrawals = M('withdrawals')->where('id in ('.implode(',', $id).')')->select();
-    	}else{
-    		$withdrawals = M('withdrawals')->where(array('id'=>$id))->select();
-    	}
-    	$alipay['batch_num'] = 0;
-    	$alipay['batch_fee'] = 0;
-    	foreach($withdrawals as $val){
-    		$user = M('users')->where(array('user_id'=>$val['user_id']))->find();
-    		if($user['user_money'] < $val['money'])
-    		{
-    			$data = array('status'=>-2,'remark'=>'账户余额不足');
-    			M('withdrawals')->where(array('id'=>$val['id']))->save($data);
-    			$this->error('账户余额不足');
-    		}else{
-    			$rdata = array('type'=>1,'money'=>$val['money'],'log_type_id'=>$val['id'],'user_id'=>$val['user_id']);
-    			if($atype == 'online'){
-			header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
-    			}else{
-    				accountLog($val['user_id'], ($val['money'] * -1), 0,"管理员处理用户提现申请");//手动转账，默认视为已通过线下转方式处理了该笔提现申请
-    				$r = M('withdrawals')->where(array('id'=>$val['id']))->save(array('status'=>2,'pay_time'=>time()));
-    				expenseLog($rdata);//支出记录日志
-    			}
-    		}
-    	}
-    	if($alipay['batch_num']>0){
-    		//支付宝在线批量付款
-    		include_once  PLUGIN_PATH."payment/alipay/alipay.class.php";
-    		$alipay_obj = new \alipay();
-    		$alipay_obj->transfer($alipay);
-    	}
-    	$this->success("操作成功!",U('remittance'),3);
-    }
-    
-    /**
-     *  转账汇款记录
-     */
-    public function remittance(){
-    	$status = I('status',1);
-    	$this->assign('status',$status);
-    	$this->get_withdrawals_list($status);
+        $user_id_array = I('get.user_id_array');
+        $users = array();
+        if (!empty($user_id_array)) {
+            $users = M('users')->field('user_id, mobile, realname')->where(array('user_id' => array('IN', $user_id_array)))->select();
+        }
+        $this->assign('users',$users);
         return $this->fetch();
     }
 
-        /**
-     * 签到列表
-     * @date 2017/09/28
-     */
-    public function signList() {       
-    header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
-    }
-    
-    
     /**
-     * 会员签到 ajax
-     * @date 2017/09/28
+     * 发送系统消息
+     * @author dyr
+     * @time  2016/09/01
      */
-    public function ajaxsignList() {
-    header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
+    public function doAssignSale()
+    {
+        $call_back = I('call_back');//回调方法
+        $text= I('post.text');//内容
+        $type = I('post.type', 0);//个体or全体
+        $admin_id = session('admin_id');
+        $users = I('post.user/a');//个体id
+        $message = array(
+            'admin_id' => $admin_id,
+            'message' => $text,
+            'category' => 0,
+            'send_time' => time()
+        );
+
+        if ($type == 1) {
+            //全体用户系统消息
+            $message['type'] = 1;
+            M('Message')->add($message);
+        } else {
+            //个体消息
+            $message['type'] = 0;
+            if (!empty($users)) {
+                $create_message_id = M('Message')->add($message);
+                foreach ($users as $key) {
+                    M('user_message')->add(array('user_id' => $key, 'message_id' => $create_message_id, 'status' => 0, 'category' => 0));
+                }
+            }
+        }
+        echo "<script>parent.{$call_back}(1);</script>";
+        exit();
     }
+
     
+
     /**
-     * 签到规则设置 
-     * @date 2017/09/28
+     * 搜索用户名
      */
-    public function signRule() {
-    header("Content-type: text/html; charset=utf-8");
-exit("不支持此功能");
+    public function search_user()
+    {
+        $search_key = trim(I('search_key'));
+        if ($search_key == '') $this->ajaxReturn(['status' => -1, 'msg' => '请按要求输入！！']);
+        $list = M('users')->where(['mobile' => $search_key])->select();
+        if ($list) {
+            $this->ajaxReturn(['status' => 1, 'msg' => '获取成功', 'result' => $list]);
+        }
+        $this->ajaxReturn(['status' => -1, 'msg' => '未查询到相应数据！！']);
     }
 }

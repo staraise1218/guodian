@@ -354,4 +354,9 @@ class PlaceOrderLogic
     {
         $this->order = $order;
     }
+    public function setInvoiceDesc($invoice_desc)
+    {
+        $this->invoiceDesc = $invoice_desc;
+        return $this;
+    }
 }

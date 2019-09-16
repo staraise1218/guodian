@@ -31,7 +31,13 @@
 			<form class="navbar-form form-inline" action="{:U('Admin/index')}" method="get">
 				<div class="sDiv">
 					<div class="sDiv2">
-						<input type="text" size="30" name="keywords" class="qsbox" placeholder="搜索相关数据...">
+						<select class="select" name="role_id">
+							<option value="0">角色筛选</option>
+							<foreach name="role" item="item" key="k">
+							<option value="{$k}">{$item}</option>
+							</foreach>
+						</select>
+						<input type="text" size="30" name="keyword" class="qsbox" placeholder="请输入姓名">
 						<input type="submit" class="btn" value="搜索">
 					</div>
 				</div>
@@ -51,11 +57,11 @@
 						<th align="left" abbr="ac_id" axis="col4" class="">
 							<div style="text-align: left; width: 100px;" class="">用户名</div>
 						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: left; width: 100px;" class="">姓名</div>
+						</th>
 						<th align="center" abbr="article_show" axis="col5" class="">
 							<div style="text-align: left; width: 100px;" class="">所属角色</div>
-						</th>
-						<th align="center" abbr="article_time" axis="col6" class="">
-							<div style="text-align: left; width: 200px;" class="">Email地址</div>
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: left; width: 200px;" class="">加入时间</div>
@@ -99,10 +105,10 @@
 								<div style="text-align: left; width: 100px;">{$vo.user_name}</div>
 							</td>
 							<td align="left" class="">
-								<div style="text-align: left; width: 100px;">{$vo.role}</div>
+								<div style="text-align: left; width: 100px;">{$vo.realname}</div>
 							</td>
 							<td align="left" class="">
-								<div style="text-align: left; width: 200px;">{$vo.email}</div>
+								<div style="text-align: left; width: 100px;">{$vo.role}</div>
 							</td>
 							<td align="left" class="">
 								<div style="text-align: left; width: 200px;">{$vo.add_time}</div>
