@@ -293,8 +293,17 @@ class System extends Base
      		$info['right'] = explode(',', $info['right']);
      		$this->assign('info',$info);
      	}
-     	$group = array('system'=>'系统设置','content'=>'内容管理','goods'=>'商品中心','member'=>'会员中心','finance'=>'财务管理',
-     			'order'=>'订单中心','marketing'=>'营销推广','tools'=>'插件工具','count'=>'统计报表','distribut'=>'分销中心'
+     	$group = array(
+            'system'=>'系统设置',
+            'content'=>'内容管理',
+            'goods'=>'商品中心',
+            'member'=>'用户中心',
+            'finance'=>'财务管理',
+     		'order'=>'订单中心',
+            'marketing'=>'营销推广',
+            'tools'=>'插件工具',
+            'count'=>'统计报表',
+            'distribut'=>'分销中心'
      	);
      	$planPath = APP_PATH.'admin/controller';
      	$planList = array();
