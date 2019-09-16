@@ -173,91 +173,11 @@ class Ad extends Base{
         	$this->error("操作失败",$referurl);
         }
     }
-    
-/**
-     * APP端编辑广告需要选择的商品
-     * @return \think\mixed
-     */
-    public function search_goods()
-    {
-        $goods_id = I('goods_id/d');
-        $brand_id = I('brand_id/d');
-        $keywords = I('keywords');
-        $goods_id = I('goods_id');
-        $cat_id = I('cat_id/d'); 
-        $intro = input('intro');//推荐/新品
-    
-        $GoodsLogic = new GoodsLogic();
-        $brandList = $GoodsLogic->getSortBrands();
-        $categoryList = $GoodsLogic->getSortCategory();
-          
-        $where = ['is_on_sale' => 1,
-            'prom_type' => 0,
-            'is_virtual'=>0,
-            'store_count'=>['gt',0] 
-        ];  //搜索条件
-        
-        if (!empty($goods_id)) {
-            $where['goods_id'] = array('notin', $goods_id);
-        }
-        
-        if ($cat_id) {
-            $this->assign('cat_id', $cat_id);
-            $grandson_ids = getCatGrandson($cat_id);
-            $where['cat_id'] = ['in',implode(',', $grandson_ids)];
-        }
-    
-        if ($brand_id) {
-            $this->assign('brand_id', $brand_id);
-            $where['brand_id'] = $brand_id;
-        }
-        if ($keywords) {
-            $this->assign('keywords', $keywords);
-            $where['goods_name|keywords'] = array('like', '%' . $keywords . '%');
-        }
-        if($intro){
-            $where[I('intro')] = 1;
-        }
-        $Goods = new Goods();
-        $count = $Goods->where($where)->count();
-        $Page = new Page($count, 10);
-        $goodsList = $Goods->where($where)->order('goods_id DESC')->limit($Page->firstRow . ',' . $Page->listRows)->select();
-        $show = $Page->show();//分页显示输出
-        $this->assign('page', $show);//赋值分页输出
-        $this->assign('goodsList', $goodsList);
-        $this->assign('categoryList', $categoryList);
-        $this->assign('brandList', $brandList);
-        return $this->fetch();
-    }
-    
+
     public function changeAdField(){
         $field = $this->request->request('field');
     	$data[$field] = I('get.value');
     	$data['ad_id'] = I('get.ad_id');
     	M('ad')->save($data); // 根据条件保存修改的数据
-    }
-    
-    public function ad_app_home(){
-       
-        return $this->fetch();
-    }
-    
-	
-    
-    
-    /**
-     * 编辑广告中转方法
-     */
-    public function editAd()
-    { 
-        $img_url = I('img_url');
-        $pid = I('pid/d',0); 
-        \think\Cache::clear();        
-        $request_url = urldecode(I('request_url'));
-        $request_url = urldecode($request_url);
-        $request_url = U($request_url,array('edit_ad'=>1,'img_url'=>$img_url,'pid'=>$pid));
-  
-        echo "<script>location.href='".$request_url."';</script>";
-        exit;                
     }
 }
