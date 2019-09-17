@@ -205,9 +205,7 @@ class Admin extends Base {
 			$modules[$val['group']][] = $val;
 		}
 		//权限组
-		$group = array('system'=>'系统设置','content'=>'内容管理','goods'=>'商品中心','member'=>'会员中心',
-				'order'=>'订单中心','marketing'=>'营销推广','tools'=>'插件工具','count'=>'统计报表'
-		);
+		$group = config('auth_group');
 		$this->assign('group',$group);
 		$this->assign('modules',$modules);
     	return $this->fetch();
