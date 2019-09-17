@@ -7,8 +7,8 @@
     <div class="fixed-bar">
         <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
             <div class="subject">
-                <h3>店铺管理 - 编辑店铺</h3>
-                <h5>网站系统店铺管理</h5>
+                <h3>仓库管理 - 编辑仓库</h3>
+                <h5>网站系统仓库管理</h5>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit">
-                    <label for="name"><em>*</em>店铺名称</label>
+                    <label for="name"><em>*</em>仓库名称</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" name="name" value="{$info.name}" id="name" class="input-txt" value="{$info.name}">
@@ -78,7 +78,7 @@
 <script type="text/javascript">
     function adsubmit(){
         if($('input[name=name]').val() == ''){
-            layer.msg('店铺名称不能为空！', {icon: 2,time: 1000});   //alert('少年，用户名不能为空！');
+            layer.msg('仓库名称不能为空！', {icon: 2,time: 1000});   //alert('少年，用户名不能为空！');
             return false;
         }
         /*if($('input[name=contact_people]').val() == ''){

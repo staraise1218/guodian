@@ -197,13 +197,17 @@ class Admin extends Base {
     		$detail['act_list'] = explode(',', $detail['act_list']);
     		$this->assign('detail',$detail);
     	}
+
 		$right = M('system_menu')->order('id')->select();
+        
 		foreach ($right as $val){
 			if(!empty($detail)){
 				$val['enable'] = in_array($val['id'], $detail['act_list']);
 			}
 			$modules[$val['group']][] = $val;
 		}
+
+
 		//权限组
 		$group = config('auth_group');
 		$this->assign('group',$group);

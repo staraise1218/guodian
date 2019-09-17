@@ -2,9 +2,9 @@
 return	array(	
 	'system'=>array('name'=>'系统','child'=>array(
 				array('name' => '设置','child' => array(
-					array('name'=>'商城设置','act'=>'index','op'=>'System'),
+					array('name'=>'网站设置','act'=>'index','op'=>'System'),
 					//array('name'=>'支付方式','act'=>'index1','op'=>'System'),
-					array('name'=>'地区&配送','act'=>'region','op'=>'Tools'),
+					array('name'=>'地区管理','act'=>'region','op'=>'Tools'),
 					array('name'=>'短信模板','act'=>'index','op'=>'SmsTemplate'),
 					//array('name'=>'接口对接','act'=>'index3','op'=>'System'),
 					//array('name'=>'验证码设置','act'=>'index4','op'=>'System'),
@@ -18,7 +18,7 @@ return	array(
 				array('name' => '权限','child'=>array(
 					array('name' => '管理员列表', 'act'=>'index', 'op'=>'Admin'),
 					array('name' => '角色管理', 'act'=>'role', 'op'=>'Admin'),
-					array('name'=>'权限资源列表','act'=>'right_list','op'=>'System'),
+					array('name'=>'权限资源','act'=>'right_list','op'=>'System'),
 					array('name' => '管理员日志', 'act'=>'log', 'op'=>'Admin'),
 					//array('name' => '供应商列表', 'act'=>'supplier', 'op'=>'Admin'),
 				)),
@@ -43,8 +43,8 @@ return	array(
 					array('name' => '库存日志', 'act'=>'stock_list', 'op'=>'Goods'),
 					array('name' => '商品模型', 'act'=>'goodsTypeList', 'op'=>'Goods'),
 					array('name' => '商品规格', 'act' =>'specList', 'op' => 'Goods'),
-					array('name' => '品牌列表', 'act'=>'brandList', 'op'=>'Goods'),
-					array('name' => '系列列表', 'act'=>'seriesList', 'op'=>'Goods'),
+					array('name' => '商品品牌', 'act'=>'brandList', 'op'=>'Goods'),
+					array('name' => '商品系列', 'act'=>'seriesList', 'op'=>'Goods'),
 					array('name' => '商品属性', 'act'=>'goodsAttributeList', 'op'=>'Goods'),
 					//array('name' => '评论列表', 'act'=>'index', 'op'=>'Comment'),
 					//array('name' => '商品咨询', 'act'=>'ask_list', 'op'=>'Comment'),

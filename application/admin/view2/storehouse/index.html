@@ -6,7 +6,7 @@
     <div class="fixed-bar">
         <div class="item-title">
             <div class="subject">
-                <h3>店铺管理</h3>
+                <h3>仓库管理</h3>
                 <h5></h5>
             </div>
         </div>
@@ -23,7 +23,7 @@
     <div class="flexigrid">
         <div class="mDiv">
             <div class="ftitle">
-                <h3>店铺列表</h3>
+                <h3>仓库列表</h3>
                 <h5>(共<span id="user_count"></span>条记录)</h5>
             </div>
             <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
@@ -46,7 +46,7 @@
                             <option value="0">选择区域</option>
                             
                         </select>
-                        <input type="text" id="keyword" name="keyword" size="30" class="qsbox" placeholder="店铺名称...">
+                        <input type="text" id="keyword" name="keyword" size="30" class="qsbox" placeholder="仓库名称...">
                         <input type="submit" class="btn" onclick="ajax_get_table('search-form2',1)" value="搜索">
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                             <div style="text-align: center; width: 40px;" class="">ID</div>
                         </th>
                         <th align="center" abbr="mobile" axis="col6" class="">
-                            <div style="text-align: center; width: 100px;" class="">店铺名称</div>
+                            <div style="text-align: center; width: 100px;" class="">仓库名称</div>
                         </th>
                         <th align="left" abbr="realname" axis="col4" class="">
                             <div style="text-align: center; width: 100px;" class="">联系人</div>
@@ -94,7 +94,7 @@
                 <div class="fbutton">
                     <a href="{:U('storehouse/add')}">
                         <div class="add" title="添加会员">
-                            <span><i class="fa fa-plus"></i>添加店铺</span>
+                            <span><i class="fa fa-plus"></i>添加仓库</span>
                         </div>
                     </a>
                 </div>
