@@ -283,7 +283,7 @@
     function assignSale()
     {
         var obj = $('.trSelected');
-        var url = "{:U('Admin/User/assignSale')}";
+        var url = "{:U('Admin/User/selectSale')}";
         if(obj.length > 0){
             var check_val = [];
             obj.each(function(){
@@ -322,6 +322,12 @@
         } else {
             layer.msg('发送失败',{icon:2});
         }
+    }
+
+     function call_back_for_selectSale(){
+        
+        layer.closeAll('iframe');
+        window.location.reload();
     }
 
 </script>

@@ -9,11 +9,11 @@
     <div class="flexigrid">
         <div class="mDiv">
             <div class="ftitle">
-                <h3>仓库列表</h3>
+                <h3>选择销售</h3>
                 <h5>(共{$page->totalRows}条记录)</h5>
             </div>
             <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
-            <form class="navbar-form form-inline" id="search-form2" action="{:U('goods/selectStorehouse')}" method="get">
+            <form class="navbar-form form-inline" id="search-form2" action="{:U('user/selectSale')}" method="get">
                 <input type="hidden" name="user_id_array" value="{$Request.param.user_id_array}">
 
                 <div class="sDiv">
@@ -33,10 +33,7 @@
                             <div style="text-align: left; width: 50px;" class=""><input type="checkbox" class="checkAll" style="display: none"></div>
                         </th>
                         <th abbr="article_time" axis="col6" class="" align="left">
-                            <div style="text-align: left; width: 200px;" class="">仓库名称</div>
-                        </th>
-                        <th abbr="ac_id" axis="col4" class="" align="left">
-                            <div style="text-align: center; width: 100px;" class="">负责人</div>
+                            <div style="text-align: left; width: 200px;" class="">姓名</div>
                         </th>
                         <th abbr="ac_id" axis="col4" class="" align="left">
                             <div style="text-align: center; width: 100px;" class="">手机号</div>
@@ -57,17 +54,14 @@
                         <tr>
                             <td class="" align="left">
                                 <div style="text-align: left; width: 50px;">
-                                   <input class="checkItem" type="radio" name="storehouse_id" value="{$item.id}"/>
+                                   <input class="checkItem" type="radio" name="admin_id" value="{$item.admin_id}"/>
                                </div>
                             </td>
                             <td class="" align="left">
-                                <div style="text-align: left; width: 200px;">{$item.name}</div>
+                                <div style="text-align: left; width: 200px;">{$item.realname}</div>
                             </td>
                             <td class="" align="left">
-                                <div style="text-align: center; width: 100px;">{$item.contact_people}</div>
-                            </td>
-                            <td class="" align="left">
-                                <div style="text-align: center; width: 100px;">{$item.contact_phone}</div>
+                                <div style="text-align: center; width: 100px;">{$item.phone}</div>
                             </td>
                            
                             <td class="" style="width: 100%;" align="">
@@ -110,12 +104,12 @@
     {
         var inputs = $("input[class='checkItem']:checked");
         if (inputs.length == 0) {
-            layer.alert('请选择仓库', {icon: 2}); //alert('请选择商品');
+            layer.alert('请选择销售', {icon: 2}); //alert('请选择商品');
             return false;
         }
 
-        var storehouse_id = inputs.val();
-        var goods_id_array = $('input[name=goods_id_array]').val();
+        var admin_id = inputs.val();
+        var user_id_array = $('input[name=user_id_array]').val();
 
         layer.load(2);
 
@@ -123,12 +117,12 @@
             url: '{:U("user/doAssignSale")}',
             type: 'post',
             dataType: 'json',
-            data: {storehouse_id: storehouse_id, goods_id_array: goods_id_array},
+            data: {admin_id: admin_id, user_id_array: user_id_array},
             success: function(data){
                 layer.closeAll('loading');
                 if(data.code == 200){
                     layer.msg('操作成功', {icon:1}, function(){
-                        window.parent.call_back();
+                        window.parent.call_back_for_selectSale();
                     });
 
                 }

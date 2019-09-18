@@ -428,12 +428,12 @@ class User extends Base {
      *
      * 分配销售
      */
-    public function assignSale()
+    public function selectSale()
     {
         $keyword = input('keyword');
         
-        $where = array('role_id', config('SALE_ID'));
-        if($keyword) $where['name'] = ['like','%'.$keyword.'%'];
+        $where['role_id'] =config('SALE_ID');
+        if($keyword) $where['realname'] = ['like','%'.$keyword.'%'];
 
 
         $count = Db::name('admin')->where($where)->count();
@@ -457,34 +457,18 @@ class User extends Base {
      */
     public function doAssignSale()
     {
-        $call_back = I('call_back');//回调方法
-        $text= I('post.text');//内容
-        $type = I('post.type', 0);//个体or全体
-        $admin_id = session('admin_id');
-        $users = I('post.user/a');//个体id
-        $message = array(
-            'admin_id' => $admin_id,
-            'message' => $text,
-            'category' => 0,
-            'send_time' => time()
-        );
+        $admin_id = input('post.admin_id');
+        $user_id_array = input('post.user_id_array');
 
-        if ($type == 1) {
-            //全体用户系统消息
-            $message['type'] = 1;
-            M('Message')->add($message);
-        } else {
-            //个体消息
-            $message['type'] = 0;
-            if (!empty($users)) {
-                $create_message_id = M('Message')->add($message);
-                foreach ($users as $key) {
-                    M('user_message')->add(array('user_id' => $key, 'message_id' => $create_message_id, 'status' => 0, 'category' => 0));
-                }
+        $user_ids = explode(',', $user_id_array);
+        
+        if(is_array($user_ids) && !empty($user_ids)){
+            foreach ($user_ids as $user_id) {
+                Db::name('users')->where('user_id', $user_id)->setField('sale_id', $admin_id);
             }
         }
-        echo "<script>parent.{$call_back}(1);</script>";
-        exit();
+
+        $this->ajaxReturn(array('code'=>200));
     }
 
     

@@ -29,6 +29,9 @@
                   <div style="text-align: center; width: 100px;">{$list.goods_sn}</div>
                 </td>
                 <td align="center" axis="col0">
+                  <div style="text-align: center; width: 100px;">{$storehouselist[$list.storehouse_id]}</div>
+                </td>
+                <td align="center" axis="col0">
                   <div style="text-align: center; width: 100px;">{$catList[$list[cat_id]][name]}</div>
                 </td>
                 <td align="center" axis="col0">
@@ -97,12 +100,17 @@
           </tbody>
         </table>
         <!--分页位置--> {$page}
-		<script>
-            // 点击分页触发的事件
-            $(".pagination  a").click(function(){
-                cur_page = $(this).data('p');
-                ajax_get_table('search-form2',cur_page);
-            });
+		<script type="text/javascript">
+        // 点击分页触发的事件
+        $(".pagination  a").click(function(){
+            cur_page = $(this).data('p');
+            ajax_get_table('search-form2',cur_page);
+        });
+         $(document).ready(function(){
+              // 表格行点击选中切换
+
+              $('#total_count').empty().html("{$Page->totalRows}");
+          });
 			
 			/*
 			 * 清除静态页面缓存

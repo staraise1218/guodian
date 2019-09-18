@@ -224,6 +224,12 @@ class Goods extends Base {
         $GoodsLogic = new GoodsLogic();        
         $brandList = $GoodsLogic->getSortBrands();
         $categoryList = $GoodsLogic->getSortCategory();
+
+        // 获取所有的仓库
+        $storehouselist = Db::name('storehouse')->column('id, name');
+
+
+        $this->assign('storehouselist',$storehouselist);
         $this->assign('categoryList',$categoryList);
         $this->assign('brandList',$brandList);
         return $this->fetch();
@@ -234,10 +240,13 @@ class Goods extends Base {
      */
     public function ajaxGoodsList(){            
         
+        $storehouse_id = I('storehouse_id');
         $where = ' 1 = 1 '; // 搜索条件                
         I('intro')    && $where = "$where and ".I('intro')." = 1" ;        
         I('brand_id') && $where = "$where and brand_id = ".I('brand_id') ;
-        (I('is_on_sale') !== '') && $where = "$where and is_on_sale = ".I('is_on_sale') ;                
+        (I('is_on_sale') !== '') && $where = "$where and is_on_sale = ".I('is_on_sale') ;
+        $storehouse_id ? $where .= " and storehouse_id = $storehouse_id" : false;
+
         $cat_id = I('cat_id');
         // 关键词搜索               
         $key_word = I('key_word') ? trim(I('key_word')) : '';
@@ -267,11 +276,16 @@ class Goods extends Base {
             ->limit($Page->firstRow.','.$Page->listRows)
             ->select();
 
+        // 获取所有的仓库
+        $storehouselist = Db::name('storehouse')->column('id, name');
+
         $catList = D('goods_category')->select();
         $catList = convert_arr_key($catList, 'id');
         $this->assign('catList',$catList);
+        $this->assign('storehouselist',$storehouselist);
         $this->assign('goodsList',$goodsList);
         $this->assign('page',$show);// 赋值分页输出
+        $this->assign('Page',$Page);// 赋值分页输出
         return $this->fetch();
     }
     
