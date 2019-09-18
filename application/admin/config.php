@@ -41,7 +41,7 @@ return [
     'SALE_ID' => 6, // 定义销售用户id
     'auth_group' => array(
             'system'=>'设置',
-            'content'=>'权限',
+            'auth'=>'权限',
             'goods'=>'商品',
             'order'=>'订单',
             'promotion'=>'促销',

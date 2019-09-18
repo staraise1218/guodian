@@ -21,3 +21,5 @@ is_on_sale 默认改为0
 
 新增 tp_goods_storehouse_log
 
+修改system_menu 表内容
+

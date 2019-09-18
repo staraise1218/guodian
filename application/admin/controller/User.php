@@ -430,12 +430,23 @@ class User extends Base {
      */
     public function assignSale()
     {
-        $user_id_array = I('get.user_id_array');
-        $users = array();
-        if (!empty($user_id_array)) {
-            $users = M('users')->field('user_id, mobile, realname')->where(array('user_id' => array('IN', $user_id_array)))->select();
-        }
-        $this->assign('users',$users);
+        $keyword = input('keyword');
+        
+        $where = array('role_id', config('SALE_ID'));
+        if($keyword) $where['name'] = ['like','%'.$keyword.'%'];
+
+
+        $count = Db::name('admin')->where($where)->count();
+        $Page = new Page($count, 10);
+
+        $list = Db::name('admin')
+            ->where($where)
+            ->order('admin_id DESC')
+            ->limit($Page->firstRow . ',' . $Page->listRows)
+            ->select();
+
+        $this->assign('page', $Page);
+        $this->assign('list', $list);
         return $this->fetch();
     }
 

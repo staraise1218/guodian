@@ -36,11 +36,27 @@
   </div>
   <div class="nc-module-menu">
     <ul class="nc-row">
-      <li data-param="system"><a href="javascript:void(0);">系统设置</a></li>
-      <li data-param="shop"><a href="javascript:void(0);">商城管理</a></li>
-      <li data-param="member"><a href="javascript:void(0);">用户管理</a></li>
-      <li data-param="content"><a href="javascript:void(0);">内容管理</a></li>
-<!--  <li data-param="resource"><a href="javascript:void(0);">插件</a></li>-->      
+      <if condition="$role_id gt 1">
+        <if condition="array_intersect($auth_group, array('system', 'auth'))">
+            <li data-param="system"><a href="javascript:void(0);">系统设置</a></li>
+        </if>
+        <if condition="array_intersect($auth_group, array('goods', 'order', 'promotion','storehouse', 'store'))" />
+            <li data-param="shop"><a href="javascript:void(0);">商城管理</a></li>
+        </if>
+        <if condition="array_intersect($auth_group, array('member'))" />
+            <li data-param="member"><a href="javascript:void(0);">用户管理</a></li>
+        </if>
+        <if condition="array_intersect($auth_group, array('content'))" />
+            <li data-param="content"><a href="javascript:void(0);">内容管理</a></li>
+        </if>
+  <!--  <li data-param="resource"><a href="javascript:void(0);">插件</a></li>-->      
+
+      <else/>
+        <li data-param="system"><a href="javascript:void(0);">系统设置</a></li>
+        <li data-param="shop"><a href="javascript:void(0);">商城管理</a></li>
+        <li data-param="member"><a href="javascript:void(0);">用户管理</a></li>
+        <li data-param="content"><a href="javascript:void(0);">内容管理</a></li>
+      </if>
     </ul>
   </div>
   <div class="admincp-header-r">

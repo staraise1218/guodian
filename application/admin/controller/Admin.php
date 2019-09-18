@@ -138,6 +138,7 @@ class Admin extends Base {
                	$admin_info = M('admin')->join(PREFIX.'admin_role', PREFIX.'admin.role_id='.PREFIX.'admin_role.role_id','INNER')->where($condition)->find();
                 if(is_array($admin_info)){
                     session('admin_id',$admin_info['admin_id']);
+                    session('role_i',$admin_info['role_i']);
                     session('act_list',$admin_info['act_list']);
                     M('admin')->where("admin_id = ".$admin_info['admin_id'])->save(array('last_login'=>time(),'last_ip'=>  request()->ip()));
                     session('last_login_time',$admin_info['last_login']);

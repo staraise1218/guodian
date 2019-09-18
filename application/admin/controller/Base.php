@@ -13,7 +13,7 @@ class Base extends Controller {
     function __construct() 
     {
         Session::start();
-        header("Cache-control: private");  // history.back返回后输入框值丢失问题 参考文章 http://www.tp-shop.cn/article_id_1465.html  http://blog.csdn.net/qinchaoguang123456/article/details/29852881
+        header("Cache-control: private");  // history.back返回后输入框值丢失问题 参考文章 
         parent::__construct();
         $upgradeLogic = new UpgradeLogic();
         $upgradeMsg = $upgradeLogic->checkVersion(); //升级包消息        
@@ -21,7 +21,7 @@ class Base extends Controller {
         //用户中心面包屑导航
         $navigate_admin = navigate_admin();
         $this->assign('navigate_admin',$navigate_admin);
-        tpversion();        
+        // tpversion();        
    }    
     
     /*
@@ -53,6 +53,18 @@ class Base extends Controller {
        {
           $tpshop_config[$v['inc_type'].'_'.$v['name']] = $v['value'];
        }
+
+       // 获取非超级管理员拥有权限的分组，以此来判断应该显示的主菜单
+       $admin = Db::name('admin')->where('admin_id', session('admin_id'))->find();
+       $this->assign('role_id', $admin['role_id']);
+       if($admin['role_id'] > 1) {
+            $act_list = session('act_list');
+            $auth_group = M('system_menu')->where("id", "in", $act_list)->getField('group',true);
+            ;
+            $auth_group = array_unique($auth_group);
+            $this->assign('auth_group', $auth_group);
+       }
+
        $this->assign('tpshop_config', $tpshop_config);       
     }
     

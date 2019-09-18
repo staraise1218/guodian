@@ -1,94 +1,139 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>分配销售-{$tpshop_config['shop_info_store_title']}</title>
-    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
-    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
-    <link rel="stylesheet" href="__STATIC__/css/edit_address.css" type="text/css">
-    <script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
-    <script src="__STATIC__/js/slider.js"></script>
-	<script src="__PUBLIC__/js/layer/layer-min.js"></script><!--弹窗js 参考文档 http://layer.layui.com/-->
-</head>
-<style type="text/css">
-.wi80-BFB{width:80%}
-.wi40-BFB{width:40%}
-.seauii{ padding:7px 10px; margin-right:10px}
-.he110{ height:110px}
-.di-bl{ display:inherit}
+<include file="public/layout"/>
+<style>
+    .te_le .dataTables_paginate{float: left;}
+    .bot{float: right;padding: 15px 0}
 </style>
-<body>
-<div class="adderss-add">
-    <div class="ner-reac ol_box_4" style="visibility: visible; position: fixed; z-index: 500; width: 100%; height:100%">
-        <div class="box-ct">
-            <div class="box-header">
-                <!-- <a href="" class="box-close"></a> -->
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit; min-width: 600px;">
+<div class="page" style="padding: 0px 1% 0 1%; min-width: 600px;">
+    <!-- 操作说明 -->
+    <div class="flexigrid">
+        <div class="mDiv">
+            <div class="ftitle">
+                <h3>仓库列表</h3>
+                <h5>(共{$page->totalRows}条记录)</h5>
             </div>
-            <form action="{:U('Admin/User/doSendMessage')}" method="post" onSubmit="return checkForm()">
-                <table width="90%" border="0" cellspacing="0" cellpadding="0">
-                    <input name="call_back" type="hidden" value="call_back" />
-                    <tr class="postmessage" style=" height:32px">
-                        <td></td>
-                        <td>
-                           <input id="allvip" type="radio"checked="checked" name="type" value="0">
-                           <label for="allvip"  class="allvip">分配给以下会员</label>
-                            <input id="someonevip" type="radio" name="type" value="1">
-                            <label for="someonevip">分配给所有会员</label>
-                        </td>
-                    </tr>
-                    <if condition="count($users) gt 0">
-                     <tr>
-                    	<td align="right" valign="top">会员列表：</td>
-                    	<td>
-                            <div class="wi80-BFB re-no viplist" >
-                                <volist name="users" id="user">
-                                    <input type="hidden" name="user[]" value="{$user['user_id']}" />
-                                    <p><span>{$user['mobile']}</span>&nbsp;<span>{$user['realname']}</span></p>
-                                </volist>
-                            </div>
-                        </td>
-                    </tr>
-                    </if>
-                    <tr>
-                        <td><div>&nbsp;</div></td>
-                        <td><div>&nbsp;</div></td>
-                    </tr>
-                    <tr>
-                        <td align="right" valign="top">选择销售：</td>
-                        <td>
-                            <select name="sale_id" id="">
-                            <foreach name="saleList" item="item">
-                                <option value="{item.admin_id}">{}</option>
-                            </foreach>
-                            </select>
-                        </td>
-                    </tr>
-                   <tr style="height:60px">
-                        <td class="pa-50-0">&nbsp;</td>
-                        <td align="right">
-                            <button type="submit" style="padding: 4px 16px;cursor: pointer;"><span>发送</span></button>
-                        </td>    
-                    </tr>
-                </table>
+            <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+            <form class="navbar-form form-inline" id="search-form2" action="{:U('goods/selectStorehouse')}" method="get">
+                <input type="hidden" name="user_id_array" value="{$Request.param.user_id_array}">
+
+                <div class="sDiv">
+                    <div class="sDiv2">
+                        <input size="30" name="keyword" value="{$Request.param.keyword}" class="qsbox" placeholder="姓名" type="text">
+                        <input class="btn" value="搜索" type="submit">
+                    </div>
+                </div>
             </form>
         </div>
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr>
+                        <th abbr="article_title" axis="col3" class="" align="left">
+                            <div style="text-align: left; width: 50px;" class=""><input type="checkbox" class="checkAll" style="display: none"></div>
+                        </th>
+                        <th abbr="article_time" axis="col6" class="" align="left">
+                            <div style="text-align: left; width: 200px;" class="">仓库名称</div>
+                        </th>
+                        <th abbr="ac_id" axis="col4" class="" align="left">
+                            <div style="text-align: center; width: 100px;" class="">负责人</div>
+                        </th>
+                        <th abbr="ac_id" axis="col4" class="" align="left">
+                            <div style="text-align: center; width: 100px;" class="">手机号</div>
+                        </th>
+                        <th style="width:100%" axis="col7">
+                            <div></div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto; ">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+                <table>
+                    <tbody id="goos_table">
+                    <volist name="list" id="item">
+                        <tr>
+                            <td class="" align="left">
+                                <div style="text-align: left; width: 50px;">
+                                   <input class="checkItem" type="radio" name="storehouse_id" value="{$item.id}"/>
+                               </div>
+                            </td>
+                            <td class="" align="left">
+                                <div style="text-align: left; width: 200px;">{$item.name}</div>
+                            </td>
+                            <td class="" align="left">
+                                <div style="text-align: center; width: 100px;">{$item.contact_people}</div>
+                            </td>
+                            <td class="" align="left">
+                                <div style="text-align: center; width: 100px;">{$item.contact_phone}</div>
+                            </td>
+                           
+                            <td class="" style="width: 100%;" align="">
+                                <div>&nbsp;</div>
+                            </td>
+                        </tr>
+                      
+                    </volist>
+                    </tbody>
+                </table>
+            </div>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+        <!--分页位置-->
+        <div class="te_le">
+            {$page->show()}
+        </div>
+        <div class="bot"><a onclick="select_sales();" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
     </div>
 </div>
-<script src="__PUBLIC__/js/global.js"></script>
-<script src="__PUBLIC__/js/pc_common.js"></script>
-
 <script>
-    function checkForm(){
-        var text = $('#text').val();
-        var error = '';
-        if(text == ''){
-            error += '站内信内容不能为空 <br/>';
-        }
-        if(error){
-			layer.alert(error, {icon: 2});
+
+    //全选选中事件
+    $(function () {
+        $(document).on("click", '.checkAll', function (e) {
+            if($(this).is(':checked')){
+                $('.checkItem').each(function(i,o){
+                    $(o).attr('checked','checked');
+                })
+            }else{
+                $('.checkItem').each(function(i,o){
+                    $(o).removeAttr('checked');
+                })
+            }
+        })
+    })
+
+
+    function select_sales()
+    {
+        var inputs = $("input[class='checkItem']:checked");
+        if (inputs.length == 0) {
+            layer.alert('请选择仓库', {icon: 2}); //alert('请选择商品');
             return false;
         }
-        return true;
+
+        var storehouse_id = inputs.val();
+        var goods_id_array = $('input[name=goods_id_array]').val();
+
+        layer.load(2);
+
+        $.ajax({
+            url: '{:U("user/doAssignSale")}',
+            type: 'post',
+            dataType: 'json',
+            data: {storehouse_id: storehouse_id, goods_id_array: goods_id_array},
+            success: function(data){
+                layer.closeAll('loading');
+                if(data.code == 200){
+                    layer.msg('操作成功', {icon:1}, function(){
+                        window.parent.call_back();
+                    });
+
+                }
+            }
+        })
     }
 </script>
 </body>
