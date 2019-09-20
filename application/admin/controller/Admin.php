@@ -136,6 +136,11 @@ class Admin extends Base {
             if(!empty($condition['user_name']) && !empty($condition['password'])){
                 $condition['password'] = encrypt($condition['password']);
                	$admin_info = M('admin')->join(PREFIX.'admin_role', PREFIX.'admin.role_id='.PREFIX.'admin_role.role_id','INNER')->where($condition)->find();
+
+                // 让销售角色不能从这里登录
+                if($admin_info['role_id'] == config('SALE_ID')){
+                    exit(json_encode(array('status'=>0,'msg'=>'您无权登录该系统')));
+                }
                 if(is_array($admin_info)){
                     session('admin_id',$admin_info['admin_id']);
                     session('role_id',$admin_info['role_id']);
