@@ -302,8 +302,6 @@ class System extends Base
      			$planList[] = basename($dir,'.php');
      		}
      	}
-
-       echo '<pre>'; print_r($planList);die();
      	$this->assign('planList',$planList);
      	$this->assign('group',$group);
         return $this->fetch();
