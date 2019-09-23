@@ -35,9 +35,10 @@
 
                         <a class="btn blue" href="{:U('store/edit',array('id'=>$list['id']))}"><i class="fa fa-pencil-square-o"></i>编辑</a>
 
+                        <a class="btn red"  href="javascript:void(0)" data-id="{$list['id']}"  data-url="{:U('Admin/store/ajax_delete')}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a>
+                        
                         <a class="btn blue" href="{:U('store/saleindex',array('store_id'=>$list['id']))}"><i class="fa fa-user"></i>销售</a>
                         
-                        <!-- <a class="btn red"  href="javascript:void(0)" data-id="{$list['id']}"  data-url="{:U('Admin/user/ajax_delete')}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a> -->
                     </div>
                 </td>
                 <td align="" class="" style="width: 100%;">

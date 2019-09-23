@@ -87,4 +87,24 @@ class Storehouse extends Base {
         return $this->fetch();   
     }
 
+    public function ajax_delete(){
+        $id = I('id');
+
+        $count = Db::name('goods')->where('storehouse_id', $id)->count();
+        if($count){
+            $result = array(
+                'status' => 0,
+                'msg' => '该仓库里还有商品，不能删除'
+            );
+        } else {
+            Db::name('storehouse')->where('id', $id)->delete();
+            $result = array(
+                'status' => 1,
+                'msg' => '操作成功'
+            );
+        }
+
+        $this->ajaxReturn($result);
+    }
+
 }

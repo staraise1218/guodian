@@ -18,15 +18,15 @@
                 <td align="left" class="">
                     <div style="text-align: center; width: 100px;">{$list.contact_phone}</div>
                 </td>   
-                <td align="center" axis="col0">
-                  <div style="text-align: center; width: 80px;">
-                    <if condition='$list[status] eq 1'>
-                      <span class="yes" onClick="changeTableVal('storehouse','id','{$list.id}','status',this)" ><i class="fa fa-check-circle"></i>是</span>
-                      <else />
-                      <span class="no" onClick="changeTableVal('storehouse','id','{$list.id}','status',this)" ><i class="fa fa-ban"></i>否</span>
-                    </if>
-                  </div>
-                </td>  
+               <!--  <td align="center" axis="col0">
+                 <div style="text-align: center; width: 80px;">
+                   <if condition='$list[status] eq 1'>
+                     <span class="yes" onClick="changeTableVal('storehouse','id','{$list.id}','status',this)" ><i class="fa fa-check-circle"></i>是</span>
+                     <else />
+                     <span class="no" onClick="changeTableVal('storehouse','id','{$list.id}','status',this)" ><i class="fa fa-ban"></i>否</span>
+                   </if>
+                 </div>
+               </td>   -->
                 <td align="left" class="">
                     <div style="text-align: center; width: 120px;">{$list.createtime|date='Y-m-d H:i',###}</div>
                 </td>
@@ -35,7 +35,7 @@
 
                         <a class="btn blue" href="{:U('storehouse/edit',array('id'=>$list['id']))}"><i class="fa fa-pencil-square-o"></i>编辑</a>
                         
-                        <!-- <a class="btn red"  href="javascript:void(0)" data-id="{$list['id']}"  data-url="{:U('Admin/user/ajax_delete')}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a> -->
+                        <a class="btn red"  href="javascript:void(0)" data-id="{$list['id']}"  data-url="{:U('Admin/storehouse/ajax_delete')}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a>
                     </div>
                 </td>
                 <td align="" class="" style="width: 100%;">

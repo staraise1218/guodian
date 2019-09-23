@@ -58,8 +58,8 @@ html, body {
                 <dl>
                     <dt>支付方式：</dt>
                     <dd>{$order.pay_name|default='其他方式'}</dd>
-                    <dt>发票抬头：</dt>
-                    <dd>{$order.invoice_title|default='N'}</dd>
+                    <!-- <dt>发票抬头：</dt>
+                    <dd>{$order.invoice_title|default='N'}</dd> -->
                 </dl>
             </div>
         
@@ -81,7 +81,7 @@ html, body {
           </dl>
           <dl>
            		<dt>配送方式：</dt>
-            	<dd>{$order.shipping_name}</dd>
+            	<dd>{$order.buy_method == 1 ? '门店自提' : '快递送货'}</dd>
           	</dl>
         </div>
         <div class="goods-info">
@@ -94,7 +94,7 @@ html, body {
                 <th>规格属性</th>
                 <th>数量</th>
                 <th>单品价格</th>
-                <th>会员折扣价</th>
+                <!-- <th>会员折扣价</th> -->
                 <th>单品小计</th>
               </tr>
             </thead>
@@ -107,7 +107,7 @@ html, body {
                 <td class="w80">{$good.spec_key_name}</td>
                 <td class="w60">{$good.goods_num}</td>
                 <td class="w100">{$good.goods_price}</td>
-                <td class="w60">{$good.member_goods_price}</td>
+                <!-- <td class="w60">{$good.member_goods_price}</td> -->
                 <td class="w80">{$good.goods_total}</td>
               </tr>
               </volist>
@@ -124,8 +124,8 @@ html, body {
             <dd>{$order.goods_price}</dd>
             <dt>运费：</dt>
             <dd>+{$order.shipping_price}</dd>
-            <dt>积分 (-{$order.integral})：</dt>
-            <dd>-{$order.integral_money}</dd>
+            <!-- <dt>积分 (-{$order.integral})：</dt>
+            <dd>-{$order.integral_money}</dd> -->
           </dl>
           <dl>
             <!-- <dt>余额抵扣：</dt>

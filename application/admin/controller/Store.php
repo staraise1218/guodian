@@ -87,6 +87,26 @@ class Store extends Base {
         return $this->fetch();   
     }
 
+    public function ajax_delete(){
+        $id = I('id');
+
+        $count = Db::name('store_admin')->where('store_id', $id)->count();
+        if($count){
+            $result = array(
+                'status' => 0,
+                'msg' => '该店铺下有销售人员，不能删除'
+            );
+        } else {
+            Db::name('store')->where('id', $id)->delete();
+            $result = array(
+                'status' => 1,
+                'msg' => '操作成功'
+            );
+        }
+
+        $this->ajaxReturn($result);
+    }
+
     /**
      * [saleList 店铺下的销售列表]
      * @return [type] [description]
