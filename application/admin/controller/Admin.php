@@ -110,7 +110,7 @@ class Admin extends Base {
     		exit(json_encode(1));
     	}
     	
-    	if($r){
+    	if($r !== false){
     		$this->success("操作成功",U('Admin/Admin/index'));
     	}else{
     		$this->error("操作失败",U('Admin/Admin/index'));
