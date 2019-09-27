@@ -30,7 +30,6 @@ class User extends Base {
         $recommendList = Db::query($sql);
 
 
-
         $result['userInfo'] = $data['result'];
         $result['recommendList'] = $recommendList;
         response_success($result);
@@ -45,6 +44,10 @@ class User extends Base {
             ->find();
         unset($userInfo['password']);
         unset($userInfo['pay_password']);
+        // 没有头像时，显示默认默认头像
+        if($userInfo['head_pic'] == ''){
+        	$userInfo['head_pic'] = config('APP_BASE_URL').'/public/static/images/icon/default.png';
+        }
        
        // 计算年龄
         response_success($userInfo);
