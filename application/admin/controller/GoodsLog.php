@@ -95,7 +95,7 @@ class GoodsLog extends Base {
         $status = I('status');
 
         $goodsLog = Db::name('goods_log')->where('id', $goods_log_id)->find();
-
+        $goods_id = $goodsLog['goods_id'];
         // 判断审核者和编辑者是否是同一人
         $myadmin_id = session('admin_id');
         if($myadmin_id == $goodsLog['admin_id']) {
@@ -113,7 +113,7 @@ class GoodsLog extends Base {
             $return_arr = array(
                'status' => 1,
                'msg'   => '操作成功',
-               'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goodsLog['goods_id']))),
+               'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goods_id))),
            );
            $this->ajaxReturn($return_arr);
         }
@@ -129,7 +129,7 @@ class GoodsLog extends Base {
         $return_arr = array(
            'status' => 1,
            'msg'   => '操作成功',
-           'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goodsLog['goods_id']))),
+           'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goods_id))),
        );
        $this->ajaxReturn($return_arr);
     }
