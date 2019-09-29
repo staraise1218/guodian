@@ -113,7 +113,7 @@ class GoodsLog extends Base {
             $return_arr = array(
                'status' => 1,
                'msg'   => '操作成功',
-               'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goods_id))),
+               'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id' => $goods_id))),
            );
            $this->ajaxReturn($return_arr);
         }
@@ -129,7 +129,7 @@ class GoodsLog extends Base {
         $return_arr = array(
            'status' => 1,
            'msg'   => '操作成功',
-           'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id', $goods_id))),
+           'data'  => array('url'=>U('Admin/GoodsLog/index', array('goods_id' => $goods_id))),
        );
        $this->ajaxReturn($return_arr);
     }
