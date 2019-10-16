@@ -461,11 +461,32 @@ class User extends Base {
         $user_id_array = input('post.user_id_array');
 
         $user_ids = explode(',', $user_id_array);
-        
-        if(is_array($user_ids) && !empty($user_ids)){
-            foreach ($user_ids as $user_id) {
-                Db::name('users')->where('user_id', $user_id)->setField('sale_id', $admin_id);
+        // 获取用户信息
+        $users = Db::name('users')->where('user_id', 'in', $user_ids)->field('user_id, sale_id')->select();
+
+        try{
+            Db::name('users')->where('user_id', 'in', $user_ids)->setField('sale_id', $admin_id);
+
+            $data = array();
+            foreach ($users as $item) {
+                if($item['sale_id'] == $admin_id) continue;
+                $data[] = array(
+                    'user_id' => $item['user_id'],
+                    'old_sale_id' => $item['sale_id'] ? $item['sale_id'] : '',
+                    'new_sale_id' => $admin_id,
+                    'createtime' => time(),
+                );
             }
+            Db::name('users_sale_log')->insertAll($data);
+            // 提交事务
+            Db::commit();
+
+            die(json_encode(array('code'=>200)));
+        } catch (\Exception $e) {
+            // p($e->message());
+            // 回滚事务
+            Db::rollback();
+            die(json_encode(array('code'=>400, 'msg' => '操作失败')));
         }
 
         $this->ajaxReturn(array('code'=>200));

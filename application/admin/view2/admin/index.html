@@ -67,7 +67,7 @@
 							<div style="text-align: left; width: 200px;" class="">加入时间</div>
 						</th>
 						<th align="center" axis="col1" class="handle">
-							<div style="text-align: center; width: 150px;">操作</div>
+							<div style="text-align: center; width: 200px;">操作</div>
 						</th>
 						<th style="width:100%" axis="col7">
 							<div></div>
@@ -113,11 +113,14 @@
 							<td align="left" class="">
 								<div style="text-align: left; width: 200px;">{$vo.add_time}</div>
 							</td>
-							<td align="center" class="handle">
-								<div style="text-align: center; width: 170px; max-width:170px;">
+							<td align="left" class="handle">
+								<div style="text-align: left; width: 200px !important; ">
 									<a href="{:U('Admin/admin_info',array('admin_id'=>$vo['admin_id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>编辑</a>
 									<if condition="$vo['admin_id'] gt 1">
 										<a class="btn red"  href="javascript:void(0)" data-url="{:U('Admin/adminHandle')}" data-id="{$vo.admin_id}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a>
+									</if>
+									<if condition="$vo['role_id'] eq config('SALE_ID')">
+										<a class="btn red"  href="javascript:void(0)" data-url="{:U('Admin/selectSales', array('old_sale_id'=>$vo.admin_id))}" onClick="selectSales(this)"><i class="fa fa-arrows-h"></i>转移客户</a>
 									</if>
 								</div>
 							</td>
@@ -170,8 +173,29 @@
 				}
 			})
 		}, function () {
+
 		});
 	}
+
+
+	// 转移销售
+	function selectSales(obj) {
+        layer.open({
+            type: 2,
+            title: '选择销售',
+            shadeClose: true,
+            shade: 0.2,
+            area: ['75%', '75%'],
+            content: $(obj).attr('data-url'),
+        });
+	}
+
+	// 转移销售确定后回调
+    function call_back(){
+        
+        layer.closeAll('iframe');
+        // window.location.reload();
+    }
 </script>
 </body>
 </html>

@@ -95,6 +95,7 @@
     <iframe src="" id="workspace" name="workspace" style="overflow: visible;" frameborder="0" width="100%" height="94%" scrolling="yes" onload="window.parent"></iframe>
   </div>
 </div>
+<audio  src="/public/static/mp3/promptVoice.mp3"></audio>
 </body>
 <script type="text/javascript"> 
 	// 没有点击收货确定的按钮让他自己收货确定    
@@ -122,5 +123,29 @@
 			$("#admin-manager-btn").removeClass().addClass("arrow");
         }           
     });
+
+
+    // 检查是否有新未处理的订单，提示音
+    function checkNewOrder(){
+      var promptVoice = document.getElementById('promptVoice');
+        $.ajax({
+            url: '{:U("admin/index/ajaxCheckNewOrder")}',
+            type: 'post',
+            dataType: 'json',
+            success: function(data){
+                if(data.new == 1){
+                    layer.open({
+                        content: '您有新的订单，请查看',
+                    });
+                    $('audio')[0].play();
+                    setTimeout(function(){
+                      $('audio')[0].play();
+                    }, 2000);
+                }
+            }
+        })
+    }
+    checkNewOrder();
+    setInterval("checkNewOrder()",300000);
 </script>
 </html>

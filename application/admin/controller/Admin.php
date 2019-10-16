@@ -365,4 +365,71 @@ class Admin extends Base {
 			$this->error("操作失败", U('Admin/Admin/supplier'));
 		}
 	}
+
+
+
+
+    /**
+     * [selectSales 店铺添加选择销售]
+     * @return [type] [description]
+     */
+    public function selectSales()
+    {
+        $old_sale_id = input('old_sale_id');
+        $keyword = input('keyword');
+        
+        $where['role_id'] = config('SALE_ID');
+        if($keyword) $where['realname'] = ['like','%'.$keywords.'%'];
+
+        $count = Db::name('admin')->where($where)->count();
+        $Page = new Page($count, 10);
+
+        $list = Db::name('admin')
+            ->where($where)
+            ->where('admin_id', '<>', $old_sale_id)
+            ->order('admin_id DESC')
+            ->limit($Page->firstRow . ',' . $Page->listRows)
+            ->select();
+// p($list);
+        $this->assign('page', $Page);
+        $this->assign('list', $list);
+        return $this->fetch();
+    }
+
+    // 给销售转移客户
+    public function ajaxTransferCustomers(){
+        $old_sale_id = I('old_sale_id');
+        $new_sale_id = I('new_sale_id');
+
+        $userIds = Db::name('users')->where('sale_id', $old_sale_id)->column('user_id');
+        if(empty($userIds)) die(json_encode(array('code'=>400, 'msg' => '该销售下没有客户，无须转移')));
+
+        // 事务操作：修改用户的所属销售， 并记录日志
+        // 启动事务
+        Db::startTrans();
+        try{
+            Db::name('users')->where('sale_id', $old_sale_id)->setField('sale_id', $new_sale_id);
+            
+            $data = array();
+            foreach ($userIds as $user_id) {
+                $data[] = array(
+                    'user_id' => $user_id,
+                    'old_sale_id' => $old_sale_id,
+                    'new_sale_id' => $new_sale_id,
+                    'createtime' => time(),
+                );
+
+            }
+            
+            Db::name('users_sale_log')->insertAll($data);
+            // 提交事务
+            Db::commit();
+
+            die(json_encode(array('code'=>200)));
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            die(json_encode(array('code'=>400, 'msg' => '操作失败')));
+        }
+    }
 }
