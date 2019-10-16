@@ -39,6 +39,10 @@ class Index extends Base {
         	}
         }
 
+        // 获取6大分类名称
+        $basicConfig = tpCache('basic');
+        $sixName = explode('|', $basicConfig['index_six_name']);
+
         // 获取分类
         $categoryList = Db::name('goods_category')
 			->where('is_show', 1)
@@ -62,6 +66,7 @@ class Index extends Base {
 			->select();
 
         $result['bannerList'] = $bannerList;
+        $result['sixName'] = $sixName;
         $result['categoryList'] = $categoryList;
         $result['hotlist'] = $hotlist;
         $result['reg_about'] = $reg_about;
