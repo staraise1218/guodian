@@ -23,3 +23,5 @@ is_on_sale 默认改为0
 
 修改system_menu 表内容
 
+新增表 tp_fafang_record
+
