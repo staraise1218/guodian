@@ -9,11 +9,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
 </head>
-<style>
-.col-md-1{
-  padding-right: 0;
-}
-</style>
+  <style>
+    .col-md-1{
+      padding-right: 0;
+    }
+      .goods_name {font-size: 12px;}
+      .list-items .list-content ul li .price1 {font-size: 14px;}
+      .list-items .list-content ul li .price2 {font-size: 12px;}
+  </style>
 <body style="background: rgb(246, 246, 248);">
 <!--header-s-->
 <include file="public/header"/>
@@ -230,7 +233,7 @@
                 <img class="lazy-list" height="236" width="236" src="{$v.goods_id|goods_thum_images=236,236}"/>
               </a>
               <div class="detail">
-                <p><a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">{$v[goods_name]}</a></p>
+                <p class="goods_name"><a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">{$v[goods_name]}</a></p>
                 <p class="price price1">销售价：<i> <?php echo $v['shop_price'] == '0.00'?'请联系客服': '¥'.number_format($v['shop_price']); ?> </i> </p>
 		            <p class="price price2">官方公价：<i> ¥<?php echo $v['market_price'] == '0.00'?'暂无': number_format($v['market_price']); ?> </i> </p>
               </div>
