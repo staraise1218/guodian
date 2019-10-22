@@ -1,0 +1,94 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>店铺管理 - 编辑店铺</h3>
+                <h5>网站系统店铺管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="suppliersHandle" action="{:U('store/add')}" method="post">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="name"><em>*</em>店铺名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="name" value="{$info.name}" id="name" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="contact_people">联系人</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="contact_people" value="{$info.contact_people}" id="contact_people" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="contact_phone">联系电话</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="contact_phone" value="{$info.contact_phone}" id="contact_phone" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="consignee"><em>*</em>地址</label>
+                </dt>
+                <dd class="opt">
+                    <select onchange="get_city(this)" id="province" name="province"  title="请选择所在省份">
+                        <option value="">选择省份</option>
+                        <volist name="province" id="vo">
+                            <option value="{$vo.id}" >{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select onchange="get_area(this)" id="city" name="city" title="请选择所在城市">
+                        <option value="">选择城市</option>
+                        <volist name="city" id="vo">
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select id="district" name="district" title="请选择所在区县">
+                        <option value="">选择区域</option>
+                        <volist name="area" id="vo">
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <input type="text" name="address" id="address" class="input-txt"   placeholder="详细地址"/>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" onclick="adsubmit();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function adsubmit(){
+        if($('input[name=name]').val() == ''){
+            layer.msg('店铺名称不能为空！', {icon: 2,time: 1000});   //alert('少年，用户名不能为空！');
+            return false;
+        }
+        /*if($('input[name=contact_people]').val() == ''){
+            layer.msg('联系人不能为空！', {icon: 2,time: 1000});//alert('少年，邮箱不能为空！');
+            return false;
+        }
+        if($('input[name=contact_phone]').val() == ''){
+            layer.msg('电话不能为空！', {icon: 2,time: 1000});//alert('少年，邮箱不能为空！');
+            return false;
+        }*/
+        $('#suppliersHandle').submit();
+    }
+</script>
+</body>

@@ -50,6 +50,7 @@ return [
             'member'=>'用户',
             'article'=>'文章',
             'ad'=>'广告',
+            'finance'=>'财务',
         ),
 ]
 ?>
