@@ -17,11 +17,78 @@ class Goods extends Base {
         return $this->fetch();
     }
 
-
     /**
      * 商品详情页
      */
     public function goodsInfo(){
+        //C('TOKEN_ON',true);        
+        $goodsLogic = new GoodsLogic();
+        $goods_id = I("get.id/d");
+        $Goods = new \app\common\model\Goods();
+        $goods = $Goods::get($goods_id);
+        if(empty($goods) || ($goods['is_on_sale'] == 0) || ($goods['is_virtual']==1 && $goods['virtual_indate'] <= time())){
+            $this->error('该商品已经下架',U('Index/index'));
+        }
+       /*if (!empty($goods['prom_id']) && $goodsPromFactory->checkPromType($goods['prom_type'])) {
+           $goodsPromLogic = $goodsPromFactory->makeModule($goods, null);//这里会自动更新商品活动状态，所以商品需要重新查询
+           $goods = $goodsPromLogic->getGoodsInfo();//上面更新商品信息后需要查询
+       }*/
+        if (cookie('user_id')) {
+            $goodsLogic->add_visit_log(cookie('user_id'), $goods);
+        }
+        if($goods['brand_id']){
+            $goods['brand_name'] = M('brand')->where("id",$goods['brand_id'])->getField('name');
+        }
+        $goods_images_list = M('GoodsImages')->where("goods_id", $goods_id)->limit(0,5)->select(); // 商品 图册
+        //$goods_attribute = M('GoodsAttribute')->getField('attr_id,attr_name'); // 查询属性
+        //$goods_attr_list = M('GoodsAttr')->where("goods_id", $goods_id)->select(); // 查询商品属性表
+        $goods_attr = M('GoodsAttribute')
+            ->alias('a')
+            ->join('GoodsAttr b','a.attr_id = b.attr_id')
+            ->where("b.goods_id", $goods_id)
+            ->order('a.order','asc')
+            ->field('a.attr_id,a.attr_name,a.attr_index,b.attr_value,b.goods_id')
+            ->select();
+        $filter_spec = $goodsLogic->get_spec($goods_id);
+        $freight_free = tpCache('shopping.freight_free'); // 全场满多少免运费
+        $spec_goods_price  = M('spec_goods_price')->where("goods_id", $goods_id)->getField("key,item_id,price,store_count"); // 规格 对应 价格 库存表
+        M('Goods')->where("goods_id", $goods_id)->save(array('click_count'=>$goods['click_count']+1 )); //统计点击数
+        $commentStatistics = $goodsLogic->commentStatistics($goods_id);// 获取某个商品的评论统计
+        $point_rate = tpCache('shopping.point_rate');
+        $region_id = Cookie::get('district_id');
+        if ($region_id) {
+            $dispatching = $goodsLogic->getGoodsDispatching($goods['goods_id'], $region_id);
+            $this->assign('dispatching', $dispatching);
+        }
+        $user_id = cookie('user_id');
+        if($user_id){
+            $collect = M('goods_collect')->where(array("goods_id"=>$goods_id ,"user_id"=>$user_id))->count();
+        } else {
+            $collect = 0;
+        }
+        $this->assign('collect',$collect);
+
+        $this->assign('freight_free', $freight_free);// 全场满多少免运费
+        $this->assign('spec_goods_price', json_encode($spec_goods_price,true)); // 规格 对应 价格 库存表
+        $this->assign('navigate_goods',navigate_goods($goods_id,1));// 面包屑导航
+        $this->assign('commentStatistics',$commentStatistics);//评论概览
+        //$this->assign('goods_attribute',$goods_attribute);//属性值
+        //$this->assign('goods_attr_list',$goods_attr_list);//属性列表
+        $this->assign('goods_attr_list',$goods_attr);//属性列表
+        $this->assign('filter_spec',$filter_spec);//规格参数
+        $this->assign('goods_images_list',$goods_images_list);//商品缩略图
+        $this->assign('siblings_cate',$goodsLogic->get_siblings_cate($goods['cat_id']));//相关分类
+        $this->assign('look_see',$goodsLogic->get_look_see($goods));//看了又看      
+        $this->assign('goods',$goods->toArray());
+        $this->assign('point_rate',$point_rate);
+        $this->assign('index_nav',NavViewLogic::getNav());//获取导航
+        return $this->fetch();
+    }
+
+    /**
+     * 扫描商品二维码详情页
+     */
+    public function qrCodeGoodsInfo(){
         //C('TOKEN_ON',true);        
         $goodsLogic = new GoodsLogic();
         $goods_id = I("get.id/d");

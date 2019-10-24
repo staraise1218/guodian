@@ -1339,3 +1339,9 @@ function generateUsername(){
     }
     return $username;
 }
+
+function generateGoodsQrcode($goods_id){
+    Vendor('phpqrcode.phpqrcode');
+    ob_end_clean();
+    QRcode::png('http://www.guodianjm.com/Mobile/Goods/goodsInfo/id/'.$goods_id, false, "L", 4, 2);
+}

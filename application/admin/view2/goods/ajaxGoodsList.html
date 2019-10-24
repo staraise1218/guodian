@@ -29,6 +29,13 @@
                   <div style="text-align: center; width: 100px;">{$list.goods_sn}</div>
                 </td>
                 <td align="center" axis="col0">
+                  <div class="qrcode" style="text-align: center; width: 80px; position: relative; overflow: visible;">
+                    <img src="{$list.qrcodeFilename}" width="30" height="30" alt="">
+                    <div class="bigqrcode" style="position: absolute; display: none; overflow: visible; top: 0; left: 0; z-index: 10000"><img src="{$list.qrcodeFilename}" alt=""></div>
+                  </div>
+
+                </td>
+                <td align="center" axis="col0">
                   <div style="text-align: center; width: 100px;">{$storehouselist[$list.storehouse_id]}</div>
                 </td>
                 <td align="center" axis="col0">
@@ -142,5 +149,11 @@
 						}
 				});
 			}		
+
+      $('.qrcode').hover(function(){
+          $(this).find('.bigqrcode').show();
+      }, function(){
+          $(this).find('.bigqrcode').hide();
+      })
 			
-        </script>
+</script>

@@ -310,6 +310,23 @@ class Goods extends Base {
             ->limit($Page->firstRow.','.$Page->listRows)
             ->select();
 
+        // 生成
+        $qrcodeDir = './public/upload/goodsQrcode/';
+        if( ! is_dir($qrcodeDir))
+            mkdir($qrcodeDir, '0777', true);
+        Vendor('phpqrcode.phpqrcode');
+        foreach ($goodsList as &$item) {
+            
+            $qrcodeFilename = $qrcodeDir.str_pad($item['goods_id'], 10, 0, STR_PAD_LEFT).'.png';
+            if(!is_file($qrcodeFilename)) {
+                ob_end_clean();
+                \QRcode::png('http://www.guodianjm.com/Mobile/Goods/qrCodeGoodsInfo/id/'.$item['goods_id'], $qrcodeFilename, "L", 4, 2);
+            }
+            
+            $item['qrcodeFilename'] = $qrcodeFilename;
+            
+        }
+
         // 获取所有的仓库
         $storehouselist = Db::name('storehouse')->column('id, name');
 
@@ -1068,4 +1085,7 @@ class Goods extends Base {
 
         die(json_encode(array('code'=>200)));
     }
+
+
+   
 }

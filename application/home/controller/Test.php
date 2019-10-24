@@ -275,5 +275,11 @@ class Test extends Controller {
         
     }
 
+    public function generateQrcode()
+    {
+        ob_end_clean();
+        generateGoodsQrcode(1);
+    }
+
     
 }
