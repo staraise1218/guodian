@@ -94,9 +94,9 @@ class Goods extends Base {
         $goods_id = I("get.id/d");
         $Goods = new \app\common\model\Goods();
         $goods = $Goods::get($goods_id);
-        if(empty($goods) || ($goods['is_on_sale'] == 0) || ($goods['is_virtual']==1 && $goods['virtual_indate'] <= time())){
+        /*if(empty($goods) || ($goods['is_on_sale'] == 0) || ($goods['is_virtual']==1 && $goods['virtual_indate'] <= time())){
             $this->error('该商品已经下架',U('Index/index'));
-        }
+        }*/
        /*if (!empty($goods['prom_id']) && $goodsPromFactory->checkPromType($goods['prom_type'])) {
            $goodsPromLogic = $goodsPromFactory->makeModule($goods, null);//这里会自动更新商品活动状态，所以商品需要重新查询
            $goods = $goodsPromLogic->getGoodsInfo();//上面更新商品信息后需要查询
