@@ -39,6 +39,7 @@ return	array(
 	'shop'=>array('name'=>'商城','child'=>array(
 				array('name' => '商品','child' => array(
 				    array('name' => '商品列表', 'act'=>'goodsList', 'op'=>'Goods'),
+				    array('name' => '编辑记录', 'act'=>'index', 'op'=>'GoodsLog'),
 					array('name' => '商品分类', 'act'=>'categoryList', 'op'=>'Goods'),
 					array('name' => '库存日志', 'act'=>'stock_list', 'op'=>'Goods'),
 					array('name' => '商品模型', 'act'=>'goodsTypeList', 'op'=>'Goods'),

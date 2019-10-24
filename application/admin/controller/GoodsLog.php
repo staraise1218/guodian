@@ -28,7 +28,8 @@ class GoodsLog extends Base {
     public function ajaxList(){
         $goods_id = input('goods_id/d');
 
-        $count = M('Goods_log')->where('goods_id', $goods_id)->count();
+        if($goods_id) $where['gl.goods_id'] = $goods_id;
+        $count = M('Goods_log')->alias('gl')->where($where)->count();
         $Page  = new AjaxPage($count,20);
 
         $show = $Page->show();
@@ -36,7 +37,7 @@ class GoodsLog extends Base {
             ->join('admin a', 'a.admin_id=gl.admin_id', 'left')
             ->join('admin a2', 'a2.admin_id=gl.approver_id', 'left')
             ->field('gl.*, a.realname admin_realname, a2.realname approver_realname')
-            ->where('gl.goods_id', $goods_id)
+            ->where($where)
             ->order('id desc')
             ->limit($Page->firstRow.','.$Page->listRows)
             ->select();
