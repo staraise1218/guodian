@@ -179,11 +179,11 @@ class Admin extends Base {
     public function vertify()
     {
         $config = array(
-            'fontSize' => 30,
+            'fontSize' => 50,
             'length' => 4,
-            'useCurve' => true,
-            'useNoise' => false,
-        	'reset' => false
+            'useCurve' => false,
+            'useNoise' => true,
+        	'reset' => false,
         );    
         $Verify = new Verify($config);
         $Verify->entry("admin_login");

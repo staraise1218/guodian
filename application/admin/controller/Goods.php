@@ -921,7 +921,9 @@ class Goods extends Base {
         
         $this->assign('items_ids',$items_ids);
         $this->assign('specList',$specList);
-        return $this->fetch('ajax_spec_select');        
+        $template = 'ajax_spec_select';
+        if(I('type') == 'detail') $template = 'ajax_spec_select_for_detail';
+        return $this->fetch($template);        
     }    
     
     /**

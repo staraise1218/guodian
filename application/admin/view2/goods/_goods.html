@@ -310,6 +310,20 @@
               <p class="notic"></p>
             </dd>
           </dl> 
+        <dl class="row">
+            <dt class="tit">
+              <label>是否寄卖</label>
+            </dt>
+            <dd class="opt">
+              <div class="onoff">
+                <label for="is_jimai1" class="cb-enable <if condition="$goodsInfo[is_jimai] eq 1">selected</if>">是</label>
+                <label for="is_jimai0" class="cb-disable <if condition="$goodsInfo[is_jimai] eq 0">selected</if>">否</label>
+                <input id="is_jimai1" name="is_jimai" value="1" type="radio" <if condition="$goodsInfo[is_jimai] eq 1"> checked="checked"</if>>
+                <input id="is_jimai0" name="is_jimai" value="0" type="radio" <if condition="$goodsInfo[is_jimai] eq 0"> checked="checked"</if>>
+              </div>
+              <p class="notic"></p>
+            </dd>
+          </dl> 
             <dl class="row">
                 <dt class="tit">
                     <label for="record_no">总库存</label>

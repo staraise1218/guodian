@@ -85,7 +85,7 @@ class GoodsLog extends Base {
         $this->assign('goods_log_id', $id);
         $this->assign('goodsType', $goodsType);
         $this->assign('goodsInfo', $goodsInfo);  // 商品详情
-        $goodsImages = M("GoodsImages")->where('goods_id =' . I('GET.id', 0))->select();
+        $goodsImages = M("GoodsImages")->where('goods_id =' . $goodsInfo['goods_id'])->select();
         $this->assign('goodsImages', $goodsImages);  // 商品相册
         return $this->fetch();
     }
