@@ -39,6 +39,7 @@ return [
     // URL伪静态后缀
     'url_html_suffix'        => '',        
     'SALE_ID' => 6, // 定义销售用户id
+    'FINANCE_ID' => 7, // 定义销售用户id
     'auth_group' => array(
             'system'=>'设置',
             'auth'=>'权限',
