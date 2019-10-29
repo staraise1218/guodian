@@ -15,9 +15,9 @@ class Base extends Controller {
         Session::start();
         header("Cache-control: private");  // history.back返回后输入框值丢失问题 参考文章 
         parent::__construct();
-        $upgradeLogic = new UpgradeLogic();
-        $upgradeMsg = $upgradeLogic->checkVersion(); //升级包消息        
-        $this->assign('upgradeMsg',$upgradeMsg);    
+        // $upgradeLogic = new UpgradeLogic();
+        // $upgradeMsg = $upgradeLogic->checkVersion(); //升级包消息        
+        // $this->assign('upgradeMsg',$upgradeMsg);    
         //用户中心面包屑导航
         $navigate_admin = navigate_admin();
         $this->assign('navigate_admin',$navigate_admin);
@@ -86,6 +86,7 @@ class Base extends Controller {
     		foreach ($right as $val){
     			$role_right .= $val.',';
     		}
+            // p($ctl.'@'.$act, $role_right);
     		$role_right = explode(',', $role_right);
     		//检查是否拥有此操作权限
     		if(!in_array($ctl.'@'.$act, $role_right)){
