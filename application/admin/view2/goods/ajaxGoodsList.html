@@ -13,7 +13,7 @@
                     <li><a href="{:U('Admin/Goods/addEditGoods',array('id'=>$list['goods_id']))}">编辑商品</a></li>
                     <li><a href="{:U('Admin/GoodsLog/index',array('goods_id'=>$list['goods_id']))}">编辑记录</a></li>
                     <li><a href="javascript:void(0);" onclick="publicHandle('{$list[goods_id]}','del')">删除商品</a></li>
-                    <!-- <li><a href="{:U('goods/printPriceMark', array('id'=>$list[goods_id]))}" target="_blank">打印价签</a></li>  -->
+                    <li><a href="{:U('goods/printPriceMark', array('id'=>$list[goods_id]))}" target="_blank">打印价签</a></li> 
                   </ul>
                   </span>
                 </div>
