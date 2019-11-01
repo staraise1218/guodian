@@ -180,7 +180,9 @@
                     <label for="record_no">审核时间</label>
                 </dt>
                 <dd class="opt">                
-                    {$info.approve_time ? $info.approve_time|date='Y-m-d H:i',### : ''}
+                    <if condition="$info.approver_time != ''">
+                        {$info.approve_time|date='Y-m-d H:i',###}
+                    </if>
                 </dd>
             </dl>   
 
