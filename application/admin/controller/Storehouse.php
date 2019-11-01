@@ -52,7 +52,7 @@ class Storehouse extends Base {
             $data['createtime'] = time();
 
             M('storehouse')->insert($data);
-            $this->success('添加成功', U('store/index'));
+            $this->success('添加成功', U('storehouse/index'));
         }
 
         //  获取省份
@@ -69,7 +69,7 @@ class Storehouse extends Base {
             $id = $data['id'];
             unset($data['id']);
             M('storehouse')->where('id', $id)->update($data);
-            $this->success('修改成功', U('store/index'));
+            $this->success('修改成功', U('storehouse/index'));
         }
 
         $id = input('get.id');
