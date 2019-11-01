@@ -1137,9 +1137,12 @@ class Goods extends Base {
         $goodsList = Db::name('goods')->where('goods_id', 'in', $goods_array)->select();
         if(empty($goodsList)) die('商品不存在');
         
-        $brandList = Db::name('brand')->column('id, name');
+        foreach ($goodsList as &$item) {
+            $item['qrcode'] = '/public/upload/goodsQrcode/'.str_pad($item['goods_id'], 10, 0, STR_PAD_LEFT).'.png';
+        }
 
-        $this->assign('qrcode', '/public/upload/goodsQrcode/'.str_pad($id, 10, 0, STR_PAD_LEFT).'.png');
+        // 品牌
+        $brandList = Db::name('brand')->column('id, name');
 
         $this->assign('goodsList', $goodsList);
         $this->assign('brandList', $brandList);
