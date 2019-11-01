@@ -340,6 +340,45 @@ class Goods extends Base {
         return $this->fetch();
     }
     
+    public function export(){
+
+        // 获取所有的仓库
+        $storehouselist = Db::name('storehouse')->column('id, name');
+
+        $strTable ='<table width="500" border="1">';
+        $strTable .= '<tr>';
+        $strTable .= '<td style="text-align:center;font-size:12px;width:60px;">ID</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">商品名称</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">货号</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">所属仓库</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">价格</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">库存</td>';
+        $strTable .= '</tr>';
+        $count = M('goods')->count();
+        $p = ceil($count/5000);
+        for($i=0;$i<$p;$i++){
+            $start = $i*5000;
+            $end = ($i+1)*5000;
+            $list = M('goods')->order('goods_id')->limit($start.','.$end)->select();
+            if(is_array($list)){
+                foreach($list as $k=>$val){
+                    $strTable .= '<tr>';
+                    $strTable .= '<td style="text-align:center;font-size:12px;">'.$val['goods_id'].'</td>';
+                    $strTable .= '<td style="text-align:left;font-size:12px;">'.$val['goods_name'].' </td>';
+                    $strTable .= '<td style="text-align:left;font-size:12px;">'.$val['goods_sn'].'</td>';
+                    $strTable .= '<td style="text-align:left;font-size:12px;">'.$storehouselist[$val['storehouse_id']].'</td>';
+                    $strTable .= '<td style="text-align:left;font-size:12px;">'.$val['shop_price'].'</td>';
+                    $strTable .= '<td style="text-align:left;font-size:12px;">'.$val['store_count'].' </td>';
+                    $strTable .= '</tr>';
+                }
+                unset($userList);
+            }
+        }
+        $strTable .='</table>';
+        downloadExcel($strTable,'商品');
+        exit();
+    }
+    
     
     public function stock_list(){
     	$model = M('stock_log');
