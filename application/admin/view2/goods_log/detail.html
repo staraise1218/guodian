@@ -243,6 +243,56 @@
 
                 </dd>
             </dl> 
+            <if condition="$goodsInfo.is_jimai eq 1">
+            <dl class="row">
+                <dt class="tit">
+                  <label>姓名</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_name}
+                </dd>
+            </dl>  
+            <dl class="row">
+                <dt class="tit">
+                  <label>性别</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_sex == 0 ? '女' : '男'}
+                </dd>
+            </dl>  
+            <dl class="row">
+                <dt class="tit">
+                  <label>联系电话</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_phone}
+                </dd>
+            </dl>  
+            <dl class="row">
+                <dt class="tit">
+                  <label>身份证号</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_IDno}
+                </dd>
+            </dl>  
+            <dl class="row">
+                <dt class="tit">
+                  <label>银行账号</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_bankCard}
+                </dd>
+            </dl>  
+            <dl class="row">
+                <dt class="tit">
+                  <label>开户行</label>
+                </dt>
+                <dd class="opt">
+                    {$goodsInfo.jimai_bankOpen}
+                </dd>
+            </dl> 
+            </if>
             <dl class="row">
                 <dt class="tit">
                     <label for="record_no">总库存</label>

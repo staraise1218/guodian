@@ -7,14 +7,13 @@
                 </td>
 			 <td class="handle" >
                 <div style="text-align:left;   min-width:50px !important; max-width:inherit !important;">
-                  <span class="btn"><em><i class="fa fa-cog"></i>设置<i class="arrow"></i></em>
+                  <span class="btn"><em><i class="fa fa-cog"></i>操作<i class="arrow"></i></em>
                   <ul>
                     <li><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">预览商品</a></li>
                     <li><a href="{:U('Admin/Goods/addEditGoods',array('id'=>$list['goods_id']))}">编辑商品</a></li>
                     <li><a href="{:U('Admin/GoodsLog/index',array('goods_id'=>$list['goods_id']))}">编辑记录</a></li>
                     <li><a href="javascript:void(0);" onclick="publicHandle('{$list[goods_id]}','del')">删除商品</a></li>
-                    <!-- <li><a href="javascript:void(0);" onclick="ClearGoodsHtml('{$list[goods_id]}')">清除静态缓存</a></li> -->
-                    <!-- <li><a href="javascript:void(0);" onclick="ClearGoodsThumb('{$list[goods_id]}')">清除缩略图缓存</a></li>                     -->
+                    <!-- <li><a href="{:U('goods/printPriceMark', array('id'=>$list[goods_id]))}" target="_blank">打印价签</a></li>  -->
                   </ul>
                   </span>
                 </div>
@@ -23,10 +22,17 @@
                   <div style="width: 50px;">{$list.goods_id}</div>
                 </td>                
                 <td align="center" axis="col0">
-                  <div style="text-align: left; width: 240px;"><if condition="$list[is_virtual] eq 1"><span class="type-virtual" title="虚拟兑换商品">虚拟</span></if>{$list.goods_name|getSubstr=0,33}</div>
+                  <div style="text-align: left; width: 240px;">{$list.goods_name|getSubstr=0,33}</div>
                 </td>
                 <td align="center" axis="col0">
                   <div style="text-align: center; width: 100px;">{$list.goods_sn}</div>
+                </td>
+                <td align="center" axis="col0">
+                  <div class="original_img" style="text-align: center; width: 60px; position: relative; overflow: visible;">
+                    <img src="{$list.original_img}" width="30" height="30" alt="">
+                    <div class="big_original_img" style="position: absolute; display: none; overflow: visible; top: 0; left: 55px; z-index: 10000"><img src="{$list.original_img}" alt=""></div>
+                  </div>
+
                 </td>
                 <td align="center" axis="col0">
                   <div class="qrcode" style="text-align: center; width: 80px; position: relative; overflow: visible;">
@@ -155,6 +161,13 @@
           $(this).find('.bigqrcode').show();
       }, function(){
           $(this).find('.bigqrcode').hide();
+      })
+
+      // 二维码
+      $('.original_img').hover(function(){
+          $(this).find('.big_original_img').show();
+      }, function(){
+          $(this).find('.big_original_img').hide();
       })
 			
 </script>

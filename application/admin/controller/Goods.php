@@ -1088,6 +1088,13 @@ class Goods extends Base {
         die(json_encode(array('code'=>200)));
     }
 
-
+    // 打印价签
+    public function printPriceMark(){
+        $id = I('id/d');
+        $goodsInfo = Db::name('goods')->where('goods_id', $id)->find();
+        if(empty($goodsInfo)) die('商品不存在');
+        
+        return $this->fetch();
+    }
    
 }

@@ -277,7 +277,15 @@
                     <label for="record_no">成色</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" value="{$goodsInfo.chengse}" name="chengse" class="input-txt" style="width: 600px !important; "/>
+                    <select name="chengse" id="chengse"  class="small form-control">
+                        <option value="0">请选择</option>
+                        <option value="N" <if condition="$goodsInfo.chengse eq 'N'">selected="selected"</if>> N </option>
+                        <option value="S" <if condition="$goodsInfo.chengse eq 'S'">selected="selected"</if>> S </option>
+                        <option value="A" <if condition="$goodsInfo.chengse eq 'A'">selected="selected"</if>> A </option>
+                        <option value="B" <if condition="$goodsInfo.chengse eq 'B'">selected="selected"</if>> B </option>
+                        <option value="C" <if condition="$goodsInfo.chengse eq 'C'">selected="selected"</if>> C </option>
+                        <option value="D" <if condition="$goodsInfo.chengse eq 'D'">selected="selected"</if>> D </option>
+                      </select>
                     <span class="err" id="err_chengse" style="color:#F00; display:none;"></span>
                 </dd>
             </dl>
@@ -324,6 +332,64 @@
               <p class="notic"></p>
             </dd>
           </dl> 
+           
+            <dl class="row jimai_content" <if condition="$goodsInfo.is_jimai == false">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">姓名</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="text" value="{$goodsInfo.jimai_name}" class="t_mane" name="jimai_name"  />                                         
+                    <span class="err" id="err_jimai_name" style="color:#F00; display:none;"></span>
+                </dd>
+            </dl>  
+            <dl class="row jimai_content" <if condition="$goodsInfo.is_jimai == false">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">性别</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="radio" value="1" class="t_mane" name="jimai_sex" <if condition="$goodsInfo.jimai_sex == 1">checked="checked"</if>  />
+                     男 
+                    <input type="radio" value="0" class="t_mane" name="jimai_sex" <if condition="$goodsInfo.jimai_sex == 0">checked="checked"</if>  /> 女                                      
+                </dd>
+            </dl>   
+           
+            <dl class="row jimai_content" <if condition="$goodsInfo.is_jimai == false">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">联系电话</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="text" value="{$goodsInfo.jimai_phone}" class="t_mane" name="jimai_phone"  />                                         
+                    <span class="err" id="err_jimai_phone" style="color:#F00; display:none;"></span>
+                </dd>
+            </dl>    
+            <dl class="row jimai_content" <if condition="$goodsInfo.is_jimai == false">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">身份证</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="text" value="{$goodsInfo.jimai_IDno}" class="t_mane" name="jimai_IDno"  />                                         
+                    <span class="err" id="err_jimai_IDno" style="color:#F00; display:none;"></span>
+                </dd>
+            </dl>    
+            <dl class="row jimai_content" <if condition=" ! $goodsInfo.is_jima">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">银行账号</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="text" value="{$goodsInfo.jimai_bankCard}" class="t_mane" name="jimai_bankCard"  />                                         
+                    <span class="err" id="err_jimai_bankCard" style="color:#F00; display:none;"></span>
+                </dd>
+            </dl>    
+            <dl class="row jimai_content" <if condition="$goodsInfo.is_jimai == false">style="display:none"</if>>
+                <dt class="tit">
+                    <label for="record_no">开户行</label>
+                </dt>
+                <dd class="opt"> 
+                    <input type="text" value="{$goodsInfo.jimai_bankOpen}" class="t_mane" name="jimai_bankOpen"  />                                         
+                    <span class="err" id="err_jimai_bankOpen" style="color:#F00; display:none;"></span>
+                </dd>
+            </dl> 
+
             <dl class="row">
                 <dt class="tit">
                     <label for="record_no">总库存</label>
@@ -336,7 +402,7 @@
                     </if>
                     <span class="err" id="err_store_count" style="color:#F00; display:none;"></span>
                 </dd>
-            </dl>       
+            </dl>      
  
             <dl class="row virtual" style="display: none;">
                 <dt class="tit">
@@ -537,7 +603,16 @@
 </div>
 <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
 <script>
-    //选择分类
+    //选择寄卖
+    $(function(){
+        $(document).on("change",'input[name=is_jimai]',function(){
+            if($(this).val() == 1){
+                $('.jimai_content').show();
+            } else {
+                $('.jimai_content').hide();
+            }
+        })
+    })//选择分类
     $(function(){
         $(document).on("change",'#cat_id',function(){
             // get_category($(this).val(),'cat_id_2','0');
@@ -774,6 +849,9 @@ $(document).ready(function(){
             $('.virtual').hide();
         }
     }
+
+
+
 </script>
 </body>
 </html>
