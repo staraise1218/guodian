@@ -177,6 +177,13 @@
               </div>
           </a>
       </div>
+        <div class="fbutton">
+          <a href="javascript:;" onclick="printPriceMark()">
+              <div class="add" title="打印价签">
+                  <span>打印价签</span>
+              </div>
+          </a>
+      </div>
       <div class="fbutton">
           <a href="{:U('goods/export')}">
               <div class="add" title="导出">
@@ -265,6 +272,24 @@
             layer.msg('请选择商品',{icon:2});
         }
 
+    }
+
+    function printPriceMark(){
+        var obj = $('.trSelected');
+       if(obj.length > 0){
+            if(obj.length > 5) {
+                layer.msg('最多只能选择5个商品', {icon:2})
+                return;
+            }
+            var check_val = [];
+            obj.each(function(){
+                check_val.push($(this).attr('data-id'));
+            });
+            url = "{:U('goods/printPriceMark')}"+"?goods_id_array="+check_val;
+            window.open(url, '_blank');
+        }else{
+            layer.msg('请选择商品',{icon:2});
+        }
     }
 
     

@@ -4,40 +4,46 @@
     <meta charset="UTF-8" />
     <title>价签打印</title>
     <style type="text/css">
-        .container { width: 190px; margin: 0 auto; }
-        .noprint{display:none}
+        /*.container { width: 190px; margin: 0 auto;}*/
+        .column_item { width: 190px; float: left; margin-right: 1px; }
         .page { position: relative; }
         .qrcode {position: absolute; top: 42px; left: 58px; width: 80px;}
         .space {height: 5px;}
-        .original_img  {text-align: center; padding: 30px 0px 0px;}
-        .infoBox {padding: 20px 0 0;}
-        .infoBox .item {font-weight: bold; padding-top: 10px; font-size: 16px;}
+        .original_img  {text-align: center; padding: 30px 0px 0px; height: 120px;}
+        .infoBox {padding: 20px 0 0 20px;}
+        .infoBox .item { padding-top: 6px; font-size: 14px;}
         .infoBox .item .price {color: #902236; font-size: 18px;}
-        .bottom {text-align: center; font-size: 12px; font-weight: bold; margin-top: 20px;}
+        .bottom {text-align: center; font-size: 12px; margin-top: 20px;}
+        table{width: 100%}
+        td {width: 190px;}
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="page">
-        <img src="__PUBLIC__/images/pricemarkqrcode.png" alt="" style="width: 100%;">
-        <img class="qrcode" src="{$qrcode}" alt="">
+    <foreach name="goodsList" item="goodsInfo">
+    <div class="column_item">
+        <div class="page">
+            <img src="__PUBLIC__/images/pricemarkqrcode.png" alt="" style="width: 100%;">
+            <img class="qrcode" src="{$qrcode}" alt="">
+        </div>
+        <div class="space"></div>
+        <div class="page">
+            <div class="original_img">
+                <img src="{$goodsInfo.original_img}" width="120" height="120" alt="">
+            </div>
+            <div class="infoBox">
+                <div class="item">品牌：{$brandList[$goodsInfo.cat_id]}</div>
+                <div class="item">货号：{$goodsInfo.goods_sn}</div>
+                <div class="item">成色：{$goodsInfo.chengse}级</div>
+                <div class="item">价格：<span class="price">￥{$goodsInfo.shop_price}</span></div>
+            </div>
+            <div class="bottom">
+                <div>国典寄卖行有限公司</div>
+                <div>www.guodianjm.com</div>
+            </div>
+        </div>
     </div>
-    <div class="space"></div>
-    <div class="page">
-        <div class="original_img">
-            <img src="{$goodsInfo.original_img}" width="120" height="120" alt="">
-        </div>
-        <div class="infoBox">
-            <div class="item">品牌：{$brandList[$goodsInfo.cat_id]}</div>
-            <div class="item">货号：{$goodsInfo.goods_sn}</div>
-            <div class="item">成色：{$goodsInfo.chengse}级</div>
-            <div class="item">价格：<span class="price">￥{$goodsInfo.shop_price}</span></div>
-        </div>
-        <div class="bottom">
-            <div>国典寄卖行有限公司</div>
-            <div>www.guodianjm.com</div>
-        </div>
-    </div>
+    </foreach>
 </div>
 </body>
 </html>

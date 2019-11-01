@@ -1130,15 +1130,18 @@ class Goods extends Base {
 
     // 打印价签
     public function printPriceMark(){
-        $id = I('id/d');
-        $goodsInfo = Db::name('goods')->where('goods_id', $id)->find();
-        if(empty($goodsInfo)) die('商品不存在');
+        $goods_id_array = I('post.goods_id_array');
+        $goods_array = explode(',', $goods_id_array);
+        if(empty($goods_array)) die('商品不存在');
+
+        $goodsList = Db::name('goods')->where('goods_id', 'in', $goods_array)->select();
+        if(empty($goodsList)) die('商品不存在');
         
         $brandList = Db::name('brand')->column('id, name');
 
         $this->assign('qrcode', '/public/upload/goodsQrcode/'.str_pad($id, 10, 0, STR_PAD_LEFT).'.png');
 
-        $this->assign('goodsInfo', $goodsInfo);
+        $this->assign('goodsList', $goodsList);
         $this->assign('brandList', $brandList);
         return $this->fetch();
     }
