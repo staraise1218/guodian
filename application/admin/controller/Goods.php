@@ -1082,14 +1082,9 @@ class Goods extends Base {
                 'new_storehouse_id' => $new_storehouse_id,
                 'add_time' => time(),
                 'admin_id' => session('admin_id'),
-                'approve_id' => session('admin_id'),
-                'approve_time' => time(),
             );
             Db::name('goods_storehouse_log')->insert($data);
         }
-
-        // 更新商品库房id
-        Db::name('goods')->where('goods_id', 'in', $goods_array)->setField('storehouse_id', $new_storehouse_id);
 
         die(json_encode(array('code'=>200)));
     }

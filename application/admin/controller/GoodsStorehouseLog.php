@@ -86,14 +86,14 @@ class GoodsStorehouseLog extends Base {
 
         // 判断审核者和编辑者是否是同一人
         $myadmin_id = session('admin_id');
-        // if($myadmin_id == $goodsStorehouseLog['admin_id']) {
-        //     $return_arr = array(
-        //        'status' => 0,
-        //        'msg'   => '审核者和操作者不能是同一人',
-        //        'data'  => '',
-        //    );
-        //    $this->ajaxReturn($return_arr);
-        // }
+        if($myadmin_id == $goodsStorehouseLog['admin_id']) {
+            $return_arr = array(
+               'status' => 0,
+               'msg'   => '审核者和操作者不能是同一人',
+               'data'  => '',
+           );
+           $this->ajaxReturn($return_arr);
+        }
 
         // 当状态为 作废 直接更改记录状态
         if($status == 2){
