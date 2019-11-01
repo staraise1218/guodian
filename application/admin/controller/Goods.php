@@ -1095,6 +1095,9 @@ class Goods extends Base {
         $goodsInfo = Db::name('goods')->where('goods_id', $id)->find();
         if(empty($goodsInfo)) die('商品不存在');
         
+
+        $this->assign('qrcode', '/public/upload/goodsQrcode/'.str_pad($id, 10, 0, STR_PAD_LEFT).'.png');
+        $this->assign('goodsInfo', $goodsInfo);
         return $this->fetch();
     }
    
