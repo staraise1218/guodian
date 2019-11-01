@@ -1075,6 +1075,7 @@ class Goods extends Base {
         $goodsArrayInfo = Db::name('goods')->where('goods_id', 'in', $goods_array)->column('goods_id, storehouse_id');
 
         foreach ($goodsArrayInfo as $goods_id => $storehouse_id) {
+            // 调库记录
             $data = array(
                 'goods_id' => $goods_id,
                 'storehouse_id' => $storehouse_id,
@@ -1086,6 +1087,9 @@ class Goods extends Base {
             );
             Db::name('goods_storehouse_log')->insert($data);
         }
+
+        // 更新商品库房id
+        Db::name('goods')->where('goods_id', 'in', $goods_array)->setField('storehouse_id', $new_storehouse_id);
 
         die(json_encode(array('code'=>200)));
     }
