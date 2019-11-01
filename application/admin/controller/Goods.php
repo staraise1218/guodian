@@ -1081,6 +1081,8 @@ class Goods extends Base {
                 'new_storehouse_id' => $new_storehouse_id,
                 'add_time' => time(),
                 'admin_id' => session('admin_id'),
+                'approve_id' => session('admin_id'),
+                'approve_time' => time(),
             );
             Db::name('goods_storehouse_log')->insert($data);
         }
