@@ -2141,3 +2141,4 @@ ul.jdzs li {
   margin: 30px 0 0 20px;
 }
 ul.jdzs li img {width: 100%;}
+ul.jdzs li .title { text-align: center; padding-top: 10px;  }
