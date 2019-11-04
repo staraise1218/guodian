@@ -147,7 +147,7 @@ class Index extends Base {
 
 		$order = 'store_count !=0 desc, sort asc, goods_id desc';
 		if($type == 1) $order = 'store_count !=0 desc, sort asc, goods_id desc';
-		if($type == 2) $order = 'shop_price desc';
+		if($type == 2) $order = 'store_count !=0 desc, shop_price desc';
 		if($type == 3) {
 			$where['temai'] = 1;
 			$order = 'store_count !=0 desc, sort asc, goods_id desc';
