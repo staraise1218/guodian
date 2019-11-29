@@ -110,7 +110,9 @@ class GoodsLog extends Base {
 
         // 当状态为 作废 或者 该记录是新增的时候直接更改记录状态
         if($status == 2 || $GoodsLog['action'] == 1){
-            Db::name('goods_log')->where('id', $goods_log_id)->update(array('status'=>$status, 'approve_time'=>time()));
+            Db::name('goods_log')->where('id', $goods_log_id)->update(
+                array('status'=>$status, 'approver_id'=>$myadmin_id, 'approve_time'=>time())
+            );
             $return_arr = array(
                'status' => 1,
                'msg'   => '操作成功',
@@ -125,7 +127,9 @@ class GoodsLog extends Base {
         // 将记录更新到主表
         $goodsModel->data($goodsLog, true)->isUpdate(true)->allowField(true)->save(); 
         // 修改
-        Db::name('goods_log')->where('id', $goods_log_id)->update(array('status'=>$status, 'approve_time'=>time()));
+        Db::name('goods_log')->where('id', $goods_log_id)->update(
+                array('status'=>$status, 'approver_id'=>$myadmin_id, 'approve_time'=>time())
+            );
 
         $return_arr = array(
            'status' => 1,
