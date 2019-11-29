@@ -55,6 +55,9 @@ class Goods extends Base {
             ->order('a.order','asc')
             ->field('a.attr_id,a.attr_name,a.attr_index,b.attr_value,b.goods_id')
             ->select();
+
+            array_splice($goods_attr, 1, 0, array(array('attr_name'=>'成色等级', 'attr_value'=>$goods['chengse'])));
+
         $filter_spec = $goodsLogic->get_spec($goods_id);
         $freight_free = tpCache('shopping.freight_free'); // 全场满多少免运费
         $spec_goods_price  = M('spec_goods_price')->where("goods_id", $goods_id)->getField("key,item_id,price,store_count"); // 规格 对应 价格 库存表

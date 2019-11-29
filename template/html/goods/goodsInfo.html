@@ -215,7 +215,28 @@
     <div class="product-price1 product-detail">
         <div class="top-sing">
             <div class="description ">
-                <p class="title"><span class="left">商品参数</span> <span class="right">D E S C R I P T I O N</span></p>
+                <p class="title"><span class="left">商品简介</span> <span class="right">D S C R I P T I O N</span></p>
+                <div>
+                    {$goods['goods_remark']}
+                </div>
+            </div>
+            <div class="description ">
+                <p class="title"><span class="left">成色评级标准</span> <span class="right">S T A N D A R D</span></p>
+                <div class="chengse"> <p>N级</p> <p>专柜全新全套品无任何痕迹</p> </div>
+                <div class="chengse"> <p>S级</p> <p>全新品因闲置锁产生少许存放痕迹</p> </div>
+                <div class="chengse"> <p>A级</p> <p>轻微使用痕迹，五金件、提把、边角、首饰等有轻微磨损</p> </div>
+                <div class="chengse"> <p>B级</p> <p>明显使用痕迹，五金件、提把、边角有明显磨损</p> </div>
+                <div class="chengse"> <p>C级</p> <p>整体外观良好，有染色及明显磨损以及使用痕迹</p> </div>
+                <div class="chengse"> <p>D级</p> <p>使用痕迹严重，外观发生变形，金属大面积氧化，内里破损及大面积染色</p> </div>
+                <style type="text/css">
+                    .chengse {display: flex;display: -webkit-flex; /* Safari */ flex-wrap: wrap; margin-top: 6px;}
+                    .chengse p {  font-size: 14px; line-height: 50px;}
+                    .chengse p:first-child {text-align: center; flex: 1; background: #fcfcfc;}
+                    .chengse p:last-child { text-indent: 150px; flex: 3; margin-left: 8px; background: #f9f9f9;}
+                </style>
+            </div>
+            <div class="description ">
+                <p class="title"><span class="left">商品参数</span> <span class="right">A T T R I B U T E</span></p>
                 <ul>
                     <foreach name="goods_attr_list" item="v" key="k">
                         <li style="overflow:hidden">{$v[attr_name]}：{$v[attr_value]}</li>
