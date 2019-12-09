@@ -5,7 +5,7 @@
   <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
   <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
   <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="__STATIC__/css/common.css?v=1" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/common.css?v=1.0" rel="stylesheet" type="text/css" media="all" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
 </head>
@@ -222,13 +222,16 @@
         <ul>
           <foreach name="goods_list" item="v" key="k">
             <li class="col-md-2 col-sm-2" style="display: block;">
-              <a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}" target="_blank">
+              <a href="{:U('/Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}" target="_blank" style="position: relative;">
               <if condition="$v['reserved']==1">
                 <div class='is_reserved'></div>
               <elseif condition="$v['store_count']<=0"/>
                 <div class='img_shadow'></div>
               <elseif condition="$v[temai] eq 1">
                 <div class="temai_icon"></div>
+              <elseif condition="$v[display_active_pic] eq 1">
+                <div class="active_pic"><img src="{$v.active_pic}" alt=""></div>
+              </if>
               </if>
                 <img class="lazy-list" height="236" width="236" src="{$v.goods_id|goods_thum_images=236,236}"/>
               </a>

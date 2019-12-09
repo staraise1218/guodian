@@ -209,7 +209,7 @@
                         </span>
                     </div>
                 </dd>
-            </dl>
+            </dl> 
 
             <dl class="row">
                 <dt class="tit">
@@ -300,7 +300,32 @@
                 <dd class="opt">                
                     {$goodsInfo.store_count}
                 </dd>
-            </dl>       
+            </dl>     
+            <dl class="row">
+                <dt class="tit">
+                  <label>是否显示活动商品图片</label>
+                </dt>
+                <dd class="opt">
+                
+                    <if condition="$goodsInfo[display_active_pic] eq 0">否</if>
+                    <if condition="$goodsInfo[display_active_pic] eq 1">是</if>
+
+                </dd>
+            </dl>          
+            <dl class="row">
+                <dt class="tit">
+                    <label>活动时显示的图片</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                        <span class="show">
+                            <a id="img_a" target="_blank" class="nyroModal" rel="gal" href="{$goodsInfo.active_pic}">
+                                <i id="img_i" class="fa fa-picture-o" onMouseOver="layer.tips('<img src={$goodsInfo.active_pic}>',this,{tips: [1, '#fff']});" onMouseOut="layer.closeAll();"></i>
+                            </a>
+                        </span>
+                    </div>
+                </dd>
+            </dl> 
 
             <dl class="row">
                 <dt class="tit">

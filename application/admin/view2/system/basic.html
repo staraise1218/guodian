@@ -67,7 +67,7 @@
                 <dd class="opt">
                     <input id="hot_keywords" name="hot_keywords" value="{$config.hot_keywords}" class="input-txt" type="text">
                     <span class="err">例如:衣|手机|内衣</span>
-                    <p class="notic">商家中心右下侧显示，方便商家遇到问题时咨询</p>
+                    <p class="notic"></p>
                 </dd>
             </dl>
             <dl class="row">
@@ -105,5 +105,15 @@
         <i class="fa fa-angle-down"></i>
     </a>
 </div>
+
+<script type="text/javascript">
+    //活动图片
+    function img_call_back(fileurl_tmp)
+    {
+        $("#active_pic").val(fileurl_tmp);
+        $("#img_a").attr('href', fileurl_tmp);
+        $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
+</script>
 </body>
 </html>

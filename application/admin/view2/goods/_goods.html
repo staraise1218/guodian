@@ -402,7 +402,39 @@
                     </if>
                     <span class="err" id="err_store_count" style="color:#F00; display:none;"></span>
                 </dd>
-            </dl>      
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="storeInfo">显示活动图片</label>
+                </dt>
+                <dd class="opt">
+                    <input type="radio" name="display_active_pic" value="1" <if condition="$goodsInfo.display_active_pic eq 1">checked=cheked</if>> 是
+                    <input type="radio" name="display_active_pic" value="0" <if condition="$goodsInfo.display_active_pic eq 0">checked=cheked</if>> 否
+                    <span class="err"></span>
+                    <p class="notic">是否显示商品缩略图上面的活动图片</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="active_pic">商品活动图片</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show">
+                        <span class="show">
+                            <a id="img_a_active_pic" class="nyroModal" rel="gal" href="{$goodsInfo.active_pic}">
+                                <i id="img_i_active_pic" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$goodsInfo.active_pic}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                            </a>
+                        </span>
+                        <span class="type-file-box">
+                            <input type="text" id="active_pic" name="active_pic" value="{$goodsInfo.active_pic}" class="type-file-text">
+                            <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+                            <input class="type-file-file" onClick="GetUploadify(1,'','active_pic','img_call_back_active_pic')" size="30" hidefocus="true" nc_type="change_site_logo" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                        </span>
+                    </div>
+                    <span class="err"></span>
+                    <p class="notic">搞活动时，覆盖在商品上面的图片</p>
+                </dd>
+            </dl>    
  
             <dl class="row virtual" style="display: none;">
                 <dt class="tit">
@@ -833,6 +865,13 @@ $(document).ready(function(){
         $("#imagetext").val(fileurl_tmp);
         $("#img_a").attr('href', fileurl_tmp);
         $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
+
+    function img_call_back_active_pic(fileurl_tmp)
+    {
+        $("#active_pic").val(fileurl_tmp);
+        $("#img_a_active_pic").attr('href', fileurl_tmp);
+        $("#img_i_active_pic").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
     }
 
     function initIsVirtual(){
