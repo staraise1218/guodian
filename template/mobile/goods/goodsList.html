@@ -8,6 +8,10 @@
   <link href="__STATIC__/css/dropload.css" rel="stylesheet" type="text/css" media="all" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+
+  <style type="text/css">
+     .active_pic { position: absolute; }
+  </style>
 </head>
 <body>
 <!--header-s-->
@@ -80,6 +84,9 @@
             <div class='img_shadow'></div>
               <elseif condition="$v[temai] eq 1">
                 <div class="temai_icon"></div>
+                <elseif condition="$v[display_active_pic] eq 1">
+                <div class="active_pic"><img src="{$v.active_pic}" alt=""></div>
+              </if>
           </if>
             <img src="{$v.goods_id|goods_thum_images=236,236}" alt="">
             <p class="details" style="height:40px;overflow: hidden;">{$v[goods_name]}</p>
@@ -87,7 +94,9 @@
             <p class="details">官方公价：¥<?php echo $v['market_price'] == '0.00'?'暂无': number_format($v['market_price']); ?></p>
           </a>
         </li>
+
       </foreach>
+      
       <div style="clear: both" class = 'clearList'></div>
     </ul>
   </div>
