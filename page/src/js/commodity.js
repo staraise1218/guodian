@@ -145,7 +145,7 @@ $('.share-wrap li').on('click', function () {
         console.log("isIOS")
         shareios(shareName, window.location.href, shareName2, GlobalHost + goods_images_list[0].image_url, shareStatus);
     }
-    
+
     // alert($(this).attr('data-type'))
     // alert(shareName)
     // alert(GlobalHost + goods_images_list[0].image_url)
@@ -621,7 +621,7 @@ $('.byNowBtn').on('click', function (e) {
 // 跳转购物袋
 $('#goShoppingBag').on('click', function (e) {
     // debugger;
-    alert('测试跳转')
+    // alert('测试跳转')
     // window.location.href = './shoppingBag.html';
     if (isAndroid) {
         window.android.goCart();
