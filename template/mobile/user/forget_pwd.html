@@ -2,34 +2,41 @@
 <html>
 <head>
   <title>找回密码-{$tpshop_config['shop_info_store_title']}</title>
-  <link href="__OSTATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
   <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" /> -->
-  <link href="__OSTATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="__OSTATIC__/css/common.css" rel="stylesheet" type="text/css" media="all" />
-  <link href="__OSTATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
+  <!-- <link href="__STATIC__/css/memenu.css" rel="stylesheet" type="text/css" media="all" /> -->
+  <link href="__STATIC__/css/p-common.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="__STATIC__/css/style.css" rel="stylesheet" type="text/css" media="all" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+  <style type="text/css">
+      form {padding: 50px 0 0 20%; font-size: 1.2em}
+      form input { height: 36px; line-height: 36px; margin-top: 10px; border-width: 1px;}
+      .phone { margin-top: 10px; }
+      .button {margin-top: 20px;}
+  </style>
+
 </head>
 <body>
 <!--header-s-->
-<include file="public/header"/>
+<div class="mobel-header">
+  <div class="back" onclick="javascript:history.back(-1);"> </div>
+  <div class="title">验证手机号</div>
+</div>
 <!--header-e-->
   <div class="main_artical">
     <div class="container">
       <div class="setpasd">
-        <p class="title">忘记密码-验证用户</p>
         <form action="" method="post" id="forget_pwd">
           <div class="content">
             <div class="phone">
-            <label for="">绑定手机号</label>
-              <p><input type="text" placeholder="必填" name="username" id="username" value="" onblur="chkuser()"></p>
+              <label for="">手机号</label>
+              <input type="text" placeholder="必填" name="username" id="username" value="" onblur="chkuser()">
             </div>
             <div class="phone">
-              <label for="">图形验证码</label>
-              <p>
+              <label for="">验证码</label>
                 <input name="verify_code" id="captcha" style="width: 50%" type="text" placeholder="请输入" data-toggle="popover" data-container="body" data-placement="left" data-content="验证码已过期，请重新获取">
-                <img class="yck" style="width:40%" id="captchaImg" alt="captcha" src="{:U('User/verify')}"  onclick="verify()" />
-              </p>
+                <img class="yck" style="height: 36px; width: 40%" id="captchaImg" alt="captcha" src="{:U('User/verify')}"  onclick="verify()" />
             </div>
             <div class="button">
               <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="chkcaptcha()">下一步</button>
@@ -60,9 +67,9 @@
   <include file="public/footer_menu" />
   <!--footer-e-->
 </body>
-<script src="__OSTATIC__/js/bootstrap.js"></script>
-<script src="__OSTATIC__/js/responsiveslides.min.js"></script>
-<script src="__OSTATIC__/js/simpleCart.min.js"> </script>
+<script src="__STATIC__/js/jquery.min.js"></script>
+
+<script src="__STATIC__/js/layer/layer-min.js"></script>
 <script type="application/x-javascript"> 
   addEventListener("load", function() { 
     setTimeout(hideURLbar, 0); 
@@ -73,7 +80,7 @@
 </script>
 <script>
   function verify(){
-      $('#captchaImg').attr('src','/index.php?m=Home&c=User&a=verify&r='+Math.random());
+      $('#captchaImg').attr('src','/index.php?m=Mobile&c=User&a=verify&r='+Math.random());
   }
   var uflag = false;
   var cflag = false;
@@ -85,7 +92,7 @@
           return false;
       }else{
           $.ajax({
-              url:'/index.php?m=Home&c=User&a=check_username&t='+Math.random(),
+              url:'/index.php?m=Mobile&c=User&a=check_username&t='+Math.random(),
               type:'post',
               dataType:'json',
               data:{username:username},
@@ -110,7 +117,7 @@
           return false;
       }else{
           $.ajax({
-              url:'/index.php?m=Home&c=User&a=check_captcha&t='+Math.random(),
+              url:'/index.php?m=Mobile&c=User&a=check_captcha&t='+Math.random(),
               type:'post',
               dataType:'json',
               data:{verify_code:captcha},

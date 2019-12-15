@@ -635,7 +635,8 @@ class User extends Base{
                 if ($user) {
                     session('find_password', array('user_id' => $user['user_id'], 'username' => $username,
                         'email' => $user['email'], 'mobile' => $user['mobile'], 'type' => $field));
-                    header("Location: " . U('User/identity'));
+
+                    header("Location: " . U('User/set_pwd'));
                     exit;
                 } else {
                     $this->assign('user_message_error', "用户名不存在，请检查");
@@ -650,14 +651,7 @@ class User extends Base{
     	if($this->user_id > 0){
             $this->redirect('User/Index');
     	}
-    	$check = session('validate_code');
-    	$logic = new UsersLogic();
-    	if(empty($check)){
-            $this->redirect('User/forget_pwd');
-    	}elseif($check['is_check']==0){
-    	    $res=array('status'=>0,'msg'=>'验证码还未验证通过','url'=>U('User/forget_pwd'));
-    		$this->ajaxReturn($res);
-    	}    	
+  	
     	if(IS_POST){
     		$password = I('post.password');
     		$password2 = I('post.password2');
@@ -666,19 +660,11 @@ class User extends Base{
                 $this->ajaxReturn($res);
     			//$this->error('两次密码不一致',U('User/forget_pwd'));
     		}
-    		if($check['is_check']==1){
-    			//$user = get_user_info($check['sender'],1);
-                $user = M('users')->where("mobile|email", '=', $check['sender'])->find();
-    			M('users')->where("user_id", $user['user_id'])->save(array('password'=>encrypt($password)));
-    			session('validate_code',null);
-                $res=array('status'=>1,'msg'=>'密码找回完成');
-                $this->ajaxReturn($res);
-                //$this->redirect('User/finished');
-    		}else{
-                $res=array('status'=>0,'msg'=>'验证码还未验证通过','url'=>U('User/forget_pwd'));
-                $this->ajaxReturn($res);
-    			//$this->error('验证码还未验证通过',U('User/forget_pwd'));
-    		}
+            $user = M('users')->where("mobile|email", '=', $check['sender'])->find();
+            M('users')->where("user_id", $user['user_id'])->save(array('password'=>encrypt($password)));
+            session('validate_code',null);
+            $res=array('status'=>1,'msg'=>'密码找回完成');
+            $this->ajaxReturn($res);
     	}
     	return $this->fetch();
     }

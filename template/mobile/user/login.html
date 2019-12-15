@@ -17,35 +17,32 @@
 <div class="main_content" style="padding-bottom: 4.5rem;">
 	<div class="log">
 		<img src="__STATIC__/image/icon/logo.png" alt="">
-				<form id="loginform" method="post">
-						<div class="tell txt">
-							<label for=""></label>
-							<input type="text" placeholder="手机号" name="username" id="username">
-						</div>
-						<div class="psd txt">
-							<label for=""></label>
-							<input type="password" placeholder="密码" name="password" id="password">
-						</div>
-						<!--<div class="psd txt">
-							<label for="" style="display:none;"></label>
-							<input type="text" placeholder="验证码" name="verify_code" id="verify_code" style="width:50%;
-	float: left;">
-							<img src="/index.php?m=Mobile&c=User&a=verify" id="verify_code_img" onclick="verify()" style="width:40%;
-	float: right;margin-top: 5px;"/>
-						</div>-->
-						<input type="button"  value="立即登录" onClick="checkSubmit();">
-					</form>
+		<form id="loginform" method="post">
+			<div class="tell txt">
+				<label for=""></label>
+				<input type="text" placeholder="手机号" name="username" id="username">
+			</div>
+			<div class="psd txt">
+				<label for=""></label>
+				<input type="password" placeholder="密码" name="password" id="password">
+			</div>
+			<!--<div class="psd txt">
+				<label for="" style="display:none;"></label>
+				<input type="text" placeholder="验证码" name="verify_code" id="verify_code" style="width:50%;float: left;">
+				<img src="/index.php?m=Mobile&c=User&a=verify" id="verify_code_img" onclick="verify()" style="width:40%;float: right;margin-top: 5px;"/>
+			</div>-->
+			<input type="button"  value="立即登录" onClick="checkSubmit();">
+		</form>
 		<div class="log-bottom">
 			<a class="acount-btn" href="{:U('User/reg')}">免费注册</a>
 			<a href="{:U('User/forget_pwd')}">忘记密码</a>
 		</div>
-<div class="third_party">
-				</div>
+        <div class="third_party"></div>
 	</div>
-<div class="third_content" style="text-align: center;">
-						<a href="{:U('LoginApi/login',array('oauth'=>'qq'))}" class="qq third" style='display:inline-block; width: 30px; height:30px;background-size:30px;background-image:url(/template/mobile/static/image/icon/qq.jpg);background-position:center'></a>
-						<!-- <a href="{:U('LoginApi/login',array('oauth'=>'weixin'))}" class="wechat third" style='width:30px;display:inline-block;height:30px;background-size:30px;background-position:center;background-image:url(/template/mobile/static/image/icon/wechat.jpg);background-repeat: no-repeat;'></a> -->
-					</div>
+    <div class="third_content" style="text-align: center;">
+    	<a href="{:U('LoginApi/login',array('oauth'=>'qq'))}" class="qq third" style='display:inline-block; width: 30px; height:30px;background-size:30px;background-image:url(/template/mobile/static/image/icon/qq.jpg);background-position:center'></a>
+    	<!-- <a href="{:U('LoginApi/login',array('oauth'=>'weixin'))}" class="wechat third" style='width:30px;display:inline-block;height:30px;background-size:30px;background-position:center;background-image:url(/template/mobile/static/image/icon/wechat.jpg);background-repeat: no-repeat;'></a> -->
+    </div>
 </div>
 <!--footer-s-->
 <include file="public/footer_menu" />
