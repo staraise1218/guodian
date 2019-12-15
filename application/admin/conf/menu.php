@@ -12,7 +12,7 @@ return	array(
 					// array('name'=>'友情链接','act'=>'linkList','op'=>'Article'),
 					array('name'=>'清除缓存','act'=>'cleanCache','op'=>'System'),
 					//array('name'=>'自提点','act'=>'index','op'=>'Pickup'),
-					// array('name' => '快递公司', 'act'=>'index', 'op'=>'Shipping'),
+					array('name' => '快递公司', 'act'=>'index', 'op'=>'Shipping'),
 						
 				)),
 				array('name' => '权限','child'=>array(
