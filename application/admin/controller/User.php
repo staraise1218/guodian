@@ -108,7 +108,7 @@ class User extends Base {
         $this->assign('user',$user);
         return $this->fetch();
     }
-    
+
     public function add_user(){
         if(IS_POST){
             $data = I('post.');

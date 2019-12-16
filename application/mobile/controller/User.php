@@ -660,7 +660,7 @@ class User extends Base{
                 $this->ajaxReturn($res);
     			//$this->error('两次密码不一致',U('User/forget_pwd'));
     		}
-            $user = M('users')->where("mobile|email", '=', $check['sender'])->find();
+            $user = session('find_password');
             M('users')->where("user_id", $user['user_id'])->save(array('password'=>encrypt($password)));
             session('validate_code',null);
             $res=array('status'=>1,'msg'=>'密码找回完成');
