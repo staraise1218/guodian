@@ -34,6 +34,8 @@
     color: #fff;
 }
 .goods-img ul {padding: 0;}
+
+
 </style>
 <body>
 <!--header-s-->
@@ -206,7 +208,7 @@
             <img class="yshow" src="<if condition='$collect gt 0'>__STATIC__image/add/xin.png<else/>__STATIC__image/add/xin1.png</if>">
         <p>收藏</p>
       </li>
-      <li>
+      <li class="zhiCustomBtn">
         <div><img src="__STATIC__image/add/kefu_y.png"></div>
         <p>客服</p>
       </li>
@@ -227,6 +229,11 @@
 </if>
 <div class="mask-filter-div"></div>
 <!--footer-e-->
+
+<style type="text/css">
+    /*隐藏客服按钮*/
+/*#YSF-BTN-HOLDER {right: -10000px;}*/
+</style>
 </body>
 <script src="__STATIC__/js/jquery.min.js"></script>
 <script src="__STATIC__/js/swiper-4.2.2.min.js"></script>
@@ -321,7 +328,7 @@
              
                 cart_cn = getCookie('cn');
 
-                if(isNaN(cart_cn)) cart_cn = 0;
+                if(isNaN(cart_cn) || cart_cn == null) cart_cn = 0;
                 $('#tp_cart_info').html(cart_cn);                  
             }
         }); 
@@ -480,4 +487,40 @@
         });
     }
 </script>
+<script>
+    (function (w, d, n, a, j) {
+        w[n] = w[n] || function () {
+            (w[n].a = w[n].a || []).push(arguments);
+        };
+        j = d.createElement('script');
+        j.async = true;
+        j.src ='https://qiyukf.com/script/f7d7bda2488a94a7103e779cf1aa436c.js?hidden=1';
+        d.body.appendChild(j);
+    })(window, document, 'ysf');
+        
+    // var isSdkReady = true;
+ //    ysf('onLayerload', function () {
+ //        isSdkReady = true;
+ //    })
+
+ //    window.openSdk = function () {
+ //        if (isSdkReady) {
+ //            ysf('open');
+ //        } else {
+ //            alert('sdk尚未加载成功，请稍后再试');
+ //        }
+ //    }
+
+    $('.zhiCustomBtn').click(function(){
+        ysf('open');
+    })
+    ysf('config', {
+        uid: '{$Think.cookie.PHPSESSID}',
+        name:'{$Think.cookie.uname|urldecode}',
+        email:'{$Think.cookie.email}',
+        mobile:'{$Think.cookie.mobile}',
+    });
+
+</script>
+
 </html>

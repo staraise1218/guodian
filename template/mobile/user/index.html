@@ -8,6 +8,9 @@
   <link rel="stylesheet" type="text/css" href="__STATIC__css/address_y.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+      .logout { display: block; border-top: 1px solid rgb(241, 241, 241); border-bottom: 1px solid rgb(241, 241, 241); height: 4em; line-height: 4em; text-align: center; margin-top: 5px; font-size: 1em; color: #d1ab7c;  }
+  </style>
 </head>
 <body> 
   <!--header--> 
@@ -55,14 +58,16 @@
             <img class="user_right_img" src="__STATIC__image/add/you.png">
           </div>
    		</div>
-   		<div class="user_info_con">
+      <div class="user_info_con zhiCustomBtn">
           <img class="user_left_img" src="__STATIC__image/add/my_contact.png">
           <span>联系客服</span>
           <div class="user_right">
             <!-- <span>0</span> -->
             <img class="user_right_img" src="__STATIC__image/add/you.png">
           </div>
-   		</div>
+      </div>
+      <a href="{:U('user/logout')}" class="logout">退出登录</a>
+      <div style="height: 100px;"></div>
    </div>
   <!--footer-->
   <include file="public/footer_menu" />
@@ -71,4 +76,39 @@
 <script src="__STATIC__js/jquery.min.js"></script>
 <script src="__STATIC__js/simpleCart.min.js"> </script>
 <script src="__STATIC__js/type.js"></script>
+<script>
+    (function (w, d, n, a, j) {
+        w[n] = w[n] || function () {
+            (w[n].a = w[n].a || []).push(arguments);
+        };
+        j = d.createElement('script');
+        j.async = true;
+        j.src ='https://qiyukf.com/script/f7d7bda2488a94a7103e779cf1aa436c.js?hidden=1';
+        d.body.appendChild(j);
+    })(window, document, 'ysf');
+        
+    // var isSdkReady = true;
+ //    ysf('onLayerload', function () {
+ //        isSdkReady = true;
+ //    })
+
+ //    window.openSdk = function () {
+ //        if (isSdkReady) {
+ //            ysf('open');
+ //        } else {
+ //            alert('sdk尚未加载成功，请稍后再试');
+ //        }
+ //    }
+
+    $('.zhiCustomBtn').click(function(){
+        ysf('open');
+    })
+    ysf('config', {
+        uid: '{$Think.cookie.PHPSESSID}',
+        name:'{$Think.cookie.uname|urldecode}',
+        email:'{$Think.cookie.email}',
+        mobile:'{$Think.cookie.mobile}',
+    });
+
+</script>
 </html>

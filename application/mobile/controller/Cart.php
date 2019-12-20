@@ -126,14 +126,13 @@ class Cart extends Base {
         $item_id = input("item_id/d"); // 商品规格id
         $action = input("action"); // 行为
         if ($this->user_id == 0){
-            $this->redirect('Home/User/login');
-            // $this->error('请先登录', U('Home/User/login'));
+            $this->error('请先登录', U('Home/User/login'));
         }
 
 
         // 判断是否实名认证
         $user = $this->user;
-        if(empty($user['IDCard'])) $this->redirect(U('user/info'));
+        if(empty($user['IDCard'])) $this->error('请完善资料', U('user/info'), 300000);
 
         $address_id = I('address_id/d');
         if($address_id){

@@ -68,7 +68,9 @@
  //        }
  //    }
 
-
+ 	$('.zhiCustomBtn').click(function(){
+ 		ysf('open');
+ 	})
     ysf('config', {
         uid: '{$Think.cookie.PHPSESSID}',
         name:'{$Think.cookie.uname|urldecode}',

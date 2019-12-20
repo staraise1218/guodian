@@ -120,12 +120,12 @@
                                         </notempty>
                                     </div>
                                     <div class="column t-quantity mtp quantity-form">
-                                        <!-- <a href="javascript:void(0);" class="decrement" id="decrement_{$cart['id']}">-</a> -->
-                                            <input name="changeQuantity_{$cart['id']}" type="hidden" id="changeQuantity_{$cart['id']}" value="{$cart['goods_num']}">
-                                        <!-- <a href="javascript:void(0);" class="increment" id="increment_{$cart['id']}">+</a> -->
+                                        <a href="javascript:void(0);" class="decrement" id="decrement_{$cart['id']}">-</a>
+                                                <input name="changeQuantity_{$cart['id']}" type="text" id="changeQuantity_{$cart['id']}" value="{$cart['goods_num']}" style="padding-left: 2px; width: 22px">
+                                            <a href="javascript:void(0);" class="increment" id="increment_{$cart['id']}">+</a>
                                         <!--无货时隐藏数量选择，显示无货-->
-                                        <!--<span>无货</span>-->
-                                        {$cart['goods_num']}
+                                        <!-- <span>无货</span> -->
+                                        <!-- {$cart['goods_num']} -->
                                     </div>
                                     <div class="column t-sum sumpri">
                                         <span id="cart_{$cart.id}_total_price">￥{$cart['goods_price']*$cart['goods_num']}</span>

@@ -73,7 +73,7 @@
                                     <a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$cart[goods_id]))}">{$cart[goods_name]}</a>
                                 </span>
                                 <!--删除按钮-->
-                                <!-- <a href="javascript:void(0);" class="delescj deleteGoods" data-cart-id="{$cart['id']}"><img src="__STATIC__/images/dele.png"/></a> -->
+                                <a href="javascript:void(0);" class="delescj deleteGoods" data-cart-id="{$cart['id']}"><img src="__STATIC__/images/dele.png"/></a>
                             </div>
                             <!--商品属性，规格-->
                             <p class="weight">{$cart[spec_key_name]}</p>
@@ -84,11 +84,11 @@
                                 </p>
                                 <!--加减数量-->
                                 <div class="plus fr get_mp">
-                                    <!-- <span class="mp_minous">-</span> -->
+                                    <span class="mp_minous">-</span>
                                     <span class="mp_mp">
-                                        <!-- <input name="changeQuantity_{$cart['id']}" type="text" id="changeQuantity_{$cart['id']}" value="{$cart['goods_num']}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="input-num"/> -->
+                                        <input name="changeQuantity_{$cart['id']}" type="text" id="changeQuantity_{$cart['id']}" value="{$cart['goods_num']}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="input-num"/>
                                     </span>
-                                    <!-- <span class="mp_plus">+</span> -->
+                                    <span class="mp_plus">+</span>
                                 </div>
                                 <p class="sc_pri fr" style="display: none">库存不足
                                     <input  type="hidden" name="goods_num[{$v.id}]"  value="0"  class="input-num" />
