@@ -388,7 +388,8 @@ function toPay() {
         goods_id: goods_id,
         goods_num: goods_num,
         dosubmit: 1,
-        coupon_id : coupon_id == -1 ? '' : coupon_id
+        coupon_id : coupon_id == -1 ? '' : coupon_id,
+        item_id: item_id
     }
     // consignee: consignee,               // 	否 	姓名，当配送方式选择“到店自提”时传入
     // mobile: mobile,                     // 	否 	手机号，当配送方式选择“到店自提”时传入
