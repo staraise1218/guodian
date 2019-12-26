@@ -4,6 +4,13 @@ body {
     padding-top: 1rem;
     background: #F5F5F5
 }
+#test {
+    position: fixed;
+    left: 100px;
+    top: 20px;
+    z-index: 999;
+    background: red;
+}
 .topBar {
     position: fixed;
     top: 0;
