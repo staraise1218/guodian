@@ -204,7 +204,7 @@ function toPay () {
                         alert('请先填写您的地址')
                     }
                     localStorage.setItem('YH', JSON.stringify({STATUS:0}));
-                    window.location.href = './jieshuan.html?action=cart';
+                    // window.location.href = './jieshuan.html?action=cart';
                 } else {
                     alert(res.msg)
                 }

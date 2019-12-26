@@ -29,6 +29,7 @@ if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null
 // alert(localStorage.getItem('USERINFO'))
 let kucun = '';     // 库存
 // alert('user_id :' + user_id)
+
 /**
  * =================================================
  *          goodsid     //   theRequest
@@ -478,7 +479,7 @@ $('.collection').on('click', function () {
  *       【购物车】         选择规格
  * =================================================
  */
-$('body').delegate('.tag', 'click', function () {
+$('body').delegate('.addChopCart .tag', 'click', function () {
     // debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
@@ -493,6 +494,7 @@ $('body').delegate('.tag', 'click', function () {
     $('.tag[data-msg=' + $(this).attr('data-msg') + ']').removeClass('active');
     $(this).addClass('active');
     if (spec_goods_price[itemStr].price) {
+        console.log("111")
         price_base = spec_goods_price[itemStr].price;
         price = price_base * count;
         count_base = spec_goods_price[itemStr].store_count;
@@ -500,6 +502,8 @@ $('body').delegate('.tag', 'click', function () {
         $('.price').text('￥' + price);
         $('.ctr .store_count').text(spec_goods_price[itemStr].store_count)
         $id = spec_goods_price[itemStr].item_id
+    } else {
+        console.log("222")
     }
 })
 
@@ -563,7 +567,7 @@ $('.addBtn').on('click', function () {
  *       【立即购买】         选择规格
  * =================================================
  */
-$('body').delegate('.tag', 'click', function () {
+$('body').delegate('.byNow .tag', 'click', function () {
     // debugger;
     // console.log($(this).attr('data-id'))
     // console.log($(this).attr('data-msg'))
@@ -574,6 +578,7 @@ $('body').delegate('.tag', 'click', function () {
     itemStr = '';
     itemStr = Object.values(item_id).join('_')
     console.log(itemStr)
+    console.log(spec_goods_price)
     console.log(spec_goods_price[itemStr])
     $('.tag[data-msg=' + $(this).attr('data-msg') + ']').removeClass('active');
     $(this).addClass('active');
