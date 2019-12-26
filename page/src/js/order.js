@@ -11,9 +11,7 @@ let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
 
-$('#test').click(function () {
-    alert("user_id:" + user_id)
-})
+alert("user_id:" + user_id)
 
 
 console.log(type)
