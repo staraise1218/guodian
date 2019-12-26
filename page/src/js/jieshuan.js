@@ -51,6 +51,7 @@ let consignee = '';         // 到点自提 -- 姓名
 let mobile = '';            // 到店自提 -- 手机号
 let address = {};           // address 信息
 let imgArr = [];
+let ERROR_MSG = ""; // 错误信息
 let YH = localStorage.getItem('YH') // 优惠券信息
 YH = JSON.parse(YH);
 
@@ -118,7 +119,14 @@ $('.toChooseAddress').on('click', function () {
     if(reMSG == "必须传递商品规格") {
         window.history.back();
     } else {
-        window.location.href = './addressChoose.html';
+        var reg = new RegExp('商品库存不足', 'g');
+
+
+        if(reg.test(ERROR_MSG)) {
+            window.history.back();
+        } else {
+            window.location.href = './addressChoose.html';
+        }
     }
 })
 
@@ -246,6 +254,7 @@ function getorderInfo() {
                 }
                 let goodsList = '';
                 let goods = []
+                getPrice(); // 计算价格
                 switch(action) {
                     case 'cart':
                         goods = res.data.cartList.cartList;
@@ -308,7 +317,7 @@ function getorderInfo() {
                     createAddress(address.consignee, address.mobile, address.fulladdress)
                 }
                 imgArr = JSON.stringify(imgArr);
-                getPrice(); // 计算价格
+                // getPrice(); // 计算价格
             }
         }
     })
@@ -368,6 +377,7 @@ function getPrice () {
                     // alert(res.msg);
                     $('#total_fee_1').text('￥ 计算失败');
                     $('#total_fee_2').text('￥ 计算失败');
+                    ERROR_MSG = res.msg;
                 }
             }, 500)
         }

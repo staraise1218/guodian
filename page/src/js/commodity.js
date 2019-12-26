@@ -224,6 +224,7 @@ function getInfo() {
             goods_images_list = res.data.goodsInfo.goods_images_list;
             // debugger;
             console.log(res)
+            store_count = res.data.goodsInfo.store_count;
             if(res.data.filter_spec.length != 0) {
                 hasGuiGe = true;
             }
@@ -498,9 +499,13 @@ $('body').delegate('.addChopCart .tag', 'click', function () {
         price_base = spec_goods_price[itemStr].price;
         price = price_base * count;
         count_base = spec_goods_price[itemStr].store_count;
-        $('.store_count').text('库存' + count_base + '件');
+        console.log(spec_goods_price)
+        console.log(store_count)
+        $('.store_count').text('库存' + store_count + '件');
+        // $('.store_count').text('库存' + count_base + '件');
         $('.price').text('￥' + price);
-        $('.ctr .store_count').text(spec_goods_price[itemStr].store_count)
+        // $('.ctr .store_count').text(spec_goods_price.store_count)
+        // $('.ctr .store_count').text(spec_goods_price[itemStr].store_count)
         $id = spec_goods_price[itemStr].item_id
     } else {
         console.log("222")
@@ -519,17 +524,19 @@ $('.addcart_reduce').on('click', function () {
         price = price_base * count;
         $('.add_count').text(count);
         $('.price').text('￥' + price);
+        spec_goods_price.store_count = count
     }
 })
 
 $('.addcart_add').on('click', function () {
-    if (count > count_base - 1) {
+    if (count > store_count - 1) {
         return
     }
     count++;
     price = price_base * count;
     $('.add_count').text(count);
     $('.price').text('￥' + price);
+    spec_goods_price.store_count = count
 })
 /**
  * =================================================
@@ -586,9 +593,9 @@ $('body').delegate('.byNow .tag', 'click', function () {
         price_base = spec_goods_price[itemStr].price;
         price = price_base * count;
         count_base = spec_goods_price[itemStr].store_count;
-        $('.store_count').text('库存' + count_base + '件');
+        $('.store_count').text('库存' + store_count + '件');
         $('.price').text('￥' + price);
-        $('.ctr .store_count').text(spec_goods_price[itemStr].store_count)
+        // $('.ctr .store_count').text(spec_goods_price.store_count)
         $id = spec_goods_price[itemStr].item_id
     }
 })
@@ -619,6 +626,7 @@ $('.byNowBtn').on('click', function (e) {
     $('.byNow').slideUp(200);
     // alert('跳转3')
     localStorage.setItem('YH', JSON.stringify({STATUS:0}));
+    
     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
     return false;
 })
