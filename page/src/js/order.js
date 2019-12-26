@@ -11,7 +11,7 @@ let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
 
-$('.topBar .text-df').text("user_id:" + user_id)
+// $('.topBar .text-df').text("user_id:" + user_id)
 
 console.log(type)
 var len = ''
@@ -339,6 +339,7 @@ function shouhuo(order_id) {
 
 // 查看物流
 function getWuLiu() {
+    return
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/order/getExpressInfo',
