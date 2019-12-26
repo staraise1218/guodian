@@ -10,11 +10,17 @@ console.log(myUsetInfo)
 let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
+let testCount = 0;
 
 
 
 
-
+$('.topBar .text-df').click(function () {
+    testCount++;
+    if(testCount > 5) {
+        alert("user_id: " +user_id)
+    }
+})
 
 console.log(type)
 var len = ''
@@ -111,7 +117,6 @@ $('.content').delegate('.to', 'click', function () {
 /**
  * Tab 切换
  */
-let testCount = 0;
 $('.tabBar li').on('click', function () {
     type = $(this).attr('data-type');
     type == 'ALL' ? '' : type;
@@ -124,15 +129,6 @@ $('.tabBar li').on('click', function () {
         if ($('.content .item-wrap').eq(i).attr('data-type') == $(this).attr('data-type')) {
             $('.content .item-wrap').eq(i).css('display', 'block')
         }
-    }
-
-
-    if($(this).attr('data-type') == 'ALL') {
-        testCount++;
-        if(testCount > 5) {
-            alert('user_id: '+  user_id)
-        }
-        console.log('user_id', user_id)
     }
 })
 
