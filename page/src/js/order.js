@@ -11,8 +11,7 @@ let user_id = myUsetInfo.user_id;
 let page = 1;
 let type = getParam('type');
 
-alert("user_id:" + user_id)
-
+$('.topBar .text-df').text("user_id:" + user_id)
 
 console.log(type)
 var len = ''
