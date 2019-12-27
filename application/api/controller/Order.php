@@ -623,8 +623,12 @@ class Order extends Base
     // 获取快递运输信息
     public function getExpressInfo(){
         $invoice_no = I('invoice_no');
+        $order_id = I('order_id');
 
-        if($invoice_no == '') response_error('', '运单号不能为空');
+        if($invoice_no == '' && $order_id == '') response_error('', '找不到运单号');
+        if($order_id) {
+            $invoice_no = M('delivery_doc')->where('order_id', $order_id)->value('invoice_no');
+        }
 
         $ShippingLogic = new ShippingLogic();
         $result = $ShippingLogic->getExpressInfo($invoice_no);
