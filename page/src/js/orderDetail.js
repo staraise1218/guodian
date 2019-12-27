@@ -146,7 +146,7 @@ function createOrder(order_id) {
                         $('.order-track').html(`<div  class="showWuLiu order-title more text-df md" data-order_id="${data.order_id}">
                                                 <div class="waitreceive">
                                                     <p class="w-1">运输中</p>
-                                                    <p class="w-1 text-xs">顺丰快递单号：123</p>
+                                                    <p class="w-1 text-xs">快递单号：加载中..</p>
                                                 </div>
                                             </div>`)
                         getWuLiu(); // 加载物流信息
@@ -357,6 +357,7 @@ function getWuLiu() {
             wuliuStatus = 1
             if (res.code == 200) {
                 console.log(res)
+                $('.waitreceive .text-xs').text(res.data.cname + '：' + res.data.no)
                 kuaidiName = res.data.cname
                 var head = `<div class="top">
                                 <p>运输中</p>
