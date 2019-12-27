@@ -87,7 +87,7 @@ $('.item-wrap').delegate('.btn-wrap span', 'click', function (event) {
             $('.alert-box').show();
             $('.tips_loading').show();
             $('.alert-yunshu').show();
-            getWuLiu();
+            getWuLiu($(this).attr('data-orderid'), $(this).attr('data-title'));
 
             break;
         default:
@@ -187,7 +187,7 @@ function createList(user_id, page, type) {
                                     <span data-action="cancel" data-orderid="${item.order_id}" style="display: ${item.cancel_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">取消</span>
                                     <span data-action="del" data-orderid="${item.order_id}" style="display: ${item.del_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">删除</span>
                                     <span data-action="shouhuo" data-orderid="${item.order_id}" style="display: ${item.receive_btn == 1 ? 'inline-block' : 'none'}" class="btn-cancel">确认收货</span>
-                                    <span data-action="see" data-orderid="${item.order_id}" style="display: ${item.shipping_btn == 1 ? 'inline-block' : 'none'}" class="btn wuliu">查看物流</span>
+                                    <span data-action="see" data-orderid="${item.order_id}" style="display: ${item.shipping_btn == 1 ? 'inline-block' : 'none'}" data-title="${item.goods_list[0].goods_name}" class="btn wuliu">查看物流</span>
                                 </div>
                             </div>
                         </li>`
@@ -338,13 +338,12 @@ function shouhuo(order_id) {
 
 
 // 查看物流
-function getWuLiu() {
-    return
+function getWuLiu(id, title) {
     $.ajax({
         type: 'post',
         url: GlobalHost + '/Api/order/getExpressInfo',
         data: {
-            invoice_no: '3711389943985'
+            order_id: id
         },
         success: function (res) {
             console.log(res)
@@ -355,8 +354,8 @@ function getWuLiu() {
                                     <img src="./src/img/1.png" alt="">
                                 </div>
                                 <div class="right">
-                                    <p>商品标题</p>
-                                    <p>快递信息</p>
+                                    <p>${title}</p>
+                                    <p>${res.data.cname}</p>
                                 </div>
                             </div>
                         </div>            
