@@ -113,7 +113,7 @@ class CartLogic extends Model
             $store_count = $this->specGoodsPrice['store_count'];
         }
         if($this->goodsBuyNum > $store_count){
-            return array('status' => 0, 'msg' => '商品库存不足，剩余'.$this->goods['store_count'], 'result' => '');
+            return array('status' => 0, 'msg' => '商品库存不足，剩余'.$store_count, 'result' => '');
         }
         $goodsPromFactory = new GoodsPromFactory();
         if ($goodsPromFactory->checkPromType($prom_type)) {
@@ -177,7 +177,7 @@ class CartLogic extends Model
         }
 
         if($this->goodsBuyNum > $store_count){
-            throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '商品库存不足，剩余'.$this->goods['store_count'], 'result' => '']);
+            throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '商品库存不足，剩余'.$store_count, 'result' => '']);
         }
         $goodsPromFactory = new GoodsPromFactory();
         if ($goodsPromFactory->checkPromType($prom_type)) {
@@ -290,7 +290,7 @@ class CartLogic extends Model
         }else{
             //如果该商品没有存在购物车
             if($this->goodsBuyNum > $store_count){
-                return array('status' => -4, 'msg' => '商品库存不足，剩余'.$this->goods['store_count'], 'result' => '');
+                return array('status' => -4, 'msg' => '商品库存不足，剩余'.$store_count, 'result' => '');
             }
             //如果有阶梯价格,就是用阶梯价格
             if (!empty($this->goods['price_ladder'])) {
