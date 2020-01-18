@@ -596,7 +596,8 @@ $('body').delegate('.byNow .tag', 'click', function () {
         $('.store_count').text('库存' + store_count + '件');
         $('.price').text('￥' + price);
         // $('.ctr .store_count').text(spec_goods_price.store_count)
-        $id = spec_goods_price[itemStr].item_id
+        $id = spec_goods_price[itemStr].item_id;
+        console.log($id)
     }
 })
 
@@ -619,8 +620,8 @@ $('.byNowBtn').on('click', function (e) {
             return;
         }
     }
-    e.preventDefault();
-    e.stopPropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
     $('.alert').css('display', 'none');
     $('.addChopCart').slideUp(200);
     $('.byNow').slideUp(200);
@@ -628,7 +629,7 @@ $('.byNowBtn').on('click', function (e) {
     localStorage.setItem('YH', JSON.stringify({STATUS:0}));
     
     window.location.href = './jieshuan.html?action=buy_now&goods_id=' + goods_id + '&item_id=' + $id + '&goods_num=' + count;
-    return false;
+    // return false;
 })
 
 // 跳转购物袋
