@@ -634,8 +634,8 @@ class Goods extends Base {
     public function brandList(){
         $count = db('brand')->group('name')->count();   //总页数
         $page = new Page($count, 4, '', 3);
-        $brand = db('brand')->order('store_count !=0 desc, sort asc, goods_id desc')->group('name')->limit($page->firstRow . ',' . $page->listRows)->select();
-        $goods = db('goods')->group('brand_id')->field('brand_id,goods_id')->select();
+        $brand = db('brand')->order('sort asc')->group('name')->limit($page->firstRow . ',' . $page->listRows)->select();
+        $goods = db('goods')->order('store_count !=0 desc, sort asc, goods_id desc')->group('brand_id')->field('brand_id,goods_id')->select();
         $this->assign('page',$page);
         $this->assign('goods',array_column($goods,'goods_id','brand_id'));
         $this->assign('list',$brand);
