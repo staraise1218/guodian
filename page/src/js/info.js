@@ -2,9 +2,9 @@
 let user_id = '';
 let getUserInfoMsg = '';
 let loadFlag = false;
-
+let myUsetInfo = '';
 if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null') {
-    let myUsetInfo = localStorage.getItem('USERINFO');
+    myUsetInfo = localStorage.getItem('USERINFO');
     myUsetInfo = JSON.parse(myUsetInfo);
     console.log(myUsetInfo)
     user_id = myUsetInfo.user_id;
@@ -12,6 +12,7 @@ if(localStorage.getItem('USERINFO') && localStorage.getItem('USERINFO') != 'null
     user_id = 0;
 }
 
+var idCard = '';
 
 var years=[];
 var month=[];
@@ -138,14 +139,15 @@ $('.list_wrap').delegate('li p', 'click', function () {
     switch($(this).attr('data-status')) {
         case "name":
             if($(this).attr('data-default') == 1) {
+                alert("姓名完善后不可修改！")
                 return;
             }
-            $('.name_save').show();
-            $('.bg').show();
+            // $('.name_save').show();
+            // $('.bg').show();
             break;
         case "sex":
-            // $('.bg').show();
-            // $('.save_sex').show();
+            $('.bg').show();
+            $('.save_sex').show();
             break;
         case "phone":
             if($(this).attr('data-default') == 1) {
@@ -155,8 +157,12 @@ $('.list_wrap').delegate('li p', 'click', function () {
             $('.bg').show();
             break;
         case "idCard": // 身份证
-            // $('.bg').show();
-            // $('.save_IDcard').show();
+            if(idCard) {
+                alert("身份证号码完善后不可修改！");
+                return;
+            }
+            $('.bg').show();
+            $('.save_IDcard').show();
             
         default:
             console.log('*')
@@ -194,6 +200,15 @@ $('#info_user_name').on('input', function () {
     }
 })
 
+$('#info_idcard').on('input', function () {
+    console.log($(this).val());
+    const regIdCard = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if (regIdCard.test($(this).val())) {
+        console.log('身份证号正确')
+        idCard = $(this).val();
+        $('.save_IDcard .sub button').addClass('active')
+    }
+})
 
 
 $('.save_sex .item').click(function () {
@@ -204,12 +219,14 @@ $('.save_sex .item').click(function () {
             $('.save_sex').hide();
             save.sex = '男';
             $('.list_wrap .list_item:eq(1) .r p').text(save.sex);
+            changeSex(1)
             break;
         case "female":
             $('.bg').hide();
             $('.save_sex').hide();
             save.sex = '女';
             $('.list_wrap .list_item:eq(1) .r p').text(save.sex);
+            changeSex(2)
             break;
         case "sub":
             $('.bg').hide();
@@ -260,7 +277,13 @@ function getInfo () {
         success: function (res) {
             console.log(res);
             getUserInfoMsg = res.data;
+            idCard = res.data.IDCard;
             loadFlag = true;
+            if(res.data.sex == 1) {
+                $('#sex').text('男')
+            } else if (res.data.sex == 2) {
+                $('#sex').text('女')
+            }
         }
     })
 }
@@ -339,3 +362,53 @@ function postInfo(fieldValue, field) {
         }
     })
 }
+
+// 1 男 2 女
+function changeSex(sex) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/user/changeField',
+        data: {
+            user_id: user_id,
+            field: 'sex',
+            fieldValue: sex
+        },
+        success: function (res) {
+            console.log(res);
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+}
+
+
+
+// 修改身份证
+function changeIDcard(idCard) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/user/IDCardAuth',
+        data: {
+            user_id: user_id,
+            IDCard: idCard,
+            realname: myUsetInfo.nickname
+        },
+        success: function (res) {
+            console.log(res);
+            alert(res.msg)
+            if(res.code == 200) {
+                localStorage.setItem('userIdInfo', JSON.stringify(res.data));
+                $('#idText').text(res.data.idCard);
+            }
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+}
+
+$('.save_IDcard').delegate('.active', 'click', function() {
+    console.log("身份证")
+    changeIDcard(idCard)
+})
