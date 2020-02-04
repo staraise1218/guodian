@@ -1,3 +1,20 @@
+let cache = {
+    phone : '',
+    sex : '',
+    birDay : '',
+    name : '',
+    IDCard: '',
+    IDname: ''
+}
+
+let save = {
+    phone : '',
+    sex : '',
+    birDay : '',
+    name : '',
+    IDCard: '',
+    IDname: ''
+}
 
 let user_id = '';
 let getUserInfoMsg = '';
@@ -113,52 +130,35 @@ var mobileSelect1 = new MobileSelect({
 
 
 
-/**
- * 
- * 
- * 
- */
-
-let cache = {
-    phone : '',
-    sex : '',
-    birDay : '',
-    name : '',
-    IDCard: '',
-    IDname: ''
-}
-
-let save = {
-    phone : '',
-    sex : '',
-    birDay : '',
-    name : '',
-    IDCard: '',
-    IDname: ''
-}
 
 $('.list_wrap').delegate('li p', 'click', function () {
     console.log($(this).attr('data-status'))
     switch($(this).attr('data-status')) {
         case "name":
             if($(this).attr('data-default') == 1) {
+                alert("姓名完善后不可修改！")
                 return;
             }
             $('.name_save').show();
             $('.bg').show();
             break;
         case "sex":
-            // $('.bg').show();
-            // $('.save_sex').show();
+            $('.bg').show();
+            $('.save_sex').show();
             break;
         case "phone":
             if($(this).attr('data-default') == 1) {
+                alert("手机号完善后不可修改！");
                 return;
             }
             $('.save_phone').show();
             $('.bg').show();
             break;
         case "idCard": // 身份证
+            if(save.IDCard) {
+                alert("身份证号码完善后不可修改！");
+                return;
+            }
             $('.bg').show();
             $('.save_IDcard').show();
             
@@ -208,12 +208,14 @@ $('.save_sex .item').click(function () {
             $('.save_sex').hide();
             save.sex = '男';
             $('.list_wrap .list_item:eq(1) .r p').text(save.sex);
+            changeSex(1);
             break;
         case "female":
             $('.bg').hide();
             $('.save_sex').hide();
             save.sex = '女';
             $('.list_wrap .list_item:eq(1) .r p').text(save.sex);
+            changeSex(2);
             break;
         case "sub":
             $('.bg').hide();
@@ -272,8 +274,34 @@ $('#info_IDname').on('input', function () {
 
 $('.save_IDcard').delegate('.active', 'click', function () {
     console.log('验证身份证。。。')
+    changeIDcard()
 })
 
+
+// 修改身份证
+function changeIDcard() {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/user/IDCardAuth',
+        data: {
+            user_id: user_id,
+            IDCard: $('#info_IDcard').val(),
+            realname: $('#info_IDname').val()
+        },
+        success: function (res) {
+            console.log(res);
+            alert(res.msg)
+            if(res.code == 200) {
+                localStorage.setItem('userIdInfo', JSON.stringify(res.data));
+                $('#idText').text(res.data.idCard);
+                save.IDCard = res.data.idCard;
+            }
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+}
 
 
 
@@ -289,6 +317,13 @@ function getInfo () {
             console.log(res);
             getUserInfoMsg = res.data;
             loadFlag = true;
+            save.IDCard = res.data.IDCard;
+
+            if(res.data.sex == 1) {
+                $('#sex').text('男')
+            } else if (res.data.sex == 2) {
+                $('#sex').text('女')
+            }
         }
     })
 }
@@ -384,3 +419,27 @@ function yzIDcard(name, id) {
         }
     })
 }
+
+
+
+
+// 1 男 2 女
+function changeSex(sex) {
+    $.ajax({
+        type: 'post',
+        url: GlobalHost + '/Api/user/changeField',
+        data: {
+            user_id: user_id,
+            field: 'sex',
+            fieldValue: sex
+        },
+        success: function (res) {
+            console.log(res);
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+}
+
+
